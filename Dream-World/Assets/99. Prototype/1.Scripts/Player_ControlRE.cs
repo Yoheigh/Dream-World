@@ -189,7 +189,7 @@ public class Player_ControlRE : MonoBehaviour
     }
 }
 
-public enum PlayerState
-{
-    Idle, UseItem
-}
+//public enum PlayerState
+//{
+//    Idle, UseItem
+//}

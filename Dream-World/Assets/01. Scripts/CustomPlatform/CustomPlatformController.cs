@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CustomPlatformController : MonoBehaviour
 {
-    public List<CustomPlatformBase> customEffects;
+    public List<CustomPlatformEffect> Effects;
 
     private GameObject PlatformPivot = null;
     private GameObject MovePoint = null;
@@ -14,8 +14,8 @@ public class CustomPlatformController : MonoBehaviour
     [SerializeField]
     private int currentindex = -1;
 
-    private bool isRepeating = false;
-    private bool isPlayingAgain = false;
+    public bool isRepeating = false;
+    public bool isPlayingAgain = false;
 
     //void OnValidate()
     //{
@@ -39,7 +39,7 @@ public class CustomPlatformController : MonoBehaviour
 
     void Update()
     {
-        for(currentindex = 0; currentindex < customEffects.Count; ++currentindex)
+        for(currentindex = 0; currentindex < Effects.Count; ++currentindex)
         {
             Debug.Log(currentindex);
         }
@@ -68,4 +68,11 @@ public class CustomPlatformController : MonoBehaviour
     //    Gizmos.color = Color.red;
     //    Gizmos.DrawSphere(MovePoint.transform.position, 0.2f);
     //}
+}
+
+[System.Serializable]
+public class CustomPlatformEffect
+{
+    public int delay = 0;
+    public int duration = 0;
 }

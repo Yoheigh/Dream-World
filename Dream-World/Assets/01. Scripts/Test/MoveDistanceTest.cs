@@ -26,12 +26,13 @@ public class MoveDistanceTest : MonoBehaviour
                 rb.position += new Vector3(moveSpeed, 0f, 0f) * Time.fixedDeltaTime;
                 break;
             case MoveType.B:
-                transform.Translate(new Vector3(moveSpeed, 0f, 0f) * Time.deltaTime);
+                transform.Translate(new Vector3(moveSpeed, 0f, 0f) * Time.fixedDeltaTime);
                 break;
             case MoveType.C:
                 rb.velocity = new Vector3(moveSpeed, 0f, 0f);
                 break;
             case MoveType.D:
+                rb.MovePosition(rb.position + new Vector3(moveSpeed, 0f, 0f) * Time.fixedDeltaTime);
                 break;
         }
         

@@ -8,8 +8,8 @@ public abstract class CustomPlatformBase : MonoBehaviour
 
     public abstract void Execute();
 
-    public void Exit(CustomPlatformController p_customPlatformController)
+    public void Exit(CustomPlatformController customPlatformController)
     {
-        p_customPlatformController.CompleteAllEffects();
+        customPlatformController.CompleteAllEffects();
     }
 }
