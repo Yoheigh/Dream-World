@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FOVSystem : MonoBehaviour
 {
     public float viewRadius;        //시야 거리
     public float viewAngle;         //시야 각
+
+    private Transform closestTransform = null;  // 얘도 추가요~
+    private Renderer tempRenderer;              // 이상신 추가요~
 
     public LayerMask targetMask;
     public LayerMask obstacleMask;
@@ -14,6 +18,11 @@ public class FOVSystem : MonoBehaviour
     public virtual void Start()
     {
         StartCoroutine(FindTargetsWithDelay(0.2f));
+    }
+
+    void Update()
+    {
+         ClosestTargetColor();
     }
 
     IEnumerator FindTargetsWithDelay(float delay)
@@ -25,9 +34,47 @@ public class FOVSystem : MonoBehaviour
         }
     }
 
+    public void SetTargetLayer(LayerMask targetLayer)
+    {
+        targetMask.Equals(targetLayer);
+    }
+
+    public Transform GetClosestTarget()
+    {
+        float closestDistance = Mathf.Infinity;
+        for (int i = 0; i < visibleTargets.Count; i++)
+        {
+            Transform _target = visibleTargets[i];
+            float dstToTarget = Vector3.Distance(transform.position, _target.position);
+            if(dstToTarget < closestDistance)
+            {
+                closestTransform = _target;
+                closestDistance = dstToTarget;
+            }
+        }
+
+        return closestTransform;
+    }
+
+    void ClosestTargetColor()
+    {
+        if (GetClosestTarget() != null)
+        {
+            Renderer renderer = closestTransform.GetComponentInChildren<Renderer>();
+
+            if (renderer == null) return;
+
+            if (renderer != tempRenderer && tempRenderer != null)
+                tempRenderer.material.color = Color.white;
+
+            renderer.material.color = new Color(0.5f, 0.5f, 1f);
+            tempRenderer = renderer;
+        }
+    }
+
     void FindVisibleTargets()
     {
-        VisibleTargetColor(Color.white);
+        //VisibleTargetColor(Color.white);
         visibleTargets.Clear();
 
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
@@ -48,7 +95,7 @@ public class FOVSystem : MonoBehaviour
             }
         }
 
-        VisibleTargetColor(Color.green);
+        //VisibleTargetColor(Color.green);
     }
 
     public Vector3 DirFromAngle(float angleInDegress, bool angleIsGlobal)

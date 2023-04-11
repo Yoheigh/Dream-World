@@ -1,8 +1,19 @@
-﻿using System.Collections;
+﻿using Cinemachine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+
+enum Interactions
+{
+    Hand,
+    Place,
+    Axe,
+    Pickaxe,
+    Shovel
+}
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(CustomInput))]
@@ -66,10 +77,34 @@ public class PlayerController : MonoBehaviour
 
     private float threshold = 0.01f;
 
+    // 애니메이션 값
+    public int animIDSpeed;
+    public float animationBlend;
+    public int animIDMotionSpeed;
+
+    // 프로토타입용 애니메이션 State 변수
+    private const string PLAYER_IDLE = "Player_Idle";
+    private const string PLAYER_WALK = "Player_Walk";
+    private const string PLAYER_SPRINT = "Player_Sprint";
+    private const string PLAYER_ACTION_SHOVEL = "Player_Action_Shovel";
+    private const string PLAYER_ACTION_PICKAXE = "Player_Action_Pickaxe";
+    private const string PLAYER_ACTION_AXE = "Player_Action_Axe";
+    private const string PLAYER_ACTION_PICKUP = "Player_Action_PickUp";
+    private const string PLAYER_ACTION_PLACE = "Player_Action_Place";
+    private const string PLAYER_ACTION_THROW = "Player_Action_Throw";
+    private string animCurrentState = null;
+
+    private bool isControl = true; // 플레이어 컨트롤 가능 여부
+    private Interactions interactions = Interactions.Hand;
+
     private Animator animator;
     private CharacterController characterController;
     private CustomInput input;
     private GameObject MainCamera;
+    private FOVSystem fov;
+
+    // ★강교수님 보여드리려고 만든 텍스트
+    public Text currentTool;
 
     void Awake()
     {
@@ -81,16 +116,41 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-        // TryGetComponent(out animator);
-        animator = GetComponent<Animator>();
+        // _hasAnimator = TryGetComponent(out animator);
+        animator = GetComponentInChildren<Animator>();
         characterController = GetComponent<CharacterController>();
         input = GetComponent<CustomInput>();
+        fov = GetComponent<FOVSystem>();
+
+        input.RegisterInteractStarted(Interact);
+        input.RegisterChangeToolStarted(ChangeTool);
+
+        currentTool.text = "현재 도구 : " + interactions.ToString();
+
+        AssignAnimationIDs();
     }
 
     private void Update()
     {
-        Move();
-        Gravity();
+        SimpleMove();
+        //Gravity();
+
+        //if (isControl == false) return;
+
+        //if (Keyboard.current.xKey.isPressed)
+        //    StartCoroutine(AnimationDelay(PLAYER_ACTION_PICKUP));
+
+        //if (Keyboard.current.cKey.isPressed)
+        //    StartCoroutine(AnimationDelay(PLAYER_ACTION_PLACE));
+
+        //if (Keyboard.current.eKey.isPressed)
+        //    StartCoroutine(AnimationDelay(PLAYER_ACTION_AXE));
+
+        //if (Keyboard.current.rKey.isPressed)
+        //    StartCoroutine(AnimationDelay(PLAYER_ACTION_PICKAXE));
+
+        //if (Keyboard.current.tKey.isPressed)
+        //    StartCoroutine(AnimationDelay(PLAYER_ACTION_SHOVEL));
     }
 
     private void LateUpdate()
@@ -98,9 +158,64 @@ public class PlayerController : MonoBehaviour
         CameraRotation();
     }
 
+    private void AssignAnimationIDs()
+    {
+        animIDSpeed = Animator.StringToHash("Speed");
+        //animIDGrounded = Animator.StringToHash("Grounded");
+        //animIDJump = Animator.StringToHash("Jump");
+        //animIDFreeFall = Animator.StringToHash("FreeFall");
+        animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+    }
+
     public void Jump(InputAction.CallbackContext context)
     {
-        
+
+    }
+
+    public void ChangeTool(InputAction.CallbackContext context)
+    {
+        if ((int)interactions >= 4)
+        {
+            interactions = 0;
+        }
+        else
+            interactions++;
+
+        currentTool.text = "현재 도구 : " + interactions.ToString();
+    }
+
+    public void Interact(InputAction.CallbackContext context)
+    {
+        if (isControl == false) return;
+        // fov.GetClosestTarget().GetComponent<IInteractable>().Interact();
+        switch (interactions)
+        {
+            case Interactions.Hand:
+                StartCoroutine(AnimationDelay(PLAYER_ACTION_PICKUP, 1.2f));
+                break;
+            case Interactions.Place:
+                StartCoroutine(AnimationDelay(PLAYER_ACTION_PLACE, 1.7f));
+                break;
+            case Interactions.Axe:
+                StartCoroutine(AnimationDelay(PLAYER_ACTION_AXE, 0.8f));
+                break;
+            case Interactions.Pickaxe:
+                StartCoroutine(AnimationDelay(PLAYER_ACTION_PICKAXE, 0.8f));
+                break;
+            case Interactions.Shovel:
+                StartCoroutine(AnimationDelay(PLAYER_ACTION_SHOVEL, 1.5f));
+                break;
+        }
+    }
+
+    public void InteractWith(IInteractable interactable)
+    {
+
+    }
+
+    public void ChangeTools()
+    {
+        if (isControl == false) return;
     }
 
     private void CameraRotation()
@@ -112,7 +227,7 @@ public class PlayerController : MonoBehaviour
             float deltaTimeMultiplier = isCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
             cinemachineTargetYaw += input.look.x * deltaTimeMultiplier;
-            cinemachineTargetPitch += input.look.y * deltaTimeMultiplier;
+            cinemachineTargetPitch += -input.look.y * deltaTimeMultiplier;
         }
 
         // clamp our rotations so our values are limited 360 degrees
@@ -124,6 +239,7 @@ public class PlayerController : MonoBehaviour
             cinemachineTargetYaw, 0.0f);
     }
 
+    // 만들다 말음
     private void Gravity()
     {
         if (verticalVelocity < terminalVelocity)
@@ -134,27 +250,18 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        //     set target speed based on move speed, sprint speed and if sprint is pressed
         float targetSpeed = input.sprint ? sprintSpeed : moveSpeed;
-        //     a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
-
-        //     note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-        //     if there is no input, set the target speed to 0
+        
         if (input.move == Vector2.zero) targetSpeed = 0.0f;
 
-        //     a reference to the players current horizontal velocity
         float currentHorizontalSpeed = new Vector3(characterController.velocity.x, 0.0f, characterController.velocity.z).magnitude;
 
         float speedOffset = 0.1f;
-        // float inputMagnitude = input.analogMovement ? input.move.magnitude : 1f;
         float inputMagnitude = input.move.magnitude;
 
-        //     accelerate or decelerate to target speed
         if (currentHorizontalSpeed < targetSpeed - speedOffset ||
             currentHorizontalSpeed > targetSpeed + speedOffset)
         {
-            //         creates curved result rather than a linear one giving a more organic speed change
-            //         note T in Lerp is clamped, so we don't need to clamp our speed
             speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
             Time.deltaTime * speedChangeRate);
 
@@ -166,14 +273,11 @@ public class PlayerController : MonoBehaviour
             speed = targetSpeed;
         }
 
-        //    _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-        //    if (_animationBlend < 0.01f) _animationBlend = 0f;
+        animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.deltaTime);
+        if (animationBlend < 0.01f) animationBlend = 0f;
 
-        //     normalise input direction
-        Vector3 inputDirection = new Vector3(input.move.x, 0.0f, input.move.y).normalized;
+        Vector3 inputDirection = new Vector3(input.move.x, 0.0f, input.move.y);
 
-        // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-        // if there is a move input rotate player when the player is moving
         if (input.move != Vector2.zero)
         {
             targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
@@ -181,23 +285,57 @@ public class PlayerController : MonoBehaviour
             float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity,
                 rotationSmoothTime);
 
-            // rotate to face input direction relative to camera position
             transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
         }
 
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * Vector3.forward;
 
-        // move the player
         characterController.Move(targetDirection.normalized * (speed * Time.deltaTime) +
                          new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
 
-        //update animator if using character
         //if (_hasAnimator)
         //{
-        //    _animator.SetFloat(_animIDSpeed, _animationBlend);
-        //    _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+        animator.SetFloat(animIDSpeed, animationBlend);
+        animator.SetFloat(animIDMotionSpeed, inputMagnitude);
         //}
+    }
+
+    void SimpleMove()
+    {
+        if (isControl == false) return;
+
+        float targetSpeed = input.sprint ? sprintSpeed : moveSpeed;
+        if (input.move == Vector2.zero)
+        {
+            targetSpeed = 0.0f;
+            //ChangeAnimationState(PLAYER_IDLE);
+        }
+
+        Vector3 moveDir = new Vector3(input.move.x, 0, input.move.y);
+        float inputMagnitude = input.move.magnitude;
+
+        Vector3 targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * Vector3.forward;
+
+        animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.deltaTime * speedChangeRate);
+        if (animationBlend < 0.01f) animationBlend = 0f;
+
+        if (input.move != Vector2.zero)
+        {
+            targetRotation = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg +
+                              MainCamera.transform.eulerAngles.y;
+            float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity,
+                    rotationSmoothTime);
+
+            transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            //ChangeAnimationState(PLAYER_WALK);
+        }
+        
+        transform.position += targetDirection * targetSpeed * Time.deltaTime;
+        //transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * 20f);
+
+        animator.SetFloat(animIDSpeed, animationBlend);
+        animator.SetFloat(animIDMotionSpeed, inputMagnitude);
     }
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
@@ -205,5 +343,27 @@ public class PlayerController : MonoBehaviour
         if (lfAngle < -360f) lfAngle += 360f;
         if (lfAngle > 360f) lfAngle -= 360f;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
+    }
+
+    private void ChangeAnimationState(string animState)
+    {
+        if (animCurrentState == animState)
+            return;
+
+        animator.Play(animState);
+        animCurrentState = animState;
+    }
+
+    private IEnumerator AnimationDelay(string animState, float delay)
+    {
+        isControl = false;
+        ChangeAnimationState(animState);
+
+        // float temp = animator.GetCurrentAnimatorStateInfo(0).length;
+
+        yield return new WaitForSeconds(delay);
+        // 현재 재생중인 애니메이션의 길이 만큼 대기...인데 급해서 좀;
+        animCurrentState = null;
+        isControl = true;
     }
 }

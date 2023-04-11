@@ -28,21 +28,28 @@ public class CustomInput : MonoBehaviour
         sprint = playerInputActions.ActionMap.Sprint.IsPressed();   // 누르고 있는 동안
     }
 
-    public void RegisterToStarted
+    public void RegisterInteractStarted
         (Action<InputAction.CallbackContext> actionFunc)
     {
-        playerInputActions.ActionMap.Move.started += actionFunc;
+        playerInputActions.ActionMap.Interact.started += actionFunc;
     }
 
-    public void RegisterToPerformed
+    public void RegisterInteractPerformed
         (Action<InputAction.CallbackContext> actionFunc)
     {
-        playerInputActions.ActionMap.Move.performed += actionFunc;
+        playerInputActions.ActionMap.Interact.performed += actionFunc;
     }
 
-    public void RegisterToCanceled
+    public void RegisterInteractCanceled
         (Action<InputAction.CallbackContext> actionFunc)
     {
-        playerInputActions.ActionMap.Move.canceled += actionFunc;
+        playerInputActions.ActionMap.Interact.canceled += actionFunc;
+    }
+
+    public void RegisterChangeToolStarted
+    (Action<InputAction.CallbackContext> actionFunc)
+    {
+        playerInputActions.ActionMap.ChangeTool.started += actionFunc;
+        Debug.Log("ChangeTool에 함수 등록됨");
     }
 }

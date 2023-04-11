@@ -64,15 +64,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Run"",
-                    ""type"": ""Button"",
-                    ""id"": ""05bebe63-1378-4f06-8896-9faee1a7cbdf"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""13d0d296-f2df-4a28-a869-6a827711d25d"",
@@ -94,6 +85,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""name"": ""Sprint"",
                     ""type"": ""Button"",
                     ""id"": ""177d0a4f-a778-40b6-bf78-f41182f6cf2e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeTool"",
+                    ""type"": ""Button"",
+                    ""id"": ""d399ebf8-ee1b-4624-b892-5628b88fb47d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -159,9 +159,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""LeftStick"",
                     ""id"": ""5c143e92-e9f1-446e-871f-d87189ec80d0"",
-                    ""path"": ""2DVector"",
+                    ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""NormalizeVector2"",
                     ""groups"": """",
                     ""action"": ""Move"",
                     ""isComposite"": true,
@@ -235,20 +235,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""334b4e2b-e258-4b76-b5e4-7c9184609b02"",
-                    ""path"": ""<Keyboard>/leftShift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""PC"",
-                    ""action"": ""Run"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""30f902e0-903b-4743-b3d0-3bf4e74ead4d"",
-                    ""path"": """",
-                    ""interactions"": ""Press,Hold"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PC"",
                     ""action"": ""Interact"",
@@ -257,11 +246,11 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""1c5a63b9-383f-47c7-b776-112d6fb84132"",
-                    ""path"": """",
+                    ""id"": ""0ce9aece-afde-46de-b605-5c112134ed23"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""PC"",
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -335,11 +324,22 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1bd2522d-39b0-4d61-b2d9-68a9a39b3ce0"",
-                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PC"",
                     ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""372164a2-f95b-4249-aab4-6346b3d3cdd6"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""ChangeTool"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -376,10 +376,10 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_ActionMap_Look = m_ActionMap.FindAction("Look", throwIfNotFound: true);
         m_ActionMap_CursorPosition = m_ActionMap.FindAction("CursorPosition", throwIfNotFound: true);
         m_ActionMap_Jump = m_ActionMap.FindAction("Jump", throwIfNotFound: true);
-        m_ActionMap_Run = m_ActionMap.FindAction("Run", throwIfNotFound: true);
         m_ActionMap_Interact = m_ActionMap.FindAction("Interact", throwIfNotFound: true);
         m_ActionMap_Find = m_ActionMap.FindAction("Find", throwIfNotFound: true);
         m_ActionMap_Sprint = m_ActionMap.FindAction("Sprint", throwIfNotFound: true);
+        m_ActionMap_ChangeTool = m_ActionMap.FindAction("ChangeTool", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -443,10 +443,10 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_ActionMap_Look;
     private readonly InputAction m_ActionMap_CursorPosition;
     private readonly InputAction m_ActionMap_Jump;
-    private readonly InputAction m_ActionMap_Run;
     private readonly InputAction m_ActionMap_Interact;
     private readonly InputAction m_ActionMap_Find;
     private readonly InputAction m_ActionMap_Sprint;
+    private readonly InputAction m_ActionMap_ChangeTool;
     public struct ActionMapActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -455,10 +455,10 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_ActionMap_Look;
         public InputAction @CursorPosition => m_Wrapper.m_ActionMap_CursorPosition;
         public InputAction @Jump => m_Wrapper.m_ActionMap_Jump;
-        public InputAction @Run => m_Wrapper.m_ActionMap_Run;
         public InputAction @Interact => m_Wrapper.m_ActionMap_Interact;
         public InputAction @Find => m_Wrapper.m_ActionMap_Find;
         public InputAction @Sprint => m_Wrapper.m_ActionMap_Sprint;
+        public InputAction @ChangeTool => m_Wrapper.m_ActionMap_ChangeTool;
         public InputActionMap Get() { return m_Wrapper.m_ActionMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -480,9 +480,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnJump;
-                @Run.started -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnRun;
-                @Run.performed -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnRun;
-                @Run.canceled -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnRun;
                 @Interact.started -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnInteract;
@@ -492,6 +489,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Sprint.started -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnSprint;
                 @Sprint.performed -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnSprint;
                 @Sprint.canceled -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnSprint;
+                @ChangeTool.started -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnChangeTool;
+                @ChangeTool.performed -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnChangeTool;
+                @ChangeTool.canceled -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnChangeTool;
             }
             m_Wrapper.m_ActionMapActionsCallbackInterface = instance;
             if (instance != null)
@@ -508,9 +508,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @Run.started += instance.OnRun;
-                @Run.performed += instance.OnRun;
-                @Run.canceled += instance.OnRun;
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
@@ -520,6 +517,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Sprint.started += instance.OnSprint;
                 @Sprint.performed += instance.OnSprint;
                 @Sprint.canceled += instance.OnSprint;
+                @ChangeTool.started += instance.OnChangeTool;
+                @ChangeTool.performed += instance.OnChangeTool;
+                @ChangeTool.canceled += instance.OnChangeTool;
             }
         }
     }
@@ -539,9 +539,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnCursorPosition(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnRun(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnFind(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnChangeTool(InputAction.CallbackContext context);
     }
 }
