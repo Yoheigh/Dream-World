@@ -4,21 +4,12 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public BlockData blockData;
 }
 
 public struct BlockData
 {
     public int blockID;
-    public Vector3 blockPosition;
+    public bool isConstructable;
+    // public Vector3 blockPos;
 }

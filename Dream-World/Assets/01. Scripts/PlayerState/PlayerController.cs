@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-enum Interactions
+enum ToolType
 {
     Hand,
     Place,
@@ -95,7 +95,9 @@ public class PlayerController : MonoBehaviour
     private string animCurrentState = null;
 
     private bool isControl = true; // 플레이어 컨트롤 가능 여부
-    private Interactions interactions = Interactions.Hand;
+    private ToolType interactions = ToolType.Hand;
+    private PlayerTool[] playerTools;
+    private PlayerTool currentPlayerTool;
 
     private Animator animator;
     private CharacterController characterController;
@@ -190,19 +192,19 @@ public class PlayerController : MonoBehaviour
         // fov.GetClosestTarget().GetComponent<IInteractable>().Interact();
         switch (interactions)
         {
-            case Interactions.Hand:
+            case ToolType.Hand:
                 StartCoroutine(AnimationDelay(PLAYER_ACTION_PICKUP, 1.2f));
                 break;
-            case Interactions.Place:
+            case ToolType.Place:
                 StartCoroutine(AnimationDelay(PLAYER_ACTION_PLACE, 1.7f));
                 break;
-            case Interactions.Axe:
+            case ToolType.Axe:
                 StartCoroutine(AnimationDelay(PLAYER_ACTION_AXE, 0.8f));
                 break;
-            case Interactions.Pickaxe:
+            case ToolType.Pickaxe:
                 StartCoroutine(AnimationDelay(PLAYER_ACTION_PICKAXE, 0.8f));
                 break;
-            case Interactions.Shovel:
+            case ToolType.Shovel:
                 StartCoroutine(AnimationDelay(PLAYER_ACTION_SHOVEL, 1.5f));
                 break;
         }
@@ -365,5 +367,30 @@ public class PlayerController : MonoBehaviour
         // 현재 재생중인 애니메이션의 길이 만큼 대기...인데 급해서 좀;
         animCurrentState = null;
         isControl = true;
+    }
+}
+
+public class PlayerTool
+{
+    private string toolName;
+    private float toolRange;
+    // private float toolDamage;
+    private float toolActionSpeed;
+    private float toolActionDelay;
+    private float toolAttackRange;
+    private float toolAttackAngle;
+    private float toolAttackRadius;
+    private float toolAttackDamage;
+    private float toolAttackKnockback;
+    private float toolAttackStun;
+    private float toolAttackSlow;
+    private float toolAttackSlowDuration;
+    private float toolAttackSlowAmount;
+    private float toolAttackSlowDelay;
+    private float toolAttackSlowInterval;
+
+    public void InteractWith()
+    {
+
     }
 }
