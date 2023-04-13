@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,7 +36,7 @@ public class FOVViewer : FOVSystem
         }
     }
 
-    public struct ViewCastInfo          //Æú¸®°ïÀ» ¸¸µé ¶§ ²ÀÁöÁ¡ Á¤Á¡ÀÇ Á¤º¸°ª
+    public struct ViewCastInfo          //í´ë¦¬ê³¤ì„ ë§Œë“¤ ë•Œ ê¼­ì§€ì  ì •ì ì˜ ì •ë³´ê°’
     {
         public bool hit;
         public Vector3 point;

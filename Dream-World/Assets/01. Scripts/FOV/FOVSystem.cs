@@ -1,23 +1,24 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class FOVSystem : MonoBehaviour
 {
-    public float viewRadius;        //½Ã¾ß °Å¸®
-    public float viewAngle;         //½Ã¾ß °¢
+    public float viewRadius;            //ì‹œì•¼ ê±°ë¦¬
+    public float viewAngle;             //ì‹œì•¼ ê°
+    public float refreshDelay = 0.1f;  // ì¶”ê°€ : ì½”ë£¨í‹´ ì†ë„
 
-    private Transform closestTransform = null;  // ¾êµµ Ãß°¡¿ä~
-    private Renderer tempRenderer;              // ÀÌ»ó½Å Ãß°¡¿ä~
+    private Transform closestTransform = null;  // ì–˜ë„ ì¶”ê°€ìš”~
+    private Renderer tempRenderer;              // ì´ìƒì‹  ì¶”ê°€ìš”~
 
     public LayerMask targetMask;
     public LayerMask obstacleMask;
 
-    public List<Transform> visibleTargets = new List<Transform>();      // º¸ÀÌ´Â Å¸°Ù ¸®½ºÆ®
+    public List<Transform> visibleTargets = new List<Transform>();      // ë³´ì´ëŠ” íƒ€ê²Ÿ ë¦¬ìŠ¤íŠ¸
     public virtual void Start()
     {
-        StartCoroutine(FindTargetsWithDelay(0.2f));
+        StartCoroutine(FindTargetsWithDelay(refreshDelay));
     }
 
     void Update()
@@ -88,7 +89,7 @@ public class FOVSystem : MonoBehaviour
             {
                 float dstToTarget = Vector3.Distance(transform.position, target.position);
 
-                if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))   // Àå¾Ö¹°ÀÌ ¾Õ¿¡ ÀÖ´ÂÁö
+                if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))   // ì¥ì• ë¬¼ì´ ì•ì— ìˆëŠ”ì§€
                 {
                     visibleTargets.Add(target);
                 }
