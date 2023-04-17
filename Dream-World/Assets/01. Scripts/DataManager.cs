@@ -9,7 +9,7 @@ public class DataManager : Singleton<DataManager>
 
     }
 
-    public override void Awake2()
+    protected override void Awake2()
     {
 
     }

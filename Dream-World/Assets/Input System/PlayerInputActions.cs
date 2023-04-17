@@ -236,7 +236,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""30f902e0-903b-4743-b3d0-3bf4e74ead4d"",
-                    ""path"": ""<Keyboard>/z"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PC"",
@@ -291,7 +291,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e460b1ea-5654-485e-9d12-80c85fad6991"",
-                    ""path"": ""<Mouse>/position"",
+                    ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PC"",
@@ -329,6 +329,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""PC"",
                     ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ec5c935c-89c2-47c0-9afb-11c1a5ab3cad"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""ChangeTool"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },

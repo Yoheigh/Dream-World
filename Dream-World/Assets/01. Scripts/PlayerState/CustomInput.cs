@@ -1,4 +1,6 @@
-using System;
+ï»¿using System;
+using System.Reflection;
+using System.Text;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,40 +18,60 @@ public class CustomInput : MonoBehaviour
 
     private void Awake()
     {
+#if ENABLE_INPUT_SYSTEM
         playerInputActions = new PlayerInputActions();
         playerInputActions.ActionMap.Enable();
+#endif
     }
 
     private void Update()
     {
         move = playerInputActions.ActionMap.Move.ReadValue<Vector2>();
         look = playerInputActions.ActionMap.Look.ReadValue<Vector2>();
-        jump = playerInputActions.ActionMap.Jump.triggered;         // ´©¸¥ ¼ø°£
-        sprint = playerInputActions.ActionMap.Sprint.IsPressed();   // ´©¸£°í ÀÖ´Â µ¿¾È
+        jump = playerInputActions.ActionMap.Jump.triggered;         // ëˆ„ë¥¸ ìˆœê°„
+        sprint = playerInputActions.ActionMap.Sprint.IsPressed();   // ëˆ„ë¥´ê³  ìˆëŠ” ë™ì•ˆ
     }
 
     public void RegisterInteractStarted
         (Action<InputAction.CallbackContext> actionFunc)
     {
         playerInputActions.ActionMap.Interact.started += actionFunc;
+        Debug.Log($"Interact - started : {actionFunc.GetMethodInfo()} ë“±ë¡ë¨");
     }
 
     public void RegisterInteractPerformed
         (Action<InputAction.CallbackContext> actionFunc)
     {
         playerInputActions.ActionMap.Interact.performed += actionFunc;
+        Debug.Log($"Interact - performed : {actionFunc.GetMethodInfo()} ë“±ë¡ë¨");
     }
 
     public void RegisterInteractCanceled
         (Action<InputAction.CallbackContext> actionFunc)
     {
         playerInputActions.ActionMap.Interact.canceled += actionFunc;
+        Debug.Log($"Interact - canceled : {actionFunc.GetMethodInfo()} ë“±ë¡ë¨");
     }
 
     public void RegisterChangeToolStarted
     (Action<InputAction.CallbackContext> actionFunc)
     {
         playerInputActions.ActionMap.ChangeTool.started += actionFunc;
-        Debug.Log("ChangeTool¿¡ ÇÔ¼ö µî·ÏµÊ");
+        Debug.Log($"ChangeTool - started : {actionFunc.GetMethodInfo()} ë“±ë¡ë¨");
     }
+
+    public void RegisterChangeToolPerformed
+    (Action<InputAction.CallbackContext> actionFunc)
+    {
+        playerInputActions.ActionMap.ChangeTool.performed += actionFunc;
+        Debug.Log($"ChangeTool - performed : {actionFunc.GetMethodInfo()} ë“±ë¡ë¨");
+    }
+
+    public void RegisterChangeToolCanceled
+    (Action<InputAction.CallbackContext> actionFunc)
+    {
+        playerInputActions.ActionMap.ChangeTool.canceled += actionFunc;
+        Debug.Log($"ChangeTool - canceled : {actionFunc.GetMethodInfo()} ë“±ë¡ë¨");
+    }
+
 }

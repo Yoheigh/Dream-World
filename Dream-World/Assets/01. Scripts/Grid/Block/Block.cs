@@ -5,11 +5,18 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     public BlockData blockData;
+
+
 }
 
 public struct BlockData
 {
     public int blockID;
     public bool isConstructable;
-    // public Vector3 blockPos;
+
+    public BlockData(int _blockID, bool _isConstructable)
+    {
+        blockID = _blockID;
+        isConstructable = _isConstructable;
+    }
 }

@@ -39,7 +39,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
 
-    public virtual void Awake2()    // 제네릭 싱글톤 클래스에서 Awake를 쓰기 위해 override해서 쓰는 함수
+    protected virtual void Awake2()    // 제네릭 싱글톤 클래스에서 Awake를 쓰기 위해 override해서 쓰는 함수
     {
 
     }

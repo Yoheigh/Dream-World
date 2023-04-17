@@ -9,7 +9,12 @@ public class FOVSystem : MonoBehaviour
     public float viewAngle;             //시야 각
     public float refreshDelay = 0.1f;  // 추가 : 코루틴 속도
 
-    private Transform closestTransform = null;  // 얘도 추가요~
+    private Transform closestTransform;
+    public Transform ClosestTransform
+    { get => closestTransform;
+      set => closestTransform = value;
+    }  // 얘도 추가요~
+
     private Renderer tempRenderer;              // 이상신 추가요~
 
     public LayerMask targetMask;
@@ -47,21 +52,24 @@ public class FOVSystem : MonoBehaviour
         {
             Transform _target = visibleTargets[i];
             float dstToTarget = Vector3.Distance(transform.position, _target.position);
+
+            // 블럭 사이의 거리를 계산할 때 높낮이를 고려해야 한다면 Distance()로 구한 float 대신 각 Vector3.y의 크기를 비교해야 한다.
+
             if(dstToTarget < closestDistance)
             {
-                closestTransform = _target;
+                ClosestTransform = _target;
                 closestDistance = dstToTarget;
             }
         }
 
-        return closestTransform;
+        return ClosestTransform;
     }
 
     void ClosestTargetColor()
     {
         if (GetClosestTarget() != null)
         {
-            Renderer renderer = closestTransform.GetComponentInChildren<Renderer>();
+            Renderer renderer = ClosestTransform.GetComponentInChildren<Renderer>();
 
             if (renderer == null) return;
 

@@ -5,6 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - CinemachineTarget
+  - Ground
+  - UI
+  - Resources_Tree
+  - Tree
+  - Resources_Iron
+  - Structure
+  - Wellspring
+  - Dragable
   layers:
   - Default
   - TransparentFX
@@ -13,7 +21,7 @@ TagManager:
   - Water
   - UI
   - Block
-  - 
+  - Interactable
   - 
   - 
   - 

@@ -1,62 +1,31 @@
 ﻿using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-
-enum ToolType
-{
-    Hand,
-    Place,
-    Axe,
-    Pickaxe,
-    Shovel
-}
+using PlayerOwnedStates;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(CustomInput))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : Singleton<PlayerController>
 {
-    [Header("플레이어 설정")]
-    [Tooltip("걸을 때, 1초에 moveSpeed 미터만큼 이동합니다.")]
-    public float moveSpeed = 1.0f;
-
-    [Tooltip("달릴 때, 1초에 sprintSpeed 미터만큼 이동합니다.")]
-    public float sprintSpeed = 1.533f;
-
-    [Tooltip("캐릭터의 회전 속도를 조절합니다. 낮을 수록 빠르게 회전합니다.")]
-    [Range(0.0f, 0.3f)]
-    public float rotationSmoothTime = 0.12f;
-
-    [Tooltip("가속력을 정의합니다.")]
-    public float speedChangeRate = 10.0f;
-
-    [Tooltip("점프할 때, jumpHeight 블럭 만큼 점프합니다.")]
-    public float jumpHeight = 1.2f;
-
-    [Tooltip("다시 점프할 수 있을 때까지 jumpTimeout 초 걸립니다.")]
-    public float jumpTimeout;
-    [Tooltip("공중에서 추락 상태까지 fallTimeout 초 걸립니다.")]
-    public float FallTimeout;
-
-    [Tooltip("중력을 조절합니다. 낮을 수록 빠르게 떨어집니다.")]
-    public float gravity = -10.0f;
-
-    [Header("바닥 인식")]
-    public bool isGround = true;
-
-    public float groundCheckOffset = -0.14f;
-    public float groundCheckRadius = 0.10f;
-
-    public LayerMask GroundLayers;
-
+    #region 기본 설정
+    
     [Header("시네머신 카메라")]
     public GameObject CinemachineCameraTarget;
 
+    [Tooltip("카메라 회전 속도를 가속합니다.")]
+    public float cameraRotationSpeed = 1.0f;
+
+    [Tooltip("카메라 각도 최상단을 cameraTopClamp 도로 설정합니다.")]
     public float cameraTopClamp = 70.0f;
+
+    [Tooltip("카메라 각도 최하단을 cameraBottomClamp 도로 설정합니다.")]
     public float cameraBottomClamp = -30.0f;
+
+    [Tooltip("카메라를 고정합니다.")]
     public bool cameraPositionLock = false;
 
     public bool isCurrentDeviceMouse = true;
@@ -65,50 +34,42 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Additional degress to override the camera. Useful for fine tuning camera position when locked")]
     public float cameraAngleOverride = 0.0f;
 
+    #endregion
+
     // 내부 변수
     private float cinemachineTargetYaw;
     private float cinemachineTargetPitch;
 
-    private float speed;
-    private float targetRotation;
-    private float rotationVelocity;
-    private float verticalVelocity;
-    private float terminalVelocity = 53.0f;
-
     private float threshold = 0.01f;
 
-    // 애니메이션 값
-    public int animIDSpeed;
-    public float animationBlend;
-    public int animIDMotionSpeed;
-
-    // 프로토타입용 애니메이션 State 변수
-    private const string PLAYER_IDLE = "Player_Idle";
-    private const string PLAYER_WALK = "Player_Walk";
-    private const string PLAYER_SPRINT = "Player_Sprint";
-    private const string PLAYER_ACTION_SHOVEL = "Player_Action_Shovel";
-    private const string PLAYER_ACTION_PICKAXE = "Player_Action_Pickaxe";
-    private const string PLAYER_ACTION_AXE = "Player_Action_Axe";
-    private const string PLAYER_ACTION_PICKUP = "Player_Action_PickUp";
-    private const string PLAYER_ACTION_PLACE = "Player_Action_Place";
-    private const string PLAYER_ACTION_THROW = "Player_Action_Throw";
-    private string animCurrentState = null;
+    //// 프로토타입용 애니메이션 State 변수
+    //private const string PLAYER_IDLE = "Player_Idle";
+    //private const string PLAYER_WALK = "Player_Walk";
+    //private const string PLAYER_SPRINT = "Player_Sprint";
+    //private const string PLAYER_ACTION_SHOVEL = "Player_Action_Shovel";
+    //private const string PLAYER_ACTION_PICKAXE = "Player_Action_Pickaxe";
+    //private const string PLAYER_ACTION_AXE = "Player_Action_Axe";
+    //private const string PLAYER_ACTION_PICKUP = "Player_Action_PickUp";
+    //private const string PLAYER_ACTION_PLACE = "Player_Action_Place";
+    //private const string PLAYER_ACTION_THROW = "Player_Action_Throw";
+    //private string animCurrentState = null;
 
     private bool isControl = true; // 플레이어 컨트롤 가능 여부
-    private ToolType interactions = ToolType.Hand;
-    private PlayerTool[] playerTools;
-    private PlayerTool currentPlayerTool;
 
+    //private Tool[] playerTools;
+    //private Tool currentPlayerTool;
+
+    public CustomInput input;
     private Animator animator;
-    private CharacterController characterController;
-    private CustomInput input;
+    private PlayerMovement move;
     private GameObject MainCamera;
     private FOVSystem fov;
 
-    // ★강교수님 보여드리려고 만든 텍스트
-    public Text currentTool;
+    // ★테스트용
+    public Text currentTool; // 강교수님 보여드리려고 만든 텍스트
+    float TriggerTime = 0;  // 사다리에 비비기 상호작용 테스트
 
-    void Awake()
+    protected override void Awake2()
     {
         if (MainCamera == null)
             MainCamera = Camera.main.gameObject;
@@ -118,41 +79,22 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-        // _hasAnimator = TryGetComponent(out animator);
         animator = GetComponentInChildren<Animator>();
-        characterController = GetComponent<CharacterController>();
         input = GetComponent<CustomInput>();
+        move = GetComponent<PlayerMovement>();
         fov = GetComponent<FOVSystem>();
 
         input.RegisterInteractStarted(Interact);
         input.RegisterChangeToolStarted(ChangeTool);
 
-        currentTool.text = "현재 도구 : " + interactions.ToString();
-
-        AssignAnimationIDs();
+        //currentTool.text = "현재 도구 : " + interactions.ToString();
     }
 
     private void Update()
     {
-        SimpleMove();
-        //Gravity();
-
-        //if (isControl == false) return;
-
-        //if (Keyboard.current.xKey.isPressed)
-        //    StartCoroutine(AnimationDelay(PLAYER_ACTION_PICKUP));
-
-        //if (Keyboard.current.cKey.isPressed)
-        //    StartCoroutine(AnimationDelay(PLAYER_ACTION_PLACE));
-
-        //if (Keyboard.current.eKey.isPressed)
-        //    StartCoroutine(AnimationDelay(PLAYER_ACTION_AXE));
-
-        //if (Keyboard.current.rKey.isPressed)
-        //    StartCoroutine(AnimationDelay(PLAYER_ACTION_PICKAXE));
-
-        //if (Keyboard.current.tKey.isPressed)
-        //    StartCoroutine(AnimationDelay(PLAYER_ACTION_SHOVEL));
+        //move.GroundedCheck();
+        //move.Gravity();
+        //move.Move();
     }
 
     private void LateUpdate()
@@ -160,54 +102,27 @@ public class PlayerController : MonoBehaviour
         CameraRotation();
     }
 
-    private void AssignAnimationIDs()
-    {
-        animIDSpeed = Animator.StringToHash("Speed");
-        //animIDGrounded = Animator.StringToHash("Grounded");
-        //animIDJump = Animator.StringToHash("Jump");
-        //animIDFreeFall = Animator.StringToHash("FreeFall");
-        animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
-    }
-
-    public void Jump(InputAction.CallbackContext context)
-    {
-
-    }
+    //public void Jump(InputAction.CallbackContext context)
+    //{
+        
+    //}
 
     public void ChangeTool(InputAction.CallbackContext context)
     {
-        if ((int)interactions >= 4)
-        {
-            interactions = 0;
-        }
-        else
-            interactions++;
+        //    if ((int)interactions >= 4)
+        //    {
+        //        interactions = 0;
+        //    }
+        //    else
+        //        interactions++;
 
-        currentTool.text = "현재 도구 : " + interactions.ToString();
+        //    currentTool.text = "현재 도구 : " + interactions.ToString();
     }
 
     public void Interact(InputAction.CallbackContext context)
     {
         if (isControl == false) return;
-        // fov.GetClosestTarget().GetComponent<IInteractable>().Interact();
-        switch (interactions)
-        {
-            case ToolType.Hand:
-                StartCoroutine(AnimationDelay(PLAYER_ACTION_PICKUP, 1.2f));
-                break;
-            case ToolType.Place:
-                StartCoroutine(AnimationDelay(PLAYER_ACTION_PLACE, 1.7f));
-                break;
-            case ToolType.Axe:
-                StartCoroutine(AnimationDelay(PLAYER_ACTION_AXE, 0.8f));
-                break;
-            case ToolType.Pickaxe:
-                StartCoroutine(AnimationDelay(PLAYER_ACTION_PICKAXE, 0.8f));
-                break;
-            case ToolType.Shovel:
-                StartCoroutine(AnimationDelay(PLAYER_ACTION_SHOVEL, 1.5f));
-                break;
-        }
+
     }
 
     public void InteractWith(IInteractable interactable)
@@ -226,7 +141,7 @@ public class PlayerController : MonoBehaviour
         if (input.look.sqrMagnitude >= threshold && !cameraPositionLock)
         {
             //Don't multiply mouse input by Time.deltaTime;
-            float deltaTimeMultiplier = isCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+            float deltaTimeMultiplier = isCurrentDeviceMouse ? cameraRotationSpeed : Time.deltaTime;
 
             cinemachineTargetYaw += input.look.x * deltaTimeMultiplier;
             cinemachineTargetPitch += -input.look.y * deltaTimeMultiplier;
@@ -241,103 +156,11 @@ public class PlayerController : MonoBehaviour
             cinemachineTargetYaw, 0.0f);
     }
 
-    // 만들다 말음
-    private void Gravity()
+    
+
+    private void SnapToObject()
     {
-        if (verticalVelocity < terminalVelocity)
-        {
-            verticalVelocity += gravity * Time.deltaTime;
-        }
-    }
 
-    private void Move()
-    {
-        float targetSpeed = input.sprint ? sprintSpeed : moveSpeed;
-        
-        if (input.move == Vector2.zero) targetSpeed = 0.0f;
-
-        float currentHorizontalSpeed = new Vector3(characterController.velocity.x, 0.0f, characterController.velocity.z).magnitude;
-
-        float speedOffset = 0.1f;
-        float inputMagnitude = input.move.magnitude;
-
-        if (currentHorizontalSpeed < targetSpeed - speedOffset ||
-            currentHorizontalSpeed > targetSpeed + speedOffset)
-        {
-            speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
-            Time.deltaTime * speedChangeRate);
-
-            //round speed to 3 decimal places
-            speed = Mathf.Round(speed * 1000f) / 1000f;
-        }
-        else
-        {
-            speed = targetSpeed;
-        }
-
-        animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.deltaTime);
-        if (animationBlend < 0.01f) animationBlend = 0f;
-
-        Vector3 inputDirection = new Vector3(input.move.x, 0.0f, input.move.y);
-
-        if (input.move != Vector2.zero)
-        {
-            targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                              MainCamera.transform.eulerAngles.y;
-            float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity,
-                rotationSmoothTime);
-
-            transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-        }
-
-
-        Vector3 targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * Vector3.forward;
-
-        characterController.Move(targetDirection.normalized * (speed * Time.deltaTime) +
-                         new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
-
-        //if (_hasAnimator)
-        //{
-        animator.SetFloat(animIDSpeed, animationBlend);
-        animator.SetFloat(animIDMotionSpeed, inputMagnitude);
-        //}
-    }
-
-    void SimpleMove()
-    {
-        if (isControl == false) return;
-
-        float targetSpeed = input.sprint ? sprintSpeed : moveSpeed;
-        if (input.move == Vector2.zero)
-        {
-            targetSpeed = 0.0f;
-            //ChangeAnimationState(PLAYER_IDLE);
-        }
-
-        Vector3 moveDir = new Vector3(input.move.x, 0, input.move.y);
-        float inputMagnitude = input.move.magnitude;
-
-        Vector3 targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * Vector3.forward;
-
-        animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.deltaTime * speedChangeRate);
-        if (animationBlend < 0.01f) animationBlend = 0f;
-
-        if (input.move != Vector2.zero)
-        {
-            targetRotation = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg +
-                              MainCamera.transform.eulerAngles.y;
-            float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity,
-                    rotationSmoothTime);
-
-            transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-            //ChangeAnimationState(PLAYER_WALK);
-        }
-        
-        transform.position += targetDirection * targetSpeed * Time.deltaTime;
-        //transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * 20f);
-
-        animator.SetFloat(animIDSpeed, animationBlend);
-        animator.SetFloat(animIDMotionSpeed, inputMagnitude);
     }
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
@@ -347,50 +170,24 @@ public class PlayerController : MonoBehaviour
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
 
-    private void ChangeAnimationState(string animState)
+    private void OnTriggerStay(Collider col)
     {
-        if (animCurrentState == animState)
-            return;
+        if(col.CompareTag("Dragable"))
+        {
+            TriggerTime = input.move.magnitude > 0.01f ? TriggerTime + Time.deltaTime : 0.0f;
 
-        animator.Play(animState);
-        animCurrentState = animState;
-    }
+            if (TriggerTime > 0.8f)
+            {
+                col.transform.SetParent(this.transform, true);  // 한 번만 하도록
+                // 해당 오브젝트 rigidbody에서 중력 꺼야함
+                Debug.Log("상호작용 시작");
 
-    private IEnumerator AnimationDelay(string animState, float delay)
-    {
-        isControl = false;
-        ChangeAnimationState(animState);
-
-        // float temp = animator.GetCurrentAnimatorStateInfo(0).length;
-
-        yield return new WaitForSeconds(delay);
-        // 현재 재생중인 애니메이션의 길이 만큼 대기...인데 급해서 좀;
-        animCurrentState = null;
-        isControl = true;
-    }
-}
-
-public class PlayerTool
-{
-    private string toolName;
-    private float toolRange;
-    // private float toolDamage;
-    private float toolActionSpeed;
-    private float toolActionDelay;
-    private float toolAttackRange;
-    private float toolAttackAngle;
-    private float toolAttackRadius;
-    private float toolAttackDamage;
-    private float toolAttackKnockback;
-    private float toolAttackStun;
-    private float toolAttackSlow;
-    private float toolAttackSlowDuration;
-    private float toolAttackSlowAmount;
-    private float toolAttackSlowDelay;
-    private float toolAttackSlowInterval;
-
-    public void InteractWith()
-    {
-
+            }
+            else if (TriggerTime == 0.0f)
+            {
+                col.transform.parent = null;
+                Debug.Log("상호작용 끝!");
+            }
+        }
     }
 }

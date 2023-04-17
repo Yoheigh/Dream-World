@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,7 +31,7 @@ public class Inventory : MonoBehaviour
     public List<Item> equipmentItems;
     public int itemSlotMaxCount;
 
-    //¾ÆÀÌÅÛ Ãß°¡ ÇÔ¼ö
+    //ì•„ì´í…œ ì¶”ê°€ í•¨ìˆ˜
     public bool AddItem(int itemID)
     {
         Item item_ = ItemDatabass.instance.GetItem(itemID);
@@ -41,13 +41,13 @@ public class Inventory : MonoBehaviour
             case ItemType.ingredients:
                 foreach (Item _item in ingredientsItems)
                 {
-                    //ÀÌ¸§ÀÌ °°Àº ¾ÆÀÌÅÛÀÌ ÀÖÀ» ¶§
+                    //ì´ë¦„ì´ ê°™ì€ ì•„ì´í…œì´ ìˆì„ ë•Œ
                     if (_item.itemID == item_.itemID)
                     {
-                        //±× ¾ÆÀÌÅÛÀÇ ÇöÀç °³¼ö°¡ ÃÖ´ë °³¼öº¸´Ù ÀûÀ» ¶§
+                        //ê·¸ ì•„ì´í…œì˜ í˜„ì¬ ê°œìˆ˜ê°€ ìµœëŒ€ ê°œìˆ˜ë³´ë‹¤ ì ì„ ë•Œ
                         if (_item.itemMaxCount > _item.itemCurrentCount)
                         {
-                            //¾ÆÀÌÅÛ °³¼ö¸¦ ´Ã·ÁÁÖ°í true ¸®ÅÏ
+                            //ì•„ì´í…œ ê°œìˆ˜ë¥¼ ëŠ˜ë ¤ì£¼ê³  true ë¦¬í„´
                             _item.itemCurrentCount++;
                             onChangeItem.Invoke();
                             return true;
@@ -58,7 +58,7 @@ public class Inventory : MonoBehaviour
                 if (itemSlotMaxCount > ingredientsItems.Count)
                 {
                     Item item__ = new Item(item_.itemID);
-                    //¾ÆÀÌÅÛÃ¢À» Ãß°¡ÇÏ°í true ¸®ÅÏ
+                    //ì•„ì´í…œì°½ì„ ì¶”ê°€í•˜ê³  true ë¦¬í„´
                     ingredientsItems.Add(item__);
                     onChangeItem.Invoke();
                     return true;
@@ -66,18 +66,18 @@ public class Inventory : MonoBehaviour
                 }
                 break;
 
-                //ÀÎº¥ÀÌ ºñ¾úÀ» ¶§ Ãß°¡ ÇÏ´Â ÄÚµå Ãß°¡
+                //ì¸ë²¤ì´ ë¹„ì—ˆì„ ë•Œ ì¶”ê°€ í•˜ëŠ” ì½”ë“œ ì¶”ê°€
 
             case ItemType.equipment:
                 foreach (Item _item in equipmentItems)
                 {
-                    //ÀÌ¸§ÀÌ °°Àº ¾ÆÀÌÅÛÀÌ ÀÖÀ» ¶§
+                    //ì´ë¦„ì´ ê°™ì€ ì•„ì´í…œì´ ìˆì„ ë•Œ
                     if (_item.itemID == item_.itemID)
                     {
-                        //±× ¾ÆÀÌÅÛÀÇ ÇöÀç °³¼ö°¡ ÃÖ´ë °³¼öº¸´Ù ÀûÀ» ¶§
+                        //ê·¸ ì•„ì´í…œì˜ í˜„ì¬ ê°œìˆ˜ê°€ ìµœëŒ€ ê°œìˆ˜ë³´ë‹¤ ì ì„ ë•Œ
                         if (_item.itemMaxCount > _item.itemCurrentCount)
                         {
-                            //¾ÆÀÌÅÛ °³¼ö¸¦ ´Ã·ÁÁÖ°í true ¸®ÅÏ
+                            //ì•„ì´í…œ ê°œìˆ˜ë¥¼ ëŠ˜ë ¤ì£¼ê³  true ë¦¬í„´
                             _item.itemCurrentCount++;
                             onChangeItem.Invoke();
                             return true;
@@ -89,20 +89,20 @@ public class Inventory : MonoBehaviour
                 if (itemSlotMaxCount > equipmentItems.Count)
                 {
                     Item item__ = new Item(item_.itemID);
-                    //¾ÆÀÌÅÛÃ¢À» Ãß°¡ÇÏ°í true ¸®ÅÏ
+                    //ì•„ì´í…œì°½ì„ ì¶”ê°€í•˜ê³  true ë¦¬í„´
                     equipmentItems.Add(item__);
                     onChangeItem.Invoke();
                     return true;
                 }
                 break;
         }    
-        //°¡Áö°í ÀÖ´Â ¾ÆÀÌÅÛÁß 
+        //ê°€ì§€ê³  ìˆëŠ” ì•„ì´í…œì¤‘ 
 
-        //°¡Áö°í ÀÖ´Â ¾ÆÀÌÅÛÁß ÀÌ¸§ÀÌ °°Àº ¾ÆÀÌÅÛÀÌ ¾ø°Å³ª ÃÖ´ë °³¼ö ÀÏ ¶§
+        //ê°€ì§€ê³  ìˆëŠ” ì•„ì´í…œì¤‘ ì´ë¦„ì´ ê°™ì€ ì•„ì´í…œì´ ì—†ê±°ë‚˜ ìµœëŒ€ ê°œìˆ˜ ì¼ ë•Œ
 
-        //¾ÆÀÌÅÛ Ã¢ ÃÖ´ë °³¼öº¸´Ù Àû°Ô ¾ÆÀÌÅÛ Ã¢À» »ç¿ëÇÏ°í ÀÖÀ» ¶§
+        //ì•„ì´í…œ ì°½ ìµœëŒ€ ê°œìˆ˜ë³´ë‹¤ ì ê²Œ ì•„ì´í…œ ì°½ì„ ì‚¬ìš©í•˜ê³  ìˆì„ ë•Œ
 
-        //Ãß°¡ÇÏÁö ¸øÇßÀ» ½Ã false ¸®ÅÏ
+        //ì¶”ê°€í•˜ì§€ ëª»í–ˆì„ ì‹œ false ë¦¬í„´
         return false;
     }
 

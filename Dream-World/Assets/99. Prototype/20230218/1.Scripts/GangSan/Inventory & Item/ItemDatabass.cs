@@ -1,8 +1,8 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//¾Æ ÀÌÁ¦ ½½½½ bass¸¦ ³öÁà¾ß ÇÏ´Â°¡
+//ì•„ ì´ì œ ìŠ¬ìŠ¬ bassë¥¼ ë†”ì¤˜ì•¼ í•˜ëŠ”ê°€ (ë‹˜ì•„..)
 public class ItemDatabass : MonoBehaviour
 {
     #region Sington;
@@ -36,7 +36,7 @@ public class ItemDatabass : MonoBehaviour
         {
             if(item.itemID == itemID)
             {
-                Debug.Log(item.itemID + "¸®ÅÏ µÊ");
+                Debug.Log(item.itemID + "ë¦¬í„´ ë¨");
                 return item;
             }
         }

@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,30 +12,22 @@ public enum ItemType
 public class Item
 {
     public int itemID;
-    [Tooltip("¾ÆÀÌÅÛ Å¸ÀÔ")]
+    [Tooltip("ì•„ì´í…œ íƒ€ì…")]
     public ItemType itemType;
-    [Tooltip("¾ÆÀÌÅÛ °³¼ö")]
+    [Tooltip("ì•„ì´í…œ ê°œìˆ˜")]
     public int itemCurrentCount = 1;
-    [Tooltip("¾ÆÀÌÅÛ ÃÖ´ë °³¼ö")]
+    [Tooltip("ì•„ì´í…œ ìµœëŒ€ ê°œìˆ˜")]
     public int itemMaxCount;
-    [Tooltip("¾ÆÀÌÅÛ ÀÌ¸§")]
+    [Tooltip("ì•„ì´í…œ ì´ë¦„")]
     public string itemName;
-    [Tooltip("¾ÆÀÌÅÛ ¾ÆÀÌÄÜ »çÁø °æ·Î")]
+    [Tooltip("ì•„ì´í…œ ì•„ì´ì½˜ ì‚¬ì§„ ê²½ë¡œ")]
     public string itemIconPath;
-    [Tooltip("¾ÆÀÌÅÛ ¾ÆÀÌÄÜ »çÁø °æ·Î")]
+    [Tooltip("ì•„ì´í…œ ì•„ì´ì½˜ ì‚¬ì§„ ê²½ë¡œ")]
     public string itemGameObjectPath;
 
 
     public int[] needIngredientsItemID;
     public int[] needIngredientsItemAmount;
-
-
-
-
-    public Item()
-    {
-
-    }
 
     public Item(int itemID_)
     {
