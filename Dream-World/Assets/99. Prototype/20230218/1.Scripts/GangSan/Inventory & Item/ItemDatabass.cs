@@ -29,6 +29,7 @@ public class ItemDatabass : MonoBehaviour
     }
     #endregion
     public List<Item> items;
+    public List<BlockData> blocks;
 
     public Item GetItem(int itemID)
     {
@@ -42,5 +43,18 @@ public class ItemDatabass : MonoBehaviour
         }
 
         return null;
+    }
+
+    public BlockData GetBlock(int blockID)
+    {
+        foreach (BlockData block in blocks)
+        {
+            if (block.blockID == blockID)
+            {
+                Debug.Log(block.blockID + "리턴 됨");
+                return block;
+            }
+        }
+        return default;
     }
 }

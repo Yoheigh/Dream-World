@@ -62,10 +62,13 @@ public class FOVSystem : MonoBehaviour
 
             // 블럭 사이의 거리를 계산할 때 높낮이를 고려해야 한다면 Distance()로 구한 float 대신 각 Vector3.y의 크기를 비교해야 한다.
 
-            if(dstToTarget < closestDistance)
+            if (dstToTarget <= viewRadius)
             {
-                ClosestTransform = _target;
-                closestDistance = dstToTarget;
+                if (dstToTarget < closestDistance)
+                {
+                    ClosestTransform = _target;
+                    closestDistance = dstToTarget;
+                }
             }
         }
 
@@ -132,5 +135,20 @@ public class FOVSystem : MonoBehaviour
         {
             visibleTargets[i].GetComponent<Renderer>().material.SetColor("_Color", color);
         }
+    }
+
+    public void ChangeTarget(ObjectTagType _type)
+    {
+        switch(targetTag)
+        {
+            case ObjectTagType.Block:
+                break;
+
+            case ObjectTagType.Interactable:
+                break;
+
+            case ObjectTagType.Item:
+                break;
+        }    
     }
 }

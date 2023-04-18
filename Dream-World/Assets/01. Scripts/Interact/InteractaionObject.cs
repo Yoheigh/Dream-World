@@ -13,7 +13,7 @@ public abstract class InteractionObject : MonoBehaviour
     public InteractionType interactionType;
     // GameManager
 
-    public abstract void Interact(PlayerController playerController);
+    public abstract void Interact();
 
     protected virtual void Setup()
     {

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
 using PlayerOwnedStates;
+using Unity.VisualScripting;
 
 public enum PlayerStateType
 {
@@ -60,6 +61,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 currentPos;
     private Vector3 lastPos;
     private float maxReachPoint;
+    private float verticalSnap;
 
     private Vector3 spherePosition;     // 바닥 인식할 구(Sphere) 시작점
 
@@ -121,6 +123,7 @@ public class PlayerMovement : MonoBehaviour
         fallTimeoutDelta = fallTimeout;
         currentPos = Vector3.zero;
         lastPos = Vector3.zero;
+        Debug.Log("3 - 벡터 초기화");
     }
 
     public void AssignAnimationIDs()
@@ -257,7 +260,12 @@ public class PlayerMovement : MonoBehaviour
         lastPos = _pivot;
         currentPos = _pivot;
         maxReachPoint = _maxReachPoint;
+        transform.position = _pivot;
+    }
 
+    public void SnapToVerticalPoint()
+    {
+        transform.position = new Vector3(lastPos.x, verticalSnap, lastPos.z);
     }
 
     public void MoveVertical() // Vector3 _startPos, float _maxReachPoint 이러헥 쓰고 싶었는데 ㅠㅠ
@@ -272,10 +280,11 @@ public class PlayerMovement : MonoBehaviour
         if (currentPos.y > lastPos.y + maxReachPoint)
             ChangeMoveState(PlayerStateType.Default);
 
-        else if(currentPos.y <= lastPos.y - 1f)
+        else if(currentPos.y <= lastPos.y - 0.3f)
             ChangeMoveState(PlayerStateType.Default);
 
-        Vector3 moveDir = new Vector3(input.move.x, 0, input.move.y);
+        //Vector3 moveDir = new Vector3(input.move.x, 0, input.move.y);
+
         float inputMagnitude = input.move.magnitude;
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * 
@@ -289,15 +298,16 @@ public class PlayerMovement : MonoBehaviour
         //{
         //    targetRotation = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg +
         //                      MainCamera.transform.eulerAngles.y;
-        //}
+        //
 
-        characterController.Move(targetDirection * (targetSpeed * Time.deltaTime));
+        //characterController.Move(targetDirection * (targetSpeed * Time.deltaTime));
+        transform.position += targetDirection * targetSpeed * Time.deltaTime;
         currentPos.y += input.move.y * targetSpeed * Time.deltaTime;
+
+        //transform.position = new Vector3(lastPos.x, transform.position.y, lastPos.z);
 
         //transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * 20f);
         // t_n =  (t - min)/(max - min)
-
-        transform.position = new Vector3(lastPos.x, transform.position.y, lastPos.z);
 
         animator.SetFloat(animIDSpeed, animationBlend);
         animator.SetFloat(animIDMotionSpeed, inputMagnitude);

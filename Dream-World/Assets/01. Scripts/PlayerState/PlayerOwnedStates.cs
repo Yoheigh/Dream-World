@@ -8,9 +8,10 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerMovement _entity)
         {
-            _entity.InitTest();
             _entity.animator.SetBool("isClimbing", false);
             _entity.animator.SetBool("isHolding", false);
+
+            _entity.InitTest();
         }
 
         public override void UpdateState(PlayerMovement _entity)
@@ -30,18 +31,18 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerMovement _entity)
         {
-            throw new System.NotImplementedException();
-        }
 
-        public override void ExitState(PlayerMovement _entity)
-        {
-            throw new System.NotImplementedException();
         }
 
         public override void UpdateState(PlayerMovement _entity)
         {
-            throw new System.NotImplementedException();
+
         }
+        public override void ExitState(PlayerMovement _entity)
+        {
+
+        }
+
     }
 
     public class DraggingState : State<PlayerMovement>
@@ -52,17 +53,17 @@ namespace PlayerOwnedStates
             _entity.animator.SetBool("isHolding", true);
         }
 
-        public override void ExitState(PlayerMovement _entity)
-        {
-
-        }
-
         public override void UpdateState(PlayerMovement _entity)
         {
             _entity.GroundCheck();
             _entity.Gravity();
             _entity.MoveHolding();
         }
+        public override void ExitState(PlayerMovement _entity)
+        {
+
+        }
+
     }
 
     public class ClimbingState : State<PlayerMovement>
@@ -73,16 +74,16 @@ namespace PlayerOwnedStates
             _entity.animator.SetBool("isClimbing", true);
         }
 
-        public override void ExitState(PlayerMovement _entity)
-        {
-            _entity.gameObject.GetComponent<PlayerInteraction>().IsInteracting = false;
-            Debug.Log(_entity.gameObject.GetComponent<PlayerInteraction>().IsInteracting);
-        }
-
         public override void UpdateState(PlayerMovement _entity)
         {
             _entity.MoveVertical();
+            // _entity.SnapToVerticalPoint();
         }
+        public override void ExitState(PlayerMovement _entity)
+        {
+            _entity.gameObject.GetComponent<PlayerInteraction>().IsInteracting = false;
+        }
+
     }
 
     public class CinematicState : State<PlayerMovement>
@@ -92,14 +93,14 @@ namespace PlayerOwnedStates
             throw new System.NotImplementedException();
         }
 
+        public override void UpdateState(PlayerMovement _entity)
+        {
+            throw new System.NotImplementedException();
+        }
         public override void ExitState(PlayerMovement _entity)
         {
             throw new System.NotImplementedException();
         }
 
-        public override void UpdateState(PlayerMovement _entity)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

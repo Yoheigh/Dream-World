@@ -34,7 +34,7 @@ public class CraftingTable : MonoBehaviour
     Inventory inventory;
     private void Start()
     {
-        slots = slotsHolder.GetComponentsInChildren<CraftingSlot>();
+        // slots = slotsHolder.GetComponentsInChildren<CraftingSlot>();
 
         inventory = Inventory.instance;
         inventory.onChangeItem += CheckCanCrafting;

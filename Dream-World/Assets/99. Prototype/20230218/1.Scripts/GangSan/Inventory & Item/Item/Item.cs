@@ -11,6 +11,8 @@ public enum ItemType
 [System.Serializable]
 public class Item
 {
+    [Header("Item")]
+    [Tooltip("아이템 ID")]
     public int itemID;
     [Tooltip("아이템 타입")]
     public ItemType itemType;

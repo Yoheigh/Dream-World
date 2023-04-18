@@ -117,13 +117,13 @@ public class PlayerController : Singleton<PlayerController>
 
     public void Interact(InputAction.CallbackContext context)
     {
-        if (isControl == false) return;
+        interact.Interact();
 
     }
 
     public void InteractWith(IInteractable interactable)
     {
-
+        interact.InteractWithEquipment();
     }
 
     public void ChangeTools()

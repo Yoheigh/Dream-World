@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    public float TriggerTime = 0.5f;  // 사다리에 비비기 상호작용 테스트
+    [Header("PlayerInteraction")]
+    [Tooltip("접촉한 오브젝트와 상호작용하기 까지 TriggerTime 초 걸립니다.")]
+    public float TriggerTime = 0.3f;
     
     [SerializeField]
     private float triggerTime;
@@ -36,12 +38,54 @@ public class PlayerInteraction : MonoBehaviour
 
     public void Interact()
     {
+        if (fov.ClosestTransform != null)
+        {
+            Debug.Log(fov.ClosestTransform);
+        }
+            
 
+        Debug.Log("인터랙션~");
     }
 
     public void InteractWithEquipment()
     {
         currentEquipment.InteractWithEquipment();
+    }
+
+    public void ChangeEquipment(PlayerEquipment _newEquipment)
+    {
+        currentEquipment = _newEquipment;
+    }
+
+    public void StopUseItem()
+    {
+        CraftingTable.instance.SlotOutLineRedrow(-1);
+
+        List<GameObject> childs = new List<GameObject>();
+        for (int j = 0; j < gameObject.transform.Find("HandItems").childCount; j++)
+        {
+            childs.Add(gameObject.transform.Find("HandItems").GetChild(j).gameObject);
+        }
+
+        foreach (GameObject gameObject_ in childs)
+        {
+            Destroy(gameObject_);
+        }
+    }
+
+    public void UseItem(int itemSlotCount)
+    {
+        StopUseItem();
+
+        int itemID = CraftingTable.instance.SlotOutLineRedrow(itemSlotCount);
+
+        foreach (Item item in Inventory.instance.equipmentItems)
+        {
+            if (item.itemID == itemID)
+            {
+                Instantiate(Resources.Load<GameObject>(item.itemGameObjectPath), gameObject.transform.Find("HandItems"));
+            }
+        }
     }
 
     private void Update()
@@ -69,7 +113,16 @@ public class PlayerInteraction : MonoBehaviour
             obj = col;
         }
     }
-    
+
+
+    private void OnTriggerExit(Collider col)
+    {
+        if (col.CompareTag("Ladder"))
+        {
+            triggerTime = TriggerTime;
+        }
+    }
+
     private void SnapPlayerPos()
     {
         var ladder = obj.transform.GetComponent<Ladder>();

@@ -5,24 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class DropItem : MonoBehaviour, ICollectable
 {
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
-
-    private IEnumerator FloatingMovement()
-    {
-        yield return null;
-    }
+    [SerializeField]
+    private int itemID;
 
     public void Collect()
     {
+        Debug.Log("Collected");
+        Inventory.instance.AddItem(itemID);
         Destroy(this.gameObject);
-        // ItemDatabass.instance.GetItem();
     }
 }

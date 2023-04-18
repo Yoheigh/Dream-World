@@ -1,27 +1,40 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GridSystem : MonoBehaviour
 {
+    [SerializeField]
     public BlockData[,,] blockDatas;
 
-    public float gridSize = 1f;
+    private Grid<BlockData> StageGrid;
+
+    public int StageWidth = 100;
+    public int StageHeight = 30;
+
+    [Tooltip("ì›¬ë§Œí•˜ë©´ ì•ˆ ê±´ë“œëŠ” ê²Œ ì •ì‹ ê±´ê°•ì— ì¢‹ì„ ê²ë‹ˆë‹¤")]
+    public float BlockSize = 1f;
     public float offset = 0.5f;
 
-    public int maxGridX = 5;
-    public int maxGridY = 1;
-    public int maxGridZ = 5;
-
-    public float gridX;
-    public float gridY;
-    public float gridZ;
+    
 
     public float cellSize = 0.1f;
 
-    void Start()
+    void Awake()
     {
+        StageGrid = new Grid<BlockData>(StageWidth, StageHeight, Vector3.zero,
+                                        () => new BlockData());
+    }
 
+    private void Start()
+    {
+        //StageGrid.SetGridObject(1, 0, 0, ItemDatabass.instance.GetBlock(10002));
+        //Debug.Log(StageGrid.GetGridObject(0, 0, 0).blockName);
+        //Debug.Log(StageGrid.GetGridObject(5, 1, 3).blockName);
+        //Debug.Log(StageGrid.GetGridObject(512, 175, 3).blockName);
+        //Debug.Log(StageGrid.GetGridObject(1, 0, 0).blockName);
+
+        GenerateStageBlocks();
     }
 
     // Update is called once per frame
@@ -30,8 +43,20 @@ public class GridSystem : MonoBehaviour
 
     }
 
-    
-    // ÀÌ ÇÔ¼ö ¿¡µğÅÍ »ç¾ç ¾öÃ» Àâ¾Æ¸ÔÀ½ ¤Ñ¤Ñ
+    void GenerateStageBlocks()
+    {
+        for(int x = 0; x < StageGrid.gridX; x++) {
+            for (int y = 0; y < StageGrid.gridY; x++)
+            {
+                for (int z = 0; z < StageGrid.gridZ; x++)
+                {
+                    Debug.Log($"{x},{y},{z}");
+                }
+            }
+        }
+    }
+
+    // ì´ í•¨ìˆ˜ ì—ë””í„° ì‚¬ì–‘ ì—„ì²­ ì¡ì•„ë¨¹ìŒ ã…¡ã…¡
     //private void OnDrawGizmos()
     //{
     //    Gizmos.color = Color.green;
