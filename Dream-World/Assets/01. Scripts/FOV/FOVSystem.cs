@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum ObjectTagType
+{
+    Block = 0, Interactable, Item
+}
+
 public class FOVSystem : MonoBehaviour
 {
+    public ObjectTagType targetTag = ObjectTagType.Interactable;
+
     public float viewRadius;            //시야 거리
     public float viewAngle;             //시야 각
     public float refreshDelay = 0.1f;  // 추가 : 코루틴 속도
@@ -15,7 +22,7 @@ public class FOVSystem : MonoBehaviour
       set => closestTransform = value;
     }  // 얘도 추가요~
 
-    private Renderer tempRenderer;              // 이상신 추가요~
+    private Renderer tempRenderer;
 
     public LayerMask targetMask;
     public LayerMask obstacleMask;
@@ -42,7 +49,7 @@ public class FOVSystem : MonoBehaviour
 
     public void SetTargetLayer(LayerMask targetLayer)
     {
-        targetMask.Equals(targetLayer);
+        targetMask = targetLayer;
     }
 
     public Transform GetClosestTarget()
@@ -69,6 +76,8 @@ public class FOVSystem : MonoBehaviour
     {
         if (GetClosestTarget() != null)
         {
+            if (!ClosestTransform.CompareTag(targetTag.ToString())) return;
+
             Renderer renderer = ClosestTransform.GetComponentInChildren<Renderer>();
 
             if (renderer == null) return;

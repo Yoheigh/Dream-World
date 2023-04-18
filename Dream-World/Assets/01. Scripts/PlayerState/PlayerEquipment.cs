@@ -4,23 +4,27 @@ using UnityEngine;
 
 public enum PlayerEquipmentType
 {
-    Melee = 0, Ranged, Special
+    None = 0, Tool, Consumable
 }
 
-public class PlayerEquipment : MonoBehaviour
+public abstract class PlayerEquipment : MonoBehaviour
 {
     [Header("Player Equipment")]
     [SerializeField]
     protected PlayerEquipmentType equipmentType;
 
-    //[SerializeField]
-    //protected EquipmentData equipmentData;
+    // protected EquipmentData equipmentData;
 
+    [SerializeField]
+    private GameObject EquipmentPrefab;
+
+    public abstract void InteractWithEquipment();
 
 }
 
 public struct ToolData
 {
+    public PlayerEquipmentType equipmentType;
     public int toolID;
     public string toolName;
     public float toolRange;

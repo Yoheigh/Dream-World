@@ -5,7 +5,11 @@ using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using PlayerOwnedStates;
+
+public enum ControlStatus
+{
+    available = 0, unavailable = 1, UI = 2
+}
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(CustomInput))]
@@ -36,23 +40,13 @@ public class PlayerController : Singleton<PlayerController>
 
     #endregion
 
+    private ControlStatus controlStatus;
+
     // 내부 변수
     private float cinemachineTargetYaw;
     private float cinemachineTargetPitch;
 
     private float threshold = 0.01f;
-
-    //// 프로토타입용 애니메이션 State 변수
-    //private const string PLAYER_IDLE = "Player_Idle";
-    //private const string PLAYER_WALK = "Player_Walk";
-    //private const string PLAYER_SPRINT = "Player_Sprint";
-    //private const string PLAYER_ACTION_SHOVEL = "Player_Action_Shovel";
-    //private const string PLAYER_ACTION_PICKAXE = "Player_Action_Pickaxe";
-    //private const string PLAYER_ACTION_AXE = "Player_Action_Axe";
-    //private const string PLAYER_ACTION_PICKUP = "Player_Action_PickUp";
-    //private const string PLAYER_ACTION_PLACE = "Player_Action_Place";
-    //private const string PLAYER_ACTION_THROW = "Player_Action_Throw";
-    //private string animCurrentState = null;
 
     private bool isControl = true; // 플레이어 컨트롤 가능 여부
 
@@ -62,19 +56,19 @@ public class PlayerController : Singleton<PlayerController>
     public CustomInput input;
     private Animator animator;
     private PlayerMovement move;
+    private PlayerInteraction interact;
     private GameObject MainCamera;
     private FOVSystem fov;
 
     // ★테스트용
     public Text currentTool; // 강교수님 보여드리려고 만든 텍스트
-    float TriggerTime = 0;  // 사다리에 비비기 상호작용 테스트
 
     protected override void Awake2()
     {
         if (MainCamera == null)
             MainCamera = Camera.main.gameObject;
-    }
 
+    }
 
     void Start()
     {
@@ -82,19 +76,21 @@ public class PlayerController : Singleton<PlayerController>
         animator = GetComponentInChildren<Animator>();
         input = GetComponent<CustomInput>();
         move = GetComponent<PlayerMovement>();
+        interact = GetComponent<PlayerInteraction>();
         fov = GetComponent<FOVSystem>();
 
         input.RegisterInteractStarted(Interact);
         input.RegisterChangeToolStarted(ChangeTool);
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Locked;
 
         //currentTool.text = "현재 도구 : " + interactions.ToString();
     }
 
     private void Update()
     {
-        //move.GroundedCheck();
-        //move.Gravity();
-        //move.Move();
+
     }
 
     private void LateUpdate()
@@ -168,26 +164,5 @@ public class PlayerController : Singleton<PlayerController>
         if (lfAngle < -360f) lfAngle += 360f;
         if (lfAngle > 360f) lfAngle -= 360f;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
-    }
-
-    private void OnTriggerStay(Collider col)
-    {
-        if(col.CompareTag("Dragable"))
-        {
-            TriggerTime = input.move.magnitude > 0.01f ? TriggerTime + Time.deltaTime : 0.0f;
-
-            if (TriggerTime > 0.8f)
-            {
-                col.transform.SetParent(this.transform, true);  // 한 번만 하도록
-                // 해당 오브젝트 rigidbody에서 중력 꺼야함
-                Debug.Log("상호작용 시작");
-
-            }
-            else if (TriggerTime == 0.0f)
-            {
-                col.transform.parent = null;
-                Debug.Log("상호작용 끝!");
-            }
-        }
     }
 }

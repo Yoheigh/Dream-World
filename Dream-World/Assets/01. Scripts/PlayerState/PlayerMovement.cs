@@ -57,22 +57,27 @@ public class PlayerMovement : MonoBehaviour
     private float fallTimeoutDelta;
     private float terminalVelocityMax = 20.0f;
     private float terminalVelocityMin = -5.0f;
+    private Vector3 currentPos;
+    private Vector3 lastPos;
+    private float maxReachPoint;
 
     private Vector3 spherePosition;     // 바닥 인식할 구(Sphere) 시작점
 
     // 애니메이션 값
     public int animIDSpeed;
     public float animationBlend;
+    public int animIDHoldMove;
     public int animIDMotionSpeed;
 
     private StateMachine<PlayerMovement> movementFSM;
     private State<PlayerMovement>[] movementStates;
 
     // private PlayerController controller;
+    private PlayerInteraction playerInteraction; // 리팩토링 필요
     private CharacterController characterController;
     private CustomInput input;
     private GameObject MainCamera;
-    private Animator animator;
+    public Animator animator;
 
     private void Start()
     {
@@ -83,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         input = GetComponent<CustomInput>();
         animator = GetComponentInChildren<Animator>();
+        playerInteraction = GetComponent<PlayerInteraction>();
 
         AssignAnimationIDs();
         fallTimeoutDelta = fallTimeout;
@@ -110,13 +116,27 @@ public class PlayerMovement : MonoBehaviour
         movementFSM.Setup(this, movementStates[0]);
     }
 
+    public void InitTest()
+    {
+        fallTimeoutDelta = fallTimeout;
+        currentPos = Vector3.zero;
+        lastPos = Vector3.zero;
+    }
+
     public void AssignAnimationIDs()
     {
         animIDSpeed = Animator.StringToHash("Speed");
+        animIDHoldMove = Animator.StringToHash("Direction");
+
         //animIDGrounded = Animator.StringToHash("Grounded");
         //animIDJump = Animator.StringToHash("Jump");
         //animIDFreeFall = Animator.StringToHash("FreeFall");
         animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+    }
+
+    public void ChangeMoveState(PlayerStateType _type)
+    {
+        movementFSM.ChangeState(movementStates[(int)_type]);
     }
 
     public void GroundCheck()
@@ -191,6 +211,93 @@ public class PlayerMovement : MonoBehaviour
 
         //transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * 20f);
         // t_n =  (t - min)/(max - min)
+
+        animator.SetFloat(animIDSpeed, animationBlend);
+        animator.SetFloat(animIDMotionSpeed, inputMagnitude);
+    }
+
+    public void MoveHolding()
+    {
+        float targetSpeed = moveSpeed;
+
+        if (input.move == Vector2.zero)
+        {
+            targetSpeed = 0.0f;
+        }
+
+        Vector3 moveDir = new Vector3(input.move.x, 0, input.move.y);
+        float inputMagnitude = input.move.magnitude;
+
+        Vector3 targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) *
+                                    new Vector3(0.0f, 0.0f, input.move.y);
+
+        // animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.deltaTime * speedChangeRate);
+        animationBlend = input.move.y;
+
+        //if (animationBlend < 0.01f) animationBlend = 0f;
+
+        //if (input.move != Vector2.zero)
+        //{
+        //    targetRotation = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg +
+        //                      MainCamera.transform.eulerAngles.y;
+        //}
+
+         characterController.Move(targetDirection * (targetSpeed * Time.deltaTime) +
+                                new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+
+        //transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * 20f);
+        // t_n =  (t - min)/(max - min)
+
+        animator.SetFloat(animIDHoldMove, animationBlend);
+        animator.SetFloat(animIDMotionSpeed, inputMagnitude);
+    }
+
+    public void SetVerticalPoint(Vector3 _pivot, float _maxReachPoint)
+    {
+        lastPos = _pivot;
+        currentPos = _pivot;
+        maxReachPoint = _maxReachPoint;
+
+    }
+
+    public void MoveVertical() // Vector3 _startPos, float _maxReachPoint 이러헥 쓰고 싶었는데 ㅠㅠ
+    {
+        float targetSpeed = moveSpeed;
+
+        if (input.move == Vector2.zero)
+        {
+            targetSpeed = 0.0f;
+        }
+
+        if (currentPos.y > lastPos.y + maxReachPoint)
+            ChangeMoveState(PlayerStateType.Default);
+
+        else if(currentPos.y <= lastPos.y - 1f)
+            ChangeMoveState(PlayerStateType.Default);
+
+        Vector3 moveDir = new Vector3(input.move.x, 0, input.move.y);
+        float inputMagnitude = input.move.magnitude;
+
+        Vector3 targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * 
+                                    new Vector3(0.0f, input.move.y, 0.0f);
+
+        animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.deltaTime * speedChangeRate);
+
+        if (animationBlend < 0.01f) animationBlend = 0f;
+
+        //if (input.move != Vector2.zero)
+        //{
+        //    targetRotation = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg +
+        //                      MainCamera.transform.eulerAngles.y;
+        //}
+
+        characterController.Move(targetDirection * (targetSpeed * Time.deltaTime));
+        currentPos.y += input.move.y * targetSpeed * Time.deltaTime;
+
+        //transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * 20f);
+        // t_n =  (t - min)/(max - min)
+
+        transform.position = new Vector3(lastPos.x, transform.position.y, lastPos.z);
 
         animator.SetFloat(animIDSpeed, animationBlend);
         animator.SetFloat(animIDMotionSpeed, inputMagnitude);

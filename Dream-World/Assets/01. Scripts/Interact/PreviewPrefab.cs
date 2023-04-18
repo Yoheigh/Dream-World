@@ -2,18 +2,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PreviewPrefab : MonoBehaviour
+public class PreviewPrefab : Constructure
 {
-    private Renderer renderer;
+    [SerializeField]
+    private GameObject ConstructurePrefab;
+
+    [SerializeField]
+    private GameObject BuildVFX;
+
+    [SerializeField]
+    private Material previewMaterial;
 
     void Start()
     {
-        renderer = GetComponent<Renderer>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        renderer.material.color = new Color(0.8f, 0.8f, 0.8f, 0.5f);
+
+    }
+
+
+    protected void Construct()
+    {
+
+    }
+
+    protected void ConstructionFinish()
+    {
+
+    }
+
+    private IEnumerator ConstructEffect()
+    {
+        var wait = new WaitForSeconds(0.5f);
+
+        for (int i = 0; i < 6; i++)
+        {
+            float x = Random.Range(-0.5f, 0.5f);
+            float y = Random.Range(-0.5f, 0.5f);
+            float z = Random.Range(-0.5f, 0.5f);
+            GameObject obj = Instantiate(BuildVFX, new Vector3(x, y, z), Quaternion.identity);
+            Destroy(obj, 4f);
+            yield return wait;
+        }
+
+        ConstructionFinish();
+
     }
 }
