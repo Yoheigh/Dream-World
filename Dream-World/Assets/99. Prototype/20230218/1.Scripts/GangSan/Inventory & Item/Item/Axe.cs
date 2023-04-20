@@ -2,21 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Axe : PlayerEquipment , HandItem
+public class Axe : PlayerEquipment , HandItem // ?
 {
-    public Item axe;            
-    private void Start()
-    {
+    IngredientObjectType effectiveType = IngredientObjectType.Wood;
 
-    }
-    private void OnDestroy()
+    public override void InteractWithEquipment(IngredientObject obj)
     {
-        
+        obj.GetObjectType();
+        if(obj.GetObjectType() == effectiveType)
+        {
+            obj.AffectedByEquipment();
+        }
+        else
+        {
+            Debug.Log("호환되지 않는 도구입니다");
+        }
     }
 
-    public override void InteractWithEquipment()
-    {
-
-    }
 }
 

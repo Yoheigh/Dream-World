@@ -74,6 +74,8 @@ public class PlayerMovement : MonoBehaviour
     private StateMachine<PlayerMovement> movementFSM;
     private State<PlayerMovement>[] movementStates;
 
+    private string animCurrentState;
+
     // private PlayerController controller;
     private PlayerInteraction playerInteraction; // 리팩토링 필요
     private CharacterController characterController;
@@ -219,8 +221,13 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat(animIDMotionSpeed, inputMagnitude);
     }
 
-    public void MoveHolding()
+    public void MoveHolding(Transform _DragableObject)
     {
+        if(Keyboard.current.fKey.isPressed)
+        {
+            ChangeMoveState(PlayerStateType.Default);
+        }
+
         float targetSpeed = moveSpeed;
 
         if (input.move == Vector2.zero)
@@ -247,6 +254,8 @@ public class PlayerMovement : MonoBehaviour
 
          characterController.Move(targetDirection * (targetSpeed * Time.deltaTime) +
                                 new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+
+        _DragableObject.position += targetDirection * (targetSpeed * Time.deltaTime);
 
         //transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * 20f);
         // t_n =  (t - min)/(max - min)
@@ -313,27 +322,25 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat(animIDMotionSpeed, inputMagnitude);
     }
 
-    //private void ChangeAnimationState(string animState)
-    //{
-    //    if (animCurrentState == animState)
-    //        return;
+    public void ChangeAnimationState(string animState)
+    {
+        if (animCurrentState == animState)
+            return;
 
-    //    animator.Play(animState);
-    //    animCurrentState = animState;
-    //}
+        animator.Play(animState);
+        animCurrentState = animState;
+    }
 
-    //private IEnumerator AnimationDelay(string animState, float delay)
-    //{
-    //    isControl = false;
-    //    ChangeAnimationState(animState);
+    private IEnumerator AnimationDelay(string animState, float delay)
+    {
+        ChangeAnimationState(animState);
 
-    //    // float temp = animator.GetCurrentAnimatorStateInfo(0).length;
+        // float temp = animator.GetCurrentAnimatorStateInfo(0).length;
 
-    //    yield return new WaitForSeconds(delay);
-    //    // 현재 재생중인 애니메이션의 길이 만큼 대기...인데 급해서 좀;
-    //    animCurrentState = null;
-    //    isControl = true;
-    //}
+        yield return new WaitForSeconds(delay);
+        // 현재 재생중인 애니메이션의 길이 만큼 대기...인데 급해서 좀;
+        animCurrentState = null;
+    }
 
     private void OnDrawGizmos()
     {

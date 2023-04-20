@@ -27,15 +27,15 @@ public class PreviewPrefab : Constructure
 
     protected void Construct()
     {
-
+        StartCoroutine(ConstructWithEffect());
     }
 
     protected void ConstructionFinish()
     {
-
+        Instantiate(ConstructurePrefab, transform.position, transform.rotation);
     }
 
-    private IEnumerator ConstructEffect()
+    private IEnumerator ConstructWithEffect()
     {
         var wait = new WaitForSeconds(0.5f);
 
@@ -50,6 +50,6 @@ public class PreviewPrefab : Constructure
         }
 
         ConstructionFinish();
-
+        Destroy(gameObject);
     }
 }

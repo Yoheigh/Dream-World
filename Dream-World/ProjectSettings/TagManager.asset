@@ -21,12 +21,12 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - LivingEntity
   - Water
   - UI
   - Block
+  - IngredientObject
   - Interactable
-  - 
   - 
   - 
   - 

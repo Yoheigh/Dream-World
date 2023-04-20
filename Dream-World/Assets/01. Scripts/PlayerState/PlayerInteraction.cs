@@ -1,11 +1,14 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Jobs;
+using UnityEngine.Rendering.PostProcessing;
 
 public class PlayerInteraction : MonoBehaviour
 {
     [Header("PlayerInteraction")]
-    [Tooltip("¡¢√À«— ø¿∫Í¡ß∆ÆøÕ ªÛ»£¿€øÎ«œ±‚ ±Ó¡ˆ TriggerTime √  ∞…∏≥¥œ¥Ÿ.")]
+    [Tooltip("Ï†ëÏ¥âÌïú Ïò§Î∏åÏ†ùÌä∏ÏôÄ ÏûêÎèôÏúºÎ°ú ÏÉÅÌò∏ÏûëÏö©ÌïòÍ∏∞ ÍπåÏßÄ TriggerTime Ï¥à Í±∏Î¶ΩÎãàÎã§.")]
     public float TriggerTime = 0.3f;
     
     [SerializeField]
@@ -19,9 +22,17 @@ public class PlayerInteraction : MonoBehaviour
         set => isInteracting = value;
     }
 
+    [SerializeField]
+    private Transform BlockPointer;
+    private Vector3 targetBlockPos;
+
+    [SerializeField]
+    private GameObject previewPrefab;
+    //private Vector3 targetBlockOriginPos = new Vector3(0, 0, 1.1f);
+
     private PlayerEquipment currentEquipment;
 
-    private Collider obj;
+    public Collider obj;
 
     private CustomInput input;
     private FOVSystem fov;
@@ -34,62 +45,62 @@ public class PlayerInteraction : MonoBehaviour
         fov = GetComponent<FOVSystem>();
         move = GetComponent<PlayerMovement>();
         triggerTime = TriggerTime;
+
     }
 
     public void Interact()
     {
-        if (fov.ClosestTransform != null)
+        if(obj != null)
         {
-            Debug.Log(fov.ClosestTransform);
+            if(obj.CompareTag("Dragable"))
+            { 
+                isInteracting = true;
+                move.ChangeMoveState(PlayerStateType.Dragging);
+            }
+            return;
         }
-            
 
-        Debug.Log("¿Œ≈Õ∑¢º«~");
+        if (fov.ClosestInteractTransform != null)
+        {
+            if (fov.ClosestInteractTransform.CompareTag("Item"))
+                Debug.Log(fov.ClosestTransform);
+
+            //else if (fov.ClosestInteractTransform.CompareTag("Dragable"))
+            //{
+            //        isInteracting = true;
+            //        move.ChangeMoveState(PlayerStateType.Dragging);
+            //}
+        }
     }
 
     public void InteractWithEquipment()
     {
-        currentEquipment.InteractWithEquipment();
+        currentEquipment.InteractWithEquipment(fov.ClosestTransform.GetComponent<IngredientObject>());
+        PlayerInteractAnimation();
+    }
+
+    public void PlayerInteractAnimation()
+    {
+        if (currentEquipment.name == "Axe")
+            move.ChangeAnimationState("Player_Action_Axe");
+        else if (currentEquipment.name == "Pickaxe")
+            move.ChangeAnimationState("Player_Action_Pickaxe");
+        else if (currentEquipment.name == "Shovel")
+            move.ChangeAnimationState("Player_Action_Shovel");
+
     }
 
     public void ChangeEquipment(PlayerEquipment _newEquipment)
     {
+        currentEquipment.gameObject.SetActive(false);
         currentEquipment = _newEquipment;
-    }
-
-    public void StopUseItem()
-    {
-        CraftingTable.instance.SlotOutLineRedrow(-1);
-
-        List<GameObject> childs = new List<GameObject>();
-        for (int j = 0; j < gameObject.transform.Find("HandItems").childCount; j++)
-        {
-            childs.Add(gameObject.transform.Find("HandItems").GetChild(j).gameObject);
-        }
-
-        foreach (GameObject gameObject_ in childs)
-        {
-            Destroy(gameObject_);
-        }
-    }
-
-    public void UseItem(int itemSlotCount)
-    {
-        StopUseItem();
-
-        int itemID = CraftingTable.instance.SlotOutLineRedrow(itemSlotCount);
-
-        foreach (Item item in Inventory.instance.equipmentItems)
-        {
-            if (item.itemID == itemID)
-            {
-                Instantiate(Resources.Load<GameObject>(item.itemGameObjectPath), gameObject.transform.Find("HandItems"));
-            }
-        }
+        currentEquipment.gameObject.SetActive(true);
     }
 
     private void Update()
     {
+        Debug.Log(GetClosestBlockData().blockID);
+
         if (isInteracting) return;
 
         if (triggerTime <= 0.0f)
@@ -102,25 +113,17 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
     }
-
-    private void OnTriggerStay(Collider col)
+    
+    private BlockData GetClosestBlockData()
     {
-        if (isInteracting) return;
+        targetBlockPos = BlockPointer.position;
+        int x = Mathf.FloorToInt(targetBlockPos.x);
+        int y = Mathf.FloorToInt(targetBlockPos.y);
+        int z = Mathf.FloorToInt(targetBlockPos.z);
 
-        if (col.CompareTag("Ladder"))
-        {
-            triggerTime = input.move.magnitude > 0.01f ? triggerTime - Time.deltaTime : TriggerTime;
-            obj = col;
-        }
-    }
+        //Debug.Log(new Vector3(x, y, z));
 
-
-    private void OnTriggerExit(Collider col)
-    {
-        if (col.CompareTag("Ladder"))
-        {
-            triggerTime = TriggerTime;
-        }
+        return GridSystem.Instance.StageGrid.GetGridObject(targetBlockPos);
     }
 
     private void SnapPlayerPos()
@@ -130,4 +133,56 @@ public class PlayerInteraction : MonoBehaviour
         move.ChangeMoveState(PlayerStateType.Climbing);
         obj = null;
     }
+
+    private void OnTriggerStay(Collider col)
+    {
+        if (isInteracting) return;
+
+        obj = col;
+
+        if (col.CompareTag("Ladder"))
+        {
+            triggerTime = input.move.magnitude > 0.01f ? triggerTime - Time.deltaTime : TriggerTime;
+        }
+    }
+
+    private void OnTriggerExit(Collider col)
+    {
+        if (col.CompareTag("Ladder"))
+        {
+            triggerTime = TriggerTime;
+        }
+    }
+
+    //public void StopUseItem()
+    //{
+    //    CraftingTable.instance.SlotOutLineRedrow(-1);
+
+    //    List<GameObject> childs = new List<GameObject>();
+    //    for (int j = 0; j < gameObject.transform.Find("HandItems").childCount; j++)
+    //    {
+    //        childs.Add(gameObject.transform.Find("HandItems").GetChild(j).gameObject);
+    //    }
+
+    //    foreach (GameObject gameObject_ in childs)
+    //    {
+    //        Destroy(gameObject_);
+    //    }
+    //}
+
+    //public void UseItem(int itemSlotCount)
+    //{
+    //    StopUseItem();
+
+    //    int itemID = CraftingTable.instance.SlotOutLineRedrow(itemSlotCount);
+
+    //    foreach (Item item in Inventory.instance.equipmentItems)
+    //    {
+    //        if (item.itemID == itemID)
+    //        {
+    //            Instantiate(Resources.Load<GameObject>(item.itemGameObjectPath), gameObject.transform.Find("HandItems"));
+    //        }
+    //    }
+    //}
+
 }

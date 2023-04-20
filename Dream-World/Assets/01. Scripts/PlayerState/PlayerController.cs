@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.UI;
 
 public enum ControlStatus
@@ -13,7 +14,7 @@ public enum ControlStatus
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(CustomInput))]
-public class PlayerController : Singleton<PlayerController>
+public class PlayerController : MonoBehaviour
 {
     #region 기본 설정
     
@@ -54,7 +55,6 @@ public class PlayerController : Singleton<PlayerController>
     //private Tool currentPlayerTool;
 
     public CustomInput input;
-    private Animator animator;
     private PlayerMovement move;
     private PlayerInteraction interact;
     private GameObject MainCamera;
@@ -63,17 +63,15 @@ public class PlayerController : Singleton<PlayerController>
     // ★테스트용
     public Text currentTool; // 강교수님 보여드리려고 만든 텍스트
 
-    protected override void Awake2()
+    void Awake()
     {
         if (MainCamera == null)
             MainCamera = Camera.main.gameObject;
-
     }
 
     void Start()
     {
         cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-        animator = GetComponentInChildren<Animator>();
         input = GetComponent<CustomInput>();
         move = GetComponent<PlayerMovement>();
         interact = GetComponent<PlayerInteraction>();
@@ -82,8 +80,8 @@ public class PlayerController : Singleton<PlayerController>
         input.RegisterInteractStarted(Interact);
         input.RegisterChangeToolStarted(ChangeTool);
 
-        Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         //currentTool.text = "현재 도구 : " + interactions.ToString();
     }
@@ -121,7 +119,7 @@ public class PlayerController : Singleton<PlayerController>
 
     }
 
-    public void InteractWith(IInteractable interactable)
+    public void DoAction(InputAction.CallbackContext context)
     {
         interact.InteractWithEquipment();
     }
@@ -147,16 +145,10 @@ public class PlayerController : Singleton<PlayerController>
         cinemachineTargetYaw = ClampAngle(cinemachineTargetYaw, float.MinValue, float.MaxValue);
         cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, cameraBottomClamp, cameraTopClamp);
 
-        // Cinemachine will follow this target
+            // Cinemachine will follow this target
         CinemachineCameraTarget.transform.rotation = Quaternion.Euler(cinemachineTargetPitch,
-            cinemachineTargetYaw, 0.0f);
-    }
-
-    
-
-    private void SnapToObject()
-    {
-
+        cinemachineTargetYaw, 0.0f);
+        
     }
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)

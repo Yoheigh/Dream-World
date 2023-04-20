@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class GridSystem : MonoBehaviour
+public class GridSystem : Singleton<GridSystem>
 {
     [SerializeField]
     public BlockData[,,] blockDatas;
 
-    private Grid<BlockData> StageGrid;
+    private Grid<BlockData> stageGrid;
+    public Grid<BlockData> StageGrid { private set { } get { return stageGrid; } }
 
     public int StageWidth = 100;
     public int StageHeight = 30;
@@ -16,41 +18,33 @@ public class GridSystem : MonoBehaviour
     public float BlockSize = 1f;
     public float offset = 0.5f;
 
-    
-
     public float cellSize = 0.1f;
 
-    void Awake()
+    protected override void Awake2()
     {
-        StageGrid = new Grid<BlockData>(StageWidth, StageHeight, Vector3.zero,
+        stageGrid = new Grid<BlockData>(StageWidth, StageHeight, Vector3.zero,
                                         () => new BlockData());
     }
 
     private void Start()
     {
-        //StageGrid.SetGridObject(1, 0, 0, ItemDatabass.instance.GetBlock(10002));
-        //Debug.Log(StageGrid.GetGridObject(0, 0, 0).blockName);
-        //Debug.Log(StageGrid.GetGridObject(5, 1, 3).blockName);
+        GenerateStageBlocks();
+        StageGrid.SetGridObject(1, 1, 1, ItemDatabass.instance.GetBlock(10002));
+        Debug.Log(StageGrid.GetGridObject(0, 0, 0).blockName);
+        Debug.Log(StageGrid.GetGridObject(5, 1, 3).blockName);
         //Debug.Log(StageGrid.GetGridObject(512, 175, 3).blockName);
         //Debug.Log(StageGrid.GetGridObject(1, 0, 0).blockName);
-
-        GenerateStageBlocks();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     void GenerateStageBlocks()
     {
-        for(int x = 0; x < StageGrid.gridX; x++) {
-            for (int y = 0; y < StageGrid.gridY; x++)
+        for(int x = 0; x < stageGrid.gridX; x++) 
+        {
+            for (int y = 0; y < stageGrid.gridY; y++)
             {
-                for (int z = 0; z < StageGrid.gridZ; x++)
+                for (int z = 0; z < stageGrid.gridZ; z++)
                 {
-                    Debug.Log($"{x},{y},{z}");
+                    StageGrid.SetGridObject(x, y, z, ItemDatabass.instance.GetBlock(10001));
                 }
             }
         }

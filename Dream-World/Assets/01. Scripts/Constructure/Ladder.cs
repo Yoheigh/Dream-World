@@ -5,23 +5,39 @@ using UnityEngine;
 public class Ladder : Constructure
 {
     [SerializeField]
-    private float maxConstHeight = 3f;
+    private GameObject LadderModel;
 
     [SerializeField]
-    private float ConstHeight = 1f;
+    private int maxConstHeight = 3;
 
-    public float ReachHeight = 1f;
+    [SerializeField]
+    private int baseConstHeight = 1;
 
-    //private void Start()
-    //{
-        
-    //}
+    [SerializeField]
+    private int ConstHeight = 1;
 
-    private int CheckConstHeight()
+    [SerializeField]
+    private float baseReachHeight = 1.1f;
+
+    // 얘 프로퍼티로 바꿔줄 예정
+    public float ReachHeight = 1.1f;
+
+    private void Start()
     {
-        int temp = 1;
-        return temp;
-    }    
+        CheckConstHeight();
+    }
+
+    private void CheckConstHeight()
+    {
+        if (ConstHeight == baseConstHeight) return;
+
+        for(int i = baseConstHeight; i < ConstHeight; i++)
+        {
+            Instantiate(LadderModel, transform.position + (Vector3.up * i), transform.rotation, this.transform);
+        }
+
+        ReachHeight = ConstHeight + 0.1f;
+    }
 
 
     private void OnDrawGizmos()

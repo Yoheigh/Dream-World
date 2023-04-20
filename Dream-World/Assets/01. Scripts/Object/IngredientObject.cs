@@ -3,13 +3,21 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class IngredientObject : Entity
+public enum IngredientObjectType
 {
+    Dirt = 0, Wood, Rock, Iron
+}
+
+public class IngredientObject : MonoBehaviour
+{
+    [SerializeField]
+    private IngredientObjectType objectType;
+
     [SerializeField]
     private GameObject DropItemPrefab;
 
     [SerializeField]
-    private int dropAmount = 3;
+    private int dropAmount = 1;
 
     [SerializeField]
     private float spreadOffset = 0.03f;
@@ -17,30 +25,14 @@ public class IngredientObject : Entity
     [SerializeField]
     private float spreadForce = 0.5f;
 
-    private void Update()
+    public void AffectedByEquipment()
     {
-        if (currentHP <= 0)
-        {
-            gameObject.GetComponent<Collider>().enabled = false;
-            Debug.Log("ºÎ¼­Áü!");
-
-            for (int i = 0; i < dropAmount; i++)
-            {
-                GameObject dropItem = Instantiate(DropItemPrefab);
-                dropItem.transform.position = transform.position;
-                dropItem.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-spreadForce, spreadForce), spreadForce, Random.Range(-spreadForce, spreadForce)));
-            }
-
-            Destroy(gameObject);
-        }
+        Destruction();
     }
 
-    public override void TakeDamage(int _damage)
+    public IngredientObjectType GetObjectType()
     {
-        currentHP -= _damage;
-
-        if (currentHP <= 0)
-            Destruction();
+        return objectType;
     }
 
     private void Destruction()

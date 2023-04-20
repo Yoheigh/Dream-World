@@ -1,33 +1,55 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public enum PlayerEquipmentType
 {
-    None = 0, Tool, Consumable
+    Tool = 0, Consumable
 }
 
 public abstract class PlayerEquipment : MonoBehaviour
 {
     [Header("Player Equipment")]
     [SerializeField]
-    protected PlayerEquipmentType equipmentType;
+    protected ToolData toolData;
 
-    // protected EquipmentData equipmentData;
+    [SerializeField]
+    private Vector3 originPos;
+
+    [SerializeField]
+    private Vector3 originRot;
 
     [SerializeField]
     private GameObject EquipmentPrefab;
 
-    public abstract void InteractWithEquipment();
+    private void OnEnable()
+    {
+        EquipmentPrefab.SetActive(true);
+        transform.localPosition = originPos;
+        transform.rotation = Quaternion.Euler(originRot);
+        Debug.Log("장비 변경");
+    }
+
+    private void OnDisable()
+    {
+        EquipmentPrefab.SetActive(false);
+    }
+
+    public abstract void InteractWithEquipment(IngredientObject obj);
 
 }
 
 public struct ToolData
 {
     public PlayerEquipmentType equipmentType;
+    public IngredientObjectType toolEffectiveType;
     public int toolID;
     public string toolName;
+    public string toolPrefabPath;
+    public string toolAnimName;
     public float toolRange;
     public float toolActionSpeed;
     public float toolActionDelay;
+
+    // public ToolData(int toolID, PlayerEquipmentType _equipmentType, string _toolName, string _toolPrefabPath)
 }

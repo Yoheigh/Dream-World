@@ -57,11 +57,11 @@ namespace PlayerOwnedStates
         {
             _entity.GroundCheck();
             _entity.Gravity();
-            _entity.MoveHolding();
+            _entity.MoveHolding(_entity.gameObject.GetComponent<PlayerInteraction>().obj.transform);
         }
         public override void ExitState(PlayerMovement _entity)
         {
-
+            _entity.gameObject.GetComponent<PlayerInteraction>().IsInteracting = false;
         }
 
     }

@@ -51,6 +51,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "DoAction",
+                    "type": "Button",
+                    "id": "bb2f614d-ee86-4f76-bc7d-e4e3ec21244f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Find",
                     "type": "Value",
                     "id": "33415179-5680-459b-843d-a396703c8a04",
@@ -329,6 +338,28 @@
                     "processors": "",
                     "groups": "PC",
                     "action": "ChangeTool",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7e192eac-0d24-47b7-894b-25b0053823b6",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "DoAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eca51c75-1735-4f7b-9456-1ac15a734884",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "DoAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -73,6 +73,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""DoAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""bb2f614d-ee86-4f76-bc7d-e4e3ec21244f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Find"",
                     ""type"": ""Value"",
                     ""id"": ""33415179-5680-459b-843d-a396703c8a04"",
@@ -353,6 +362,28 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""ChangeTool"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7e192eac-0d24-47b7-894b-25b0053823b6"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""DoAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eca51c75-1735-4f7b-9456-1ac15a734884"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""DoAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -388,6 +419,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_ActionMap_CursorPosition = m_ActionMap.FindAction("CursorPosition", throwIfNotFound: true);
         m_ActionMap_Jump = m_ActionMap.FindAction("Jump", throwIfNotFound: true);
         m_ActionMap_Interact = m_ActionMap.FindAction("Interact", throwIfNotFound: true);
+        m_ActionMap_DoAction = m_ActionMap.FindAction("DoAction", throwIfNotFound: true);
         m_ActionMap_Find = m_ActionMap.FindAction("Find", throwIfNotFound: true);
         m_ActionMap_Sprint = m_ActionMap.FindAction("Sprint", throwIfNotFound: true);
         m_ActionMap_ChangeTool = m_ActionMap.FindAction("ChangeTool", throwIfNotFound: true);
@@ -455,6 +487,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_ActionMap_CursorPosition;
     private readonly InputAction m_ActionMap_Jump;
     private readonly InputAction m_ActionMap_Interact;
+    private readonly InputAction m_ActionMap_DoAction;
     private readonly InputAction m_ActionMap_Find;
     private readonly InputAction m_ActionMap_Sprint;
     private readonly InputAction m_ActionMap_ChangeTool;
@@ -467,6 +500,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @CursorPosition => m_Wrapper.m_ActionMap_CursorPosition;
         public InputAction @Jump => m_Wrapper.m_ActionMap_Jump;
         public InputAction @Interact => m_Wrapper.m_ActionMap_Interact;
+        public InputAction @DoAction => m_Wrapper.m_ActionMap_DoAction;
         public InputAction @Find => m_Wrapper.m_ActionMap_Find;
         public InputAction @Sprint => m_Wrapper.m_ActionMap_Sprint;
         public InputAction @ChangeTool => m_Wrapper.m_ActionMap_ChangeTool;
@@ -494,6 +528,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Interact.started -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnInteract;
+                @DoAction.started -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnDoAction;
+                @DoAction.performed -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnDoAction;
+                @DoAction.canceled -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnDoAction;
                 @Find.started -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnFind;
                 @Find.performed -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnFind;
                 @Find.canceled -= m_Wrapper.m_ActionMapActionsCallbackInterface.OnFind;
@@ -522,6 +559,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @DoAction.started += instance.OnDoAction;
+                @DoAction.performed += instance.OnDoAction;
+                @DoAction.canceled += instance.OnDoAction;
                 @Find.started += instance.OnFind;
                 @Find.performed += instance.OnFind;
                 @Find.canceled += instance.OnFind;
@@ -551,6 +591,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnCursorPosition(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnDoAction(InputAction.CallbackContext context);
         void OnFind(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnChangeTool(InputAction.CallbackContext context);
