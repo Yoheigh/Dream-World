@@ -31,7 +31,7 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerMovement _entity)
         {
-
+            
         }
 
         public override void UpdateState(PlayerMovement _entity)
@@ -57,11 +57,14 @@ namespace PlayerOwnedStates
         {
             _entity.GroundCheck();
             _entity.Gravity();
-            _entity.MoveHolding(_entity.gameObject.GetComponent<PlayerInteraction>().obj.transform);
+            _entity.MoveHolding(_entity.gameObject.GetComponent<PlayerInteraction>().dragableObj);
         }
+
         public override void ExitState(PlayerMovement _entity)
         {
             _entity.gameObject.GetComponent<PlayerInteraction>().IsInteracting = false;
+            _entity.gameObject.GetComponent<PlayerInteraction>().dragableObj = null;
+            _entity.gameObject.GetComponent<PlayerInteraction>().obj = null;
         }
 
     }
@@ -82,24 +85,44 @@ namespace PlayerOwnedStates
         public override void ExitState(PlayerMovement _entity)
         {
             _entity.gameObject.GetComponent<PlayerInteraction>().IsInteracting = false;
+            _entity.gameObject.GetComponent<PlayerInteraction>().dragableObj = null;
+            _entity.gameObject.GetComponent<PlayerInteraction>().obj = null;
         }
 
+    }
+
+    public class InteractionState : State<PlayerMovement>
+    {
+        public override void EnterState(PlayerMovement _entity)
+        {
+
+        }
+
+        public override void UpdateState(PlayerMovement _entity)
+        {
+            _entity.GroundCheck();
+            _entity.Gravity();
+        }
+        public override void ExitState(PlayerMovement _entity)
+        {
+
+        }
     }
 
     public class CinematicState : State<PlayerMovement>
     {
         public override void EnterState(PlayerMovement _entity)
         {
-            throw new System.NotImplementedException();
+
         }
 
         public override void UpdateState(PlayerMovement _entity)
         {
-            throw new System.NotImplementedException();
+
         }
         public override void ExitState(PlayerMovement _entity)
         {
-            throw new System.NotImplementedException();
+
         }
 
     }

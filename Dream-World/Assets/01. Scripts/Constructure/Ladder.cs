@@ -1,8 +1,8 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ladder : Constructure
+public class Ladder : BlockV1
 {
     [SerializeField]
     private GameObject LadderModel;
@@ -19,24 +19,34 @@ public class Ladder : Constructure
     [SerializeField]
     private float baseReachHeight = 1.1f;
 
-    // ¾ê ÇÁ·ÎÆÛÆ¼·Î ¹Ù²ãÁÙ ¿¹Á¤
+    // ì–˜ í”„ë¡œí¼í‹°ë¡œ ë°”ê¿”ì¤„ ì˜ˆì •
     public float ReachHeight = 1.1f;
+
+    public bool isStageObject = false;
 
     private void Start()
     {
-        CheckConstHeight();
+        if(isStageObject)
+            Construct();
     }
 
-    private void CheckConstHeight()
+    public void Construct()
     {
         if (ConstHeight == baseConstHeight) return;
 
-        for(int i = baseConstHeight; i < ConstHeight; i++)
-        {
-            Instantiate(LadderModel, transform.position + (Vector3.up * i), transform.rotation, this.transform);
-        }
+        StartCoroutine(ConstructionCoroutine());
 
-        ReachHeight = ConstHeight + 0.1f;
+        ReachHeight = ConstHeight;
+    }
+    private IEnumerator ConstructionCoroutine()
+    {
+        for (int i = baseConstHeight; i < ConstHeight; i++)
+        {
+            Instantiate(LadderModel, transform.position + (Vector3.up * i), Quaternion.Euler(PivotRot), this.transform);
+            Instantiate(Resources.Load<GameObject>("07.VFX/VFX_DustPoof"), transform.position + (Vector3.up * i), Quaternion.Euler(PivotRot), this.transform);
+            Debug.Log("ëš ë”± ëš ë”±");
+            yield return new WaitForSeconds(0.8f);
+        }
     }
 
 

@@ -7,17 +7,12 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.UI;
 
-public enum ControlStatus
-{
-    available = 0, unavailable = 1, UI = 2
-}
-
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(CustomInput))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : PlayerMovement
 {
     #region 기본 설정
-    
+
     [Header("시네머신 카메라")]
     public GameObject CinemachineCameraTarget;
 
@@ -30,6 +25,15 @@ public class PlayerController : MonoBehaviour
     [Tooltip("카메라 각도 최하단을 cameraBottomClamp 도로 설정합니다.")]
     public float cameraBottomClamp = -30.0f;
 
+    [Tooltip("카메라와 플레이어 간의 최소 거리를 정합니다.")]
+    public float cameraOffsetMin = 5.0f;
+
+    [Tooltip("카메라와 플레이어 간의 최대 거리를 정합니다.")]
+    public float cameraOffsetMax = 15.0f;
+
+    [Tooltip("카메라와 플레이어 간의 거리를 조절하는 감도를 정합니다.")]
+    public float cameraScrollSensivity = 0.2f;
+
     [Tooltip("카메라를 고정합니다.")]
     public bool cameraPositionLock = false;
 
@@ -41,8 +45,6 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    private ControlStatus controlStatus;
-
     // 내부 변수
     private float cinemachineTargetYaw;
     private float cinemachineTargetPitch;
@@ -51,17 +53,8 @@ public class PlayerController : MonoBehaviour
 
     private bool isControl = true; // 플레이어 컨트롤 가능 여부
 
-    //private Tool[] playerTools;
-    //private Tool currentPlayerTool;
-
-    public CustomInput input;
-    private PlayerMovement move;
     private PlayerInteraction interact;
-    private GameObject MainCamera;
     private FOVSystem fov;
-
-    // ★테스트용
-    public Text currentTool; // 강교수님 보여드리려고 만든 텍스트
 
     void Awake()
     {
@@ -71,24 +64,25 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+
         cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-        input = GetComponent<CustomInput>();
-        move = GetComponent<PlayerMovement>();
         interact = GetComponent<PlayerInteraction>();
         fov = GetComponent<FOVSystem>();
 
         input.RegisterInteractStarted(Interact);
         input.RegisterChangeToolStarted(ChangeTool);
+        input.RegisterDoActionStarted(DoAction);
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        //currentTool.text = "현재 도구 : " + interactions.ToString();
+        base.Setup();
+
     }
 
     private void Update()
     {
-
+        base.MovementExecute();
     }
 
     private void LateUpdate()
@@ -103,14 +97,14 @@ public class PlayerController : MonoBehaviour
 
     public void ChangeTool(InputAction.CallbackContext context)
     {
-        //    if ((int)interactions >= 4)
-        //    {
-        //        interactions = 0;
-        //    }
-        //    else
-        //        interactions++;
+        interact.equipmentIndex++;
 
-        //    currentTool.text = "현재 도구 : " + interactions.ToString();
+        if (interact.equipmentIndex >= 3)
+        {
+            interact.equipmentIndex = 0;
+        }
+            
+        Debug.Log(interact.equipmentIndex);
     }
 
     public void Interact(InputAction.CallbackContext context)
@@ -149,6 +143,25 @@ public class PlayerController : MonoBehaviour
         CinemachineCameraTarget.transform.rotation = Quaternion.Euler(cinemachineTargetPitch,
         cinemachineTargetYaw, 0.0f);
         
+    }
+
+    private void CameraZoom()
+    {
+        //if (input.scroll != 0.0f)
+        //{
+        //    //float distance = Vector3.Distance(MainCamera.transform.position, CinemachineCameraTarget.transform.position);
+        //    //Vector3 direction = MainCamera.transform.forward;
+        //    //Vector3 movement = direction * input.scroll * cameraScrollSensivity;
+        //    //if (distance - movement.z < cameraOffsetMin)
+        //    //{
+        //    //    movement = direction * (distance - cameraOffsetMin);
+        //    //}
+        //    //else if (distance - movement.z > cameraOffsetMax)
+        //    //{
+        //    //    movement = direction * (distance - cameraOffsetMax);
+        //    //}
+        //    //MainCamera.transform.position += movement;
+        //}
     }
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)

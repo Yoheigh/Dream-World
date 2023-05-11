@@ -4,29 +4,20 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - CinemachineTarget
-  - Ground
-  - UI
-  - Resources_Tree
-  - Tree
-  - Resources_Iron
-  - Structure
-  - Wellspring
-  - Dragable
   - Ladder
-  - Block
-  - Interactable
+  - Dragable
   - Item
+  - Ingredient
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - LivingEntity
+  - Block
   - Water
   - UI
-  - Block
-  - IngredientObject
-  - Interactable
+  - Entity
+  - 
+  - 
   - 
   - 
   - 

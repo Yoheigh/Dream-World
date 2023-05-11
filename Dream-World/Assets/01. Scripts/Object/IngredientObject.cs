@@ -5,10 +5,10 @@ using UnityEngine;
 
 public enum IngredientObjectType
 {
-    Dirt = 0, Wood, Rock, Iron
+    Wood = 0, Rock, Dirt
 }
 
-public class IngredientObject : MonoBehaviour
+public class IngredientObject : BlockV1
 {
     [SerializeField]
     private IngredientObjectType objectType;
@@ -24,6 +24,17 @@ public class IngredientObject : MonoBehaviour
 
     [SerializeField]
     private float spreadForce = 0.5f;
+
+    public bool isConstrcution = false;
+
+    private void Update()
+    {
+        if (isConstrcution)
+        {
+            StartCoroutine(DestructionCoroutine());
+            isConstrcution = !isConstrcution;
+        }
+    }
 
     public void AffectedByEquipment()
     {
@@ -45,15 +56,17 @@ public class IngredientObject : MonoBehaviour
         gameObject.GetComponent<Collider>().enabled = false;
         Debug.Log("ºÎ¼­Áü!");
 
-        for (int i = 0; i < dropAmount; i++)
+        if(DropItemPrefab != null)
         {
-            GameObject dropItem = Instantiate(DropItemPrefab);
-            dropItem.transform.position = transform.position;
-            dropItem.GetComponent<Rigidbody>().AddForce(new Vector2(Random.Range(-spreadForce, spreadForce), Random.Range(-spreadForce, spreadForce)));
+            for (int i = 0; i < dropAmount; i++)
+            {
+                GameObject dropItem = Instantiate(DropItemPrefab);
+                dropItem.transform.position = transform.position;
+                dropItem.GetComponent<Rigidbody>().AddForce(new Vector2(Random.Range(-spreadForce, spreadForce), Random.Range(-spreadForce, spreadForce)));
+            }
         }
-
-        yield return new WaitForSeconds(2.0f);
-
+        
         Destroy(gameObject);
+        yield return null;
     }
 }

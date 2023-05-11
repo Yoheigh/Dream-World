@@ -141,7 +141,7 @@ public class FOVSystem : MonoBehaviour
             if (renderer == null) return;
 
             if (renderer != tempRenderer2 && tempRenderer2 != null)
-                tempRenderer2.material.color = Color.white;
+                tempRenderer2.material = renderer.material;
 
             renderer.material.color = new Color(0.5f, 0.5f, 1f);
             tempRenderer2 = renderer;

@@ -15,15 +15,17 @@ public class CMoveText : MonoBehaviour
     //
     private RectTransform _rtaBg;
     private Vector2 _vStartPos;
+    private Vector2 _vInitPos = new Vector2(97,0);
     private Vector2 _vDirection = Vector2.right;
     private float _fEndPosX;
 
     private void OnEnable()
     {
         _rtaBg = transform.GetComponent<RectTransform>();
-
+                
         //ins_traTitle 가변 사이즈일 수 있기 때문에.
         LayoutRebuilder.ForceRebuildLayoutImmediate(ins_traTitle);
+
         float _fTexthalf = ins_traTitle.rect.width / 2 + (_rtaBg.rect.width / 2);
         _fEndPosX = ins_traTitle.anchoredPosition.x;
 
@@ -40,8 +42,22 @@ public class CMoveText : MonoBehaviour
         _vStartPos = new Vector2(-_fEndPosX, ins_traTitle.anchoredPosition.y);
         ins_traTitle.anchoredPosition = _vStartPos;
 
+
         StartCoroutine(CorMoveText());
     }
+
+    public void InitPos()
+    {
+        //float _fTexthalf = ins_traTitle.rect.width / 2 + (_rtaBg.rect.width / 2);
+        //_fEndPosX = ins_traTitle.anchoredPosition.x;
+
+
+        //_vStartPos = new Vector2(-_fEndPosX, ins_traTitle.anchoredPosition.y);
+        //ins_traTitle.anchoredPosition = _vStartPos;
+        ins_traTitle.anchoredPosition = _vInitPos;
+
+    }
+
     private IEnumerator CorMoveText()
     {
         while (true)

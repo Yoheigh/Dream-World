@@ -4,49 +4,48 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
 using PlayerOwnedStates;
-using Unity.VisualScripting;
 
 public enum PlayerStateType
 {
-    Default = 0, Falling, Dragging, Climbing, Cinematic
+    Default = 0, Falling, Dragging, Climbing, Interaction, Cinematic
 }
 
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Default State 플레이어 설정")]
     [Tooltip("걸을 때, 1초에 moveSpeed 미터만큼 이동합니다.")]
-    public float moveSpeed = 1.0f;
+    public float moveSpeed = 2.0f;
 
     [Tooltip("달릴 때, 1초에 sprintSpeed 미터만큼 이동합니다.")]
-    public float sprintSpeed = 1.533f;
+    public float sprintSpeed = 3.533f;
 
     [Tooltip("캐릭터의 회전 속도를 조절합니다. 낮을 수록 빠르게 회전합니다.")]
     [Range(0.0f, 0.3f)]
-    public float rotationSmoothTime = 0.12f;
+    public float rotationSmoothTime = 0.2f;
 
     [Tooltip("가속력을 정의합니다.")]
     public float speedChangeRate = 10.0f;
 
-    [Tooltip("점프할 때, jumpHeight 블럭 만큼 점프합니다.")]
-    public float jumpHeight = 1.2f;
+    //[Tooltip("점프할 때, jumpHeight 블럭 만큼 점프합니다.")]
+    //public float jumpHeight = 1.2f;
 
-    [Tooltip("다시 점프할 수 있을 때까지 jumpTimeout 초 걸립니다.")]
-    public float jumpTimeout;
+    //[Tooltip("다시 점프할 수 있을 때까지 jumpTimeout 초 걸립니다.")]
+    //public float jumpTimeout;
 
     [Tooltip("공중에서 추락 상태까지 fallTimeout 초 걸립니다.")]
-    public float fallTimeout = 0.1f;
+    public float fallTimeout = 0.15f;
 
     [Tooltip("중력을 조절합니다. 낮을 수록 빠르게 떨어집니다.")]
-    public float gravity = -5.0f;
+    public float gravity = -10.0f;
 
     [Header("바닥 인식")]
     public bool isGround = true;
 
     [Tooltip("캐릭터 중심으로부터 y축으로 groundCheckOffset 만큼 멀어집니다.")]
-    public float groundCheckOffset = -0.14f;
+    public float groundCheckOffset = -0.15f;
 
     [Tooltip("바닥을 인식할 구체의 반지름입니다.")]
-    public float groundCheckRadius = 0.10f;
+    public float groundCheckRadius = 0.2f;
 
     [Tooltip("바닥으로 인식할 Layer입니다. (기본 : Block)")]
     public LayerMask groundLayers;
@@ -57,13 +56,14 @@ public class PlayerMovement : MonoBehaviour
     private float verticalVelocity;
     private float fallTimeoutDelta;
     private float terminalVelocityMax = 20.0f;
-    private float terminalVelocityMin = -5.0f;
+    private float terminalVelocityMin = -10.0f;
     private Vector3 currentPos;
     private Vector3 lastPos;
     private float maxReachPoint;
     private float verticalSnap;
 
-    private Vector3 spherePosition;     // 바닥 인식할 구(Sphere) 시작점
+    // 바닥 인식할 구(Sphere) 시작점
+    private Vector3 spherePosition;
 
     // 애니메이션 값
     public int animIDSpeed;
@@ -76,48 +76,40 @@ public class PlayerMovement : MonoBehaviour
 
     private string animCurrentState;
 
-    // private PlayerController controller;
-    private PlayerInteraction playerInteraction; // 리팩토링 필요
     private CharacterController characterController;
-    private CustomInput input;
-    private GameObject MainCamera;
+    protected CustomInput input;
+    protected GameObject MainCamera;
     public Animator animator;
 
-    private void Start()
-    {
-        if (MainCamera == null)
-            MainCamera = Camera.main.gameObject;
-
-        // controller = GetComponent<PlayerController>();
-        characterController = GetComponent<CharacterController>();
-        input = GetComponent<CustomInput>();
-        animator = GetComponentInChildren<Animator>();
-        playerInteraction = GetComponent<PlayerInteraction>();
-
-        AssignAnimationIDs();
-        fallTimeoutDelta = fallTimeout;
-
-        Setup(); // State 초기화 및 추가
-
-        // 여기 최적화 망함 이거 뭐임 대체
-    }
-
-    private void Update()
+    protected void MovementExecute()
     {
         movementFSM.Execute();
     }
 
-    private void Setup()
+    protected void Setup()
     {
-        movementStates = new State<PlayerMovement>[5];
+        if (MainCamera == null)
+            MainCamera = Camera.main.gameObject; 
+        
+        characterController = GetComponent<CharacterController>();
+        input = GetComponent<CustomInput>();
+        animator = GetComponentInChildren<Animator>();
+
+
+        AssignAnimationIDs();
+        fallTimeoutDelta = fallTimeout;
+
+        movementStates = new State<PlayerMovement>[6];
         movementStates[(int)PlayerStateType.Default]    = new DefaultState();
         movementStates[(int)PlayerStateType.Falling]    = new FallingState();
         movementStates[(int)PlayerStateType.Dragging]   = new DraggingState();
         movementStates[(int)PlayerStateType.Climbing]   = new ClimbingState();
+        movementStates[(int)PlayerStateType.Interaction]  = new InteractionState();
         movementStates[(int)PlayerStateType.Cinematic]  = new CinematicState();
 
         movementFSM = new StateMachine<PlayerMovement>();
         movementFSM.Setup(this, movementStates[0]);
+        groundLayers = LayerMask.GetMask("Block");
     }
 
     public void InitTest()
@@ -132,7 +124,6 @@ public class PlayerMovement : MonoBehaviour
     {
         animIDSpeed = Animator.StringToHash("Speed");
         animIDHoldMove = Animator.StringToHash("Direction");
-
         //animIDGrounded = Animator.StringToHash("Grounded");
         //animIDJump = Animator.StringToHash("Jump");
         //animIDFreeFall = Animator.StringToHash("FreeFall");
@@ -223,19 +214,14 @@ public class PlayerMovement : MonoBehaviour
 
     public void MoveHolding(Transform _DragableObject)
     {
-        if(Keyboard.current.fKey.isPressed)
-        {
-            ChangeMoveState(PlayerStateType.Default);
-        }
-
-        float targetSpeed = moveSpeed;
+        float targetSpeed = moveSpeed / 2;
 
         if (input.move == Vector2.zero)
         {
             targetSpeed = 0.0f;
         }
 
-        Vector3 moveDir = new Vector3(input.move.x, 0, input.move.y);
+        // Vector3 moveDir = new Vector3(input.move.x, 0, input.move.y);
         float inputMagnitude = input.move.magnitude;
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) *
@@ -262,6 +248,11 @@ public class PlayerMovement : MonoBehaviour
 
         animator.SetFloat(animIDHoldMove, animationBlend);
         animator.SetFloat(animIDMotionSpeed, inputMagnitude);
+
+        if (Keyboard.current.fKey.isPressed) // || Gamepad.current.buttonEast.isPressed)
+        {
+            ChangeMoveState(PlayerStateType.Default);
+        }
     }
 
     public void SetVerticalPoint(Vector3 _pivot, float _maxReachPoint)
@@ -324,8 +315,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void ChangeAnimationState(string animState)
     {
-        if (animCurrentState == animState)
-            return;
+        //if (animCurrentState == animState)
+        //    return;
 
         animator.Play(animState);
         animCurrentState = animState;

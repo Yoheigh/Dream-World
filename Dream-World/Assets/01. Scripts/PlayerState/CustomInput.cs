@@ -74,4 +74,11 @@ public class CustomInput : MonoBehaviour
         Debug.Log($"ChangeTool - canceled : {actionFunc.GetMethodInfo()} 등록됨");
     }
 
+    public void RegisterDoActionStarted
+(Action<InputAction.CallbackContext> actionFunc)
+    {
+        playerInputActions.ActionMap.DoAction.started += actionFunc;
+        Debug.Log($"DoAction - started : {actionFunc.GetMethodInfo()} 등록됨");
+    }
+
 }
