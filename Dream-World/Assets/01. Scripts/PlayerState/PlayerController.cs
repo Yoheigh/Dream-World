@@ -8,7 +8,6 @@ using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(CustomInput))]
 public class PlayerController : PlayerMovement
 {
     #region 기본 설정
@@ -60,18 +59,20 @@ public class PlayerController : PlayerMovement
     {
         if (MainCamera == null)
             MainCamera = Camera.main.gameObject;
+
+        input = FindObjectOfType<CustomInput>().GetComponent<CustomInput>();
     }
 
     void Start()
     {
-
         cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
+
+        Debug.Log(input.gameObject);
         interact = GetComponent<PlayerInteraction>();
         fov = GetComponent<FOVSystem>();
 
-        input.RegisterInteractStarted(Interact);
-        input.RegisterChangeToolStarted(ChangeTool);
-        input.RegisterDoActionStarted(DoAction);
+        input.RegisterInteractPerformed(Interact);
+        input.RegisterInteractWithEquipmentPerformed(InteractWithEquipment);
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -95,17 +96,17 @@ public class PlayerController : PlayerMovement
         
     //}
 
-    public void ChangeTool(InputAction.CallbackContext context)
-    {
-        interact.equipmentIndex++;
+    //public void ChangeTool(InputAction.CallbackContext context)
+    //{
+    //    interact.equipmentIndex++;
 
-        if (interact.equipmentIndex >= 3)
-        {
-            interact.equipmentIndex = 0;
-        }
+    //    if (interact.equipmentIndex >= 3)
+    //    {
+    //        interact.equipmentIndex = 0;
+    //    }
             
-        Debug.Log(interact.equipmentIndex);
-    }
+    //    Debug.Log(interact.equipmentIndex);
+    //}
 
     public void Interact(InputAction.CallbackContext context)
     {
@@ -113,15 +114,17 @@ public class PlayerController : PlayerMovement
 
     }
 
-    public void DoAction(InputAction.CallbackContext context)
+    public void InteractWithEquipment(InputAction.CallbackContext context)
     {
         interact.InteractWithEquipment();
+        Debug.Log("performed");
+        if (context.canceled) Debug.Log("canceled");
     }
 
-    public void ChangeTools()
-    {
-        if (isControl == false) return;
-    }
+    //public void ChangeTools()
+    //{
+    //    if (isControl == false) return;
+    //}
 
     private void CameraRotation()
     {
@@ -139,13 +142,13 @@ public class PlayerController : PlayerMovement
         cinemachineTargetYaw = ClampAngle(cinemachineTargetYaw, float.MinValue, float.MaxValue);
         cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, cameraBottomClamp, cameraTopClamp);
 
-            // Cinemachine will follow this target
+        // Cinemachine will follow this target
         CinemachineCameraTarget.transform.rotation = Quaternion.Euler(cinemachineTargetPitch,
         cinemachineTargetYaw, 0.0f);
         
     }
 
-    private void CameraZoom()
+    public void CameraScroll(InputAction.CallbackContext context)
     {
         //if (input.scroll != 0.0f)
         //{

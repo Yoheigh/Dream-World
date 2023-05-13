@@ -2,15 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : Singleton<GameManager>
+public class StageData : MonoBehaviour
 {
-    [SerializeField]
-    private PlayerController mainController;
-
-    private StageData currentStageData;
-
-    private bool isGameOver = false;
-
+    // Start is called before the first frame update
     void Start()
     {
         

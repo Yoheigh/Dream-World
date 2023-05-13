@@ -49,6 +49,7 @@ public class GridObject
     {
         gameObject = gameObject_;
     }
+
     public GridObjectData GetGridObjectData()
     {
         try

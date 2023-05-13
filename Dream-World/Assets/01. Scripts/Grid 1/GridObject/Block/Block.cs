@@ -13,7 +13,7 @@ public class Block : GridObject
     //}
     public Block()
     {
-        
+
     }
 
     public Block(int blockID)

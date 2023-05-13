@@ -41,9 +41,15 @@ public class GridSystem : Singleton<GridSystem>
     {
         if (stageGrid.GetGridObject(x, y, z).gridObjectData.blockName == "Air")
             return;
+
         GameObject block = Instantiate(Resources.Load<GameObject>(stageGrid.GetGridObject(x, y, z).gridObjectData.blockPrefabPath));
+        
+        // 현재 1x1 블럭들의 피봇이 중앙이므로 0.5f를 더한다
         block.transform.position = new Vector3(x + 0.5f, y + 0.5f, z + 0.5f);
+
+        // 필요할 경우 각 블럭의 방향 정보도 저장해야 한다
         block.transform.rotation = Quaternion.identity;
+
         block.name = stageGrid.GetGridObject(x, y, z).gridObjectData.blockName;
         stageGrid.GetGridObject(x, y, z).SetGameObject(block);
     }
