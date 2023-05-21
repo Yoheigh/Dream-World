@@ -27,13 +27,18 @@ public class DataBase : Singleton<DataBase>
 }
 
 [System.Serializable]
-public class GridObjectData
+[CreateAssetMenu(fileName = "GridObjectData", menuName = "ScriptableObjects/GridObjectData", order = 1)]
+public class GridObjectData : ScriptableObject
 {
     public int blockID;
     public string blockName;
     public string blockPrefabPath;
     public bool isConstructable;
     public bool isAffectedByGravity;
+
+    //public byte blockX = 1;
+    //public byte blockZ = 1;
+    //public byte blockHeight = 1;
 
     public GridObjectData(int _blockID)
     {

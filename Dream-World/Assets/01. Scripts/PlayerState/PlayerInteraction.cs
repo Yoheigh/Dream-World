@@ -196,14 +196,6 @@ public class PlayerInteraction : MonoBehaviour
     //    return GridSystem.Instance.StageGrid.GetGridObject(targetBlockPos);
     //}
 
-    //private Vector3 GetPreviewPosition()
-    //{
-    //    int x, y, z;
-    //    //가장 근처의 x, y, z 값을 반환해주는 함수였던 것
-    //    //GridSystem.Instance.StageGrid.GetXYZRound(targetBlockPos, out x, out y, out z);
-    //    //return new Vector3(x, y, z);
-    //}
-
     //private void SnapPlayerPos()
     //{
     //    var ladder = ladderObj.transform.GetComponent<Ladder>();

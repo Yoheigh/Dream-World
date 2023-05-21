@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class ConstructurePreview : BlockV1
+public class BuildPreview : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject ConstructurePrefab;
-
+    // 제작할 건물 모습 가져오기
     [SerializeField]
     private GameObject entity;
 
+    // 건물 지어지는 이펙트
     [SerializeField]
     private GameObject BuildVFX;
 
@@ -22,7 +21,6 @@ public class ConstructurePreview : BlockV1
 
     private void OnEnable()
     {
-        PivotRot = Vector3.zero;
         transform.rotation = Quaternion.Euler(Vector3.zero);
         tempVector3 = ConstructurePrefab.GetComponent<BlockV1>().PivotRot;
         entity = Instantiate(ConstructurePrefab);
@@ -33,16 +31,16 @@ public class ConstructurePreview : BlockV1
         }
     }
 
-    public void ChangePrefab(GameObject newPrefab)
-    {
-        ConstructurePrefab = newPrefab;
-    }
-
     private void OnDisable()
     {
         ConstructurePrefab.GetComponent<BlockV1>().PivotRot = tempVector3;
         tempVector3 = Vector3.zero;
         Destroy(entity);
+    }
+
+    public void ChangePrefab(GameObject newPrefab)
+    {
+        ConstructurePrefab = newPrefab;
     }
 
     private void InitBlockPivot()
@@ -86,7 +84,6 @@ public class ConstructurePreview : BlockV1
             entity.transform.rotation *= Quaternion.Euler(0f, 90f, 0);
             PivotRot += new Vector3(0f, 90f, 0f);
         }
-
     }
 
     private IEnumerator ConstructWithEffect()
