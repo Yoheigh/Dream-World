@@ -23,15 +23,9 @@ public class PlayerInteraction : MonoBehaviour
         set => isInteracting = value;
     }
 
-    private bool isConstructionMode = false;
-
     [SerializeField]
     private Transform BlockPointer;
     private Vector3 targetBlockPos;
-
-    [SerializeField]
-    private ConstructurePreview previewPrefab;
-    //private Vector3 targetBlockOriginPos = new Vector3(0, 0, 1.1f);
 
     public GameObject[] EquipmentModel;
     public GameObject DestructVFX;
@@ -40,66 +34,67 @@ public class PlayerInteraction : MonoBehaviour
     public Transform dragableObj;
     public Collider ladderObj;
 
-    private CustomInput input;
     private FOVSystem fov;
-    private PlayerMovement move;
+    private PlayerController controller;
 
     public int equipmentIndex = 0;
 
     // Start is called before the first frame update
-    void Start()
+    public void Setup()
     {
-        input = GetComponent<CustomInput>();
         fov = GetComponent<FOVSystem>();
-        move = GetComponent<PlayerMovement>();
+        controller = GetComponent<PlayerController>();
         triggerTime = TriggerTime;
-    }
 
-    IEnumerator PickUpDelay(Transform transform)
-    {
-        move.ChangeMoveState(PlayerStateType.Interaction);
-        move.ChangeAnimationState("Player_Action_PickUp");
-        yield return new WaitForSeconds(0.5f);
-        Destroy(transform.gameObject);
-        move.ChangeMoveState(PlayerStateType.Default);
+        Debug.Log($"3. Setup - {this}");
     }
 
     public void Interact()
     {
         if (fov.ClosestInteractTransform != null)
         {
-            if (fov.ClosestInteractTransform.CompareTag("Item"))
+            string tag = fov.ClosestInteractTransform.tag;
+
+            switch (tag)
             {
-                StartCoroutine(PickUpDelay(fov.ClosestInteractTransform));
-                return;
+                case "Item":
+                    StartCoroutine(PickUpDelay(fov.ClosestInteractTransform));
+                    break;
+
+                case "Dragable":
+                    controller.ChangeState(PlayerStateType.Dragging);
+                    break;
+
+                case "Climbing":
+                    controller.ChangeState(PlayerStateType.Climbing);
+                    break;
             }
-
-            //else if (fov.ClosestInteractTransform.CompareTag("Dragable"))
-            //{
-            //        isInteracting = true;
-            //        move.ChangeMoveState(PlayerStateType.Dragging);
-            //}
         }
 
-        if (isConstructionMode)
-        {
-            previewPrefab.Construct();
-            isConstructionMode = !isConstructionMode;
-            return;
-        }
-        else if (obj == null)
-        {
-            isConstructionMode = !isConstructionMode;
-            previewPrefab.gameObject.SetActive(isConstructionMode);
-            return;
-        }
-        if (obj.CompareTag("Dragable"))
-        {
-            isInteracting = true;
-            dragableObj = obj.transform;
-            move.ChangeMoveState(PlayerStateType.Dragging);
-            return;
-        }
+        //if (isConstructionMode)
+        //{
+        //    previewPrefab.Construct();
+        //    isConstructionMode = !isConstructionMode;
+        //    return;
+        //}
+        //else if (obj == null)
+        //{
+        //    isConstructionMode = !isConstructionMode;
+        //    previewPrefab.gameObject.SetActive(isConstructionMode);
+        //    return;
+        //}
+        //if (obj.CompareTag("Dragable"))
+        //{
+        //    isInteracting = true;
+        //    dragableObj = obj.transform;
+        //    controller.ChangeMoveState(PlayerStateType.Dragging);
+        //    return;
+        //}
+    }
+    // 인터랙션이 가능한지 체크하는 함수
+    public void InteractionCheck()
+    {
+        // 인터랙션이 가능함
     }
 
     public void InteractWithEquipment()
@@ -108,14 +103,24 @@ public class PlayerInteraction : MonoBehaviour
         // Physics.SphereCast()
     }
 
+    IEnumerator PickUpDelay(Transform transform)
+    {
+        controller.ChangeState(PlayerStateType.Interaction);
+        controller.anim.ChangeAnimationState("Player_Action_PickUp");
+        yield return new WaitForSeconds(0.5f);
+        Destroy(transform.gameObject);
+        controller.ChangeState(PlayerStateType.Default);
+    }
+
+    // 개똥 시연용 스크립트
     private IEnumerator InteractAnimationDelay()
     {
         EquipmentModel[equipmentIndex].SetActive(true);
-        move.ChangeMoveState(PlayerStateType.Interaction);
+        controller.ChangeState(PlayerStateType.Interaction);
         switch (equipmentIndex)
         {
             case 0:
-                move.ChangeAnimationState("Player_Action_Axe");
+                controller.anim.ChangeAnimationState("Player_Action_Axe");
                 var colliders = Physics.OverlapSphere(transform.position, 0.8f);
                 foreach (Collider col in colliders)
                 {
@@ -127,7 +132,7 @@ public class PlayerInteraction : MonoBehaviour
                             var vfx = Instantiate(DestructVFX, BlockPointer.position, Quaternion.identity, null);
                             Destroy(vfx, 4f);
                             yield return new WaitForSeconds(0.583f);
-                            move.ChangeAnimationState("Player_Action_Axe");
+                            controller.anim.ChangeAnimationState("Player_Action_Axe");
                             var vfx2 = Instantiate(DestructVFX, BlockPointer.position, Quaternion.identity, null);
                             Destroy(vfx2, 4f);
                             yield return new WaitForSeconds(0.583f);
@@ -138,7 +143,7 @@ public class PlayerInteraction : MonoBehaviour
                 }
                 break;
             case 1:
-                move.ChangeAnimationState("Player_Action_Pickaxe");
+                controller.anim.ChangeAnimationState("Player_Action_Pickaxe");
                 yield return new WaitForSeconds(0.3f);
                 var colliders2 = Physics.OverlapSphere(transform.position, 0.8f);
                 foreach (Collider col in colliders2)
@@ -156,7 +161,7 @@ public class PlayerInteraction : MonoBehaviour
                 }
                 break;
             case 2:
-                move.ChangeAnimationState("Player_Action_Shovel");
+                controller.anim.ChangeAnimationState("Player_Action_Shovel");
                 yield return new WaitForSeconds(0.4f);
                 var ray = Physics.Raycast(transform.position, Vector3.down, LayerMask.GetMask("Block"));
                     //if (ray.CompareTag("Ingredient"))
@@ -175,7 +180,7 @@ public class PlayerInteraction : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
 
         EquipmentModel[equipmentIndex].SetActive(false);
-        move.ChangeMoveState(PlayerStateType.Default);
+        controller.ChangeState(PlayerStateType.Default);
     }
 
     //public void ChangeEquipment(PlayerEquipment _newEquipment)
@@ -184,26 +189,6 @@ public class PlayerInteraction : MonoBehaviour
     //    currentEquipment = _newEquipment;
     //    currentEquipment.gameObject.SetActive(true);
     //}
-
-    private void Update()
-    {
-        targetBlockPos = BlockPointer.transform.position;
-
-        if (isInteracting) return;
-
-        if (triggerTime <= 0.0f)
-        {
-            if (obj != null)
-            {
-                isInteracting = true;
-                SnapPlayerPos();
-                triggerTime = TriggerTime;
-            }
-        }
-
-        // 가장 근처 블럭의 위치에 건축물을 보여주는 함수
-        //previewPrefab.transform.position = GetPreviewPosition();
-    }
 
     //private BlockData GetClosestBlockData()
     //{
@@ -219,37 +204,13 @@ public class PlayerInteraction : MonoBehaviour
     //    //return new Vector3(x, y, z);
     //}
 
-    private void SnapPlayerPos()
-    {
-        var ladder = ladderObj.transform.GetComponent<Ladder>();
-        move.SetVerticalPoint(ladder.Pivot, ladder.ReachHeight);
-        ladderObj = null;
-        move.ChangeMoveState(PlayerStateType.Climbing);
-    }
-
-    private void OnTriggerStay(Collider col)
-    {
-        if (isInteracting) return;
-
-        obj = col;
-
-        if (col.CompareTag("Ladder"))
-        {
-            triggerTime = input.move.magnitude > 0.01f ? triggerTime - Time.deltaTime : TriggerTime;
-            ladderObj = col;
-            return;
-        }
-    }
-
-    private void OnTriggerExit(Collider col)
-    {
-        if (col.CompareTag("Ladder"))
-        {
-            triggerTime = TriggerTime;
-        }
-
-        obj = null;
-    }
+    //private void SnapPlayerPos()
+    //{
+    //    var ladder = ladderObj.transform.GetComponent<Ladder>();
+    //    movement.SetVerticalPoint(ladder.Pivot, ladder.ReachHeight);
+    //    ladderObj = null;
+    //    controller.ChangeMoveState(PlayerStateType.Climbing);
+    //}
 
     //public void StopUseItem()
     //{
@@ -269,7 +230,8 @@ public class PlayerInteraction : MonoBehaviour
 
     //public void UseItem(int itemSlotCount)
     //{
-    //    StopUseItem();
+
+    //}    //    StopUseItem();
 
     //    int itemID = CraftingTable.instance.SlotOutLineRedrow(itemSlotCount);
 
@@ -280,6 +242,5 @@ public class PlayerInteraction : MonoBehaviour
     //            Instantiate(Resources.Load<GameObject>(item.itemGameObjectPath), gameObject.transform.Find("HandItems"));
     //        }
     //    }
-    //}
 
 }

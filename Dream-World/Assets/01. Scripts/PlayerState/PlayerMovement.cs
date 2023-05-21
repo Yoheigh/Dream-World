@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Windows;
-using PlayerOwnedStates;
 
 public enum PlayerStateType
 {
@@ -21,9 +19,9 @@ public class PlayerMovement : MonoBehaviour
 
     [Tooltip("캐릭터의 회전 속도를 조절합니다. 낮을 수록 빠르게 회전합니다.")]
     [Range(0.0f, 0.3f)]
-    public float rotationSmoothTime = 0.2f;
+    public float rotationSmoothTime = 0.03f;
 
-    [Tooltip("가속력을 정의합니다.")]
+    [Tooltip("애니메이션 가속력을 정의합니다.")]
     public float speedChangeRate = 10.0f;
 
     [Tooltip("미끄러운 바닥에서의 마찰력을 정의합니다.")]
@@ -42,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
     public float gravity = -10.0f;
 
     [Header("바닥 인식")]
+    [Tooltip("바닥 인식을 활성화합니다.")]
     public bool isGround = true;
 
     [Tooltip("캐릭터 중심으로부터 y축으로 groundCheckOffset 만큼 멀어집니다.")]
@@ -60,10 +59,11 @@ public class PlayerMovement : MonoBehaviour
     private float fallTimeoutDelta;
     private float terminalVelocityMax = 20.0f;
     private float terminalVelocityMin = -10.0f;
-    private Vector3 currentPos;
-    private Vector3 lastPos;
-    private float maxReachPoint;
+    private Vector3 currentPos;         // 사다리, 잡기 등의 플레이어 현재 위치값
+    private Vector3 lastPos;            // 사다리, 잡기 등의 플레이어 고정 위치값
+    private float maxReachPoint;        
     private float verticalSnap;
+    private Vector3 slipperyDirection;  // 미끄러지는 땅에서의 방향 벡터
 
     // 미끄러지는 상태
     public bool isSlippery = false;
@@ -78,43 +78,30 @@ public class PlayerMovement : MonoBehaviour
     public int animIDHoldMove;
     public int animIDMotionSpeed;
 
-    private StateMachine<PlayerMovement> movementFSM;
-    private State<PlayerMovement>[] movementStates;
-
-    private string animCurrentState;
-
     private CharacterController characterController;
-    protected CustomInput input;
-    protected GameObject MainCamera;
+    private PlayerController controller;
+    private CustomInput input;
+    public GameObject MainCamera;
     public Animator animator;
 
-    protected void MovementExecute()
+    public void Setup()
     {
-        movementFSM.Execute();
-    }
+        if (MainCamera == null)
+            MainCamera = Camera.main.gameObject;
 
-    protected void Setup()
-    {
         characterController = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>();
+        controller = GetComponent<PlayerController>();
+        input = FindObjectOfType<CustomInput>().GetComponent<CustomInput>();
 
         AssignAnimationIDs();
         fallTimeoutDelta = fallTimeout;
         slipperySpeed = 0.0f;
 
-        movementStates = new State<PlayerMovement>[6];
-        movementStates[(int)PlayerStateType.Default] = new DefaultState();
-        movementStates[(int)PlayerStateType.Falling] = new FallingState();
-        movementStates[(int)PlayerStateType.Dragging] = new DraggingState();
-        movementStates[(int)PlayerStateType.Climbing] = new ClimbingState();
-        movementStates[(int)PlayerStateType.Interaction] = new InteractionState();
-        movementStates[(int)PlayerStateType.Cinematic] = new CinematicState();
-
-        movementFSM = new StateMachine<PlayerMovement>();
-        movementFSM.Setup(this, movementStates[0]);
-
-        // 레이어 마스크 제외하고 블럭으로 만들 예정
+        // 레이어 마스크 제외하고 블럭으로 만들 예정인데 고민 중
         groundLayers = LayerMask.GetMask("Block");
+
+        Debug.Log($"2. Setup - {this}");
     }
 
     public void InitTest()
@@ -135,11 +122,6 @@ public class PlayerMovement : MonoBehaviour
         animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
     }
 
-    public void ChangeMoveState(PlayerStateType _type)
-    {
-        movementFSM.ChangeState(movementStates[(int)_type]);
-    }
-
     public void GroundCheck()
     {
         spherePosition = new Vector3(transform.position.x, transform.position.y - groundCheckOffset,
@@ -156,6 +138,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void Gravity()
     {
+        // 바닥 감지
+        GroundCheck();
+
+        // 바닥을 감지했다면
         if (isGround)
         {
             fallTimeoutDelta = fallTimeout;
@@ -171,11 +157,17 @@ public class PlayerMovement : MonoBehaviour
             if (fallTimeoutDelta >= 0.0f)
                 fallTimeoutDelta -= Time.deltaTime;
             else
+            {
                 input.move = Vector2.zero;
+                controller.ChangeState(PlayerStateType.Falling);
+            }
         }
 
         if (verticalVelocity < terminalVelocityMax)
             verticalVelocity += gravity * Time.deltaTime;
+
+        // 중력 적용
+        characterController.Move(new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
     }
 
     public void Move()
@@ -218,11 +210,10 @@ public class PlayerMovement : MonoBehaviour
 
         if (isSlippery)
             // targetDirection 값에 따라 방향이 바뀌므로 미끄러지려면 수정 필요
-            characterController.Move(targetDirection * (slipperySpeed * Time.deltaTime) +
-                                new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+            characterController.Move(targetDirection * (slipperySpeed * Time.deltaTime));
+
         else
-            characterController.Move(targetDirection * (targetSpeed * Time.deltaTime) +
-                                new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+            characterController.Move(targetDirection * (targetSpeed * Time.deltaTime));
 
         //transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * 20f);
         // t_n =  (t - min)/(max - min)
@@ -270,7 +261,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Keyboard.current.fKey.isPressed) // || Gamepad.current.buttonEast.isPressed)
         {
-            ChangeMoveState(PlayerStateType.Default);
+            controller.ChangeState(PlayerStateType.Default);
         }
     }
 
@@ -297,10 +288,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (currentPos.y > lastPos.y + maxReachPoint)
-            ChangeMoveState(PlayerStateType.Default);
+            controller.ChangeState(PlayerStateType.Default);
 
         else if (currentPos.y <= lastPos.y - 0.3f)
-            ChangeMoveState(PlayerStateType.Default);
+            controller.ChangeState(PlayerStateType.Default);
 
         //Vector3 moveDir = new Vector3(input.move.x, 0, input.move.y);
 
@@ -330,26 +321,6 @@ public class PlayerMovement : MonoBehaviour
 
         animator.SetFloat(animIDSpeed, animationBlend);
         animator.SetFloat(animIDMotionSpeed, inputMagnitude);
-    }
-
-    public void ChangeAnimationState(string animState)
-    {
-        //if (animCurrentState == animState)
-        //    return;
-
-        animator.Play(animState);
-        animCurrentState = animState;
-    }
-
-    private IEnumerator AnimationDelay(string animState, float delay)
-    {
-        ChangeAnimationState(animState);
-
-        // float temp = animator.GetCurrentAnimatorStateInfo(0).length;
-
-        yield return new WaitForSeconds(delay);
-        // 현재 재생중인 애니메이션의 길이 만큼 대기...인데 급해서 좀;
-        animCurrentState = null;
     }
 
     private void OnDrawGizmos()

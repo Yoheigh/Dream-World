@@ -11,6 +11,7 @@ public class Block : GridObject
     //    get => pivot + transform.position;
     //    set { }
     //}
+
     public Block()
     {
 

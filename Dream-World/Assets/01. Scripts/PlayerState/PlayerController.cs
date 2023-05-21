@@ -1,16 +1,17 @@
 ﻿using Cinemachine;
+using PlayerOwnedStates;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerController : PlayerMovement
+public class PlayerController : MonoBehaviour
 {
-    #region 기본 설정
+    #region ---- 카메라 기본 설정 ----
 
     [Header("시네머신 카메라")]
     public GameObject CinemachineCameraTarget;
@@ -39,51 +40,55 @@ public class PlayerController : PlayerMovement
     public bool isCurrentDeviceMouse = true;
 
     // 일단 붙여놓고 나중에 체크
-    [Tooltip("Additional degress to override the camera. Useful for fine tuning camera position when locked")]
-    public float cameraAngleOverride = 0.0f;
+    //[Tooltip("Additional degress to override the camera. Useful for fine tuning camera position when locked")]
+    //public float cameraAngleOverride = 0.0f;
 
     #endregion
 
-    // 내부 변수
+    #region ---- 내부 변수----
     private float cinemachineTargetYaw;
     private float cinemachineTargetPitch;
-
     private float threshold = 0.01f;
 
     private bool isControl = true; // 플레이어 컨트롤 가능 여부
 
-    private PlayerInteraction interact;
-    private FOVSystem fov;
+    #endregion
 
-    void Awake()
+    public PlayerInteraction interaction;
+    public PlayerMovement movement;
+    public PlayerAnimation anim;
+
+    public FOVSystem fov;
+    public CustomInput input;
+    public GameObject MainCamera;
+    public Animator animator;
+
+    private StateMachine<PlayerController> PlayerFSM;
+    private State<PlayerController>[] PlayerStates;
+
+    private void Awake()
     {
-        if (MainCamera == null)
-            MainCamera = Camera.main.gameObject;
+        this.SetUp();
+        movement.Setup();
+        interaction.Setup();
+        anim.Setup(animator);
 
-        input = FindObjectOfType<CustomInput>().GetComponent<CustomInput>();
+        // 인풋에 함수 등록
+        input.RegisterInteractPerformed(Interact);
+        input.RegisterInteractWithEquipmentPerformed(InteractWithEquipment);
     }
 
-    void Start()
+    private void Start()
     {
         cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
-        Debug.Log(input.gameObject);
-        interact = GetComponent<PlayerInteraction>();
-        fov = GetComponent<FOVSystem>();
-
-        input.RegisterInteractPerformed(Interact);
-        input.RegisterInteractWithEquipmentPerformed(InteractWithEquipment);
-
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        base.Setup();
-
     }
 
     private void Update()
     {
-        base.MovementExecute();
+        PlayerFSM.Execute();
     }
 
     private void LateUpdate()
@@ -91,61 +96,47 @@ public class PlayerController : PlayerMovement
         CameraRotation();
     }
 
-    //public void Jump(InputAction.CallbackContext context)
-    //{
-        
-    //}
+    private void SetUp()
+    {
+        // 변수 등록
+        if (MainCamera == null)
+            MainCamera = Camera.main.gameObject;
 
-    //public void ChangeTool(InputAction.CallbackContext context)
-    //{
-    //    interact.equipmentIndex++;
+        movement = GetComponent<PlayerMovement>();
+        interaction = GetComponent<PlayerInteraction>();
+        anim = new PlayerAnimation();
+        input = FindObjectOfType<CustomInput>().GetComponent<CustomInput>();
+        animator = GetComponent<Animator>();
+        fov = GetComponent<FOVSystem>();
 
-    //    if (interact.equipmentIndex >= 3)
-    //    {
-    //        interact.equipmentIndex = 0;
-    //    }
-            
-    //    Debug.Log(interact.equipmentIndex);
-    //}
+        // FSM 셋업
+        PlayerStates = new State<PlayerController>[6];
+        PlayerStates[(int)PlayerStateType.Default] = new DefaultState();
+        PlayerStates[(int)PlayerStateType.Falling] = new FallingState();
+        PlayerStates[(int)PlayerStateType.Dragging] = new DraggingState();
+        PlayerStates[(int)PlayerStateType.Climbing] = new ClimbingState();
+        PlayerStates[(int)PlayerStateType.Interaction] = new InteractionState();
+        PlayerStates[(int)PlayerStateType.Cinematic] = new CinematicState();
+
+        PlayerFSM = new StateMachine<PlayerController>();
+        PlayerFSM.Setup(this, PlayerStates[(int)PlayerStateType.Default]);
+
+        Debug.Log($"1. Setup - {this}");
+    }
+
+    public void ChangeState(PlayerStateType _type)
+    {
+        PlayerFSM.ChangeState(PlayerStates[(int)_type]);
+    }
 
     public void Interact(InputAction.CallbackContext context)
     {
-        interact.Interact();
-
+        interaction.Interact();
     }
 
     public void InteractWithEquipment(InputAction.CallbackContext context)
     {
-        interact.InteractWithEquipment();
-        Debug.Log("performed");
-        if (context.canceled) Debug.Log("canceled");
-    }
-
-    //public void ChangeTools()
-    //{
-    //    if (isControl == false) return;
-    //}
-
-    private void CameraRotation()
-    {
-        // if there is an input and camera position is not fixed
-        if (input.look.sqrMagnitude >= threshold && !cameraPositionLock)
-        {
-            //Don't multiply mouse input by Time.deltaTime;
-            float deltaTimeMultiplier = isCurrentDeviceMouse ? cameraRotationSpeed : Time.deltaTime;
-
-            cinemachineTargetYaw += input.look.x * deltaTimeMultiplier;
-            cinemachineTargetPitch += -input.look.y * deltaTimeMultiplier;
-        }
-
-        // clamp our rotations so our values are limited 360 degrees
-        cinemachineTargetYaw = ClampAngle(cinemachineTargetYaw, float.MinValue, float.MaxValue);
-        cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, cameraBottomClamp, cameraTopClamp);
-
-        // Cinemachine will follow this target
-        CinemachineCameraTarget.transform.rotation = Quaternion.Euler(cinemachineTargetPitch,
-        cinemachineTargetYaw, 0.0f);
-        
+        interaction.InteractWithEquipment();
     }
 
     public void CameraScroll(InputAction.CallbackContext context)
@@ -165,6 +156,24 @@ public class PlayerController : PlayerMovement
         //    //}
         //    //MainCamera.transform.position += movement;
         //}
+    }
+
+    public void CameraRotation()
+    {
+        if (input.look.sqrMagnitude >= threshold && !cameraPositionLock)
+        {
+            float deltaTimeMultiplier = isCurrentDeviceMouse ? cameraRotationSpeed : Time.deltaTime;
+
+            cinemachineTargetYaw += input.look.x * deltaTimeMultiplier;
+            cinemachineTargetPitch += -input.look.y * deltaTimeMultiplier;
+        }
+
+        cinemachineTargetYaw = ClampAngle(cinemachineTargetYaw, float.MinValue, float.MaxValue);
+        cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, cameraBottomClamp, cameraTopClamp);
+
+        CinemachineCameraTarget.transform.rotation = Quaternion.Euler(cinemachineTargetPitch,
+        cinemachineTargetYaw, 0.0f);
+        
     }
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)

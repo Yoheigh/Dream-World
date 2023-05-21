@@ -4,123 +4,136 @@ using UnityEngine;
 
 namespace PlayerOwnedStates
 {
-    public class DefaultState : State<PlayerMovement>
+    public class DefaultState : State<PlayerController>
     {
-        public override void EnterState(PlayerMovement _entity)
+        public override void EnterState(PlayerController _entity)
         {
-            _entity.animator.SetBool("isClimbing", false);
-            _entity.animator.SetBool("isHolding", false);
+            _entity.input.CanMove(true);
 
-            _entity.InitTest();
+            //_entity.animator.SetBool("isClimbing", false);
+            //_entity.animator.SetBool("isHolding", false);
+
+            //_entity.InitTest();
         }
 
-        public override void UpdateState(PlayerMovement _entity)
+        public override void UpdateState(PlayerController _entity)
         {
-            _entity.GroundCheck();
-            _entity.Gravity();
-            _entity.Move();
+            _entity.movement.Gravity();
+            _entity.movement.Move();
+
+            _entity.interaction.InteractionCheck();
+
+            if (_entity.movement.isGround == false)
+                _entity.ChangeState(PlayerStateType.Falling);
+                    
         }
 
-        public override void ExitState(PlayerMovement _entity)
+        public override void ExitState(PlayerController _entity)
         {
 
         }
     }
 
-    public class FallingState : State<PlayerMovement>
+    public class FallingState : State<PlayerController>
     {
-        public override void EnterState(PlayerMovement _entity)
+        public override void EnterState(PlayerController _entity)
         {
-            
+            _entity.input.CanMove(false);
         }
 
-        public override void UpdateState(PlayerMovement _entity)
+        public override void UpdateState(PlayerController _entity)
         {
+            _entity.movement.Gravity();
+            _entity.movement.Move();
 
+            if (_entity.movement.isGround == true)
+                _entity.ChangeState(PlayerStateType.Default);
         }
-        public override void ExitState(PlayerMovement _entity)
+
+        public override void ExitState(PlayerController _entity)
         {
 
         }
 
     }
 
-    public class DraggingState : State<PlayerMovement>
+    public class DraggingState : State<PlayerController>
     {
-        public override void EnterState(PlayerMovement _entity)
+        public override void EnterState(PlayerController _entity)
         {
-            _entity.animator.SetBool("isClimbing", false);
-            _entity.animator.SetBool("isHolding", true);
+            //_entity.animator.SetBool("isClimbing", false);
+            //_entity.animator.SetBool("isHolding", true);
         }
 
-        public override void UpdateState(PlayerMovement _entity)
-        {
-            _entity.GroundCheck();
-            _entity.Gravity();
-            _entity.MoveHolding(_entity.gameObject.GetComponent<PlayerInteraction>().dragableObj);
+        public override void UpdateState(PlayerController _entity)
+        {;
+            _entity.movement.Gravity();
+            //_entity.movement.MoveHolding(_entity.gameObject.GetComponent<PlayerInteraction>().dragableObj);
         }
 
-        public override void ExitState(PlayerMovement _entity)
+        public override void ExitState(PlayerController _entity)
         {
-            _entity.gameObject.GetComponent<PlayerInteraction>().IsInteracting = false;
-            _entity.gameObject.GetComponent<PlayerInteraction>().dragableObj = null;
-            _entity.gameObject.GetComponent<PlayerInteraction>().obj = null;
+            //_entity.gameObject.GetComponent<PlayerInteraction>().IsInteracting = false;
+            //_entity.gameObject.GetComponent<PlayerInteraction>().dragableObj = null;
+            //_entity.gameObject.GetComponent<PlayerInteraction>().obj = null;
+
+            // ¿Í ¾¾ ÀÌ°Ô ¹¹ÀÓ
         }
 
     }
 
-    public class ClimbingState : State<PlayerMovement>
+    public class ClimbingState : State<PlayerController>
     {
-        public override void EnterState(PlayerMovement _entity)
+        public override void EnterState(PlayerController _entity)
         {
-            _entity.animator.SetBool("isHolding", false);
-            _entity.animator.SetBool("isClimbing", true);
+            //_entity.animator.SetBool("isHolding", false);
+            //_entity.animator.SetBool("isClimbing", true);
         }
 
-        public override void UpdateState(PlayerMovement _entity)
+        public override void UpdateState(PlayerController _entity)
         {
-            _entity.MoveVertical();
+            //_entity.MoveVertical();
             // _entity.SnapToVerticalPoint();
         }
-        public override void ExitState(PlayerMovement _entity)
+        public override void ExitState(PlayerController _entity)
         {
-            _entity.gameObject.GetComponent<PlayerInteraction>().IsInteracting = false;
-            _entity.gameObject.GetComponent<PlayerInteraction>().dragableObj = null;
-            _entity.gameObject.GetComponent<PlayerInteraction>().obj = null;
+            //_entity.gameObject.GetComponent<PlayerInteraction>().IsInteracting = false;
+            //_entity.gameObject.GetComponent<PlayerInteraction>().dragableObj = null;
+            //_entity.gameObject.GetComponent<PlayerInteraction>().obj = null;
         }
 
     }
 
-    public class InteractionState : State<PlayerMovement>
+    public class InteractionState : State<PlayerController>
     {
-        public override void EnterState(PlayerMovement _entity)
+        public override void EnterState(PlayerController _entity)
         {
 
         }
 
-        public override void UpdateState(PlayerMovement _entity)
+        public override void UpdateState(PlayerController _entity)
         {
-            _entity.GroundCheck();
-            _entity.Gravity();
+            _entity.movement.GroundCheck();
+            _entity.movement.Gravity();
         }
-        public override void ExitState(PlayerMovement _entity)
+        public override void ExitState(PlayerController _entity)
         {
 
         }
     }
 
-    public class CinematicState : State<PlayerMovement>
+    public class CinematicState : State<PlayerController>
     {
-        public override void EnterState(PlayerMovement _entity)
+        public override void EnterState(PlayerController _entity)
         {
 
         }
 
-        public override void UpdateState(PlayerMovement _entity)
+        public override void UpdateState(PlayerController _entity)
         {
 
         }
-        public override void ExitState(PlayerMovement _entity)
+        public override void ExitState(PlayerController _entity)
         {
 
         }

@@ -12,6 +12,7 @@ public class CustomInput : MonoBehaviour
 
     public bool cursorLocked = true;
     public bool cursorInputForLook = true;
+    private bool moveInputFlag = true;
 
     private PlayerInputActions playerInputActions;
 
@@ -23,10 +24,32 @@ public class CustomInput : MonoBehaviour
 
     private void Update()
     {
-        move = playerInputActions.Player.Move.ReadValue<Vector2>();
-        look = playerInputActions.Player.Look.ReadValue<Vector2>();
-        jump = playerInputActions.Player.Jump.triggered;         // 누른 순간
-        sprint = playerInputActions.Player.Sprint.IsPressed();   // 누르고 있는 동안
+        UpdateInput(moveInputFlag);
+    }
+
+    private void UpdateInput(bool _flag)
+    {
+        switch(_flag)
+        {
+            case true:
+                move = playerInputActions.Player.Move.ReadValue<Vector2>();
+                look = playerInputActions.Player.Look.ReadValue<Vector2>();
+                jump = playerInputActions.Player.Jump.triggered;         // 누른 순간
+                sprint = playerInputActions.Player.Sprint.IsPressed();   // 누르고 있는 동안
+                break;
+
+            case false:
+                move = Vector2.zero;
+                look = Vector2.zero;
+                jump = false;
+                sprint = false;
+                break;
+        }
+    }
+
+    public void CanMove(bool _flag)
+    {
+        moveInputFlag = _flag;
     }
 
     public void RegisterInteractStarted(Action<InputAction.CallbackContext> actionFunc)
