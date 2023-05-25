@@ -21,26 +21,26 @@ public class BuildPreview : MonoBehaviour
 
     private void OnEnable()
     {
-        transform.rotation = Quaternion.Euler(Vector3.zero);
-        tempVector3 = ConstructurePrefab.GetComponent<BlockV1>().PivotRot;
-        entity = Instantiate(ConstructurePrefab);
-        entity.GetComponentInChildren<Renderer>().material = previewMaterial;
-        foreach(Collider item in entity.GetComponentsInChildren<Collider>())
-        {
-            item.enabled = false;
-        }
+        //transform.rotation = Quaternion.Euler(Vector3.zero);
+        //tempVector3 = ConstructurePrefab.GetComponent<BlockV1>().PivotRot;
+        //entity = Instantiate(ConstructurePrefab);
+        //entity.GetComponentInChildren<Renderer>().material = previewMaterial;
+        //foreach(Collider item in entity.GetComponentsInChildren<Collider>())
+        //{
+        //    item.enabled = false;
+        //}
     }
 
     private void OnDisable()
     {
-        ConstructurePrefab.GetComponent<BlockV1>().PivotRot = tempVector3;
-        tempVector3 = Vector3.zero;
-        Destroy(entity);
+        //ConstructurePrefab.GetComponent<BlockV1>().PivotRot = tempVector3;
+        //tempVector3 = Vector3.zero;
+        //Destroy(entity);
     }
 
     public void ChangePrefab(GameObject newPrefab)
     {
-        ConstructurePrefab = newPrefab;
+        //ConstructurePrefab = newPrefab;
     }
 
     private void InitBlockPivot()
@@ -50,40 +50,39 @@ public class BuildPreview : MonoBehaviour
 
     private void Update()
     {
-        if(isConstructing)
-            return;
+        //if(isConstructing)
+        //    return;
 
-        entity.transform.position = gameObject.transform.position;
-        RotatePreviewBlock();
+        //entity.transform.position = gameObject.transform.position;
+        //RotatePreviewBlock();
     }
 
-    public void Construct()
+    public void Build()
     {
-        ConstructurePrefab.GetComponent<BlockV1>().PivotRot = PivotRot;
         StartCoroutine(ConstructWithEffect());
     }
 
     private void ConstructionFinish()
     {
-        var temp = Instantiate(ConstructurePrefab, entity.transform.position, Quaternion.Euler(PivotRot));
+        //var temp = Instantiate(ConstructurePrefab, entity.transform.position, Quaternion.Euler(PivotRot));
         
         // Ä¸½¶È­ ÇÊ¿ä
-        temp.GetComponent<Ladder>().Construct();
+        //temp.GetComponent<Ladder>().Construct();
     }
 
     private void RotatePreviewBlock()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            entity.transform.rotation *= Quaternion.Euler(0f, -90f, 0f);
-            PivotRot += new Vector3(0f, -90f, 0f);
-        }
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //{
+        //    entity.transform.rotation *= Quaternion.Euler(0f, -90f, 0f);
+        //    PivotRot += new Vector3(0f, -90f, 0f);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            entity.transform.rotation *= Quaternion.Euler(0f, 90f, 0);
-            PivotRot += new Vector3(0f, 90f, 0f);
-        }
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    entity.transform.rotation *= Quaternion.Euler(0f, 90f, 0);
+        //    PivotRot += new Vector3(0f, 90f, 0f);
+        //}
     }
 
     private IEnumerator ConstructWithEffect()

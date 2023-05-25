@@ -8,12 +8,12 @@ using UnityEngine.VFX;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    [Header("PlayerInteraction")]
-    [Tooltip("접촉한 오브젝트와 자동으로 상호작용하기 까지 TriggerTime 초 걸립니다.")]
-    public float TriggerTime = 0.3f;
+    //[Header("PlayerInteraction")]
+    //[Tooltip("접촉한 오브젝트와 자동으로 상호작용하기 까지 TriggerTime 초 걸립니다.")]
+    //public float TriggerTime = 0.3f;
 
-    [SerializeField]
-    private float triggerTime;
+    //[SerializeField]
+    //private float triggerTime;
 
     [SerializeField]
     private bool isInteracting = false;
@@ -27,13 +27,6 @@ public class PlayerInteraction : MonoBehaviour
     private Transform BlockPointer;
     private Vector3 targetBlockPos;
 
-    public GameObject[] EquipmentModel;
-    public GameObject DestructVFX;
-
-    public Collider obj;
-    public Transform dragableObj;
-    public Collider ladderObj;
-
     private FOVSystem fov;
     private PlayerController controller;
 
@@ -44,21 +37,28 @@ public class PlayerInteraction : MonoBehaviour
     {
         fov = GetComponent<FOVSystem>();
         controller = GetComponent<PlayerController>();
-        triggerTime = TriggerTime;
 
         Debug.Log($"3. Setup - {this}");
     }
 
     public void Interact()
     {
-        if (fov.ClosestInteractTransform != null)
+        if (!InteractionCheck()) return;
+
+
+    }
+
+    // 인터랙션이 가능한지 체크하는 함수
+    public bool InteractionCheck()
+    {
+        if (fov.ClosestTransform != null)
         {
-            string tag = fov.ClosestInteractTransform.tag;
+            string tag = fov.ClosestTransform.tag;
 
             switch (tag)
             {
                 case "Item":
-                    StartCoroutine(PickUpDelay(fov.ClosestInteractTransform));
+                    StartCoroutine(PickUpDelay(fov.ClosestTransform));
                     break;
 
                 case "Dragable":
@@ -69,38 +69,17 @@ public class PlayerInteraction : MonoBehaviour
                     controller.ChangeState(PlayerStateType.Climbing);
                     break;
             }
+
+            return true;
         }
 
-        //if (isConstructionMode)
-        //{
-        //    previewPrefab.Construct();
-        //    isConstructionMode = !isConstructionMode;
-        //    return;
-        //}
-        //else if (obj == null)
-        //{
-        //    isConstructionMode = !isConstructionMode;
-        //    previewPrefab.gameObject.SetActive(isConstructionMode);
-        //    return;
-        //}
-        //if (obj.CompareTag("Dragable"))
-        //{
-        //    isInteracting = true;
-        //    dragableObj = obj.transform;
-        //    controller.ChangeMoveState(PlayerStateType.Dragging);
-        //    return;
-        //}
-    }
-    // 인터랙션이 가능한지 체크하는 함수
-    public void InteractionCheck()
-    {
-        // 인터랙션이 가능함
+        // 그렇지 않으면 x
+        return false;
     }
 
     public void InteractWithEquipment()
     {
-        StartCoroutine(InteractAnimationDelay());
-        // Physics.SphereCast()
+
     }
 
     IEnumerator PickUpDelay(Transform transform)
@@ -112,76 +91,48 @@ public class PlayerInteraction : MonoBehaviour
         controller.ChangeState(PlayerStateType.Default);
     }
 
-    // 개똥 시연용 스크립트
-    private IEnumerator InteractAnimationDelay()
-    {
-        EquipmentModel[equipmentIndex].SetActive(true);
-        controller.ChangeState(PlayerStateType.Interaction);
-        switch (equipmentIndex)
-        {
-            case 0:
-                controller.anim.ChangeAnimationState("Player_Action_Axe");
-                var colliders = Physics.OverlapSphere(transform.position, 0.8f);
-                foreach (Collider col in colliders)
-                {
-                    if (col.CompareTag("Ingredient"))
-                    {
-                        var ingredient = col.GetComponent<IngredientObject>();
-                        if ((int)ingredient.GetObjectType() == equipmentIndex)
-                        {
-                            var vfx = Instantiate(DestructVFX, BlockPointer.position, Quaternion.identity, null);
-                            Destroy(vfx, 4f);
-                            yield return new WaitForSeconds(0.583f);
-                            controller.anim.ChangeAnimationState("Player_Action_Axe");
-                            var vfx2 = Instantiate(DestructVFX, BlockPointer.position, Quaternion.identity, null);
-                            Destroy(vfx2, 4f);
-                            yield return new WaitForSeconds(0.583f);
-                            
-                            ingredient.AffectedByEquipment();
-                        }
-                    }
-                }
-                break;
-            case 1:
-                controller.anim.ChangeAnimationState("Player_Action_Pickaxe");
-                yield return new WaitForSeconds(0.3f);
-                var colliders2 = Physics.OverlapSphere(transform.position, 0.8f);
-                foreach (Collider col in colliders2)
-                {
-                    if (col.CompareTag("Ingredient"))
-                    {
-                        var ingredient = col.GetComponent<IngredientObject>();
-                        if ((int)ingredient.GetObjectType() == equipmentIndex)
-                        {
-                            ingredient.AffectedByEquipment();
-                            var vfx = Instantiate(DestructVFX, BlockPointer.position, Quaternion.identity, null);
-                            Destroy(vfx, 4f);
-                        }
-                    }
-                }
-                break;
-            case 2:
-                controller.anim.ChangeAnimationState("Player_Action_Shovel");
-                yield return new WaitForSeconds(0.4f);
-                var ray = Physics.Raycast(transform.position, Vector3.down, LayerMask.GetMask("Block"));
-                    //if (ray.CompareTag("Ingredient"))
-                    //{
-                    //    var ingredient = col.GetComponent<IngredientObject>();
-                    //    if ((int)ingredient.GetObjectType() == equipmentIndex)
-                    //    {
-                    //        ingredient.AffectedByEquipment();
-                    //        var vfx = Instantiate(DestructVFX, BlockPointer.position, Quaternion.identity, null);
-                    //        Destroy(vfx, 4f);
-                    //    }
-                    //}
-                break;
-        }
+    //private IEnumerator InteractAnimationDelay()
+    //{
+    //    인터랙션 state로 변경
 
-        yield return new WaitForSeconds(0.3f);
+    //    도구 모델 활성화
+    //     현재 도구에 따른 애니메이션 재생
+    //     도구에 따른 특수 효과 발동
 
-        EquipmentModel[equipmentIndex].SetActive(false);
-        controller.ChangeState(PlayerStateType.Default);
-    }
+    //    EquipmentModel[equipmentIndex].SetActive(true);
+    //    controller.ChangeState(PlayerStateType.Interaction);
+    //    switch (equipmentIndex)
+    //    {
+    //        case 0:
+    //            controller.anim.ChangeAnimationState("Player_Action_Axe");
+    //            var colliders = Physics.OverlapSphere(transform.position, 0.8f);
+    //            foreach (Collider col in colliders)
+    //            {
+    //                if (col.CompareTag("Ingredient"))
+    //                {
+    //                    var ingredient = col.GetComponent<IngredientObject>();
+    //                    if ((int)ingredient.GetObjectType() == equipmentIndex)
+    //                    {
+    //                        var vfx = Instantiate(DestructVFX, BlockPointer.position, Quaternion.identity, null);
+    //                        Destroy(vfx, 4f);
+    //                        yield return new WaitForSeconds(0.583f);
+    //                        controller.anim.ChangeAnimationState("Player_Action_Axe");
+    //                        var vfx2 = Instantiate(DestructVFX, BlockPointer.position, Quaternion.identity, null);
+    //                        Destroy(vfx2, 4f);
+    //                        yield return new WaitForSeconds(0.583f);
+
+    //                        ingredient.AffectedByEquipment();
+    //                    }
+    //                }
+    //            }
+    //            break;
+    //    }
+
+    //    yield return new WaitForSeconds(0.3f);
+
+    //    EquipmentModel[equipmentIndex].SetActive(false);
+    //    controller.ChangeState(PlayerStateType.Default);
+    //}
 
     //public void ChangeEquipment(PlayerEquipment _newEquipment)
     //{

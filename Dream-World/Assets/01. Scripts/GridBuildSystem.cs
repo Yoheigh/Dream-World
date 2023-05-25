@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridBuildSystem
+public class GridBuildSystem : MonoBehaviour
 {
     [SerializeField]
     private BuildPreview previewPrefab;
@@ -11,6 +11,12 @@ public class GridBuildSystem
 
     // 내부 변수
     private Vector3 buildPosition;
+
+    private void Update()
+    {
+        // 얜 계속 체크할거라 위치 변경해줘야 함
+        buildPosition = testTransform.position.GetXYZRound();
+    }
 
     public void Construct()
     {
@@ -36,17 +42,9 @@ public class GridBuildSystem
 
     public bool BuildCheck()
     {
-        return Physics.OverlapBox()
+        return Physics.OverlapBox(buildPosition, Vector3.one) == null;
     }
 
     // 해당 블럭의 가장 근처 x, y, z 값을 반환해주는 함수
-    private Vector3 GetBuildPosition()
-    {
-        int x, y, z;
-        x = Mathf.RoundToInt(testTransform.position.x);
-        y = Mathf.RoundToInt(testTransform.position.y);
-        z = Mathf.RoundToInt(testTransform.position.z);
-
-        return new Vector3(x, y, z);
-    }
+    
 }

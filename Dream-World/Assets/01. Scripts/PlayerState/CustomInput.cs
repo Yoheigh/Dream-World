@@ -13,38 +13,49 @@ public class CustomInput : MonoBehaviour
     public bool cursorLocked = true;
     public bool cursorInputForLook = true;
     private bool moveInputFlag = true;
+    private bool lookInputFlag = true;
 
     private PlayerInputActions playerInputActions;
 
-    private void Awake()
+    public void Setup()
     {
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
+
+        Debug.Log($"5. Setup - {this}");
     }
 
     private void Update()
     {
-        UpdateInput(moveInputFlag);
+        UpdateMoveInput(moveInputFlag);
+        UpdateLookInput(lookInputFlag);
     }
 
-    private void UpdateInput(bool _flag)
+    private void UpdateMoveInput(bool _flag)
     {
         switch(_flag)
         {
             case true:
                 move = playerInputActions.Player.Move.ReadValue<Vector2>();
-                look = playerInputActions.Player.Look.ReadValue<Vector2>();
-                jump = playerInputActions.Player.Jump.triggered;         // 누른 순간
-                sprint = playerInputActions.Player.Sprint.IsPressed();   // 누르고 있는 동안
+                jump = playerInputActions.Player.Jump.triggered;               // 누른 순간
+                sprint = playerInputActions.Player.Sprint.IsPressed();         // 누르고 있는 동안
                 break;
 
             case false:
                 move = Vector2.zero;
-                look = Vector2.zero;
                 jump = false;
                 sprint = false;
                 break;
         }
+    }
+
+    private void UpdateLookInput(bool _flag)
+    {
+        if( lookInputFlag )
+            look = playerInputActions.Player.Look.ReadValue<Vector2>();
+
+        else
+            look = Vector2.zero;
     }
 
     public void CanMove(bool _flag)

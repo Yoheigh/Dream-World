@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour
         movement.Setup();
         interaction.Setup();
         anim.Setup(animator);
+        input.Setup();
 
         // 인풋에 함수 등록
         input.RegisterInteractPerformed(Interact);
@@ -93,7 +94,7 @@ public class PlayerController : MonoBehaviour
 
     private void LateUpdate()
     {
-        CameraRotation();
+        HandleCameraRotation();
     }
 
     private void SetUp()
@@ -105,6 +106,8 @@ public class PlayerController : MonoBehaviour
         movement = GetComponent<PlayerMovement>();
         interaction = GetComponent<PlayerInteraction>();
         anim = new PlayerAnimation();
+
+        // input은 매니저에서 담당하게 할지 고민중
         input = FindObjectOfType<CustomInput>().GetComponent<CustomInput>();
         animator = GetComponent<Animator>();
         fov = GetComponent<FOVSystem>();
@@ -139,26 +142,12 @@ public class PlayerController : MonoBehaviour
         interaction.InteractWithEquipment();
     }
 
-    public void CameraScroll(InputAction.CallbackContext context)
+    public void HandleCameraScroll(InputAction.CallbackContext context)
     {
-        //if (input.scroll != 0.0f)
-        //{
-        //    //float distance = Vector3.Distance(MainCamera.transform.position, CinemachineCameraTarget.transform.position);
-        //    //Vector3 direction = MainCamera.transform.forward;
-        //    //Vector3 movement = direction * input.scroll * cameraScrollSensivity;
-        //    //if (distance - movement.z < cameraOffsetMin)
-        //    //{
-        //    //    movement = direction * (distance - cameraOffsetMin);
-        //    //}
-        //    //else if (distance - movement.z > cameraOffsetMax)
-        //    //{
-        //    //    movement = direction * (distance - cameraOffsetMax);
-        //    //}
-        //    //MainCamera.transform.position += movement;
-        //}
+
     }
 
-    public void CameraRotation()
+    public void HandleCameraRotation()
     {
         if (input.look.sqrMagnitude >= threshold && !cameraPositionLock)
         {

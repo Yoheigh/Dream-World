@@ -9,6 +9,7 @@ namespace PlayerOwnedStates
         public override void EnterState(PlayerController _entity)
         {
             _entity.input.CanMove(true);
+            _entity.fov.FindTargetsWithDelay(true);
 
             //_entity.animator.SetBool("isClimbing", false);
             //_entity.animator.SetBool("isHolding", false);
@@ -30,7 +31,8 @@ namespace PlayerOwnedStates
 
         public override void ExitState(PlayerController _entity)
         {
-
+            _entity.fov.FindTargetsWithDelay(false);
+            _entity.fov.ClearTargets();
         }
     }
 

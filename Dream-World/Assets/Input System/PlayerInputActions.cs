@@ -92,7 +92,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Find"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""33415179-5680-459b-843d-a396703c8a04"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -106,7 +106,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""CameraScroll"",
@@ -116,6 +116,24 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""CameraZoomIn"",
+                    ""type"": ""Button"",
+                    ""id"": ""631e7970-c885-4bb1-a28c-5487f6cf7f27"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CaneraZoomOut"",
+                    ""type"": ""Button"",
+                    ""id"": ""404ee24f-7355-4309-ad41-8b04d3363ab3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -175,59 +193,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""LeftStick"",
-                    ""id"": ""5c143e92-e9f1-446e-871f-d87189ec80d0"",
-                    ""path"": ""2DVector(mode=2)"",
+                    ""name"": """",
+                    ""id"": ""dbe57a78-90b9-4fdd-9169-41797fa8df5d"",
+                    ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
-                    ""processors"": ""NormalizeVector2"",
-                    ""groups"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Move"",
-                    ""isComposite"": true,
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""b34ec15b-32de-4556-9197-1710c064fda0"",
-                    ""path"": ""<Gamepad>/leftStick/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""92a64c3a-d90d-4e71-902e-581476af0f71"",
-                    ""path"": ""<Gamepad>/leftStick/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""5762ee0d-936e-4c7b-ad95-4985ebadbe3b"",
-                    ""path"": ""<Gamepad>/leftStick/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""f14fedbd-39a1-47b6-8e3d-bb2aa247ac28"",
-                    ""path"": ""<Gamepad>/leftStick/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -270,17 +244,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Interact"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""530ed29b-949a-4def-824b-b899e2ba09d4"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Find"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -385,7 +348,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""248fbd8a-2810-419d-b4fb-5ba9581d0c99"",
+                    ""id"": ""f22d4bb9-5d3b-4018-9a67-db31471423d6"",
                     ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
@@ -396,12 +359,34 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""2e933531-7cee-4154-98ba-872cfdb8aa74"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": ""Press"",
+                    ""id"": ""530ed29b-949a-4def-824b-b899e2ba09d4"",
+                    ""path"": """",
+                    ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""CameraScroll"",
+                    ""groups"": """",
+                    ""action"": ""Find"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d1f5d85d-85be-4056-a0f4-f107389cb04a"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CameraZoomIn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5a06092f-3ecb-46f6-81a4-4ca5baf5f720"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CaneraZoomOut"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -854,6 +839,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Player_Find = m_Player.FindAction("Find", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_CameraScroll = m_Player.FindAction("CameraScroll", throwIfNotFound: true);
+        m_Player_CameraZoomIn = m_Player.FindAction("CameraZoomIn", throwIfNotFound: true);
+        m_Player_CaneraZoomOut = m_Player.FindAction("CaneraZoomOut", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -933,6 +920,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Find;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_CameraScroll;
+    private readonly InputAction m_Player_CameraZoomIn;
+    private readonly InputAction m_Player_CaneraZoomOut;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -947,6 +936,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Find => m_Wrapper.m_Player_Find;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @CameraScroll => m_Wrapper.m_Player_CameraScroll;
+        public InputAction @CameraZoomIn => m_Wrapper.m_Player_CameraZoomIn;
+        public InputAction @CaneraZoomOut => m_Wrapper.m_Player_CaneraZoomOut;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -986,6 +977,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @CameraScroll.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraScroll;
                 @CameraScroll.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraScroll;
                 @CameraScroll.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraScroll;
+                @CameraZoomIn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraZoomIn;
+                @CameraZoomIn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraZoomIn;
+                @CameraZoomIn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraZoomIn;
+                @CaneraZoomOut.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCaneraZoomOut;
+                @CaneraZoomOut.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCaneraZoomOut;
+                @CaneraZoomOut.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCaneraZoomOut;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1020,6 +1017,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @CameraScroll.started += instance.OnCameraScroll;
                 @CameraScroll.performed += instance.OnCameraScroll;
                 @CameraScroll.canceled += instance.OnCameraScroll;
+                @CameraZoomIn.started += instance.OnCameraZoomIn;
+                @CameraZoomIn.performed += instance.OnCameraZoomIn;
+                @CameraZoomIn.canceled += instance.OnCameraZoomIn;
+                @CaneraZoomOut.started += instance.OnCaneraZoomOut;
+                @CaneraZoomOut.performed += instance.OnCaneraZoomOut;
+                @CaneraZoomOut.canceled += instance.OnCaneraZoomOut;
             }
         }
     }
@@ -1143,6 +1146,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnFind(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnCameraScroll(InputAction.CallbackContext context);
+        void OnCameraZoomIn(InputAction.CallbackContext context);
+        void OnCaneraZoomOut(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
