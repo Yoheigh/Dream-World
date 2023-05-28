@@ -2,31 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum InteractionType
+public enum ObjectType
 {
-    Click = 0, Hold, Both
+    Pickup,
+    Grabable,
+    StageObject
 }
 
 public abstract class InteractionObject : MonoBehaviour
 {
-    [Header("Interaction Settings")]
-    public InteractionType interactionType;
-    // GameManager
+    // 인터랙션 오브젝트에 필요한 게 뭐가 있을까
+    public ObjectType objectType;
 
     public abstract void InteractWithPlayer();
-
-    public virtual void Setup()
-    {
-        switch(interactionType)
-        {
-            case InteractionType.Click:
-                break;
-
-            case InteractionType.Hold:
-                break;
-
-            case InteractionType.Both:
-                break;
-        }
-    }
 }

@@ -1,18 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
-
-public enum ObjectTagType
-{
-    Block = 0,
-    Interactable
-}
 
 public class FOVSystem : MonoBehaviour
 {
-    public ObjectTagType targetTag = ObjectTagType.Interactable;
-
     public float viewRadius;            //시야 거리
     public float viewAngle;             //시야 각
     public float refreshDelay = 0.1f;  // 재탐색 시간
@@ -28,7 +20,6 @@ public class FOVSystem : MonoBehaviour
     public LayerMask obstacleMask;
 
     public List<Transform> visibleTargets = new List<Transform>();      // 보이는 타겟 리스트
-    // public List<Transform> visibleTargets2 = new List<Transform>();
 
     public virtual void Start()
     {
@@ -57,6 +48,7 @@ public class FOVSystem : MonoBehaviour
             yield return new WaitForSeconds(delay);
             FindVisibleTargets();
             GetClosestTarget();
+            Debug.Log(ClosestTransform);
             //ClosestTargetColor();
         }
     }
@@ -116,6 +108,13 @@ public class FOVSystem : MonoBehaviour
     // visibleTargets 중에서 가장 가까운 오브젝트를 closestTransform에 등록
     public Transform GetClosestTarget()
     {
+        // 시야 안에 오브젝트가 없으면 return null;
+        if (visibleTargets.Count == 0)
+        {
+            closestTransform = null;
+            return closestTransform;
+        }
+
         float closestDistance = Mathf.Infinity;
         for (int i = 0; i < visibleTargets.Count; i++)
         {
@@ -125,6 +124,10 @@ public class FOVSystem : MonoBehaviour
             // 블럭 사이의 거리를 계산할 때 높낮이를 고려해야 한다면 Distance()로 구한 float 대신 각 Vector3.y의 크기를 비교해야 한다.
             if (dstToTarget <= viewRadius)
             {
+                // 이전에 탐색한 오브젝트와 동일한 오브젝트일 경우 처리 종료
+                if (_target == closestTransform)
+                    return closestTransform;
+
                 if (dstToTarget < closestDistance)
                 {
                     ClosestTransform = _target;
@@ -132,14 +135,16 @@ public class FOVSystem : MonoBehaviour
                 }
             }
         }
+        // 1. 시야 안에 오브젝트 있음
 
-        if (visibleTargets.Count == 0)
-            ClosestTransform = null;
+        // 2. 이전에 선택했던 오브젝트가 아님
 
-        return ClosestTransform;
+        // 해당 오브젝트 리턴하고 UI 이벤트 업데이트
+        return closestTransform;
+        // UI 이벤트 Invoke(closestTransform)
     }
 
-    // 기존의 렌더러 접근에서 LayerMask 변경 필요
+    // 기존의 렌더러 접근에서 바꿀 예정
     void VisibleTargetColor(Color color)
     {
         for (int i = 0; i < visibleTargets.Count; i++)
