@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public static class MethodExtensions
 {
-    // List¿¡¼­ ·£´ıÇÑ ¾ÆÀÌÅÛ °¡Á®¿À±â
+    // Listì—ì„œ ëœë¤í•œ ì•„ì´í…œ ê°€ì ¸ì˜¤ê¸°
     public static T RandomItem<T>(this List<T> list)
     {
         if (list.Count == 0)
@@ -17,7 +17,7 @@ public static class MethodExtensions
         return list[randomIndex];
     }
 
-    // Vector3 °ªÀ» int·Î ¹İ¿Ã¸² (RoundToInt)
+    // Vector3 ê°’ì„ intë¡œ ë°˜ì˜¬ë¦¼ (RoundToInt)
     public static Vector3 GetXYZRound(this Vector3 vector3)
     {
         int x, y, z;

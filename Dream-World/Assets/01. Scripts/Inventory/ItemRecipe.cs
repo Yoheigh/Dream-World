@@ -1,13 +1,13 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ItemRecipe", menuName = "ItemRecipe", order = 0)]
 public class ItemRecipe : ScriptableObject
 {
-    [Header("Á¶ÇÕ¿¡ ÇÊ¿äÇÑ ¾ÆÀÌÅÛ")]
+    [Header("ì¡°í•©ì— í•„ìš”í•œ ì•„ì´í…œ")]
     public List<ItemV2> ingredients = new List<ItemV2>(3);
 
-    [Header("¿Ï¼º ¾ÆÀÌÅÛ")]
+    [Header("ì™„ì„± ì•„ì´í…œ")]
     public ItemV2 result = null;
 }

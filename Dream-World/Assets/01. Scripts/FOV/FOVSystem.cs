@@ -48,8 +48,7 @@ public class FOVSystem : MonoBehaviour
             yield return new WaitForSeconds(delay);
             FindVisibleTargets();
             GetClosestTarget();
-            Debug.Log(ClosestTransform);
-            //ClosestTargetColor();
+            // Debug.Log(ClosestTransform);
         }
     }
 

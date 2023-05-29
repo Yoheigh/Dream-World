@@ -1,45 +1,49 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public enum ItemTypeV2
 {
-    Ingredient,     // Àç·á
-    Equipment,      // Àåºñ
-    Structure,      // °ÇÃà¹°
-    Consumable      // ¼Ò¸ğÇ°
+    Ingredient,     // ì¬ë£Œ
+    Equipment,      // ì¥ë¹„
+    Structure,      // ê±´ì¶•ë¬¼
+    Consumable      // ì†Œëª¨í’ˆ
 }
 
 [System.Serializable]
 public class ItemV2
 {
-    [Header("¾ÆÀÌÅÛ")]
+    [Header("ì•„ì´í…œ")]
     public int itemID;
-    public ItemType itemType;
+    public ItemTypeV2 itemType;
+    public int itemCount;
+    public int itemMaxCount;
     public string itemName;
     public string itemDescription;
 
-    // ±âÈ¹ÀÚ°¡ Á÷°üÀûÀ¸·Î ¼öÁ¤ÇÒ ¼ö ÀÖ°Ô²û Sprite·Î ¼±¾ğ
-    // À¯Áö º¸¼ö¸¦ À§ÇÑ °úÁ¤Àº ´ÙÀ½¿¡!
+    // ê¸°íšìê°€ ì§ê´€ì ìœ¼ë¡œ ìˆ˜ì •í•  ìˆ˜ ìˆê²Œë” Spriteë¡œ ì„ ì–¸
+    // ìœ ì§€ ë³´ìˆ˜ë¥¼ ìœ„í•œ ê³¼ì •ì€ ë‹¤ìŒì—!
     public Sprite itemIcon;
 
-    // ¾ÆÀÌÅÛ µ¥ÀÌÅÍ »ı¼ºÀÚ
-    public ItemV2(int _itemID, ItemType _itemType, string _itemName, string _itemDescription, Sprite _itemIcon = null)
+    // ì•„ì´í…œ ë°ì´í„° ìƒì„±ì
+    public ItemV2(int _itemID, ItemTypeV2 _itemType, string _itemName, string _itemDescription = null, int _itemCount = 1, int _itemMaxCount = 64, Sprite _itemIcon = null)
     {
-        itemID = _itemID;
-        itemType = _itemType;
-        itemName = _itemName;
-        itemDescription = _itemDescription;
-        itemIcon = _itemIcon;
+        itemID = _itemID;                       // ì•„ì´í…œ ID
+        itemType = _itemType;                   // ì•„ì´í…œ íƒ€ì…
+        itemName = _itemName;                   // ì•„ì´í…œ ì´ë¦„
+        itemDescription = _itemDescription;     // ì•„ì´í…œ ì„¤ëª…
+        itemCount = _itemCount;                 // ì•„ì´í…œ ê°œìˆ˜ (ê¸°ë³¸ : 1)
+        itemMaxCount = _itemMaxCount;           // ì•„ì´í…œ ìµœëŒ€ ê°œìˆ˜ (ê¸°ë³¸ : 32)
+        itemIcon = _itemIcon;                   // ì•„ì´í…œ ìŠ¤í”„ë¼ì´íŠ¸ ì•„ì´ì½˜
     }
 
-    // ¿¢¼¿ ¹× Json Á÷·ÄÈ­ µ¥ÀÌÅÍ¿ë
+    // ì—‘ì…€ ë° Json ì§ë ¬í™” ë°ì´í„°ìš©
     public ItemV2(int _itemID)
     {
-        // itemID¸¦ ÅëÇØ ItemDatabase¿¡¼­ ÇØ´ç ¾ÆÀÌÅÛ µ¥ÀÌÅÍ¸¦ °¡Á®¿Â´Ù.
+        // itemIDë¥¼ í†µí•´ ItemDatabaseì—ì„œ í•´ë‹¹ ì•„ì´í…œ ë°ì´í„°ë¥¼ ê°€ì ¸ì˜¨ë‹¤.
 
-        // °¡Á®¿Â µ¥ÀÌÅÍ¸¦ ÅëÇØ ¾ÆÀÌÅÛ µ¥ÀÌÅÍ¸¦ »ı¼ºÇÑ´Ù.
+        // ê°€ì ¸ì˜¨ ë°ì´í„°ë¥¼ í†µí•´ ì•„ì´í…œ ë°ì´í„°ë¥¼ ìƒì„±í•œë‹¤.
 
-        // ±»ÀÌ µÎ ¹ø °ÅÄ¥ ÀÌÀ¯°¡ ÀÖ³ª ½Í±ä ÇÏÁö¸¸ ¾Æ¹«Æ°
+        // êµ³ì´ ë‘ ë²ˆ ê±°ì¹  ì´ìœ ê°€ ìˆë‚˜ ì‹¶ê¸´ í•˜ì§€ë§Œ ì•„ë¬´íŠ¼
     }
 }

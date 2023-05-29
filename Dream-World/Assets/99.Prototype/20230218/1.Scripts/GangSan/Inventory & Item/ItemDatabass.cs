@@ -39,6 +39,7 @@ public class ItemDatabase : MonoBehaviour
             {
                 Debug.Log(item.itemID + "리턴 됨");
                 return item;
+                
             }
         }
 

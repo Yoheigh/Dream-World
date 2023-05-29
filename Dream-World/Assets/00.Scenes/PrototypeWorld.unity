@@ -1647,6 +1647,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1318240100}
   - component: {fileID: 1318240099}
+  - component: {fileID: 1318240101}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1682,6 +1683,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1318240101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318240098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74bd4c694efd7884e892d429e4179ffb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Stage: {fileID: 0}
+  Sound: {fileID: 0}
+  Craft:
+    recipes:
+    - {fileID: 11400000, guid: 5f588d028737dfb46819570877922112, type: 2}
+  Inventory:
+    ingredients: []
+    consumables: []
+    equipments: []
+    MaxIngredientSlots: 16
+    MaxConsumableSlots: 16
+    MaxEquipmentSlots: 4
 --- !u!1 &1354664298
 GameObject:
   m_ObjectHideFlags: 0
