@@ -23,6 +23,7 @@ public class PlayerInteraction : MonoBehaviour
         set => isInteracting = value;
     }
 
+
     [SerializeField]
     private Transform BlockPointer;
 
@@ -30,6 +31,11 @@ public class PlayerInteraction : MonoBehaviour
     private PlayerController controller;
 
     public int equipmentIndex = 0;
+
+    // 내부 변수
+    private bool isHolding = false;
+    private Transform holdingObject;
+    private float graphValue;           // Lerp 같은 거 할 때 범용적으로 쓸 변수
 
     // Start is called before the first frame update
     public void Setup()
@@ -42,13 +48,19 @@ public class PlayerInteraction : MonoBehaviour
 
     public void Interact()
     {
-        // 블럭 설치, 아이템 사용 등의 1회성 상태라면
-            // 해당 상태를 소모
-            // return;
+        // 손에 무언가 들고 있는 상태일 경우 처리
+        if(isHolding )
+        {
+            StartCoroutine(ObjectMoveToGrid(holdingObject));
+            isHolding = false;
+            Debug.Log("그런 위험한 건 내려놓고 얘기하자구");
+            return;
+
+        }
 
         // 인벤토리에서 오브젝트를 선택해서 사용한다면
-            // 해당 상태를 소모
-            // return;
+        // 해당 상태를 소모
+        // return;
 
         if (!NearObjectCheck()) return;
 
@@ -61,7 +73,13 @@ public class PlayerInteraction : MonoBehaviour
         switch(temp.objectType)
         {
             case ObjectType.Grabable:
-                StartCoroutine(ObjectMoveToOverhead(temp.transform));
+                isHolding = true;
+                holdingObject = temp.transform;
+                StartCoroutine(ObjectMoveToOverhead(holdingObject));
+                break;
+
+            case ObjectType.Dragable:
+
                 break;
 
             case ObjectType.Pickup:
@@ -69,7 +87,8 @@ public class PlayerInteraction : MonoBehaviour
                 break;
 
             case ObjectType.StageObject:
-
+                // 작동시키는 애니메이션이 없는걸!!!!
+                StartCoroutine(PickUpDelay());
                 break;
         }
     }
@@ -113,17 +132,29 @@ public class PlayerInteraction : MonoBehaviour
 
     IEnumerator ObjectMoveToOverhead(Transform _object)
     {
-        _object.GetComponent<Collider>().enabled = false;
-        _object.GetComponent<Rigidbody>().useGravity = false;
-
-
-
-        while (true /* _object.transform.position != transform.position + Vector3.up * 1.5f */)
+        while (isHolding)
         {
             var end = transform.position + Vector3.up * 1.5f;
             _object.transform.position = Vector3.Lerp(_object.transform.position, end, Time.deltaTime * 10f);
             yield return null;
         }
+    }
+
+    IEnumerator ObjectMoveToGrid(Transform _object)
+    {
+        Vector3 targetPosition = Vector3.one;
+        
+        // Sine 그래프를 따라 graphValue의 값을 조정
+        GraphSine(1.0f);
+        while (_object.transform.position != targetPosition)
+        {
+            // 실시간으로 바뀌는 graphValue의 값을 코루틴 2개를 돌려 Lerp에 사용
+            _object.transform.position = Vector3.Lerp(_object.transform.position, targetPosition, graphValue);
+            yield return null;
+        }
+
+        var obj = _object.GetComponent<InteractionObject>() as Grabable;
+        obj.Init();
     }
 
     IEnumerator PickUpDelay()
@@ -229,4 +260,27 @@ public class PlayerInteraction : MonoBehaviour
     //        }
     //    }
 
+    public void GraphSine(float lerpTime)
+    {
+        StartCoroutine(GraphSineCoroutine(lerpTime));
+    }
+
+    private IEnumerator GraphSineCoroutine(float lerpTime)
+    {
+        float currentTime = 0f;
+
+        while (currentTime < lerpTime)
+        {
+            currentTime += Time.deltaTime;
+
+            if (currentTime >= lerpTime)
+                currentTime = lerpTime;
+
+            graphValue = currentTime / lerpTime;
+            graphValue = Mathf.Sin(graphValue * Mathf.PI * 0.5f);
+
+            yield return null;
+        }
+
+    }
 }

@@ -22,7 +22,7 @@ public class ItemV2
     public string itemDescription;
 
     // 기획자가 직관적으로 수정할 수 있게끔 Sprite로 선언
-    // 유지 보수를 위한 과정은 다음에!
+    // 유지 보수를 위한 과정은 다음에
     public Sprite itemIcon;
 
     // 아이템 데이터 생성자
@@ -46,4 +46,7 @@ public class ItemV2
 
         // 굳이 두 번 거칠 이유가 있나 싶긴 하지만 아무튼
     }
+
+    // 상속용
+    public ItemV2() { }
 }

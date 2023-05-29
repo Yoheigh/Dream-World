@@ -1204,6 +1204,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCharacter
       objectReference: {fileID: 0}
+    - target: {fileID: 8876083549096588824, guid: 06783534d935e9248b4c116ffdfc50de, type: 3}
+      propertyPath: viewRadius
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8876083549096588828, guid: 06783534d935e9248b4c116ffdfc50de, type: 3}
       propertyPath: m_Enabled
       value: 1

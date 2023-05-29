@@ -9,12 +9,13 @@ public class Grabable : InteractionObject
         // enum 등록 잠시 여기로
         objectType = ObjectType.Grabable;
         gameObject.GetComponent<Collider>().enabled = false;
+        gameObject.GetComponent<Rigidbody>().useGravity = false;
     }
 
-    public void Grabbed(bool _flag)
+    // 다시 자리에 놓았을 때 기능 활성화
+    public void Init()
     {
-        Debug.Log(" 니 머리 위에 나 있다");
-        gameObject.GetComponent<Collider>().enabled = _flag;
-
+        gameObject.GetComponent<Collider>().enabled = true;
+        gameObject.GetComponent<Rigidbody>().useGravity = true;
     }
 }
