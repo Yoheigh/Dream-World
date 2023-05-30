@@ -32,5 +32,13 @@ public class GameManager : MonoBehaviour
         {
             Manager.Craft.CraftItemCheck(Manager.Craft.recipes[0]);
         }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Manager.Inventory.RemoveItem(new ItemV2(100, ItemTypeV2.Ingredient, "³ª¹«"));
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Manager.Inventory.ChangeEquipment();
+        }
     }
 }

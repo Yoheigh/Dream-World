@@ -11,13 +11,14 @@ public enum ItemTypeV2
 }
 
 [System.Serializable]
-public class ItemV2
+[CreateAssetMenu(fileName = "New Item", menuName = "Inventory/ItemV2", order = 1)]
+public class ItemV2 : ScriptableObject
 {
     [Header("아이템")]
     public int itemID;
     public ItemTypeV2 itemType;
-    public int itemCount;
-    public int itemMaxCount;
+    public int itemCount = 1;
+    public int itemMaxCount = 64;
     public string itemName;
     public string itemDescription;
 

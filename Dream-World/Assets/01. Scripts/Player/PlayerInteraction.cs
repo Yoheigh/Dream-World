@@ -30,12 +30,11 @@ public class PlayerInteraction : MonoBehaviour
     private FOVSystem fov;
     private PlayerController controller;
 
-    public int equipmentIndex = 0;
-
     // 내부 변수
     private bool isHolding = false;
     private Transform holdingObject;
     private float graphValue;           // Lerp 같은 거 할 때 범용적으로 쓸 변수
+    private PlayerEquipment
 
     // Start is called before the first frame update
     public void Setup()
@@ -53,20 +52,24 @@ public class PlayerInteraction : MonoBehaviour
         {
             StartCoroutine(ObjectMoveToGrid(holdingObject));
             isHolding = false;
+
+            // 던지기 코드 처리
+
             Debug.Log("그런 위험한 건 내려놓고 얘기하자구");
             return;
-
         }
 
         // 인벤토리에서 오브젝트를 선택해서 사용한다면
+        // 이것도 isHolding에서 처리
         // 해당 상태를 소모
         // return;
 
+        // 근처에 상호작용 가능한 오브젝트가 없을 경우 종료
         if (!NearObjectCheck()) return;
 
         var temp = fov.ClosestTransform.GetComponent<InteractionObject>();
 
-        // 오브젝트의 인터랙션 활성화
+        // 오브젝트의 인터랙션 기능 활성화
         temp.InteractWithPlayer();
 
         // 오브젝트의 enum에 따라서 플레이어 상태 변경
@@ -79,7 +82,7 @@ public class PlayerInteraction : MonoBehaviour
                 break;
 
             case ObjectType.Dragable:
-
+                // 질질 끌고 가는 거
                 break;
 
             case ObjectType.Pickup:
@@ -87,8 +90,7 @@ public class PlayerInteraction : MonoBehaviour
                 break;
 
             case ObjectType.StageObject:
-                // 작동시키는 애니메이션이 없는걸!!!!
-                StartCoroutine(PickUpDelay());
+                // 뭔가 작동시키는 애니메이션이 나오는 기믹
                 break;
         }
     }
@@ -120,6 +122,8 @@ public class PlayerInteraction : MonoBehaviour
         // 오히려 Interact() 함수에서 집어던지는 처리를 해야하는구나
     }
 
+    // 가까이 있는 오브젝트가 바뀔 때마다 작동시킬 Action
+    /* 지금은 사용 안 함 */
     public void UpdateInteractChange()
     {
         var temp = fov.ClosestTransform;
@@ -260,6 +264,7 @@ public class PlayerInteraction : MonoBehaviour
     //        }
     //    }
 
+    // Sine 함수 ( 점차 증가하는 과정 )
     public void GraphSine(float lerpTime)
     {
         StartCoroutine(GraphSineCoroutine(lerpTime));

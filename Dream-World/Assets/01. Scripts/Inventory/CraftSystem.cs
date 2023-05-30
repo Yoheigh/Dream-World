@@ -8,7 +8,7 @@ public class CraftSystem
 {
     InventoryV2 Inventory => Manager.Instance.Inventory;
 
-    // Action 꺽쇠 안 붙이니까 그냥 매개변수 없는 delegate네????
+    // Action 꺽쇠 안 붙이고 쓰면 매개변수 없는 delegate임 까먹지 마셈
     public Action OnCraft;
 
     // 아이템 조합법

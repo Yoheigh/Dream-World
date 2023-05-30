@@ -120,6 +120,7 @@ namespace PlayerOwnedStates
         public override void UpdateState(PlayerController _entity)
         {
             _entity.movement.Gravity();
+            _entity.movement.GravityToFallCheck();
         }
         public override void ExitState(PlayerController _entity)
         {

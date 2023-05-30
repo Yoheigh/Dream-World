@@ -65,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
     private float fallStartHeight;          // 떨어지기 시작한 높이
     private float tempHeight;               // 얼마나 낙하했는가
     private bool isFallDamageActivated; // 다음 번에 땅에 닿으면 낙하 데미지
+    private Vector3 forceVector; // 외부에서 힘을 줄 때 사용하는 벡터
 
     // 미끄러지는 상태
     public bool isSlippery = false;
@@ -138,6 +139,7 @@ public class PlayerMovement : MonoBehaviour
         //}
     }
 
+    // State에서 벗어났을 때 낙하 데미지를 입는지
     public void FallDamageCheck()
     {
         if(isFallDamageActivated)
@@ -218,7 +220,8 @@ public class PlayerMovement : MonoBehaviour
             controller.ChangeState(PlayerStateType.Falling);
         }
     }
-
+    
+    // WASD 조작
     public void Move()
     {
         float targetSpeed = input.sprint ? SprintSpeed : MoveSpeed;
@@ -263,6 +266,9 @@ public class PlayerMovement : MonoBehaviour
 
         else
             characterController.Move(targetDirection * (targetSpeed * Time.deltaTime));
+
+        // 아 이런 미친 forceVector 어따가 더해야 해
+        // slippery도 음 리팩토링 나중에 레벨디자인때 합시다
 
         //transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * 20f);
         // t_n =  (t - min)/(max - min)
