@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public enum ObjectType
@@ -12,8 +13,7 @@ public enum ObjectType
 
 public abstract class InteractionObject : MonoBehaviour
 {
-    // 인터랙션 오브젝트에 필요한 게 뭐가 있을까
-    public ObjectType objectType;
+    public abstract ObjectType ObjectType { get; }
 
     public abstract void InteractWithPlayer();
 }

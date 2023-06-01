@@ -18,15 +18,15 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Manager.Inventory.AddItem(new ItemV2(100, ItemTypeV2.Ingredient, "나무"));
+            Manager.Inventory.AddItem(new Ingredient(100, ItemTypeV2.Ingredient, "나무"));
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
-            Manager.Inventory.AddItem(new ItemV2(200, ItemTypeV2.Ingredient, "바위"));
+            Manager.Inventory.AddItem(new Ingredient(200, ItemTypeV2.Ingredient, "바위"));
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
-            Manager.Inventory.AddItem(new ItemV2(300, ItemTypeV2.Ingredient, "철"));
+            Manager.Inventory.AddItem(new Ingredient(300, ItemTypeV2.Ingredient, "철"));
         }
         if (Input.GetKeyDown(KeyCode.V))
         {
@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            Manager.Inventory.RemoveItem(new ItemV2(100, ItemTypeV2.Ingredient, "나무"));
+            Manager.Inventory.RemoveItem(new Ingredient(100, ItemTypeV2.Ingredient, "나무"));
         }
         if (Input.GetKeyDown(KeyCode.F))
         {

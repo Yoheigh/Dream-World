@@ -22,9 +22,10 @@ public class CraftSystem
 
         Debug.Log($"{recipe}를 만들기 위한 재료를 검색합니다.");
 
-        for(index = 0; index < recipe.ingredients.Count; index++)
+        for(index = 0; index < recipe.ingredients.Length - 1; index++)
         {
             var needItem = recipe.ingredients[index];
+            var needItemCount = recipe.ingredientCounts[index];
 
             // 인벤토리에서 필요한 아이템 있는지 가져오기
             Inventory.GetInventoryItem(needItem.itemID, (obj) =>
@@ -32,7 +33,7 @@ public class CraftSystem
                 Debug.Log($"{index + 1}번째 필요 아이템 : {needItem.itemCount}개 필요한 {obj.itemName}이(가) {obj.itemCount}만큼 있습니다.");
                 
                 // 가져온 아이템이 필요한 아이템의 개수와 같을 경우
-                if (obj.itemCount >= needItem.itemCount)
+                if (obj.itemCount >= needItemCount)
                 {
                     // 필요한 아이템이 리턴될 경우 실행하는 콜백
                     requireCheck++;

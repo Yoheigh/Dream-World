@@ -12,11 +12,11 @@ public class InventoryV2
 
     public List<ItemV2> ingredients;    // 재료
     public List<ItemV2> consumables;    // 건축물, 소모품
-    public List<ItemV2> equipments;      // 장비
+    public List<ItemV2> equipments;     // 장비
 
     // 최대 슬롯 개수 && Capacity 할당량
     public int MaxIngredientSlots = 16;
-    public int MaxConsumableSlots = 16;
+    public int MaxConsumableSlots = 4;
     public int MaxEquipmentSlots = 4;
 
     // 아이템이 변경될 때 실행되는 이벤트

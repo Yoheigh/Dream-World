@@ -4,22 +4,25 @@ using UnityEngine;
 
 public class Pickup : InteractionObject
 {
+    [SerializeField]
+    private ItemV2 item;
+
+    public override ObjectType ObjectType { get { return ObjectType.Pickup; } }
+
     public override void InteractWithPlayer()
     {
-        objectType = ObjectType.Pickup;
         // 아이템 구현
-
-        Manager.Instance.Inventory.AddItem(new Wood());
+        Manager.Instance.Inventory.AddItem(item);
         Destroy(gameObject);
     }
 }
 
-public class Wood : ItemV2
-{
-    public Wood()
-    {
-        itemID = 100;
-        itemType = ItemTypeV2.Ingredient;
-        itemName = "나무";
-    }
-}
+//public class Wood : ItemV2
+//{
+//    public Wood()
+//    {
+//        itemID = 100;
+//        itemType = ItemTypeV2.Ingredient;
+//        itemName = "나무";
+//    }
+//}

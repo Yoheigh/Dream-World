@@ -27,7 +27,7 @@ public class DataBase : Singleton<DataBase>
 }
 
 [System.Serializable]
-[CreateAssetMenu(fileName = "GridObjectData", menuName = "ScriptableObjects/GridObjectData", order = 1)]
+[CreateAssetMenu(fileName = "New GridObjectData", menuName = "GridObjectData", order = 1)]
 public class GridObjectData : ScriptableObject
 {
     public int blockID;
