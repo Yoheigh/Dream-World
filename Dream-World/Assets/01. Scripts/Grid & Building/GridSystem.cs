@@ -41,6 +41,7 @@ public class GridSystem : Singleton<GridSystem>
     {
         if (stageGrid.GetGridObject(x, y, z).gridObjectData.blockName == "Air")
             return;
+
         GameObject block = Instantiate(Resources.Load<GameObject>(stageGrid.GetGridObject(x, y, z).gridObjectData.blockPrefabPath));
         block.transform.position = new Vector3(x + 0.5f, y + 0.5f, z + 0.5f);
         block.transform.rotation = Quaternion.identity;

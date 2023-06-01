@@ -21,21 +21,15 @@ public class ItemV2 : ScriptableObject
     public int itemMaxCount = 64;
     public string itemName;
     public string itemDescription;
-
-    // 기획자가 직관적으로 수정할 수 있게끔 Sprite로 선언
     public Sprite itemIcon;
 
-    // 엑셀 및 Json 직렬화 데이터용
+    // 엑셀 및 Json 직렬화 데이터할 때 쓰려고 예시로 만듦
+    /* itemID에 따라서 아이템 타입을 결정하고 resource에 등록시키는 작업 필요 */
     public ItemV2(int _itemID)
     {
-        // itemID를 통해 ItemDatabase에서 해당 아이템 데이터를 가져온다.
 
-        // 가져온 데이터를 통해 아이템 데이터를 생성한다.
-
-        // 굳이 두 번 거칠 이유가 있나 싶긴 하지만 아무튼
     }
 
-    // 업캐스팅 테스트용
-    /* 위쪽 생성자 없애면 굳이 만들 필요 없음 */
+    /* 업캐스팅 분류작업 끝내면 없애도 됨 */
     public ItemV2() { }
 }

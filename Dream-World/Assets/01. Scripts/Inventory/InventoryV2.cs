@@ -11,12 +11,12 @@ public class InventoryV2
     Manager Manager => Manager.Instance;
 
     public List<ItemV2> ingredients;    // 재료
-    public List<ItemV2> consumables;    // 건축물, 소모품
+    public List<ItemV2> buildings;    // 건축물, 소모품
     public List<ItemV2> equipments;     // 장비
 
     // 최대 슬롯 개수 && Capacity 할당량
     public int MaxIngredientSlots = 16;
-    public int MaxConsumableSlots = 4;
+    public int MaxBuildingSlots = 4;
     public int MaxEquipmentSlots = 4;
 
     // 아이템이 변경될 때 실행되는 이벤트
@@ -34,7 +34,7 @@ public class InventoryV2
     {
         // 메모리 할당
         ingredients = new List<ItemV2>(MaxIngredientSlots);
-        consumables = new List<ItemV2>(MaxConsumableSlots);
+        buildings = new List<ItemV2>(MaxBuildingSlots);
         equipments = new List<ItemV2>(MaxEquipmentSlots);
 
         OnChangeEquipment += () => { Debug.Log("장비 변경됨 수고 비읍"); };
@@ -62,9 +62,9 @@ public class InventoryV2
                 tempSlotsCount = MaxIngredientSlots;
                 break;
 
-            case ItemTypeV2.Consumable:
-                tempList = consumables;
-                tempSlotsCount = MaxConsumableSlots;
+            case ItemTypeV2.Building:
+                tempList = buildings;
+                tempSlotsCount = MaxBuildingSlots;
                 break;
 
             case ItemTypeV2.Equipment:
@@ -126,8 +126,8 @@ public class InventoryV2
                 tempList = ingredients;
                 break;
 
-            case ItemTypeV2.Consumable:
-                tempList = consumables;
+            case ItemTypeV2.Building:
+                tempList = buildings;
                 break;
 
             case ItemTypeV2.Equipment:

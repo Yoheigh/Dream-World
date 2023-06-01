@@ -30,11 +30,13 @@ public class DataBase : Singleton<DataBase>
 [CreateAssetMenu(fileName = "New GridObjectData", menuName = "GridObjectData", order = 1)]
 public class GridObjectData : ScriptableObject
 {
+    [Header("기본 블록 설정")]
     public int blockID;
     public string blockName;
     public string blockPrefabPath;
-    public bool isConstructable;
-    public bool isAffectedByGravity;
+    public bool isConstructable;        // 해당 블럭 위에 블럭 설치 가능 여부
+    public bool isAffectedByGravity;    // 중력에 영향을 받는지
+
 
     //public byte blockX = 1;
     //public byte blockZ = 1;

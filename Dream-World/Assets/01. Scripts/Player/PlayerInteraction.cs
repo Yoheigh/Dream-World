@@ -98,14 +98,8 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
-    // 인터랙션 가능한 오브젝트를 fov에서 넣고
-    // 그게 바뀔 경우에 PlayerInteraction에도 처리하고
-    // UI도 새로운 UI를 띄워야 한다면...
-    // 이벤트를 하나 만들어서 하죠
-    // fov에서 등록시킵시다
-
     // 인터랙션이 가능한지 체크하는 함수
-    // 선택된 오브젝트
+    // 선택된 오브젝트가 바뀔 때 이벤트를 호출할 수도 있음
     // 현재는 예외 없이 근처에 상호작용 블럭이 있는지만 체크
     public bool NearObjectCheck()
     {
@@ -134,7 +128,7 @@ public class PlayerInteraction : MonoBehaviour
     }
 
     // 가까이 있는 오브젝트가 바뀔 때마다 작동시킬 Action
-    /* 지금은 함수 등록 안 되어있음 */
+    /* 지금은 함수 등록도, 사용도 안 함 */
     public void UpdateInteractChange()
     {
         var temp = fov.ClosestTransform;
@@ -145,6 +139,8 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
+    // 플레이어가 뭐 들면 머리 위로 이동시키는 코루틴
+    // isHolding 상태가 해소되면 알아서 꺼짐
     IEnumerator ObjectMoveToOverhead(Transform _object)
     {
         while (isHolding)
@@ -155,6 +151,8 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
+    // 플레이어가 들고있던 걸 Grid로 옮기는 코루틴
+    /* Lerp 그래프를 코루틴으로 사용해보고 싶어서 만들어본거라 사용 안 할 듯 */
     IEnumerator ObjectMoveToGrid(Transform _object, float _lerpTime = 1.0f)
     {
         Vector3 targetPosition = Vector3.one;

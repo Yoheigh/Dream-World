@@ -9,10 +9,10 @@ public class ItemRecipe : ScriptableObject
     [Range(1, 3)]
     public byte needItemCount;
 
-    [Header("조합에 필요한 아이템")]
+    [Header("조합에 필요한 아이템 ( 위에서부터 1 ~ 3 )")]
     public ItemV2[] ingredients;
 
-    [Header("각각 필요한 아이템 개수")]
+    [Header("필요한 아이템 개수 ( 위에서부터 1 ~ 3 )")]
     public int[] ingredientCounts;
 
     [Header("완성 아이템")]
