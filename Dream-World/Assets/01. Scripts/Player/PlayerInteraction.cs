@@ -35,6 +35,7 @@ public class PlayerInteraction : MonoBehaviour
     private bool isHolding = false;
     private Transform holdingObject;
     // private float t;           // Lerp 같은 거 할 때 범용적으로 쓸 변수
+    [SerializeField]
     private Equipment currentEquipment;   // 현재 장착한 장비
     private WaitForSeconds equipWaitTime;
 
@@ -49,6 +50,8 @@ public class PlayerInteraction : MonoBehaviour
 
     public void Interact()
     {
+        if (isInteracting) return;
+
         // 손에 무언가 들고 있는 상태일 경우 처리
         if (isHolding)
         {
@@ -70,32 +73,37 @@ public class PlayerInteraction : MonoBehaviour
         // 근처에 상호작용 가능한 오브젝트가 없을 경우 종료
         if (!NearObjectCheck()) return;
 
-        var temp = fov.ClosestTransform.GetComponent<InteractionObject>();
+        // var temp = fov.ClosestTransform.GetComponent<InteractionObject>();
 
-        // 오브젝트의 인터랙션 기능 활성화
-        temp.InteractWithPlayer();
-
-        // 오브젝트의 enum에 따라서 플레이어 상태 변경
-        switch (temp.ObjectType)
+        if (fov.ClosestTransform.TryGetComponent(out InteractionObject temp))
         {
-            case ObjectType.Grabable:
-                isHolding = true;
-                holdingObject = temp.transform;
-                StartCoroutine(ObjectMoveToOverhead(holdingObject));
-                break;
+            // 오브젝트의 인터랙션 기능 활성화
+            temp.InteractWithPlayer();
 
-            case ObjectType.Dragable:
-                // 질질 끌고 가는 거
-                break;
+            // 오브젝트의 enum에 따라서 플레이어 상태 변경
+            switch (temp.ObjectType)
+            {
+                case ObjectType.Grabable:
+                    isHolding = true;
+                    holdingObject = temp.transform;
+                    StartCoroutine(ObjectMoveToOverhead(holdingObject));
+                    break;
 
-            case ObjectType.Pickup:
-                StartCoroutine(PickUpDelay());
-                break;
+                case ObjectType.Dragable:
+                    // 질질 끌고 가는 거
+                    break;
 
-            case ObjectType.StageObject:
-                // 뭔가 작동시키는 애니메이션이 나오는 기믹
-                break;
+                case ObjectType.Pickup:
+                    StartCoroutine(PickUpDelay());
+                    break;
+
+                case ObjectType.StageObject:
+                    // 뭔가 작동시키는 애니메이션이 나오는 기믹
+                    break;
+            }
         }
+        else
+            Debug.LogError("LayerMask : Interactable 이지만 <InteractionObject> 컴포넌트가 없습니다");
     }
 
     // 인터랙션이 가능한지 체크하는 함수
@@ -113,19 +121,62 @@ public class PlayerInteraction : MonoBehaviour
     // 도구 인터랙션
     public void InteractWithEquipment()
     {
+        if (isInteracting) return;
+        if (isHolding) return;
         if (currentEquipment == null) return;
 
-        StartCoroutine(EquipmentActionDelay());
-        currentEquipment.Action();
+        switch (currentEquipment.EquipActionType)
+        {
+            case EquipmentActionType.Melee:
+                MeleeAction();
+                break;
+
+            case EquipmentActionType.Ranged:
+                RangedAction();
+                break;
+        }
     }
 
-    // 장비에 명시된 
-    private IEnumerator EquipmentActionDelay()
+    // 근접 도구 함수
+    public void MeleeAction()
     {
-        controller.ChangeState(PlayerStateType.Interaction);
-        yield return equipWaitTime = new WaitForSeconds(currentEquipment.EquipAnimationDelay);
-        controller.ChangeState(PlayerStateType.Default);
+        isInteracting = true;
+
+        // 애니메이션 재생
+        StartCoroutine(MeleeActionDelay());
     }
+
+    // 장비에 명시된 기능대로 작동
+    private IEnumerator MeleeActionDelay()
+    {
+        // 애니메이션 적용
+        controller.anim.ChangeAnimationState(currentEquipment.EquipAnimName);
+
+        // 인터랙션 중에는 아무것도 못하는 인터랙션 State로 변경
+        controller.ChangeState(PlayerStateType.Interaction);
+
+        yield return equipWaitTime = new WaitForSeconds(currentEquipment.EquipActionDelay);
+
+        // 범위 지정
+        var temp = Physics.OverlapSphere(gameObject.transform.position + gameObject.transform.forward, currentEquipment.EquipRange);
+
+        if (temp != null)
+        {
+            for (int i = 0; i < temp.Length; i++)
+            {
+                Debug.Log(temp[i]);
+
+                if (temp[i].CompareTag("Breakable"))
+                    temp[i].GetComponent<IngredientObject>().AffectedByEquipment(currentEquipment.EquipEffectiveType);
+            }
+        }
+        yield return equipWaitTime = new WaitForSeconds(currentEquipment.EquipActionEndDelay - currentEquipment.EquipActionDelay);
+        controller.ChangeState(PlayerStateType.Default);
+        isInteracting = false;
+    }
+
+    // 원거리 도구 함수
+    public void RangedAction() { }
 
     // 가까이 있는 오브젝트가 바뀔 때마다 작동시킬 Action
     /* 지금은 함수 등록도, 사용도 안 함 */
@@ -220,19 +271,6 @@ public class PlayerInteraction : MonoBehaviour
     //    controller.ChangeState(PlayerStateType.Default);
     //}
 
-    //public void ChangeEquipment(PlayerEquipment _newEquipment)
-    //{
-    //    currentEquipment.gameObject.SetActive(false);
-    //    currentEquipment = _newEquipment;
-    //    currentEquipment.gameObject.SetActive(true);
-    //}
-
-    //private BlockData GetClosestBlockData()
-    //{
-    //    //Debug.Log(new Vector3(x, y, z));
-    //    return GridSystem.Instance.StageGrid.GetGridObject(targetBlockPos);
-    //}
-
     //private void SnapPlayerPos()
     //{
     //    var ladder = ladderObj.transform.GetComponent<Ladder>();
@@ -240,37 +278,6 @@ public class PlayerInteraction : MonoBehaviour
     //    ladderObj = null;
     //    controller.ChangeMoveState(PlayerStateType.Climbing);
     //}
-
-    //public void StopUseItem()
-    //{
-    //    CraftingTable.instance.SlotOutLineRedrow(-1);
-
-    //    List<GameObject> childs = new List<GameObject>();
-    //    for (int j = 0; j < gameObject.transform.Find("HandItems").childCount; j++)
-    //    {
-    //        childs.Add(gameObject.transform.Find("HandItems").GetChild(j).gameObject);
-    //    }
-
-    //    foreach (GameObject gameObject_ in childs)
-    //    {
-    //        Destroy(gameObject_);
-    //    }
-    //}
-
-    //public void UseItem(int itemSlotCount)
-    //{
-
-    //}    //    StopUseItem();
-
-    //    int itemID = CraftingTable.instance.SlotOutLineRedrow(itemSlotCount);
-
-    //    foreach (Item item in Inventory.instance.equipmentItems)
-    //    {
-    //        if (item.itemID == itemID)
-    //        {
-    //            Instantiate(Resources.Load<GameObject>(item.itemGameObjectPath), gameObject.transform.Find("HandItems"));
-    //        }
-    //    }
 
     // Sine 함수 ( 점차 증가하는 그래프 )
     public void GraphSine(float lerpTime, Action<float> callback = null)
@@ -297,6 +304,18 @@ public class PlayerInteraction : MonoBehaviour
             callback?.Invoke(t);
             yield return null;
         }
+    }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        try
+        {
+            Gizmos.DrawSphere(gameObject.transform.position + gameObject.transform.forward, currentEquipment.EquipRange);
+        }
+        catch (System.Exception)
+        {
+            Debug.LogError("도구가 없는데요 형님");
+        }
     }
 }

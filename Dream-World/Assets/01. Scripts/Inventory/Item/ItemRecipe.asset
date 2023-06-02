@@ -14,19 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needItemCount: 1
   ingredients:
-  - itemID: 0
-    itemType: 0
-    itemCount: 1
-    itemMaxCount: 64
-    itemName: 
-    itemDescription: 
-    itemIcon: {fileID: 0}
+  - {fileID: 0}
   ingredientCounts: 01000000
-  result:
-    itemID: 0
-    itemType: 0
-    itemCount: 1
-    itemMaxCount: 64
-    itemName: 
-    itemDescription: 
-    itemIcon: {fileID: 0}
+  result: {fileID: 0}

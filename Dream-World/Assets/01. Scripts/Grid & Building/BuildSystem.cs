@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -6,13 +6,17 @@ using UnityEngine;
 
 public class BuildSystem : MonoBehaviour
 {
-    // °Ç¹° ÁöÀ» À§Ä¡
+    // ê±´ë¬¼ ì§€ì„ ìœ„ì¹˜
     public Vector3 BuildPosition;
 
-    // ÇØ´ç GridObjectÀÇ Data¿¡ ÀÖ´Â Á¶°ÇµéÀ» °¡Á®¿Í¼­
-    // ÇØ´ç À§Ä¡¿¡ °Ç¹°À» ÁöÀ» ¼ö ÀÖ´ÂÁö È®ÀÎ
+    // 1. ê±°ê¸°ì— ê·¸ë¦¬ë“œ ì˜¤ë¸Œì íŠ¸ ìˆëŠ”ì§€
 
-    // Á¶°Ç Ã³¸®
+    // 2. ì„¤ì¹˜í•  GridObjectì˜ Dataì— ìˆëŠ” ì¡°ê±´ë“¤ì„ ê°€ì ¸ì™€ì„œ
+    // í•´ë‹¹ ìœ„ì¹˜ì— ê±´ë¬¼ì„ ì§€ì„ ìˆ˜ ìˆëŠ”ì§€ í™•ì¸
+
+    // 3. ì˜¤ë²„ë©
+
+    // ì¡°ê±´ ì²˜ë¦¬
 
     private void OnDrawGizmos()
     {

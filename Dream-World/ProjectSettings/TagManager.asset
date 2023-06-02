@@ -8,6 +8,14 @@ TagManager:
   - Dragable
   - Item
   - Ingredient
+  - Tree
+  - CinemachineTarget
+  - Wellspring
+  - Ground
+  - Structure
+  - Resources_Iron
+  - Resources_Tree
+  - Breakable
   layers:
   - Default
   - TransparentFX

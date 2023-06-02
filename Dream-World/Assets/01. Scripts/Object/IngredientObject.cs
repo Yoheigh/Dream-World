@@ -3,20 +3,25 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public enum IngredientObjectType
+public enum EffectiveType
 {
-    Wood = 0, Rock, Dirt
+    Shovel,
+    Axe,
+    Pickaxe,
 }
 
-public class IngredientObject : BlockV1
+public class IngredientObject : MonoBehaviour
 {
     [SerializeField]
-    private IngredientObjectType objectType;
+    [Tooltip("도구 효과를 받을 타입")]
+    private EffectiveType effectiveType;
 
     [SerializeField]
+    [Tooltip("드롭할 아이템 프리팹")]
     private GameObject DropItemPrefab;
 
     [SerializeField]
+    [Tooltip("드롭할 아이템 개수")]
     private int dropAmount = 1;
 
     [SerializeField]
@@ -25,25 +30,15 @@ public class IngredientObject : BlockV1
     [SerializeField]
     private float spreadForce = 0.5f;
 
-    public bool isConstrcution = false;
-
-    private void Update()
+    public void AffectedByEquipment(EffectiveType _effectiveType)
     {
-        if (isConstrcution)
-        {
-            StartCoroutine(DestructionCoroutine());
-            isConstrcution = !isConstrcution;
-        }
-    }
-
-    public void AffectedByEquipment()
-    {
+        if (_effectiveType != effectiveType) return;
         Destruction();
     }
 
-    public IngredientObjectType GetObjectType()
+    public EffectiveType GetObjectType()
     {
-        return objectType;
+        return effectiveType;
     }
 
     private void Destruction()
@@ -54,7 +49,6 @@ public class IngredientObject : BlockV1
     private IEnumerator DestructionCoroutine()
     {
         gameObject.GetComponent<Collider>().enabled = false;
-        Debug.Log("부서짐!");
 
         if(DropItemPrefab != null)
         {

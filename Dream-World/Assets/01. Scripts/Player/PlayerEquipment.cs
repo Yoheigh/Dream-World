@@ -42,7 +42,7 @@ public abstract class PlayerEquipment : MonoBehaviour
 public struct ToolData
 {
     public PlayerEquipmentType equipmentType;
-    public IngredientObjectType toolEffectiveType;
+    public EffectiveType toolEffectiveType;
     public int toolID;
     public string toolName;
     public string toolPrefabPath;

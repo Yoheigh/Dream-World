@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerTool : MonoBehaviour
 {
-    IngredientObjectType toolEffectiveType = IngredientObjectType.Wood;
+    EffectiveType toolEffectiveType = EffectiveType.Axe;
 
     public GameObject Axe;
     public GameObject Pickaxe;
@@ -22,7 +22,7 @@ public class PlayerTool : MonoBehaviour
 
     }
 
-    void ChangeTool(IngredientObjectType _toolEffectiveType)
+    void ChangeTool(EffectiveType _toolEffectiveType)
     {
         if (toolEffectiveType == _toolEffectiveType)
             return;
@@ -30,17 +30,17 @@ public class PlayerTool : MonoBehaviour
         toolEffectiveType = _toolEffectiveType;
         switch (toolEffectiveType)
         {
-            case IngredientObjectType.Wood:
+            case EffectiveType.Axe:
                 Axe.SetActive(true);
                 Pickaxe.SetActive(false);
                 Shovel.SetActive(false);
                 break;
-            case IngredientObjectType.Rock:
+            case EffectiveType.Pickaxe:
                 Axe.SetActive(false);
                 Pickaxe.SetActive(true);
                 Shovel.SetActive(false);
                 break;
-            case IngredientObjectType.Dirt:
+            case EffectiveType.Shovel:
                 Axe.SetActive(false);
                 Pickaxe.SetActive(false);
                 Shovel.SetActive(true);

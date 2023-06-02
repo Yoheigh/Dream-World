@@ -114,7 +114,8 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerController _entity)
         {
-
+            _entity.input.CanMove(false);
+            _entity.fov.FindTargetsWithDelay(false);
         }
 
         public override void UpdateState(PlayerController _entity)
