@@ -277,8 +277,11 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat(animIDMotionSpeed, inputMagnitude);
     }
 
-    public void MoveHolding(Transform _DragableObject)
+    public void MoveHolding(InteractionObject _DragableObject)
     {
+        if (_DragableObject == null)
+            controller.ChangeState(PlayerStateType.Default);
+
         float targetSpeed = MoveSpeed / 2;
 
         if (input.move == Vector2.zero)
@@ -306,7 +309,7 @@ public class PlayerMovement : MonoBehaviour
         characterController.Move(targetDirection * (targetSpeed * Time.deltaTime) +
                                new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
 
-        _DragableObject.position += targetDirection * (targetSpeed * Time.deltaTime);
+        _DragableObject.transform.position += targetDirection * (targetSpeed * Time.deltaTime);
 
         //transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * 20f);
         // t_n =  (t - min)/(max - min)

@@ -74,6 +74,7 @@ namespace PlayerOwnedStates
         public override void UpdateState(PlayerController _entity)
         {;
             _entity.movement.Gravity();
+            _entity.movement.MoveHolding(_entity.interaction.InteractionObj);
             //_entity.movement.MoveHolding(_entity.gameObject.GetComponent<PlayerInteraction>().dragableObj);
         }
 

@@ -16,30 +16,33 @@ public class PlayerInteraction : MonoBehaviour
     public Action<InteractionObject> OnTargetChange;
     public Action<PlayerEquipment> OnEquipmentChange;
 
-    [SerializeField]
     private bool isInteracting = false;
     public bool IsInteracting
     {
         get => isInteracting;
-        set => isInteracting = value;
+        private set => isInteracting = value;
     }
 
+    private InteractionObject interactionObj;  
+    public InteractionObject InteractionObj     // 다른 곳에서 필요한 경우 사용할 것
+    {
+        get => interactionObj;
+        private set => interactionObj = value;
+    }
 
     [SerializeField]
-    private Transform BlockPointer;
-
+    private Transform BlockPointer;             /* 이거 언제 쓸거야 */
     private FOVSystem fov;
     private PlayerController controller;
 
     // 내부 변수
     private bool isHolding = false;
-    private Transform holdingObject;
-    // private float t;           // Lerp 같은 거 할 때 범용적으로 쓸 변수
+    
+    // private float t;                         // Lerp 같은 거 할 때 범용적으로 쓸 변수
     [SerializeField]
-    private Equipment currentEquipment;   // 현재 장착한 장비
+    private Equipment currentEquipment;         // 현재 장착한 장비
     private WaitForSeconds equipWaitTime;
 
-    // Start is called before the first frame update
     public void Setup()
     {
         fov = GetComponent<FOVSystem>();
@@ -53,13 +56,23 @@ public class PlayerInteraction : MonoBehaviour
         if (isInteracting) return;
 
         // 손에 무언가 들고 있는 상태일 경우 처리
-        if (isHolding)
+        if (interactionObj != null)
         {
-            // 던지기 코드 처리
-            /* 지금은 그냥 보여주기용 */
-            StartCoroutine(ObjectMoveToGrid(holdingObject));
-            isHolding = false;
+            // 오브젝트의 enum에 따라서 플레이어 상태 변경
+            switch (interactionObj.ObjectType)
+            {
+                case ObjectType.Grabable:
+                    // 던지기 코드 처리
+                    /* 지금은 그냥 보여주기용 */
+                    StartCoroutine(ObjectMoveToGrid(interactionObj));
+                    break;
 
+                case ObjectType.Dragable:
+                    controller.ChangeState(PlayerStateType.Default);
+                    break;
+            }
+
+            interactionObj = null;
 
             Debug.Log("그런 위험한 건 내려놓고 얘기하자구");
             return;
@@ -78,19 +91,19 @@ public class PlayerInteraction : MonoBehaviour
         if (fov.ClosestTransform.TryGetComponent(out InteractionObject temp))
         {
             // 오브젝트의 인터랙션 기능 활성화
-            temp.InteractWithPlayer();
+            interactionObj.InteractWithPlayer();
 
             // 오브젝트의 enum에 따라서 플레이어 상태 변경
             switch (temp.ObjectType)
             {
                 case ObjectType.Grabable:
-                    isHolding = true;
-                    holdingObject = temp.transform;
-                    StartCoroutine(ObjectMoveToOverhead(holdingObject));
+                    interactionObj = temp;
+                    StartCoroutine(ObjectMoveToOverhead(interactionObj));
                     break;
 
                 case ObjectType.Dragable:
-                    // 질질 끌고 가는 거
+                    interactionObj = temp;
+                    StartCoroutine(GrabDragable(interactionObj));
                     break;
 
                 case ObjectType.Pickup:
@@ -103,7 +116,7 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
         else
-            Debug.LogError("LayerMask : Interactable 이지만 <InteractionObject> 컴포넌트가 없습니다");
+            Debug.Log("LayerMask : Interactable 이지만 <InteractionObject> 컴포넌트가 없습니다");
     }
 
     // 인터랙션이 가능한지 체크하는 함수
@@ -121,9 +134,7 @@ public class PlayerInteraction : MonoBehaviour
     // 도구 인터랙션
     public void InteractWithEquipment()
     {
-        if (isInteracting) return;
-        if (isHolding) return;
-        if (currentEquipment == null) return;
+        if (isInteracting || isHolding || currentEquipment == null) return;
 
         switch (currentEquipment.EquipActionType)
         {
@@ -155,6 +166,7 @@ public class PlayerInteraction : MonoBehaviour
         // 인터랙션 중에는 아무것도 못하는 인터랙션 State로 변경
         controller.ChangeState(PlayerStateType.Interaction);
 
+        // 장비 기능까지 선딜레이 처리
         yield return equipWaitTime = new WaitForSeconds(currentEquipment.EquipActionDelay);
 
         // 범위 지정
@@ -166,10 +178,12 @@ public class PlayerInteraction : MonoBehaviour
             {
                 Debug.Log(temp[i]);
 
+                // Breakable 태그 && 현재 장비의 효과 타입과 같을 경우 효과 진행
                 if (temp[i].CompareTag("Breakable"))
                     temp[i].GetComponent<IngredientObject>().AffectedByEquipment(currentEquipment.EquipEffectiveType);
             }
         }
+        // 장비의 후딜레이 처리
         yield return equipWaitTime = new WaitForSeconds(currentEquipment.EquipActionEndDelay - currentEquipment.EquipActionDelay);
         controller.ChangeState(PlayerStateType.Default);
         isInteracting = false;
@@ -192,7 +206,7 @@ public class PlayerInteraction : MonoBehaviour
 
     // 플레이어가 뭐 들면 머리 위로 이동시키는 코루틴
     // isHolding 상태가 해소되면 알아서 꺼짐
-    IEnumerator ObjectMoveToOverhead(Transform _object)
+    IEnumerator ObjectMoveToOverhead(InteractionObject _object)
     {
         while (isHolding)
         {
@@ -202,9 +216,24 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
+    private IEnumerator GrabDragable(InteractionObject _drag)
+    {
+        var temp = _drag;
+        controller.ChangeState(PlayerStateType.Dragging);
+        while (temp != null)
+        {
+            if (temp == null)
+            {
+                controller.ChangeState(PlayerStateType.Default);
+                break;
+            }
+            yield return null;
+        }
+    }
+
     // 플레이어가 들고있던 걸 Grid로 옮기는 코루틴
     /* Lerp 그래프를 코루틴으로 사용해보고 싶어서 만들어본거라 사용 안 할 듯 */
-    IEnumerator ObjectMoveToGrid(Transform _object, float _lerpTime = 1.0f)
+    IEnumerator ObjectMoveToGrid(InteractionObject _object, float _lerpTime = 1.0f)
     {
         Vector3 targetPosition = Vector3.one;
 
@@ -220,6 +249,7 @@ public class PlayerInteraction : MonoBehaviour
         obj.Init();
     }
 
+    // 아이템 줍기 처리
     IEnumerator PickUpDelay()
     {
         controller.ChangeState(PlayerStateType.Interaction);
@@ -227,49 +257,6 @@ public class PlayerInteraction : MonoBehaviour
         yield return new WaitForSeconds(0.8f);
         controller.ChangeState(PlayerStateType.Default);
     }
-
-    //private IEnumerator InteractAnimationDelay()
-    //{
-    //    인터랙션 state로 변경
-
-    //    도구 모델 활성화
-    //     현재 도구에 따른 애니메이션 재생
-    //     도구에 따른 특수 효과 발동
-
-    //    EquipmentModel[equipmentIndex].SetActive(true);
-    //    controller.ChangeState(PlayerStateType.Interaction);
-    //    switch (equipmentIndex)
-    //    {
-    //        case 0:
-    //            controller.anim.ChangeAnimationState("Player_Action_Axe");
-    //            var colliders = Physics.OverlapSphere(transform.position, 0.8f);
-    //            foreach (Collider col in colliders)
-    //            {
-    //                if (col.CompareTag("Ingredient"))
-    //                {
-    //                    var ingredient = col.GetComponent<IngredientObject>();
-    //                    if ((int)ingredient.GetObjectType() == equipmentIndex)
-    //                    {
-    //                        var vfx = Instantiate(DestructVFX, BlockPointer.position, Quaternion.identity, null);
-    //                        Destroy(vfx, 4f);
-    //                        yield return new WaitForSeconds(0.583f);
-    //                        controller.anim.ChangeAnimationState("Player_Action_Axe");
-    //                        var vfx2 = Instantiate(DestructVFX, BlockPointer.position, Quaternion.identity, null);
-    //                        Destroy(vfx2, 4f);
-    //                        yield return new WaitForSeconds(0.583f);
-
-    //                        ingredient.AffectedByEquipment();
-    //                    }
-    //                }
-    //            }
-    //            break;
-    //    }
-
-    //    yield return new WaitForSeconds(0.3f);
-
-    //    EquipmentModel[equipmentIndex].SetActive(false);
-    //    controller.ChangeState(PlayerStateType.Default);
-    //}
 
     //private void SnapPlayerPos()
     //{
@@ -279,7 +266,7 @@ public class PlayerInteraction : MonoBehaviour
     //    controller.ChangeMoveState(PlayerStateType.Climbing);
     //}
 
-    // Sine 함수 ( 점차 증가하는 그래프 )
+    // Sine 함수 콜백 ( 점차 증가하는 속도가 빨라지는 그래프 )
     public void GraphSine(float lerpTime, Action<float> callback = null)
     {
         StartCoroutine(GraphSineCoroutine(lerpTime, callback));

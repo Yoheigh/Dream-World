@@ -9,9 +9,15 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Cursor = UnityEngine.Cursor;
 
-public enum PlayerStateType
+public enum PlayerStateType : sbyte
 {
-    Default = 0, Falling, Dragging, Climbing, Interaction, Damaged, Cinematic
+    Default = 0,
+    Falling,
+    Dragging,
+    Climbing,
+    Interaction,
+    Damaged,
+    Cinematic
 }
 
 [RequireComponent(typeof(CharacterController))]
