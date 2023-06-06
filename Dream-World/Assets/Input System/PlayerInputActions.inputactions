@@ -70,7 +70,7 @@
                 },
                 {
                     "name": "Find",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "33415179-5680-459b-843d-a396703c8a04",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -84,7 +84,7 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "CameraScroll",
@@ -94,6 +94,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "CameraZoomIn",
+                    "type": "Button",
+                    "id": "631e7970-c885-4bb1-a28c-5487f6cf7f27",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CaneraZoomOut",
+                    "type": "Button",
+                    "id": "404ee24f-7355-4309-ad41-8b04d3363ab3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -153,59 +171,15 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "LeftStick",
-                    "id": "5c143e92-e9f1-446e-871f-d87189ec80d0",
-                    "path": "2DVector(mode=2)",
+                    "name": "",
+                    "id": "dbe57a78-90b9-4fdd-9169-41797fa8df5d",
+                    "path": "<Gamepad>/leftStick",
                     "interactions": "",
-                    "processors": "NormalizeVector2",
-                    "groups": "",
+                    "processors": "",
+                    "groups": "Gamepad",
                     "action": "Move",
-                    "isComposite": true,
+                    "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "b34ec15b-32de-4556-9197-1710c064fda0",
-                    "path": "<Gamepad>/leftStick/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "92a64c3a-d90d-4e71-902e-581476af0f71",
-                    "path": "<Gamepad>/leftStick/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "5762ee0d-936e-4c7b-ad95-4985ebadbe3b",
-                    "path": "<Gamepad>/leftStick/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "f14fedbd-39a1-47b6-8e3d-bb2aa247ac28",
-                    "path": "<Gamepad>/leftStick/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -248,17 +222,6 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "530ed29b-949a-4def-824b-b899e2ba09d4",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Find",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -331,7 +294,7 @@
                 {
                     "name": "",
                     "id": "7e192eac-0d24-47b7-894b-25b0053823b6",
-                    "path": "<Keyboard>/z",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "PC",
@@ -363,7 +326,7 @@
                 },
                 {
                     "name": "",
-                    "id": "248fbd8a-2810-419d-b4fb-5ba9581d0c99",
+                    "id": "f22d4bb9-5d3b-4018-9a67-db31471423d6",
                     "path": "",
                     "interactions": "",
                     "processors": "",
@@ -374,12 +337,34 @@
                 },
                 {
                     "name": "",
-                    "id": "2e933531-7cee-4154-98ba-872cfdb8aa74",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "Press",
+                    "id": "530ed29b-949a-4def-824b-b899e2ba09d4",
+                    "path": "",
+                    "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
-                    "action": "CameraScroll",
+                    "groups": "",
+                    "action": "Find",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d1f5d85d-85be-4056-a0f4-f107389cb04a",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraZoomIn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5a06092f-3ecb-46f6-81a4-4ca5baf5f720",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CaneraZoomOut",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -2,16 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DragObject : MonoBehaviour
+public class DragObject : InteractionObject
 {
+    public override ObjectType ObjectType => ObjectType.Dragable;
 
-    void Start()
+    public override void InteractWithPlayer()
     {
-        
-    }
-
-    void Update()
-    {
-        
+        Debug.Log("¿∏æ” ¿‚»˚");
     }
 }
