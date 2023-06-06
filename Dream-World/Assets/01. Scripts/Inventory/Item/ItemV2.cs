@@ -30,6 +30,17 @@ public class ItemV2 : ScriptableObject
 
     }
 
+    // 미안하다 메모리야
+    public ItemV2(ItemV2 _item)
+    {
+        itemID = _item.itemID;
+        itemType = _item.itemType;
+        itemCount = _item.itemCount;
+        itemName = _item.itemName;
+        itemDescription = _item.itemDescription;
+        itemIcon = _item.itemIcon;
+    }    
+
     /* 업캐스팅 분류작업 끝내면 없애도 됨 */
     public ItemV2() { }
 }

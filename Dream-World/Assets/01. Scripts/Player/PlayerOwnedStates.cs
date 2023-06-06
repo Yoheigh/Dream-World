@@ -67,15 +67,15 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerController _entity)
         {
-            //_entity.animator.SetBool("isClimbing", false);
-            //_entity.animator.SetBool("isHolding", true);
+            _entity.animator.SetBool("isHolding", true);
         }
 
         public override void UpdateState(PlayerController _entity)
         {;
             _entity.movement.Gravity();
             _entity.movement.MoveHolding(_entity.interaction.InteractionObj);
-            //_entity.movement.MoveHolding(_entity.gameObject.GetComponent<PlayerInteraction>().dragableObj);
+            
+            
         }
 
         public override void ExitState(PlayerController _entity)
@@ -85,6 +85,8 @@ namespace PlayerOwnedStates
             //_entity.gameObject.GetComponent<PlayerInteraction>().obj = null;
 
             // ¿Í ¾¾ ÀÌ°Ô ¹¹ÀÓ
+
+            _entity.animator.SetBool("isHolding", false);
         }
 
     }
@@ -93,8 +95,7 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerController _entity)
         {
-            //_entity.animator.SetBool("isHolding", false);
-            //_entity.animator.SetBool("isClimbing", true);
+            _entity.animator.SetBool("isClimbing", true);
         }
 
         public override void UpdateState(PlayerController _entity)
@@ -107,6 +108,8 @@ namespace PlayerOwnedStates
             //_entity.gameObject.GetComponent<PlayerInteraction>().IsInteracting = false;
             //_entity.gameObject.GetComponent<PlayerInteraction>().dragableObj = null;
             //_entity.gameObject.GetComponent<PlayerInteraction>().obj = null;
+
+            _entity.animator.SetBool("isClimbing", false);
         }
 
     }

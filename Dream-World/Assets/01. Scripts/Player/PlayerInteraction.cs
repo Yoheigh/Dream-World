@@ -62,9 +62,11 @@ public class PlayerInteraction : MonoBehaviour
             switch (interactionObj.ObjectType)
             {
                 case ObjectType.Grabable:
+                    controller.anim.ChangeAnimationState("Throw");
                     // 던지기 코드 처리
                     /* 지금은 그냥 보여주기용 */
                     StartCoroutine(ObjectMoveToGrid(interactionObj));
+                    
                     break;
 
                 case ObjectType.Dragable:
@@ -90,8 +92,8 @@ public class PlayerInteraction : MonoBehaviour
 
         if (fov.ClosestTransform.TryGetComponent(out InteractionObject temp))
         {
-            // 오브젝트의 인터랙션 기능 활성화
-            interactionObj.InteractWithPlayer();
+            // 오브젝트의 인터랙션 기능이 있으면 활성화
+            temp.InteractWithPlayer();
 
             // 오브젝트의 enum에 따라서 플레이어 상태 변경
             switch (temp.ObjectType)
@@ -176,8 +178,6 @@ public class PlayerInteraction : MonoBehaviour
         {
             for (int i = 0; i < temp.Length; i++)
             {
-                Debug.Log(temp[i]);
-
                 // Breakable 태그 && 현재 장비의 효과 타입과 같을 경우 효과 진행
                 if (temp[i].CompareTag("Breakable"))
                     temp[i].GetComponent<IngredientObject>().AffectedByEquipment(currentEquipment.EquipEffectiveType);
@@ -208,10 +208,18 @@ public class PlayerInteraction : MonoBehaviour
     // isHolding 상태가 해소되면 알아서 꺼짐
     IEnumerator ObjectMoveToOverhead(InteractionObject _object)
     {
-        while (isHolding)
+        while (interactionObj != null)
         {
+            //GraphSine(0.5f, (obj) =>
+            //{
+            //    _object.transform.position = Vector3.Lerp(_object.transform.position, end, obj);
+            //});
+
             var end = transform.position + Vector3.up * 1.5f;
-            _object.transform.position = Vector3.Lerp(_object.transform.position, end, Time.deltaTime * 10f);
+
+            _object.transform.rotation = transform.rotation;
+            _object.transform.position = end;
+
             yield return null;
         }
     }

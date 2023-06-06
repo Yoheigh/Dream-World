@@ -26,10 +26,14 @@ public class PlayerAnimation
     {
         ChangeAnimationState(animState);
 
-        // float temp = animator.GetCurrentAnimatorStateInfo(0).length;
+        float temp = animator.GetCurrentAnimatorStateInfo(0).length;
 
-        yield return new WaitForSeconds(delay);
-        // 현재 재생중인 애니메이션의 길이 만큼 대기...인데 급해서 좀;
+        yield return new WaitForSeconds(temp);
         animCurrentState = null;
+    }
+
+    public float GetAnimationDelay()
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).length;
     }
 }

@@ -29,4 +29,25 @@ public static class MethodExtensions
 
         return new Vector3(x, y, z);
     }
+
+    // Vector3 콜렉션 중에 가장 가까운 Distance를 반환
+    public static Vector3 Distance(Vector3 vector3, Vector3[] vector3s)
+    {
+        float closest = Mathf.Infinity;
+        Vector3 closestVec = Vector3.zero;
+
+        for (int i = 0;  i < vector3s.Length; i++)
+        {
+            float temp = (vector3 - vector3s[i]).magnitude;
+
+            if (closest < temp)
+            {
+                closest = temp;
+                closestVec = vector3s[i];
+            }
+            else
+                continue;
+        }
+        return closestVec;
+    }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public enum ObjectType
+public enum ObjectType : sbyte
 {
     Pickup,         // 1회성 줍는 오브젝트
     Grabable,       // 들고 다닐 수 있는 오브젝트 

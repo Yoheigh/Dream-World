@@ -151,7 +151,26 @@ public class PlayerController : MonoBehaviour
         ChangeState(PlayerStateType.Damaged);
         Debug.Log("아야");
 
-        yield return new WaitForSeconds(1f);
+        var temp = gameObject.GetComponentInChildren<SkinnedMeshRenderer>();
+        var waitTime = new WaitForSeconds(0.05f);
+
+        anim.ChangeAnimationState("Damage");
+
+        temp.enabled = false;
+        yield return waitTime;
+        temp.enabled = true;
+        yield return waitTime;
+        temp.enabled = false;
+        yield return waitTime;
+        temp.enabled = true;
+        yield return waitTime;
+        temp.enabled = false;
+        yield return waitTime;
+        temp.enabled = true;
+        yield return waitTime;
+
+        anim.ChangeAnimationState("Default");
+
         Debug.Log("이제 아프지 않아요오");
         ChangeState(PlayerStateType.Default);
 

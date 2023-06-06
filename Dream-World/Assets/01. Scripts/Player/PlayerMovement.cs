@@ -316,11 +316,6 @@ public class PlayerMovement : MonoBehaviour
 
         animator.SetFloat(animIDHoldMove, animationBlend);
         animator.SetFloat(animIDMotionSpeed, inputMagnitude);
-
-        if (Keyboard.current.fKey.isPressed) // || Gamepad.current.buttonEast.isPressed)
-        {
-            controller.ChangeState(PlayerStateType.Default);
-        }
     }
 
     public void SetVerticalPoint(Vector3 _pivot, float _maxReachPoint)
