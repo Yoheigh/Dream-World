@@ -767,7 +767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 695917df8402ef34abfd4717c872f18f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: ead3d511548b1a545a05308483679668, type: 2}
+  item: {fileID: 11400000, guid: b0377451bd2f76f438de4529102b4b07, type: 2}
 --- !u!54 &445099679
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -991,6 +991,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 244b749a72482b34fa86adbf42d8250a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OffsetAnchors:
+  - {x: 1, y: 0, z: 0}
+  - {x: -1, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: -1}
 --- !u!1 &634542383
 GameObject:
   m_ObjectHideFlags: 0
@@ -1596,7 +1601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 695917df8402ef34abfd4717c872f18f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 33398edfde57e634e95804e1acc5098f, type: 2}
+  item: {fileID: 11400000, guid: b0377451bd2f76f438de4529102b4b07, type: 2}
 --- !u!54 &954429848
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2020,8 +2025,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0fc270c826477641849f72e58fa332d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainController: {fileID: 0}
-  isGameOver: 0
 --- !u!4 &1318240100
 Transform:
   m_ObjectHideFlags: 0
@@ -2908,7 +2911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 695917df8402ef34abfd4717c872f18f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: ead3d511548b1a545a05308483679668, type: 2}
+  item: {fileID: 11400000, guid: b0377451bd2f76f438de4529102b4b07, type: 2}
 --- !u!54 &2123186317
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -105,7 +105,7 @@ public class PlayerInteraction : MonoBehaviour
 
                 case ObjectType.Dragable:
                     interactionObj = temp;
-                    StartCoroutine(GrabDragable(interactionObj));
+                    StartCoroutine(GrabDragable((DragObject)interactionObj));
                     break;
 
                 case ObjectType.Pickup:
@@ -224,14 +224,27 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
-    private IEnumerator GrabDragable(InteractionObject _drag)
+    private IEnumerator GrabDragable(DragObject _drag)
     {
-        var temp = _drag;
+        var dragObj = _drag;
+
+        Vector3 playerPos = dragObj.AnchoredPosition(transform.position, out Vector3 anchoredRot);
+
+        transform.SetPositionAndRotation(new Vector3(playerPos.x, transform.position.y, playerPos.z), Quaternion.Euler(anchoredRot));
+        
+        // 테스트로 Move() 써봤다가 하늘로 날아감. 물리엔진과 함께 적용되는 모양
+        // gameObject.GetComponent<CharacterController>().Move(anchoredRot);
+        // transform.rotation = Quaternion.Euler(anchoredRot);
+
         controller.ChangeState(PlayerStateType.Dragging);
-        while (temp != null)
+
+
+        // 상호작용 중인 오브젝트가 사라졌을 경우
+        while (dragObj != null)
         {
-            if (temp == null)
+            if (dragObj == null)
             {
+                // 원래 상태로 돌아가게 하는 코드
                 controller.ChangeState(PlayerStateType.Default);
                 break;
             }

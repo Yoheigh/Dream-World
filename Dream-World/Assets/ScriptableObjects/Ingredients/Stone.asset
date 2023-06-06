@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d29ff6a7334f814ab5d378ba0a5011c, type: 3}
   m_Name: Stone
   m_EditorClassIdentifier: 
-  itemID: 0
+  itemID: 102
   itemType: 0
-  itemCount: 0
-  itemMaxCount: 0
-  itemName: 
+  itemCount: 1
+  itemMaxCount: 64
+  itemName: "\uB3CC"
   itemDescription: 
   itemIcon: {fileID: 0}

@@ -292,8 +292,7 @@ public class PlayerMovement : MonoBehaviour
         // Vector3 moveDir = new Vector3(input.move.x, 0, input.move.y);
         float inputMagnitude = input.move.magnitude;
 
-        Vector3 targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) *
-                                    new Vector3(0.0f, 0.0f, input.move.y);
+        Vector3 targetDirection = transform.forward * input.move.y; 
 
         // animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.deltaTime * speedChangeRate);
         animationBlend = input.move.y;

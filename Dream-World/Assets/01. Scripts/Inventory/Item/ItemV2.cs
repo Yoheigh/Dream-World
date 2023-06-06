@@ -31,6 +31,7 @@ public class ItemV2 : ScriptableObject
     }
 
     // 미안하다 메모리야
+    // 난 너를 사랑해
     public ItemV2(ItemV2 _item)
     {
         itemID = _item.itemID;
