@@ -1,14 +1,14 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 public enum ObjectType
 {
-    Pickup,         // 1È¸¼º Áİ´Â ¿ÀºêÁ§Æ®
-    Grabable,       // µé°í ´Ù´Ò ¼ö ÀÖ´Â ¿ÀºêÁ§Æ® 
-    Dragable,       // ²ø¾î´Ù´Ò ¼ö ÀÖ´Â ¿ÀºêÁ§Æ®
-    StageObject,    // »óÈ£ÀÛ¿ëÀ¸·Î ÀÛµ¿ÇÏ´Â ¿ÀºêÁ§Æ® ( ¿¹½Ã : ¹öÆ°, »óÀÚ )
+    Pickup,         // 1íšŒì„± ì¤ëŠ” ì˜¤ë¸Œì íŠ¸
+    Grabable,       // ë“¤ê³  ë‹¤ë‹ ìˆ˜ ìˆëŠ” ì˜¤ë¸Œì íŠ¸ 
+    Dragable,       // ëŒì–´ë‹¤ë‹ ìˆ˜ ìˆëŠ” ì˜¤ë¸Œì íŠ¸
+    StageObject,    // ìƒí˜¸ì‘ìš©ìœ¼ë¡œ ì‘ë™í•˜ëŠ” ì˜¤ë¸Œì íŠ¸ ( ì˜ˆì‹œ : ë²„íŠ¼, ìƒì )
 }
 
 public abstract class InteractionObject : MonoBehaviour

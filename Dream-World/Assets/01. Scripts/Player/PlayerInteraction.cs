@@ -302,7 +302,7 @@ public class PlayerInteraction : MonoBehaviour
         }
         catch (System.Exception)
         {
-            Debug.LogError("도구가 없는데요 형님");
+
         }
     }
 }

@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +8,6 @@ public class DragObject : InteractionObject
 
     public override void InteractWithPlayer()
     {
-        Debug.Log("À¸¾Ó ÀâÈû");
+        Debug.Log("ìœ¼ì•™ ìž¡íž˜");
     }
 }

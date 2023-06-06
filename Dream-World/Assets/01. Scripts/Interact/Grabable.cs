@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,8 +12,8 @@ public class Grabable : InteractionObject
         gameObject.GetComponent<Rigidbody>().useGravity = false;
     }
 
-    // ´Ù½Ã ÀÚ¸®¿¡ ³õ¾ÒÀ» ¶§ ±â´É È°¼ºÈ­
-    /* ¿ÀºêÁ§Æ®º°·Î Ä¸½¶È­ ÇÊ¿ä */
+    // ë‹¤ì‹œ ìë¦¬ì— ë†“ì•˜ì„ ë•Œ ê¸°ëŠ¥ í™œì„±í™”
+    /* ì˜¤ë¸Œì íŠ¸ë³„ë¡œ ìº¡ìŠí™” í•„ìš” */
     public void Init()
     {
         gameObject.GetComponent<Collider>().enabled = true;

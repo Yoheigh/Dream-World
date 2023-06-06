@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +11,7 @@ public class Pickup : InteractionObject
 
     public override void InteractWithPlayer()
     {
-        // ¾ÆÀÌÅÛ ±¸Çö
+        // ì•„ì´í…œ êµ¬í˜„
         Manager.Instance.Inventory.AddItem(item);
         Destroy(gameObject);
     }
@@ -23,6 +23,6 @@ public class Pickup : InteractionObject
 //    {
 //        itemID = 100;
 //        itemType = ItemTypeV2.Ingredient;
-//        itemName = "³ª¹«";
+//        itemName = "ë‚˜ë¬´";
 //    }
 //}
