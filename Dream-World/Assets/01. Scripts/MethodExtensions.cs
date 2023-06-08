@@ -19,13 +19,17 @@ public static class MethodExtensions
     }
 
     // Vector3 값을 int로 반올림 (RoundToInt)
-    public static Vector3 GetXYZRound(this Vector3 vector3)
+    public static Vector3 GetXYZRound(this Vector3 vector3, out int _x, out int _y, out int _z)
     {
         int x, y, z;
 
         x = Mathf.RoundToInt(vector3.x);
         y = Mathf.RoundToInt(vector3.y);
         z = Mathf.RoundToInt(vector3.z);
+
+        _x = x;
+        _y = y;
+        _z = z;
 
         return new Vector3(x, y, z);
     }

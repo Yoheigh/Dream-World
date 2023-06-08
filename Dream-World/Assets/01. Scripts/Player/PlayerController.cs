@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Cursor = UnityEngine.Cursor;
@@ -65,6 +66,8 @@ public class PlayerController : MonoBehaviour
     private bool isControl = true; // 플레이어 컨트롤 가능 여부
 
     #endregion
+
+    public Action OnDamage;
 
     public PlayerInteraction interaction;
     public PlayerMovement movement;
@@ -143,7 +146,6 @@ public class PlayerController : MonoBehaviour
     public void Hit()
     {
         StartCoroutine(DamageCoroutine());
-
     }
 
     private IEnumerator DamageCoroutine()
@@ -220,5 +222,13 @@ public class PlayerController : MonoBehaviour
         if (lfAngle < -360f) lfAngle += 360f;
         if (lfAngle > 360f) lfAngle -= 360f;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        var tempbool = hit.gameObject.TryGetComponent<TriggerObject>(out var triggerObj);
+
+        if (tempbool == true)
+            triggerObj.PlayerEntered(this);
     }
 }

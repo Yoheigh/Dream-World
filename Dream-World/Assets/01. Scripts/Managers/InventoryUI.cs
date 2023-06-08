@@ -2,13 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StageManager : MonoBehaviour
+public class InventoryUI : MonoBehaviour
 {
-    public StageData stageData;
-
-    private sbyte hpCount = 3;
-
-    void Setup()
+    // Start is called before the first frame update
+    void Start()
     {
         
     }

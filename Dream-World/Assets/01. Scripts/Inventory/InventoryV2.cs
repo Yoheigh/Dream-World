@@ -10,14 +10,17 @@ public class InventoryV2
 {
     Manager Manager => Manager.Instance;
 
+    /* 딕셔너리화 필요한 경우 할 예정 */
+    /* 인벤토리 정리를 인덱스로 하기 위해 List로 설정 */
     public List<ItemV2> ingredients;    // 재료
-    public List<ItemV2> buildings;    // 건축물, 소모품
+    public List<ItemV2> buildings;      // 건축물, 소모품
     public List<ItemV2> equipments;     // 장비
+    public List<ItemRecipe> recipes;    // 아이템 레시피 모음
 
     // 최대 슬롯 개수 && Capacity 할당량
     public int MaxIngredientSlots = 16;
     public int MaxBuildingSlots = 4;
-    public int MaxEquipmentSlots = 4;
+    public int MaxEquipmentSlots = 3;
 
     // 아이템이 변경될 때 실행되는 이벤트
     public Action OnChangeItem;
@@ -37,8 +40,8 @@ public class InventoryV2
         buildings = new List<ItemV2>(MaxBuildingSlots);
         equipments = new List<ItemV2>(MaxEquipmentSlots);
 
-        OnChangeEquipment += () => { Debug.Log("장비 변경됨 수고 비읍"); };
-        OnChangeEquipment += () => { Debug.Log($"{currentEquipmentSlot} 현재 장비 슬롯"); };
+        //OnChangeEquipment += () => { Debug.Log("장비 변경됨 수고 비읍"); };
+        //OnChangeEquipment += () => { Debug.Log($"{currentEquipmentSlot} 현재 장비 슬롯"); };
     }
 
     // 인벤토리에 아이템 추가 ( 아이템 ID )
@@ -48,7 +51,6 @@ public class InventoryV2
     }
 
     // 인벤토리에 아이템 추가 ( 아이템 객체 )
-    /* 반복문 너무 많이 쓰는데 리팩토링 생각 */
     public void AddItem(ItemV2 _item)
     {
         tempList = null;
@@ -91,6 +93,8 @@ public class InventoryV2
                         itemInSlot.itemCount += _item.itemCount;
                         Debug.Log($"{i + 1}번째 슬롯 {itemInSlot.itemName} + {_item.itemCount}개 추가 -> 현재 : {itemInSlot.itemCount}개");
 
+                        // 이벤트 처리
+                        OnChangeItem?.Invoke();
                         return;
                     }
                 }
@@ -113,8 +117,36 @@ public class InventoryV2
             Debug.Log($"아이템 추가 : {newItem.itemName}");
 
             // 이벤트 처리
-            // OnItemAdded.Invoke();
+            OnChangeItem?.Invoke();
         }
+
+        /* 딕셔너리 구현 */
+        //if (tempDic.TryGetValue(_item.itemName, out var result) == true)
+        //{
+        //    // 아이템 최대 개수보다 적으면
+        //    // 줍는 아이템의 개수를 더했을 때 최대 개수보다 적거나 같으면
+        //    if (result.itemMaxCount > result.itemCount &&
+        //        result.itemMaxCount >= result.itemCount + _item.itemCount)
+        //    {
+        //        result.itemCount += _item.itemCount;
+        //        Debug.Log($"{result.itemName} + {_item.itemCount}개 추가 -> 현재 : {result.itemCount}개");
+        //    }
+        //}
+
+        //// 아이템 슬롯이 비어 있으면
+        //// 아이템 슬롯 최대 개수보다 아이템이 적으면
+        //if (tempSlotsCount > tempDic.Count)
+        //{
+        //    ItemV2 newItem = new ItemV2(_item);
+
+        //    // 아이템 슬롯에 새로운 아이템 추가
+        //    tempDic.Add(_item.itemName, newItem);
+        //    Debug.Log($"아이템 추가 : {newItem.itemName}");
+
+        //    // 이벤트 처리
+        //    OnChangeItem?.Invoke();
+        //}
+
     }
 
     // 인벤토리에서 아이템 제거
@@ -147,7 +179,6 @@ public class InventoryV2
                     // 아이템 개수 감소
                     item.itemCount -= _item.itemCount;
                     Debug.Log($"{item.itemName}의 개수 - {_item.itemCount} 감소 -> 현재 : {item.itemCount}");
-                    return;
                 }
 
                 // 아이템 개수가 0이면
@@ -156,9 +187,11 @@ public class InventoryV2
                     // 아이템 슬롯에서 아이템 제거
                     tempList.Remove(item);
                     Debug.Log($"{item.itemName} 제거");
-
-                    // 이벤트 처리
                 }
+
+                // 이벤트 처리
+                OnChangeItem?.Invoke();
+
                 return;
             }
         }
@@ -166,7 +199,7 @@ public class InventoryV2
 
     // 인벤토리에 있는 아이템 반환 ( 반환할 때마다 콜백 가능 )
     /* 필요한 아이템 찾을 때마다 콜백으로 필요 개수 줄이는 식으로 사용 */
-    public ItemV2 GetInventoryItem(int _itemID, Action<ItemV2> callback = null)
+        public ItemV2 GetInventoryItem(int _itemID, Action<ItemV2> callback = null)
     {
         foreach (var item in ingredients)
         {
@@ -207,5 +240,11 @@ public class InventoryV2
     {
         currentEquipmentSlot = (currentEquipmentSlot + 1) % (MaxEquipmentSlots + 1);
         OnChangeEquipment?.Invoke();
+    }
+
+    // 아이템 레시피 추가
+    public void AddItemRecipe(ItemRecipe _recipe)
+    {
+        recipes.Add(_recipe);
     }
 }

@@ -133,6 +133,16 @@ public class PlayerMovement : MonoBehaviour
         isGround = Physics.CheckSphere(spherePosition, GroundCheckRadius, GroundLayers,
             QueryTriggerInteraction.Ignore);
 
+        //var temp = Physics.OverlapSphere(spherePosition, GroundCheckRadius, GroundLayers, QueryTriggerInteraction.Ignore);
+
+        //for (int i = 0; i < temp.Length; i++)
+        //{
+        //    var tempbool = temp[i].TryGetComponent<TriggerObject>(out var triggerObj);
+            
+        //    if(tempbool == true)
+        //        triggerObj.PlayerEntered(controller);
+        //}
+
         //if (_hasAnimator)
         //{
         //    _animator.SetBool(_animIDGrounded, Grounded);
@@ -158,6 +168,7 @@ public class PlayerMovement : MonoBehaviour
         return true;
     }
 
+    // 중력 적용
     public void Gravity()
     {
         // 바닥 감지
@@ -330,8 +341,11 @@ public class PlayerMovement : MonoBehaviour
         transform.position = new Vector3(lastPos.x, verticalSnap, lastPos.z);
     }
 
-    public void MoveVertical() // Vector3 _startPos, float _maxReachPoint 이러헥 쓰고 싶었는데 ㅠㅠ
+    public void MoveVertical(InteractionObject _ladderObj) // Vector3 _startPos, float _maxReachPoint 이러헥 쓰고 싶었는데
     {
+        if (_ladderObj == null)
+            controller.ChangeState(PlayerStateType.Falling);
+
         float targetSpeed = MoveSpeed;
 
         if (input.move == Vector2.zero)

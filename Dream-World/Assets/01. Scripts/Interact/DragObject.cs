@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
-public class DragObject : InteractionObject
+public class Dragable : InteractionObject
 {
     public override ObjectType ObjectType => ObjectType.Dragable;
 

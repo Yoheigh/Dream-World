@@ -8,11 +8,8 @@ public class CraftSystem
 {
     InventoryV2 Inventory => Manager.Instance.Inventory;
 
-    // Action 꺽쇠 안 붙이고 쓰면 매개변수 없는 delegate임 까먹지 마셈
-    public Action OnCraft;
-
-    // 아이템 조합법
-    public List<ItemRecipe> recipes;
+    // 보유 중인 아이템 조합법
+    List<ItemRecipe> recipes = Manager.Instance.Inventory.recipes;
 
     // 아이템 조합법에 따라 제작 가능 여부 체크
     public bool CraftItemCheck(ItemRecipe recipe)
@@ -20,7 +17,7 @@ public class CraftSystem
         int index = 0;
         int requireCheck = 0;
 
-        Debug.Log($"{recipe}를 만들기 위한 재료를 검색합니다.");
+        Debug.Log($"{recipe.result.itemName}를 만들기 위한 재료를 검색합니다.");
 
         for(index = 0; index < recipe.ingredients.Length - 1; index++)
         {

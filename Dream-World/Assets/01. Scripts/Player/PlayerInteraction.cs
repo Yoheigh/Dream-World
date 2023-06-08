@@ -36,7 +36,6 @@ public class PlayerInteraction : MonoBehaviour
     private PlayerController controller;
 
     // 내부 변수
-    private bool isHolding = false;
     
     // private float t;                         // Lerp 같은 거 할 때 범용적으로 쓸 변수
     [SerializeField]
@@ -105,7 +104,7 @@ public class PlayerInteraction : MonoBehaviour
 
                 case ObjectType.Dragable:
                     interactionObj = temp;
-                    StartCoroutine(GrabDragable((DragObject)interactionObj));
+                    StartCoroutine(GrabDragable((Dragable)interactionObj));
                     break;
 
                 case ObjectType.Pickup:
@@ -136,7 +135,11 @@ public class PlayerInteraction : MonoBehaviour
     // 도구 인터랙션
     public void InteractWithEquipment()
     {
-        if (isInteracting || isHolding || currentEquipment == null) return;
+        if (isInteracting) return;
+        if (currentEquipment == null) return;
+
+        isInteracting = true;
+        Debug.Log("콱");
 
         switch (currentEquipment.EquipActionType)
         {
@@ -153,8 +156,6 @@ public class PlayerInteraction : MonoBehaviour
     // 근접 도구 함수
     public void MeleeAction()
     {
-        isInteracting = true;
-
         // 애니메이션 재생
         StartCoroutine(MeleeActionDelay());
     }
@@ -224,7 +225,7 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
-    private IEnumerator GrabDragable(DragObject _drag)
+    private IEnumerator GrabDragable(Dragable _drag)
     {
         var dragObj = _drag;
 

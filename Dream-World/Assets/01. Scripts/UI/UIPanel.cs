@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIPanel : MonoBehaviour
 {
     public Button SelectedButton;
+
     private void OnEnable()
     {
         SelectedButton.Select();
