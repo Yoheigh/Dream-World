@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ladder : BlockV1
+public class Ladder : InteractionObject
 {
+    public override ObjectType ObjectType => ObjectType.StageObject;
+
+    public Vector3 AnchorPivot;
+
     [SerializeField]
     private GameObject LadderModel;
 
@@ -28,6 +32,8 @@ public class Ladder : BlockV1
     {
         if(isStageObject)
             Construct();
+
+        AnchorPivot += transform.position;
     }
 
     public void Construct()
@@ -42,8 +48,8 @@ public class Ladder : BlockV1
     {
         for (int i = baseConstHeight; i < ConstHeight; i++)
         {
-            Instantiate(LadderModel, transform.position + (Vector3.up * i), Quaternion.Euler(PivotRot), this.transform);
-            Instantiate(Resources.Load<GameObject>("07.VFX/VFX_DustPoof"), transform.position + (Vector3.up * i), Quaternion.Euler(PivotRot), this.transform);
+            // Instantiate(LadderModel, transform.position + (Vector3.up * i), Quaternion.Euler(PivotRot), this.transform);
+            // Instantiate(Resources.Load<GameObject>("07.VFX/VFX_DustPoof"), transform.position + (Vector3.up * i), Quaternion.Euler(PivotRot), this.transform);
             Debug.Log("뚝 딱 뚝 딱");
             yield return new WaitForSeconds(0.8f);
         }
@@ -53,6 +59,13 @@ public class Ladder : BlockV1
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(Pivot, 0.1f);
+        // Gizmos.DrawSphere(Pivot, 0.1f);
+    }
+
+    public override void InteractWithPlayer(PlayerController _player)
+    {
+        _player.interaction.InteractionObj = this;
+        _player.movement.SetVerticalPoint(AnchorPivot, ReachHeight);
+        _player.ChangeState(PlayerStateType.Climbing);
     }
 }

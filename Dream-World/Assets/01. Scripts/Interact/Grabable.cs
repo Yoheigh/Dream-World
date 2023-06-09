@@ -6,7 +6,7 @@ public class Grabable : InteractionObject
 {
     public override ObjectType ObjectType { get { return ObjectType.Grabable; } }
 
-    public override void InteractWithPlayer()
+    public override void InteractWithPlayer(PlayerController _player)
     {
         gameObject.GetComponent<Collider>().enabled = false;
         gameObject.GetComponent<Rigidbody>().useGravity = false;

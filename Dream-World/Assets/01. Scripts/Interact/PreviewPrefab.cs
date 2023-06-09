@@ -21,9 +21,14 @@ public class PreviewPrefab : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
+    public void UpdatePos(Transform _blockPointer)
+    {
+        // 위치가 바뀔 때마다 반올림해서 변경
+        // _blockPointer.position.GetXYZRound(out x, out y, out z);
+    }
 
     protected void Construct()
     {

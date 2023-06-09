@@ -100,7 +100,7 @@ namespace PlayerOwnedStates
 
         public override void UpdateState(PlayerController _entity)
         {
-            //_entity.MoveVertical();
+            _entity.movement.MoveVertical(_entity.interaction.InteractionObj);
             // _entity.SnapToVerticalPoint();
         }
         public override void ExitState(PlayerController _entity)
@@ -110,6 +110,7 @@ namespace PlayerOwnedStates
             //_entity.gameObject.GetComponent<PlayerInteraction>().obj = null;
 
             _entity.animator.SetBool("isClimbing", false);
+            _entity.interaction.InteractionObj = null;
         }
 
     }

@@ -27,13 +27,14 @@ public class PlayerInteraction : MonoBehaviour
     public InteractionObject InteractionObj     // 다른 곳에서 필요한 경우 사용할 것
     {
         get => interactionObj;
-        private set => interactionObj = value;
+        set => interactionObj = value;
     }
 
     [SerializeField]
-    private Transform BlockPointer;             /* 이거 언제 쓸거야 */
+    private Transform blockPointer;             /* 이거 언제 쓸거야 */
     private FOVSystem fov;
     private PlayerController controller;
+    private PreviewPrefab preview;
 
     // 내부 변수
     Vector3 equipActionPos;
@@ -47,6 +48,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         fov = GetComponent<FOVSystem>();
         controller = GetComponent<PlayerController>();
+        preview = GetComponent<PreviewPrefab>();
 
         Debug.Log($"3. Setup - {this}");
     }
@@ -93,7 +95,7 @@ public class PlayerInteraction : MonoBehaviour
         if (fov.ClosestTransform.TryGetComponent(out InteractionObject temp))
         {
             // 오브젝트의 인터랙션 기능이 있으면 활성화
-            temp.InteractWithPlayer();
+            temp.InteractWithPlayer(controller);
 
             // 오브젝트의 enum에 따라서 플레이어 상태 변경
             switch (temp.ObjectType)
@@ -113,7 +115,7 @@ public class PlayerInteraction : MonoBehaviour
                     break;
 
                 case ObjectType.StageObject:
-                    // 뭔가 작동시키는 애니메이션이 나오는 기믹
+                    Debug.Log($"{temp}와 상호작용");
                     break;
             }
         }

@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
+[System.Serializable]
 public class BuildSystem
 {
     // 건물 지을 위치

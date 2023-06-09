@@ -20,9 +20,9 @@ public class Dragable : InteractionObject
 
     private Vector3 tempVector;
 
-    public override void InteractWithPlayer()
+    public override void InteractWithPlayer(PlayerController _player)
     {
-        Debug.Log("오!");
+        Debug.Log("질질 끕니다");
     }
 
     public Vector3 AnchoredPosition(Vector3 _playerPos, out Vector3 _playerRot)

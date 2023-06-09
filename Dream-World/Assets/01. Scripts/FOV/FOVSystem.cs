@@ -12,7 +12,8 @@ public class FOVSystem : MonoBehaviour
     [SerializeField]
     private Transform closestTransform;
     public Transform ClosestTransform
-    { get => closestTransform;
+    {
+        get => closestTransform;
         private set => closestTransform = value;
     }
 
@@ -29,7 +30,7 @@ public class FOVSystem : MonoBehaviour
     // flag에 따라 오브젝트 탐색 실행 및 중지
     public void FindTargetsWithDelay(bool _flag)
     {
-        switch(_flag)
+        switch (_flag)
         {
             case true:
                 StartCoroutine(FindTargetsWithDelay(refreshDelay));
@@ -121,24 +122,32 @@ public class FOVSystem : MonoBehaviour
             float dstToTarget = Vector3.Distance(transform.position, _target.position);
 
             // 블럭 사이의 거리를 계산할 때 높낮이를 고려해야 한다면 Distance()로 구한 float 대신 각 Vector3.y의 크기를 비교해야 한다.
-            if (dstToTarget <= viewRadius)
-            {
-                // 이전에 탐색한 오브젝트와 동일한 오브젝트일 경우 처리 종료
-                if (_target == closestTransform)
-                    return closestTransform;
+            //if (dstToTarget <= viewRadius)
+            //{
+            // 이전에 탐색한 오브젝트와 동일한 오브젝트일 경우 처리 종료
+            if (_target == closestTransform)
+                return closestTransform;
 
+            Vector3 dirToTarget = (_target.position - transform.position).normalized;
+
+            // 상호작용할 오브젝트가 인터랙션할 수 있는 범위 안에 들어왔을 경우
+            if (Physics.Raycast(transform.position, dirToTarget, 0.7f, targetMask))   // 장애물이 앞에 있는지
+            {
+                // 범위에 있는 오브젝트 중 가장 가까운 걸 리턴
                 if (dstToTarget < closestDistance)
                 {
                     ClosestTransform = _target;
                     closestDistance = dstToTarget;
                 }
             }
+            //}
         }
         // 1. 시야 안에 오브젝트 있음
 
         // 2. 이전에 선택했던 오브젝트가 아님
 
         // 해당 오브젝트 리턴하고 UI 이벤트 업데이트
+        Debug.Log(closestTransform);
         return closestTransform;
         // UI 이벤트 Invoke(closestTransform)
     }
