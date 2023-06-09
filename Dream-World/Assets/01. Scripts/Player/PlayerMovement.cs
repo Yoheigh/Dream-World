@@ -138,13 +138,13 @@ public class PlayerMovement : MonoBehaviour
         //for (int i = 0; i < temp.Length; i++)
         //{
         //    var tempbool = temp[i].TryGetComponent<TriggerObject>(out var triggerObj);
-            
+
         //    if(tempbool == true)
         //        triggerObj.PlayerEntered(controller);
         //}
 
         //if (_hasAnimator)
-        //{
+        //{Physics.OverlapSphere(spherePosition, GroundCheckRadius, GroundLayers, QueryTriggerInteraction.Ignore);
         //    _animator.SetBool(_animIDGrounded, Grounded);
         //}
     }

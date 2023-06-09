@@ -22,6 +22,7 @@ MonoBehaviour:
   EquipActionType: 0
   EquipEffectiveType: 1
   EquipRange: 0.4
+  EquipOffset: {x: 0, y: 0, z: 0}
   EquipActionDelay: 0.4
   EquipActionEndDelay: 0.5
   EquipPrefabPath: 

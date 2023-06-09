@@ -36,7 +36,8 @@ public class PlayerInteraction : MonoBehaviour
     private PlayerController controller;
 
     // 내부 변수
-    
+    Vector3 equipActionPos;
+
     // private float t;                         // Lerp 같은 거 할 때 범용적으로 쓸 변수
     [SerializeField]
     private Equipment currentEquipment;         // 현재 장착한 장비
@@ -172,8 +173,11 @@ public class PlayerInteraction : MonoBehaviour
         // 장비 기능까지 선딜레이 처리
         yield return equipWaitTime = new WaitForSeconds(currentEquipment.EquipActionDelay);
 
+        // 해당 트랜스폼의 forward 값을 장비 작동 위치로
+        equipActionPos = transform.position + (transform.forward.Multiply(Vector3.one));
+
         // 범위 지정
-        var temp = Physics.OverlapSphere(gameObject.transform.position + gameObject.transform.forward, currentEquipment.EquipRange);
+        var temp = Physics.OverlapSphere(equipActionPos, currentEquipment.EquipRange);
 
         if (temp != null)
         {
@@ -239,6 +243,9 @@ public class PlayerInteraction : MonoBehaviour
 
         controller.ChangeState(PlayerStateType.Dragging);
 
+        // 해당 트랜스폼의 forward 값을 장비 작동 위치로
+        equipActionPos = transform.position + (transform.forward.Multiply(Vector3.one).
+                                                                 Multiply(currentEquipment.EquipOffset));
 
         // 상호작용 중인 오브젝트가 사라졌을 경우
         while (dragObj != null)
@@ -318,13 +325,10 @@ public class PlayerInteraction : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        try
-        {
-            Gizmos.DrawSphere(gameObject.transform.position + gameObject.transform.forward, currentEquipment.EquipRange);
-        }
-        catch (System.Exception)
-        {
-            Debug.LogError("도구가 없는데요 형님");
-        }
+
+        if (currentEquipment != null)
+            Gizmos.DrawSphere(equipActionPos, currentEquipment.EquipRange);
+        else
+            return;
     }
 }

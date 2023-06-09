@@ -9,6 +9,8 @@ public class Manager : Singleton<Manager>
     public DataManager Data = new DataManager();
 
     public CraftSystem Craft = new CraftSystem();
+    public BuildSystem Build = new BuildSystem();
+    public FlagSystem Flag = new FlagSystem();
 
     public InventoryV2 Inventory = new InventoryV2();
 

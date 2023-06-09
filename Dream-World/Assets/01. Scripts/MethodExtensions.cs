@@ -52,4 +52,24 @@ public static class MethodExtensions
         }
         return closestVec;
     }
+
+    // 인수로 받은 Vector3의 x, y, z 값과 곱하여 반환
+    public static Vector3 Multiply(this Vector3 vector3, Vector3 newVector3)
+    {
+        vector3.x *= newVector3.x;
+        vector3.y *= newVector3.y;
+        vector3.z *= newVector3.z;
+
+        return vector3;
+    }
+
+    // 인수로 받은 Vector3의 x, y, z 값과 더하여 반환
+    public static Vector3 Sum(this Vector3 vector3, Vector3 newVector3)
+    {
+        vector3.x += newVector3.x;
+        vector3.y += newVector3.y;
+        vector3.z += newVector3.z;
+
+        return vector3;
+    }
 }

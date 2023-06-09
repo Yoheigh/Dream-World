@@ -13,6 +13,7 @@ public class Equipment : ItemV2
     public EffectiveType EquipEffectiveType;
 
     public float EquipRange;                        // 장비 동작 범위
+    public Vector3 EquipOffset;                     // 장비 동작 위치 오프셋
     public float EquipActionDelay;                  // 장비 기능 실제 작동까지 걸리는 시간
     public float EquipActionEndDelay;               // 장비 동작 완료까지 걸리는 시간
 
