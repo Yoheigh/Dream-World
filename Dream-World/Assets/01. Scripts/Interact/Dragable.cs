@@ -33,7 +33,7 @@ public class Dragable : InteractionObject
             anchors[i] = transform.position + OffsetAnchors[i];
         }
 
-        var returnVec = _playerPos.ClosestVector3(anchors);
+        var returnVec = _playerPos.GetClosestVector3(anchors);
 
         Vector3 tempPos = Vector3.zero;
 

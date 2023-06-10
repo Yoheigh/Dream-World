@@ -14,6 +14,7 @@ public class CustomInput : MonoBehaviour
     public bool cursorInputForLook = true;
     private bool moveInputFlag = true;
     private bool lookInputFlag = true;
+    private bool interactInputFlag = true;
 
     private PlayerInputActions playerInputActions;
 
@@ -33,34 +34,69 @@ public class CustomInput : MonoBehaviour
 
     private void UpdateMoveInput(bool _flag)
     {
-        switch(_flag)
+        switch (_flag)
         {
             case true:
                 move = playerInputActions.Player.Move.ReadValue<Vector2>();
                 jump = playerInputActions.Player.Jump.triggered;               // 누른 순간
                 sprint = playerInputActions.Player.Sprint.IsPressed();         // 누르고 있는 동안
+                playerInputActions.Player.Enable();
                 break;
 
             case false:
                 move = Vector2.zero;
                 jump = false;
                 sprint = false;
+                playerInputActions.Player.Disable();
                 break;
         }
     }
 
     private void UpdateLookInput(bool _flag)
     {
-        if( lookInputFlag )
-            look = playerInputActions.Player.Look.ReadValue<Vector2>();
+        switch (_flag)
+        {
+            case true:
+                look = playerInputActions.Player.Look.ReadValue<Vector2>();
+                break;
 
-        else
-            look = Vector2.zero;
+            case false:
+                look = Vector2.zero;
+                break;
+        }
+    }
+
+    private void UpdateInteractInput()
+    {
+        switch (interactInputFlag)
+        {
+            case true:
+                playerInputActions.Player.Interact.Enable();
+                playerInputActions.Player.InteractWithEquipment.Enable();
+                break;
+
+            case false:
+                playerInputActions.Player.Interact.Disable();
+                playerInputActions.Player.InteractWithEquipment.Disable();
+                break;
+        }
     }
 
     public void CanMove(bool _flag)
     {
         moveInputFlag = _flag;
+    }
+
+    public void CanLook(bool _flag)
+    {
+        lookInputFlag = _flag;
+    }
+
+    public void CanInteract(bool _flag)
+    {
+        interactInputFlag = _flag;
+
+        UpdateInteractInput();
     }
 
     public void RegisterInteractStarted(Action<InputAction.CallbackContext> actionFunc)

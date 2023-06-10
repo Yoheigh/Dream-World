@@ -14,6 +14,9 @@ public class FlagSystem
 [System.Serializable]
 public class StageFlag
 {
+    // 작동 가능 여부
+    public bool isAvailable = false;
+
     // flag 활성화 조건
     public List<Action> requireActions;
 

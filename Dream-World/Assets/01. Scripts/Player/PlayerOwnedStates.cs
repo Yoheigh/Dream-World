@@ -8,7 +8,8 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerController _entity)
         {
-            _entity.input.CanMove(true);
+            _entity.Input.CanMove(true);
+            _entity.Input.CanInteract(true);
             _entity.fov.FindTargetsWithDelay(true);
 
             //_entity.animator.SetBool("isClimbing", false);
@@ -37,7 +38,8 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerController _entity)
         {
-            _entity.input.CanMove(false);
+            _entity.Input.CanMove(false);
+            _entity.Input.CanInteract(false);
         }
 
         public override void UpdateState(PlayerController _entity)
@@ -68,6 +70,8 @@ namespace PlayerOwnedStates
         public override void EnterState(PlayerController _entity)
         {
             _entity.animator.SetBool("isHolding", true);
+
+            _entity.Input.CanInteract(false);
         }
 
         public override void UpdateState(PlayerController _entity)
@@ -96,6 +100,8 @@ namespace PlayerOwnedStates
         public override void EnterState(PlayerController _entity)
         {
             _entity.animator.SetBool("isClimbing", true);
+
+            _entity.Input.CanInteract(false);
         }
 
         public override void UpdateState(PlayerController _entity)
@@ -119,7 +125,8 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerController _entity)
         {
-            _entity.input.CanMove(false);
+            _entity.Input.CanMove(false);
+            _entity.Input.CanInteract(false);
             _entity.fov.FindTargetsWithDelay(false);
         }
 
@@ -138,7 +145,8 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerController _entity)
         {
-            
+            _entity.Input.CanMove(false);
+            _entity.Input.CanInteract(false);
         }
 
         public override void UpdateState(PlayerController _entity)
@@ -156,7 +164,9 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerController _entity)
         {
-
+            _entity.Input.CanMove(false);
+            _entity.Input.CanLook(false);
+            _entity.Input.CanInteract(false);
         }
 
         public override void UpdateState(PlayerController _entity)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -35,7 +36,7 @@ public static class MethodExtensions
     }
 
     // Vector3 배열 중에 인수로 받은 Vector3와 가장 가까운 Vector3를 반환
-    public static Vector3 ClosestVector3(this Vector3 vector3, Vector3[] vector3s)
+    public static Vector3 GetClosestVector3(this Vector3 vector3, Vector3[] vector3s)
     {
         float closest = Mathf.Infinity;
         Vector3 closestVec = Vector3.positiveInfinity;
@@ -71,5 +72,28 @@ public static class MethodExtensions
         vector3.z += newVector3.z;
 
         return vector3;
+    }
+
+    // Ray를 쐈을 때 가장 가까운 GameObject를 반환 { Distance()보다 정확함 )
+    public static GameObject GetClosestGameObject(GameObject from, Collider[] targets)
+    {
+        float closestDistance = Mathf.Infinity;
+        GameObject target = null;
+
+        for (int i = 0; i < targets.Length; i++)
+        {
+            Vector3 dirToTarget = (from.transform.position - targets[i].transform.position).normalized;
+            
+            if(Physics.Raycast(from.transform.position, dirToTarget, out RaycastHit hitinfo))
+            {
+                if(closestDistance > hitinfo.distance)
+                {
+                    hitinfo.distance = closestDistance;
+                    target = targets[i].gameObject;
+                }
+            }
+        }
+
+        return target;
     }
 }

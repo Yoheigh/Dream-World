@@ -179,7 +179,24 @@ public class PlayerInteraction : MonoBehaviour
         equipActionPos = transform.position + (transform.forward.Multiply(Vector3.one));
 
         // 범위 지정
-        var temp = Physics.OverlapSphere(equipActionPos, currentEquipment.EquipRange);
+        var temp = Physics.OverlapSphere(equipActionPos + Vector3.up, currentEquipment.EquipRange);
+        // 해당 트랜스폼의 forward 값을 장비 작동 위치로
+        equipActionPos = transform.position + (transform.forward.Multiply(Vector3.one).
+                                                                 Multiply(currentEquipment.EquipOffset));
+
+        if (temp != null)
+        {
+            for (int i = 0; i < temp.Length; i++)
+            {
+                // Breakable 태그 && 현재 장비의 효과 타입과 같을 경우 효과 진행
+                if (temp[i].CompareTag("Breakable"))
+                    temp[i].GetComponent<IngredientObject>().AffectedByEquipment(currentEquipment.EquipEffectiveType);
+            }
+        }
+        else
+        {
+
+        }
 
         if (temp != null)
         {
@@ -244,10 +261,6 @@ public class PlayerInteraction : MonoBehaviour
         // transform.rotation = Quaternion.Euler(anchoredRot);
 
         controller.ChangeState(PlayerStateType.Dragging);
-
-        // 해당 트랜스폼의 forward 값을 장비 작동 위치로
-        equipActionPos = transform.position + (transform.forward.Multiply(Vector3.one).
-                                                                 Multiply(currentEquipment.EquipOffset));
 
         // 상호작용 중인 오브젝트가 사라졌을 경우
         while (dragObj != null)

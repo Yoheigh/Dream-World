@@ -55,17 +55,17 @@ public class PlayerMovement : MonoBehaviour
     private float rotationVelocity;
     private float verticalVelocity;
     private float fallTimeoutDelta;
-    private float terminalVelocityMax = 20.0f;
-    private float terminalVelocityMin = -10.0f;
+    private readonly float terminalVelocityMax = 20.0f;
+    private readonly float terminalVelocityMin = -10.0f;
     private Vector3 currentPos;         // 사다리, 잡기 등의 플레이어 현재 위치값
     private Vector3 lastPos;            // 사다리, 잡기 등의 플레이어 고정 위치값
     private float maxReachPoint;        
     private float verticalSnap;
     private Vector3 slipperyDirection;  // 미끄러지는 땅에서의 방향 벡터
-    private float fallStartHeight;          // 떨어지기 시작한 높이
-    private float tempHeight;               // 얼마나 낙하했는가
+    private float fallStartHeight;      // 떨어지기 시작한 높이
+    private float tempHeight;           // 얼마나 낙하했는가
     private bool isFallDamageActivated; // 다음 번에 땅에 닿으면 낙하 데미지
-    private Vector3 forceVector; // 외부에서 힘을 줄 때 사용하는 벡터
+    private Vector3 forceVector;        // 외부에서 힘을 줄 때 사용하는 벡터
 
     // 미끄러지는 상태
     public bool isSlippery = false;
@@ -101,8 +101,9 @@ public class PlayerMovement : MonoBehaviour
         fallTimeoutDelta = FallTimeout;
         slipperySpeed = 0.0f;
 
-        // 레이어 마스크 제외하고 블럭으로 만들 예정인데 고민 중
-        GroundLayers = LayerMask.GetMask("Block");
+        // LayerMask는 한 번에 여러 레이어를 담을 수 있다는 사실을 몰랐다
+        // 비트 반전을 이용해 Entity를 제외한 모든 레이어를 땅으로 인식하게 한다
+        GroundLayers = ~LayerMask.GetMask("Entity");
 
         Debug.Log($"2. Setup - {this}");
     }
@@ -128,10 +129,14 @@ public class PlayerMovement : MonoBehaviour
     public void GroundCheck()
     {
         spherePosition = new Vector3(transform.position.x, transform.position.y - GroundCheckOffset,
-            transform.position.z);
+                                    transform.position.z);
 
         isGround = Physics.CheckSphere(spherePosition, GroundCheckRadius, GroundLayers,
             QueryTriggerInteraction.Ignore);
+
+        //isGround = verticalVelocity > -1.1f;
+
+        //Physics.Raycast(new Ray(spherePosition, Vector3.down));
 
         //var temp = Physics.OverlapSphere(spherePosition, GroundCheckRadius, GroundLayers, QueryTriggerInteraction.Ignore);
 
@@ -187,6 +192,8 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            verticalVelocity += GravityValue * Time.deltaTime;
+
             if (fallStartHeight < transform.position.y)
                 fallStartHeight = transform.position.y;
 
@@ -203,16 +210,15 @@ public class PlayerMovement : MonoBehaviour
                     isFallDamageActivated = true;
                 }
             }
-
-            // 중력 최저치 이하일 경우 최저치로 고정
-            if (verticalVelocity < terminalVelocityMin)
-                verticalVelocity = terminalVelocityMin;
         }
 
-        if (verticalVelocity <= terminalVelocityMax)
-            verticalVelocity += GravityValue * Time.deltaTime;
-        else // 플레이어가 공중으로 상승하는 속도 제한
+        // 플레이어가 공중으로 상승하는 속도 제한
+        if (verticalVelocity > terminalVelocityMax) 
             verticalVelocity = terminalVelocityMax;
+
+        // 중력 최저치 이하일 경우 최저치로 고정
+        else if (verticalVelocity < terminalVelocityMin)
+            verticalVelocity = terminalVelocityMin;
 
         // 중력 적용
         characterController.Move(new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
@@ -290,6 +296,9 @@ public class PlayerMovement : MonoBehaviour
 
     public void MoveHolding(InteractionObject _DragableObject)
     {
+        // 플레이어와 오브젝트 간의 거리를 비교
+        Vector3 distanceVec = characterController.transform.position - _DragableObject.transform.position;
+
         if (_DragableObject == null)
             controller.ChangeState(PlayerStateType.Default);
 

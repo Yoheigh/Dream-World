@@ -1423,7 +1423,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8876083549096588824, guid: 06783534d935e9248b4c116ffdfc50de, type: 3}
       propertyPath: viewRadius
-      value: 3
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876083549096588824, guid: 06783534d935e9248b4c116ffdfc50de, type: 3}
+      propertyPath: interactionRadius
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8876083549096588828, guid: 06783534d935e9248b4c116ffdfc50de, type: 3}
       propertyPath: m_Enabled
@@ -1972,6 +1976,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1318240100}
   - component: {fileID: 1318240101}
+  - component: {fileID: 1318240102}
+  - component: {fileID: 1318240103}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2008,12 +2014,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Stage: {fileID: 0}
   Sound: {fileID: 0}
-  Build:
-    buildPositionOffset: {x: 0, y: 0, z: 0}
-    entity: {fileID: 0}
-    BuildVFX: {fileID: 4326698112909223156, guid: eabc4277b5b0be744ab3588e932df279, type: 3}
-  Flag:
-    stageFlags2: []
   Inventory:
     ingredients: []
     buildings: []
@@ -2022,6 +2022,56 @@ MonoBehaviour:
     MaxIngredientSlots: 16
     MaxBuildingSlots: 4
     MaxEquipmentSlots: 4
+  Build:
+    buildPositionOffset: {x: 0, y: 0, z: 0}
+    entity: {fileID: 0}
+    BuildVFX: {fileID: 4326698112909223156, guid: eabc4277b5b0be744ab3588e932df279, type: 3}
+  Camera: {fileID: 0}
+  Flag:
+    stageFlags2: []
+  Input: {fileID: 0}
+--- !u!114 &1318240102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318240098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af46b63c26709a94588bb0036958e321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  move: {x: 0, y: 0}
+  look: {x: 0, y: 0}
+  jump: 0
+  sprint: 0
+  cursorLocked: 1
+  cursorInputForLook: 1
+--- !u!114 &1318240103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318240098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbd28b23634c96348bb8a982be3833ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainCamera: {fileID: 0}
+  CinemachineCameraTarget: {fileID: 0}
+  cameraRotationSpeed: 0.3
+  cameraTopClamp: 70
+  cameraBottomClamp: 10
+  cameraOffsetMin: 5
+  cameraOffsetMax: 15
+  cameraScrollSensivity: 0.2
+  cameraPositionLock: 0
+  cameraRotationLock: 0
+  isFollowPlayer: 1
+  isCurrentDeviceMouse: 1
 --- !u!1 &1354664298
 GameObject:
   m_ObjectHideFlags: 0
@@ -2235,9 +2285,9 @@ MonoBehaviour:
   RotationSmoothTime: 0.03
   SpeedChangeRate: 10
   FrictionSpeed: 3
-  FallTimeout: 0.15
+  FallTimeout: 0.1
   GravityValue: -10
-  FallDamageHeight: 2
+  FallDamageHeight: 5
   isGround: 1
   GroundCheckOffset: -0.15
   GroundCheckRadius: 0.2
@@ -2251,24 +2301,6 @@ MonoBehaviour:
   animIDMotionSpeed: 0
   MainCamera: {fileID: 0}
   animator: {fileID: 0}
---- !u!114 &1401775314
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1401775295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af46b63c26709a94588bb0036958e321, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  move: {x: 0, y: 0}
-  look: {x: 0, y: 0}
-  jump: 0
-  sprint: 0
-  cursorLocked: 1
-  cursorInputForLook: 1
 --- !u!114 &1401775316
 MonoBehaviour:
   m_ObjectHideFlags: 0

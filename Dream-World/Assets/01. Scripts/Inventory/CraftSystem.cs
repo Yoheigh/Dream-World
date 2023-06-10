@@ -9,7 +9,7 @@ public class CraftSystem
     InventoryV2 Inventory => Manager.Instance.Inventory;
 
     // 보유 중인 아이템 조합법
-    List<ItemRecipe> recipes = Manager.Instance.Inventory.recipes;
+    List<ItemRecipe> Recipes => Manager.Instance.Inventory.recipes;
 
     // 아이템 조합법에 따라 제작 가능 여부 체크
     public bool CraftItemCheck(ItemRecipe recipe)
@@ -62,9 +62,9 @@ public class CraftSystem
     // 현재 플레이어가 가지고 있는 모든 조합법 체크
     public void CraftItemCheckAll()
     {
-        for(int i = 0; i < recipes.Count; i++)
+        for(int i = 0; i < Recipes.Count; i++)
         {
-            CraftItemCheck(recipes[i]);
+            CraftItemCheck(Recipes[i]);
         }
     }
 }
