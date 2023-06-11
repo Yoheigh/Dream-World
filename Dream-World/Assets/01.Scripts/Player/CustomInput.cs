@@ -25,6 +25,7 @@ public class CustomInput : MonoBehaviour
     {
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
+        playerInputActions.UI.Enable();
 
         //playerInputActions.Player.CameraZoomIn.performed += HandleCameraScroll;
         //playerInputActions.Player.CameraZoomOut.performed += HandleCameraScroll;

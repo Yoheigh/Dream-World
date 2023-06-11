@@ -49,8 +49,8 @@ public class PlayerController : MonoBehaviour
         Input.RegisterInteractPerformed(Interact);
         Input.RegisterInteractWithEquipmentPerformed(InteractWithEquipment);
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
     }
 
     private void Update()

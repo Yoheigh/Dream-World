@@ -99,7 +99,7 @@ public class InventoryV2
                     }
                 }
             }
-            catch (System.ArgumentOutOfRangeException)
+            catch
             {
                 Debug.Log("아이템이 존재하지 않습니다.");
                 break;

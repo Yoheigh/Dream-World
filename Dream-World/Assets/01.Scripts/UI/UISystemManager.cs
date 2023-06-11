@@ -12,6 +12,17 @@ public class UISystemManager : MonoBehaviour
     private int currentPanelIndex;
     private Stack<UIPopup> popupStack = new Stack<UIPopup>();
 
+    //public void ClosePopup()
+    //{
+    //    if (popupStack.Count == 0)
+    //        return;
+    //}
+
+    //public void ShowPopup()
+    //{
+
+    //}
+
     public void ShowPanel(int index)
     {
         for (int i = 0; i < panels.Count; i++)
