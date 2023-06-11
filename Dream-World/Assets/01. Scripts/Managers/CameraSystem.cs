@@ -1,4 +1,5 @@
-using Cinemachine;
+ï»¿using Cinemachine;
+using Mono.Cecil.Cil;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,54 +13,59 @@ public class CameraSystem : MonoBehaviour
     public PlayerController controller;
     public GameObject playerRoot;
 
+    public GameObject newPoint;
+    public GameObject VerticalBar;
 
-    #region ---- Ä«¸Ş¶ó ±âº» ¼³Á¤ ----
+    #region ---- ì¹´ë©”ë¼ ê¸°ë³¸ ì„¤ì • ----
 
-    [Header("½Ã³×¸Ó½Å Ä«¸Ş¶ó")]
+    [Header("ì‹œë„¤ë¨¸ì‹  ì¹´ë©”ë¼")]
     public GameObject CinemachineCameraTarget;
 
-    [Tooltip("Ä«¸Ş¶ó È¸Àü ¼Óµµ¸¦ °¡¼ÓÇÕ´Ï´Ù.")]
+    [Tooltip("ì¹´ë©”ë¼ íšŒì „ ì†ë„ë¥¼ ê°€ì†í•©ë‹ˆë‹¤.")]
     public float cameraRotationSpeed = 1.0f;
 
-    [Tooltip("Ä«¸Ş¶ó °¢µµ ÃÖ»ó´ÜÀ» cameraTopClamp µµ·Î ¼³Á¤ÇÕ´Ï´Ù.")]
+    [Tooltip("ì¹´ë©”ë¼ ê°ë„ ìµœìƒë‹¨ì„ cameraTopClamp ë„ë¡œ ì„¤ì •í•©ë‹ˆë‹¤.")]
     public float cameraTopClamp = 70.0f;
 
-    [Tooltip("Ä«¸Ş¶ó °¢µµ ÃÖÇÏ´ÜÀ» cameraBottomClamp µµ·Î ¼³Á¤ÇÕ´Ï´Ù.")]
+    [Tooltip("ì¹´ë©”ë¼ ê°ë„ ìµœí•˜ë‹¨ì„ cameraBottomClamp ë„ë¡œ ì„¤ì •í•©ë‹ˆë‹¤.")]
     public float cameraBottomClamp = 10.0f;
 
-    [Tooltip("Ä«¸Ş¶ó¿Í ÇÃ·¹ÀÌ¾î °£ÀÇ ÃÖ¼Ò °Å¸®¸¦ Á¤ÇÕ´Ï´Ù.")]
-    public float cameraOffsetMin = 5.0f;
+    [Tooltip("ì¹´ë©”ë¼ì™€ í”Œë ˆì´ì–´ ê°„ì˜ ìµœì†Œ ê±°ë¦¬ë¥¼ ì •í•©ë‹ˆë‹¤.")]
+    public float cameraOffsetMin = 2.0f;
 
-    [Tooltip("Ä«¸Ş¶ó¿Í ÇÃ·¹ÀÌ¾î °£ÀÇ ÃÖ´ë °Å¸®¸¦ Á¤ÇÕ´Ï´Ù.")]
+    [Tooltip("ì¹´ë©”ë¼ì™€ í”Œë ˆì´ì–´ ê°„ì˜ ìµœëŒ€ ê±°ë¦¬ë¥¼ ì •í•©ë‹ˆë‹¤.")]
     public float cameraOffsetMax = 15.0f;
 
-    [Tooltip("Ä«¸Ş¶ó¿Í ÇÃ·¹ÀÌ¾î °£ÀÇ °Å¸®¸¦ Á¶ÀıÇÏ´Â °¨µµ¸¦ Á¤ÇÕ´Ï´Ù.")]
-    public float cameraScrollSensivity = 0.2f;
+    [Tooltip("ì¹´ë©”ë¼ì™€ í”Œë ˆì´ì–´ ê°„ì˜ ê±°ë¦¬ë¥¼ ì¡°ì ˆí•˜ëŠ” ê°ë„ë¥¼ ì •í•©ë‹ˆë‹¤.")]
+    public float cameraScrollSensivity = 4f;
 
-    [Tooltip("Ä«¸Ş¶ó ¿òÁ÷ÀÓÀ» °íÁ¤ÇÕ´Ï´Ù.")]
+    [Tooltip("ì¹´ë©”ë¼ ì›€ì§ì„ì„ ê³ ì •í•©ë‹ˆë‹¤.")]
     public bool cameraPositionLock = false;
 
-    [Tooltip("Ä«¸Ş¶ó È¸ÀüÀ» °íÁ¤ÇÕ´Ï´Ù.")]
+    [Tooltip("ì¹´ë©”ë¼ íšŒì „ì„ ê³ ì •í•©ë‹ˆë‹¤.")]
     public bool cameraRotationLock = false;
 
-    [Tooltip("ÇÃ·¹ÀÌ¾îÀÇ ¿òÁ÷ÀÓÀ» µû¶ó°©´Ï´Ù.")]
+    [Tooltip("í”Œë ˆì´ì–´ì˜ ì›€ì§ì„ì„ ë”°ë¼ê°‘ë‹ˆë‹¤.")]
     public bool isFollowPlayer = true;
 
     public bool isCurrentDeviceMouse = false;
 
     // public bool isCurrentDeviceMouse = true;
 
-    // ÀÏ´Ü ºÙ¿©³õ°í ³ªÁß¿¡ Ã¼Å©
+    // ì¼ë‹¨ ë¶™ì—¬ë†“ê³  ë‚˜ì¤‘ì— ì²´í¬
     //[Tooltip("Additional degress to override the camera. Useful for fine tuning camera position when locked")]
     //public float cameraAngleOverride = 0.0f;
 
     #endregion
 
-    #region ---- ³»ºÎ º¯¼ö----
+    #region ---- ë‚´ë¶€ ë³€ìˆ˜----
     CinemachineVirtualCamera cinemachine;
+    Cinemachine3rdPersonFollow cam;
     private float cinemachineTargetYaw;
     private float cinemachineTargetPitch;
     private float threshold = 0.01f;
+    [SerializeField]
+    private float tempDistance;
 
     #endregion
 
@@ -69,8 +75,10 @@ public class CameraSystem : MonoBehaviour
             MainCamera = Camera.main.gameObject;
 
         cinemachine = FindObjectOfType<CinemachineVirtualCamera>().GetComponent<CinemachineVirtualCamera>();
+        cam = cinemachine.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
         controller = FindObjectOfType<PlayerController>().GetComponent<PlayerController>();
-        
+
+        tempDistance = cam.CameraDistance;
         CinemachineCameraTarget = controller.transform.GetChild(0).gameObject;
         playerRoot = CinemachineCameraTarget;
         cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
@@ -80,7 +88,7 @@ public class CameraSystem : MonoBehaviour
     {
         if (isFollowPlayer == true)
         {
-            if (Input.look.sqrMagnitude >= threshold && !cameraPositionLock)
+            if (Input.look.sqrMagnitude >= threshold && !cameraRotationLock)
             {
                 float deltaTimeMultiplier = isCurrentDeviceMouse ? cameraRotationSpeed : Time.deltaTime;
 
@@ -104,18 +112,46 @@ public class CameraSystem : MonoBehaviour
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
 
-    public void HandleCameraMove(Vector3 newPos, Quaternion newRot, float lerpTime = 2f)
+    public void HandleCameraMove(Vector3 newPos, Quaternion newRot, float lerpTime = 1f)
     {
         StartCoroutine(CameraMoveCoroutine(newPos, newRot, lerpTime));
     }
 
-    public void HandleCameraMove(Transform newTransform, float lerpTime = 2f)
+    public void HandleCameraMove(Transform newTransform, float lerpTime = 1f)
     {
         StartCoroutine(CameraMoveCoroutine(newTransform.position, newTransform.rotation, lerpTime));
     }
 
+    public void ReturnCameraToPlayer()
+    {
+        HandleCameraTarget(playerRoot);
+    }
+
+    public void HandleCameraScroll(bool zoomIn, bool zoomOut)
+    {
+            if (zoomIn && !zoomOut)
+                tempDistance -= cameraScrollSensivity * Time.unscaledDeltaTime;
+            else if (!zoomIn && zoomOut)
+                tempDistance += cameraScrollSensivity * Time.unscaledDeltaTime;
+
+        if (tempDistance > cameraOffsetMax)
+            tempDistance = cameraOffsetMax;
+        else if (tempDistance < cameraOffsetMin)
+            tempDistance = cameraOffsetMin;
+
+        cam.CameraDistance = Mathf.Lerp(cam.CameraDistance, tempDistance, 0.2f);
+
+    }
+
     public void HandleCameraTarget(GameObject newTarget)
     {
+        if(newTarget == null)
+        {
+            cinemachine.Follow = null;
+            cinemachine.LookAt = null;
+            return;
+        }
+
         CinemachineCameraTarget = newTarget;
         cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
@@ -126,7 +162,6 @@ public class CameraSystem : MonoBehaviour
     private IEnumerator CameraMoveCoroutine(Vector3 _newPos, Quaternion _newRot, float lerpTime)
     {
         float currentTime = 0f;
-        float t;
 
         while (currentTime < lerpTime)
         {
@@ -138,8 +173,7 @@ public class CameraSystem : MonoBehaviour
             var newPos = Vector3.Lerp(MainCamera.transform.position, _newPos, currentTime);
             var newRot = Quaternion.Lerp(MainCamera.transform.rotation, _newRot, currentTime);
 
-            MainCamera.transform.SetPositionAndRotation(newPos, newRot);
-
+            cinemachine.transform.SetPositionAndRotation(newPos, newRot);
 
             yield return null;
         }

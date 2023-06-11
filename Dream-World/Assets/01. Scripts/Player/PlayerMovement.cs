@@ -297,7 +297,7 @@ public class PlayerMovement : MonoBehaviour
     public void MoveHolding(InteractionObject _DragableObject)
     {
         // 플레이어와 오브젝트 간의 거리를 비교
-        Vector3 distanceVec = characterController.transform.position - _DragableObject.transform.position;
+        // Vector3 distanceVec = characterController.transform.position - _DragableObject.transform.position;
 
         if (_DragableObject == null)
             controller.ChangeState(PlayerStateType.Default);

@@ -148,7 +148,6 @@ public class FOVSystem : MonoBehaviour
         // 2. 이전에 선택했던 오브젝트가 아님
 
         // 해당 오브젝트 리턴하고 UI 이벤트 업데이트
-        Debug.Log(closestTransform);
         return closestTransform;
         // UI 이벤트 Invoke(closestTransform)
     }

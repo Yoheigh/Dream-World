@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(CustomInput))]
+[RequireComponent(typeof(CustomInput), typeof(FlagSystem), typeof(CameraSystem))]
 public class Manager : MonoBehaviour
 {
     private Manager () { }
@@ -16,10 +17,11 @@ public class Manager : MonoBehaviour
 
     public CraftSystem Craft = new CraftSystem();
     public BuildSystem Build = new BuildSystem();
-    public CameraSystem Camera = new CameraSystem();
-    public FlagSystem Flag = new FlagSystem();
 
+    // MonoBehaviour 달린 것들
     public CustomInput Input;
+    public CameraSystem Camera;
+    public FlagSystem Flag;
 
     private void Awake()
     {
@@ -47,10 +49,17 @@ public class Manager : MonoBehaviour
         // 카메라 시스템 등록
         Camera = GetComponent<CameraSystem>();
         Camera.Setup();
+
+        // Flag 시스템 등록
+        Flag = GetComponent<FlagSystem>();
+        Flag.Setup();
     }
 
     private void LateUpdate()
     {
         Camera.HandleCameraRotation();
+        Camera.HandleCameraScroll(Input.zoomIn, Input.zoomOut);
+
+        if (UnityEngine.Input.GetKeyDown(KeyCode.L)) Flag.ExcuteFlag(0);
     }
 }

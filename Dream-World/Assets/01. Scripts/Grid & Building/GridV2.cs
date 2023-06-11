@@ -1,7 +1,8 @@
-ï»¿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class GridV2
 {
     public float gridX;
@@ -9,11 +10,13 @@ public class GridV2
     public float gridZ;
 
     private GridObject[,,] gridObjects;
+    public GridObject[,,] GridObjects { private set { } get { return gridObjects; } }
 
-    //ê·¸ë¦¬ë“œ ë‚´ë¶€ì˜ ì…‹ í›„ ì‹œìŠ¤í…œì— ê²Œìž„ì˜¤ë¸Œì íŠ¸ ì„¤ì¹˜ ìš”ì²­
+
+    //±×¸®µå ³»ºÎÀÇ ¼Â ÈÄ ½Ã½ºÅÛ¿¡ °ÔÀÓ¿ÀºêÁ§Æ® ¼³Ä¡ ¿äÃ»
     public void SetGridObject(int x, int y, int z, GridObject value)
     {
-        if (x > gridX - 1 && x < 0 && y > gridY - 1 && y < 0 && z > gridZ - 1 && z < 0)
+        if (x > gridX - 1 || x < 0 || y > gridY - 1 || y < 0 || z > gridZ - 1 || z < 0)
             return;
         if (gridObjects[x, y, z].gameObject != null)
             GridSystem.Instance.DestoryStageBlock(gridObjects[x, y, z].gameObject);
@@ -28,6 +31,11 @@ public class GridV2
         if (GetGridObject(x, y, z + 1) != null) GetGridObject(x, y, z + 1).CheckArround();
 
         GridSystem.Instance.GenerateStageBlock(x, y, z);
+    }
+
+    public void InGrid(int x, int y, int z, GridObject gridObject)
+    {
+        gridObjects[x, y, z] = gridObject;
     }
 
     public GridObject GetGridObject(int x, int y, int z)
@@ -49,16 +57,5 @@ public class GridV2
         gridZ = _StageWidth;
 
         gridObjects = new GridObject[_StageWidth, _StageHeight, _StageWidth];
-
-        for (int x = 0; x < gridObjects.GetLength(0); x++)
-        {
-            for (int y = 0; y < gridObjects.GetLength(1); y++)
-            {
-                for (int z = 0; z < gridObjects.GetLength(2); z++)
-                {
-                    gridObjects[x, y, z] = new Air();
-                }
-            }
-        }
     }
 }

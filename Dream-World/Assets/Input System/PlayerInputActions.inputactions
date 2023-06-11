@@ -88,9 +88,9 @@
                 },
                 {
                     "name": "CameraScroll",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "9ad92a5d-db93-4ca9-9f2d-065f32a0f79b",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -105,7 +105,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "CaneraZoomOut",
+                    "name": "CameraZoomOut",
                     "type": "Button",
                     "id": "404ee24f-7355-4309-ad41-8b04d3363ab3",
                     "expectedControlType": "Button",
@@ -349,10 +349,10 @@
                 {
                     "name": "",
                     "id": "d1f5d85d-85be-4056-a0f4-f107389cb04a",
-                    "path": "",
+                    "path": "<Keyboard>/o",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "PC",
                     "action": "CameraZoomIn",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -360,11 +360,11 @@
                 {
                     "name": "",
                     "id": "5a06092f-3ecb-46f6-81a4-4ca5baf5f720",
-                    "path": "",
+                    "path": "<Keyboard>/p",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "CaneraZoomOut",
+                    "groups": "PC",
+                    "action": "CameraZoomOut",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

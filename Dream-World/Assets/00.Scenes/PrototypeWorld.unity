@@ -459,9 +459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89a705687b1348741a52ae8c63dc06af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockDatas:
-    InspectorKeys: 
-    InspectorValues: []
+  gridObjectDatas: []
 --- !u!20 &338641287 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 7545049352658560594, guid: e55f3df26cb0d0f43bf151d5a2ae3aba, type: 3}
@@ -524,7 +522,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2678656309296004533, guid: 672197cfdfb12774ab14129164486442, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -0.03
       objectReference: {fileID: 0}
     - target: {fileID: 2678656309296004533, guid: 672197cfdfb12774ab14129164486442, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -1978,6 +1976,7 @@ GameObject:
   - component: {fileID: 1318240101}
   - component: {fileID: 1318240102}
   - component: {fileID: 1318240103}
+  - component: {fileID: 1318240104}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2026,10 +2025,9 @@ MonoBehaviour:
     buildPositionOffset: {x: 0, y: 0, z: 0}
     entity: {fileID: 0}
     BuildVFX: {fileID: 4326698112909223156, guid: eabc4277b5b0be744ab3588e932df279, type: 3}
-  Camera: {fileID: 0}
-  Flag:
-    stageFlags2: []
   Input: {fileID: 0}
+  Camera: {fileID: 0}
+  Flag: {fileID: 0}
 --- !u!114 &1318240102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2046,6 +2044,8 @@ MonoBehaviour:
   look: {x: 0, y: 0}
   jump: 0
   sprint: 0
+  zoomIn: 0
+  zoomOut: 0
   cursorLocked: 1
   cursorInputForLook: 1
 --- !u!114 &1318240103
@@ -2061,17 +2061,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainCamera: {fileID: 0}
+  controller: {fileID: 0}
+  playerRoot: {fileID: 0}
+  newPoint: {fileID: 1510885423}
+  VerticalBar: {fileID: 1078030628}
   CinemachineCameraTarget: {fileID: 0}
   cameraRotationSpeed: 0.3
   cameraTopClamp: 70
   cameraBottomClamp: 10
-  cameraOffsetMin: 5
+  cameraOffsetMin: 2
   cameraOffsetMax: 15
-  cameraScrollSensivity: 0.2
+  cameraScrollSensivity: 5
   cameraPositionLock: 0
   cameraRotationLock: 0
   isFollowPlayer: 1
   isCurrentDeviceMouse: 1
+  tempDistance: 0
+--- !u!114 &1318240104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318240098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56df960bd98b6f744818a63b886eae96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFlagNotOver: 0
 --- !u!1 &1354664298
 GameObject:
   m_ObjectHideFlags: 0
@@ -2414,6 +2432,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1510885423
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1510885424}
+  m_Layer: 0
+  m_Name: CameraPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1510885424
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510885423}
+  m_LocalRotation: {x: -0, y: -0.9916335, z: 0.12908621, w: 0}
+  m_LocalPosition: {x: 4.128091, y: 4.160914, z: 3.033097}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 14.834, y: -180, z: 0}
 --- !u!1 &1534340784
 GameObject:
   m_ObjectHideFlags: 0

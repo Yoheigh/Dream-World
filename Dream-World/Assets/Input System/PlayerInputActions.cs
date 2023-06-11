@@ -110,9 +110,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""CameraScroll"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""9ad92a5d-db93-4ca9-9f2d-065f32a0f79b"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -127,7 +127,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""CaneraZoomOut"",
+                    ""name"": ""CameraZoomOut"",
                     ""type"": ""Button"",
                     ""id"": ""404ee24f-7355-4309-ad41-8b04d3363ab3"",
                     ""expectedControlType"": ""Button"",
@@ -371,10 +371,10 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d1f5d85d-85be-4056-a0f4-f107389cb04a"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/o"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""PC"",
                     ""action"": ""CameraZoomIn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -382,11 +382,11 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""5a06092f-3ecb-46f6-81a4-4ca5baf5f720"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/p"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""CaneraZoomOut"",
+                    ""groups"": ""PC"",
+                    ""action"": ""CameraZoomOut"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -840,7 +840,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_CameraScroll = m_Player.FindAction("CameraScroll", throwIfNotFound: true);
         m_Player_CameraZoomIn = m_Player.FindAction("CameraZoomIn", throwIfNotFound: true);
-        m_Player_CaneraZoomOut = m_Player.FindAction("CaneraZoomOut", throwIfNotFound: true);
+        m_Player_CameraZoomOut = m_Player.FindAction("CameraZoomOut", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -921,7 +921,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_CameraScroll;
     private readonly InputAction m_Player_CameraZoomIn;
-    private readonly InputAction m_Player_CaneraZoomOut;
+    private readonly InputAction m_Player_CameraZoomOut;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -937,7 +937,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @CameraScroll => m_Wrapper.m_Player_CameraScroll;
         public InputAction @CameraZoomIn => m_Wrapper.m_Player_CameraZoomIn;
-        public InputAction @CaneraZoomOut => m_Wrapper.m_Player_CaneraZoomOut;
+        public InputAction @CameraZoomOut => m_Wrapper.m_Player_CameraZoomOut;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -980,9 +980,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @CameraZoomIn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraZoomIn;
                 @CameraZoomIn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraZoomIn;
                 @CameraZoomIn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraZoomIn;
-                @CaneraZoomOut.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCaneraZoomOut;
-                @CaneraZoomOut.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCaneraZoomOut;
-                @CaneraZoomOut.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCaneraZoomOut;
+                @CameraZoomOut.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraZoomOut;
+                @CameraZoomOut.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraZoomOut;
+                @CameraZoomOut.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraZoomOut;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1020,9 +1020,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @CameraZoomIn.started += instance.OnCameraZoomIn;
                 @CameraZoomIn.performed += instance.OnCameraZoomIn;
                 @CameraZoomIn.canceled += instance.OnCameraZoomIn;
-                @CaneraZoomOut.started += instance.OnCaneraZoomOut;
-                @CaneraZoomOut.performed += instance.OnCaneraZoomOut;
-                @CaneraZoomOut.canceled += instance.OnCaneraZoomOut;
+                @CameraZoomOut.started += instance.OnCameraZoomOut;
+                @CameraZoomOut.performed += instance.OnCameraZoomOut;
+                @CameraZoomOut.canceled += instance.OnCameraZoomOut;
             }
         }
     }
@@ -1147,7 +1147,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnCameraScroll(InputAction.CallbackContext context);
         void OnCameraZoomIn(InputAction.CallbackContext context);
-        void OnCaneraZoomOut(InputAction.CallbackContext context);
+        void OnCameraZoomOut(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

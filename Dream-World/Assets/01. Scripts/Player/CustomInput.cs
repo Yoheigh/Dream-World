@@ -10,6 +10,9 @@ public class CustomInput : MonoBehaviour
     public bool jump;
     public bool sprint;
 
+    public bool zoomIn;
+    public bool zoomOut;
+
     public bool cursorLocked = true;
     public bool cursorInputForLook = true;
     private bool moveInputFlag = true;
@@ -23,51 +26,98 @@ public class CustomInput : MonoBehaviour
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
 
+        //playerInputActions.Player.CameraZoomIn.performed += HandleCameraScroll;
+        //playerInputActions.Player.CameraZoomOut.performed += HandleCameraScroll;
+
         Debug.Log($"5. Setup - {this}");
     }
 
     private void Update()
     {
-        UpdateMoveInput(moveInputFlag);
-        UpdateLookInput(lookInputFlag);
+        UpdateMoveInput();
+        UpdateLookInput();
     }
 
-    private void UpdateMoveInput(bool _flag)
+    private void UpdateMoveInput()
     {
-        switch (_flag)
+        switch (moveInputFlag)
         {
             case true:
                 move = playerInputActions.Player.Move.ReadValue<Vector2>();
                 jump = playerInputActions.Player.Jump.triggered;               // 누른 순간
                 sprint = playerInputActions.Player.Sprint.IsPressed();         // 누르고 있는 동안
-                playerInputActions.Player.Enable();
                 break;
 
             case false:
                 move = Vector2.zero;
                 jump = false;
                 sprint = false;
-                playerInputActions.Player.Disable();
                 break;
         }
     }
 
-    private void UpdateLookInput(bool _flag)
+    private void UpdateLookInput()
     {
-        switch (_flag)
+        switch (lookInputFlag)
         {
             case true:
                 look = playerInputActions.Player.Look.ReadValue<Vector2>();
+                zoomIn = playerInputActions.Player.CameraZoomIn.IsPressed();
+                zoomOut = playerInputActions.Player.CameraZoomOut.IsPressed();
                 break;
 
             case false:
                 look = Vector2.zero;
+                zoomIn = false;
+                zoomOut = false;
                 break;
         }
     }
 
-    private void UpdateInteractInput()
+    public void CanMove(bool _flag)
     {
+        moveInputFlag = _flag;
+
+        switch (moveInputFlag)
+        {
+            case true:
+                playerInputActions.Player.Move.Enable();
+                playerInputActions.Player.Jump.Enable();
+                playerInputActions.Player.Sprint.Enable();
+                break;
+
+            case false:
+                playerInputActions.Player.Move.Disable();
+                playerInputActions.Player.Jump.Disable();
+                playerInputActions.Player.Sprint.Disable();
+                break;
+        }
+    }
+
+    public void CanLook(bool _flag)
+    {
+        lookInputFlag = _flag;
+
+        switch (lookInputFlag)
+        {
+            case true:
+                playerInputActions.Player.Look.Enable();
+                playerInputActions.Player.CameraZoomIn.Enable();
+                playerInputActions.Player.CameraZoomOut.Enable();
+                break;
+
+            case false:
+                playerInputActions.Player.Look.Disable();
+                playerInputActions.Player.CameraZoomIn.Enable();
+                playerInputActions.Player.CameraZoomOut.Enable();
+                break;
+        }
+    }
+
+    public void CanInteract(bool _flag)
+    {
+        interactInputFlag = _flag;
+
         switch (interactInputFlag)
         {
             case true:
@@ -82,22 +132,11 @@ public class CustomInput : MonoBehaviour
         }
     }
 
-    public void CanMove(bool _flag)
-    {
-        moveInputFlag = _flag;
-    }
-
-    public void CanLook(bool _flag)
-    {
-        lookInputFlag = _flag;
-    }
-
-    public void CanInteract(bool _flag)
-    {
-        interactInputFlag = _flag;
-
-        UpdateInteractInput();
-    }
+    // 아니 결국 이렇게 다시 매핑할거면... InputSystem을 쓴 이유가... 없지 않나...?
+    //public void HandleCameraScroll(InputAction.CallbackContext context)
+    //{
+    //    Manager.Instance.Camera.HandleCameraScroll(zoomIn, zoomOut);
+    //}
 
     public void RegisterInteractStarted(Action<InputAction.CallbackContext> actionFunc)
     {

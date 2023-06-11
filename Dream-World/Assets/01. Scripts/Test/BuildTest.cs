@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BuildTest : MonoBehaviour
 {
-
     public Vector3 offset = new Vector3(0, 0, 0);
 
     [SerializeField]

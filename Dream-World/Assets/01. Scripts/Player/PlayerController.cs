@@ -126,19 +126,12 @@ public class PlayerController : MonoBehaviour
 
     public void Interact(InputAction.CallbackContext context)
     {
-        Manager.Instance.Camera.HandleCameraTarget(null);
         interaction.Interact();
     }
 
     public void InteractWithEquipment(InputAction.CallbackContext context)
     {
-        Manager.Instance.Camera.HandleCameraTarget(Manager.Instance.Camera.playerRoot);
         interaction.InteractWithEquipment();
-    }
-
-    public void HandleCameraScroll(InputAction.CallbackContext context)
-    {
-
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
