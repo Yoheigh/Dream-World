@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class UICraftMenu : UIPanel
+public class CraftSlot : MonoBehaviour
 {
     InventoryV2 Inventory => Manager.Instance.Inventory;
 
     // 해당 레시피
-    public ItemRecipe itemRecipe;
+    public ItemRecipe itemRecipe; 
 
     // 앞에서 보여줄 것들
     public GameObject[] slotView;
@@ -17,14 +18,15 @@ public class UICraftMenu : UIPanel
 
     public Button CreateButton;
 
-    public Image resultImage;
+    // 완성 아이템 아이콘인데 이거 레이아웃 바뀌면 확 바뀔 듯
+    // public Image resultImage;
 
     // 내부 변수
     private string tempString;
 
     private void Start()
     {
-
+        Draw();
     }
 
     public void Draw()
@@ -57,6 +59,7 @@ public class UICraftMenu : UIPanel
             needCount[i].gameObject.SetActive(true);
         }
 
-        resultImage.sprite = itemRecipe.result.itemIcon;
+        
+        // resultImage.sprite = itemRecipe.result.itemIcon;
     }
 }

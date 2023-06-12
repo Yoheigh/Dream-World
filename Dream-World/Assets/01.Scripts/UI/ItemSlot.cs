@@ -1,18 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class ItemSlot : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Image itemIcon;
+    public Text itemText;
 
-    // Update is called once per frame
-    void Update()
+    public void Draw(ItemV2 _item)
     {
-        
+        itemIcon.sprite = _item.itemIcon;
+        itemText.text = _item.itemDescription;
     }
 }

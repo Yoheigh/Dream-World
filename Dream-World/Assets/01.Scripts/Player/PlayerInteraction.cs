@@ -180,6 +180,7 @@ public class PlayerInteraction : MonoBehaviour
 
         // 범위 지정
         var temp = Physics.OverlapSphere(equipActionPos + Vector3.up, currentEquipment.EquipRange);
+
         // 해당 트랜스폼의 forward 값을 장비 작동 위치로
         equipActionPos = transform.position + (transform.forward.Multiply(Vector3.one).
                                                                  Multiply(currentEquipment.EquipOffset));

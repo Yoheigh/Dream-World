@@ -226,6 +226,22 @@ public class InventoryV2
         return null;
     }
 
+    public bool TryGetInventoryItem(ItemV2 _item, out ItemV2 item)
+    {
+        var temp = GetInventoryItem(_item);
+
+        if (temp != null)
+        {
+            item = temp;
+            return true;
+        }
+        else
+            Debug.LogError("아이템이 없습니다");
+
+        item = null;
+        return false;
+    }
+
     // 장비 아이템 선택
     public void SelectEquipment(int _slot)
     {
