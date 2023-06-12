@@ -1,65 +1,27 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public class CraftSlot : MonoBehaviour
 {
-    InventoryV2 Inventory => Manager.Instance.Inventory;
-
-    // ÇØ´ç ·¹½ÃÇÇ
+    // í•´ë‹¹ ë ˆì‹œí”¼
     public ItemRecipe itemRecipe; 
 
-    // ¾Õ¿¡¼­ º¸¿©ÁÙ °Íµé
-    public GameObject[] slotView;
-    public Image[] needImage;
-    public Text[] needCount;
+    // ì™„ì„± ì•„ì´í…œ ì•„ì´ì½˜ì¸ë° ì´ê±° ë ˆì´ì•„ì›ƒ ë°”ë€Œë©´ í™• ë°”ë€” ë“¯
+    public Sprite resultImage;
+    public string resultDescription;
 
-    public Button CreateButton;
+    public SelectableButton Button;
 
-    // ¿Ï¼º ¾ÆÀÌÅÛ ¾ÆÀÌÄÜÀÎµ¥ ÀÌ°Å ·¹ÀÌ¾Æ¿ô ¹Ù²î¸é È® ¹Ù²ğ µí
-    // public Image resultImage;
-
-    // ³»ºÎ º¯¼ö
+    // ë‚´ë¶€ ë³€ìˆ˜
     private string tempString;
-
-    private void Start()
-    {
-        Draw();
-    }
 
     public void Draw()
     {
-        tempString = null;
-
-        // Å©·¡ÇÁÆ® ½½·Ô ÃÊ±âÈ­
-        for (int i = 0; i < needImage.Length; i++)
-        {
-            needImage[i].gameObject.SetActive(false);
-            needCount[i].gameObject.SetActive(false);
-        }
-        Debug.Log("½½·Ô ÃÊ±âÈ­");
-
-        for (int i = 0; i < itemRecipe.needItemCount; i++)
-        {
-            if (Inventory.GetInventoryItem(itemRecipe.ingredients[i]) != null)
-            {
-                needCount[i].text = $"{Inventory.GetInventoryItem(itemRecipe.ingredients[i]).itemCount} / {itemRecipe.ingredientCounts[i]}";
-                needImage[i].sprite = itemRecipe.ingredients[i].itemIcon;
-            }
-            else
-            {
-                needCount[i].text = $"{0} / {itemRecipe.ingredientCounts[i]}";
-                needImage[i].sprite = itemRecipe.ingredients[i].itemIcon;
-                Debug.Log("¾ÆÀÌÅÛ ¾øÀ¸´Ï 0°³");
-            }
-
-            needImage[i].gameObject.SetActive(true);
-            needCount[i].gameObject.SetActive(true);
-        }
-
-        
-        // resultImage.sprite = itemRecipe.result.itemIcon;
+        resultImage = itemRecipe.result.itemIcon;
+        resultDescription = itemRecipe.result.itemDescription;
     }
 }

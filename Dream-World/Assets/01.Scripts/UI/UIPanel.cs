@@ -9,6 +9,11 @@ public class UIPanel : MonoBehaviour
 
     private void OnEnable()
     {
+        ResetSelection();
+    }
+
+    public virtual void ResetSelection()
+    {
         SelectedButton.Select();
     }
 

@@ -18,10 +18,11 @@ MonoBehaviour:
   itemMaxCount: 0
   itemName: 
   itemDescription: 
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 8a36c1a0e0382c6469765fa70effc22a, type: 3}
   EquipActionType: 0
   EquipEffectiveType: 1
   EquipRange: 0.5
+  EquipOffset: {x: 0, y: 0, z: 0}
   EquipActionDelay: 0.4
   EquipActionEndDelay: 0.67
   EquipPrefabPath: 

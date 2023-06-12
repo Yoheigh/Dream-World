@@ -1,3 +1,4 @@
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,38 +7,48 @@ using UnityEngine.UI;
 public class UICraftMenu : UIPanel
 {
     InventoryV2 Inventory => Manager.Instance.Inventory;
+    CraftSystem Craft => Manager.Instance.Craft;
 
-    // ÇØ´ç ·¹½ÃÇÇ
-    public ItemRecipe itemRecipe;
+    // static event
+    public static Action OnCraftChange;
 
-    // ¾Õ¿¡¼­ º¸¿©ÁÙ °Íµé
+    // í•´ë‹¹ í¬ë˜í”„íŠ¸ ìŠ¬ë¡¯
+    public CraftSlot selectedSlot;
+
+    // í•„ìš”í•œ ì¬ë£Œ ê°œìˆ˜ì™€ ì•„ì´ì½˜ ë³´ì—¬ì£¼ëŠ” UI
     public GameObject[] slotView;
     public Image[] needImage;
     public Text[] needCount;
 
-    public Button CreateButton;
+    // ì™„ì„± ì•„ì´í…œ ì•„ì´ì½˜ì¸ë° ì´ê±° ë ˆì´ì•„ì›ƒ ë°”ë€Œë©´ í™• ë°”ë€” ë“¯
+    // public Image resultImage;
 
-    public Image resultImage;
-
-    // ³»ºÎ º¯¼ö
+    // ë‚´ë¶€ ë³€ìˆ˜
     private string tempString;
+    private bool isSelect;
+
+    public override void ResetSelection()
+    {
+        selectedSlot.Button.Select();
+    }
 
     private void Start()
     {
-
+        selectedSlot.Button.Select();
     }
 
     public void Draw()
     {
         tempString = null;
+        var itemRecipe = selectedSlot.itemRecipe;
 
-        // Å©·¡ÇÁÆ® ½½·Ô ÃÊ±âÈ­
+        // í¬ë˜í”„íŠ¸ ìŠ¬ë¡¯ ì´ˆê¸°í™”
         for (int i = 0; i < needImage.Length; i++)
         {
             needImage[i].gameObject.SetActive(false);
             needCount[i].gameObject.SetActive(false);
         }
-        Debug.Log("½½·Ô ÃÊ±âÈ­");
+        Debug.Log("ìŠ¬ë¡¯ ì´ˆê¸°í™”");
 
         for (int i = 0; i < itemRecipe.needItemCount; i++)
         {
@@ -50,13 +61,27 @@ public class UICraftMenu : UIPanel
             {
                 needCount[i].text = $"{0} / {itemRecipe.ingredientCounts[i]}";
                 needImage[i].sprite = itemRecipe.ingredients[i].itemIcon;
-                Debug.Log("¾ÆÀÌÅÛ ¾øÀ¸´Ï 0°³");
+                Debug.Log("ì•„ì´í…œ ì—†ìœ¼ë‹ˆ 0ê°œ");
             }
 
             needImage[i].gameObject.SetActive(true);
             needCount[i].gameObject.SetActive(true);
         }
 
-        resultImage.sprite = itemRecipe.result.itemIcon;
+        // resultImage.sprite = itemRecipe.result.itemIcon;
     }
+
+    public void test()
+    {
+        if (Craft.CraftItemCheck(selectedSlot.itemRecipe))
+            Debug.Log("ì œì‘ ê°€ëŠ¥~");
+        else
+            Debug.Log("ì œì‘â˜†ë¶ˆê°€ëŠ¥~");
+    }
+
+    public void CraftItem()
+    {
+        Craft.CraftItem(selectedSlot.itemRecipe);
+    }
+
 }
