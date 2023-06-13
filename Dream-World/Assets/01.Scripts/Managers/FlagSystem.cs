@@ -10,7 +10,7 @@ public class FlagSystem : MonoBehaviour
     CameraSystem Cam => Manager.Instance.Camera;
     CustomInput Input => Manager.Instance.Input;
 
-    // 오브젝트 키 모음
+    // 실제 작동할 오브젝트 키 모음
     public Dictionary<int, StageFlag> stageFlags;
 
     public bool isFlagNotOver = false;

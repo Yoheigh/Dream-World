@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/* 얘는 나중에 다시 보자 */
 public class UIPopup : MonoBehaviour
 {
-    public Button SelectedButton;
+    public Button[] Buttons;
 
     private void OnEnable()
     {
-        if(SelectedButton != null)
-            SelectedButton.Select();
+        ResetSelection();
+    }
+
+    public virtual void Init() { }
+
+    public virtual void ResetSelection()
+    {
+        Buttons?[0].Select();
     }
 
     public void Show()

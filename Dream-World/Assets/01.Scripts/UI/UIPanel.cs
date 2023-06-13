@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+ 
 public class UIPanel : MonoBehaviour
 {
     public Button[] Buttons;
@@ -16,7 +16,7 @@ public class UIPanel : MonoBehaviour
 
     public virtual void ResetSelection()
     {
-        Buttons[0].Select();
+        Buttons?[0].Select();
     }
 
     public void Show()

@@ -12,6 +12,9 @@ public class UICraftMenu : UIPanel
     // static event
     public static Action OnCraftChange;
 
+    // CraftSlot이 생성될 부모 오브젝트
+    public GameObject UIRoot;
+
     // 해당 크래프트 슬롯
     public CraftSlot[] craftSlots;
 
@@ -19,6 +22,8 @@ public class UICraftMenu : UIPanel
     public GameObject[] slotView;
     public Image[] needImage;
     public Text[] needCount;
+
+    public Image completeBar;
 
     public int currentIndex = -1;
 
@@ -40,7 +45,6 @@ public class UICraftMenu : UIPanel
             // 해당 버튼 Select 될 때마다 정보 업데이트
             craftSlots[i].Button.SetCallback(() =>
             {
-                Debug.Log($"{index} 이 숫자 왜...");
                 currentIndex = index;
                 Draw();
             });
