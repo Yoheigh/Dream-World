@@ -22,6 +22,8 @@ public class Manager : MonoBehaviour
     public CustomInput Input;
     public CameraSystem Camera;
     public FlagSystem Flag;
+    public UISystemManager UI;
+
 
     private void Awake()
     {
@@ -53,6 +55,10 @@ public class Manager : MonoBehaviour
         // Flag 시스템 등록
         Flag = GetComponent<FlagSystem>();
         Flag.Setup();
+
+        // UI 시스템 등록
+        UI = GetComponent<UISystemManager>();
+        UI.Setup();
     }
 
     private void LateUpdate()

@@ -23,6 +23,14 @@ public class UISystemManager : MonoBehaviour
 
     //}
 
+    public void Setup()
+    {
+        for(int i = 0; i < panels.Count; i++)
+        {
+            panels[i].Init();
+        }
+    }
+
     public void ShowPanel(int index)
     {
         for (int i = 0; i < panels.Count; i++)
@@ -53,11 +61,6 @@ public class UISystemManager : MonoBehaviour
             currentPanelIndex = panels.Count - 1;
         }
         ShowPanel(currentPanelIndex);
-    }
-
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame

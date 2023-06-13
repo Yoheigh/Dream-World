@@ -13,12 +13,14 @@ public class UICraftMenu : UIPanel
     public static Action OnCraftChange;
 
     // 해당 크래프트 슬롯
-    public CraftSlot selectedSlot;
+    public CraftSlot[] craftSlots;
 
     // 필요한 재료 개수와 아이콘 보여주는 UI
     public GameObject[] slotView;
     public Image[] needImage;
     public Text[] needCount;
+
+    public int currentIndex = -1;
 
     // 완성 아이템 아이콘인데 이거 레이아웃 바뀌면 확 바뀔 듯
     // public Image resultImage;
@@ -27,20 +29,38 @@ public class UICraftMenu : UIPanel
     private string tempString;
     private bool isSelect;
 
+    // 첫 번째 버튼 선택하고 화면 드로우
+    private void OnEnable()
+    {
+        for (int i = 0; i < craftSlots.Length; ++i)
+        {
+            // 이렇게 안하면 C#의 클로저 현상 일어남
+            int index = i;
+
+            // 해당 버튼 Select 될 때마다 정보 업데이트
+            craftSlots[i].Button.SetCallback(() =>
+            {
+                Debug.Log($"{index} 이 숫자 왜...");
+                currentIndex = index;
+                Draw();
+            });
+        }
+
+        ResetSelection();
+    }
+
     public override void ResetSelection()
     {
-        selectedSlot.Button.Select();
+        craftSlots[0].Button.Select();
+        currentIndex = 0;
+        Draw();
     }
 
-    private void Start()
-    {
-        selectedSlot.Button.Select();
-    }
-
+    // 해당 아이템의 정보 가져오기
     public void Draw()
     {
         tempString = null;
-        var itemRecipe = selectedSlot.itemRecipe;
+        var itemRecipe = craftSlots[currentIndex].itemRecipe;
 
         // 크래프트 슬롯 초기화
         for (int i = 0; i < needImage.Length; i++)
@@ -48,20 +68,22 @@ public class UICraftMenu : UIPanel
             needImage[i].gameObject.SetActive(false);
             needCount[i].gameObject.SetActive(false);
         }
-        Debug.Log("슬롯 초기화");
 
         for (int i = 0; i < itemRecipe.needItemCount; i++)
         {
             if (Inventory.GetInventoryItem(itemRecipe.ingredients[i]) != null)
             {
+                needCount[i].color = Color.white;
                 needCount[i].text = $"{Inventory.GetInventoryItem(itemRecipe.ingredients[i]).itemCount} / {itemRecipe.ingredientCounts[i]}";
+                needImage[i].color = Color.white;
                 needImage[i].sprite = itemRecipe.ingredients[i].itemIcon;
             }
             else
             {
+                needCount[i].color = Color.red;
                 needCount[i].text = $"{0} / {itemRecipe.ingredientCounts[i]}";
+                needImage[i].color = Color.gray;
                 needImage[i].sprite = itemRecipe.ingredients[i].itemIcon;
-                Debug.Log("아이템 없으니 0개");
             }
 
             needImage[i].gameObject.SetActive(true);
@@ -71,17 +93,9 @@ public class UICraftMenu : UIPanel
         // resultImage.sprite = itemRecipe.result.itemIcon;
     }
 
-    public void test()
-    {
-        if (Craft.CraftItemCheck(selectedSlot.itemRecipe))
-            Debug.Log("제작 가능~");
-        else
-            Debug.Log("제작☆불가능~");
-    }
-
     public void CraftItem()
     {
-        Craft.CraftItem(selectedSlot.itemRecipe);
+        Craft.CraftItem(craftSlots[currentIndex].itemRecipe);
     }
 
 }

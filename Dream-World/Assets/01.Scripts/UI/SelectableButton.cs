@@ -7,15 +7,22 @@ using UnityEngine.UI;
 
 public class SelectableButton : Button
 {
-    public override void OnDeselect(BaseEventData eventData)
-    {
-        base.OnDeselect(eventData);
-        Debug.Log($"{this.gameObject} 선택 안 됨");
-    }
+    public Action callback;
 
     public override void OnSelect(BaseEventData eventData)
     {
         base.OnSelect(eventData);
-        Debug.Log($"{this.gameObject} 선택!!!!됨!!@!@!@!@!!!!!!!이다므읻마럼륻ㅁ");
+        callback?.Invoke();
+    }
+    public override void OnDeselect(BaseEventData eventData)
+    {
+        base.OnDeselect(eventData);
+        //callback?.Invoke();
+        Debug.Log($"{this.gameObject} 선택 안 됨");
+    }
+
+    public void SetCallback(Action _callback)
+    {
+        callback = new Action(_callback);
     }
 }

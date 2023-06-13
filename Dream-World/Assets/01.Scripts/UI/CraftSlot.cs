@@ -16,9 +16,6 @@ public class CraftSlot : MonoBehaviour
 
     public SelectableButton Button;
 
-    // 내부 변수
-    private string tempString;
-
     public void Draw()
     {
         resultImage = itemRecipe.result.itemIcon;

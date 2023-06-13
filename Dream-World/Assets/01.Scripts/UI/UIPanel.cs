@@ -5,16 +5,18 @@ using UnityEngine.UI;
 
 public class UIPanel : MonoBehaviour
 {
-    public Button SelectedButton;
+    public Button[] Buttons;
 
     private void OnEnable()
     {
         ResetSelection();
     }
 
+    public virtual void Init() { }
+
     public virtual void ResetSelection()
     {
-        SelectedButton.Select();
+        Buttons[0].Select();
     }
 
     public void Show()
