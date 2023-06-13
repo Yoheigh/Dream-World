@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needItemCount: 3
   ingredients:
+  - {fileID: 11400000, guid: b0377451bd2f76f438de4529102b4b07, type: 2}
+  - {fileID: 11400000, guid: ead3d511548b1a545a05308483679668, type: 2}
   - {fileID: 11400000, guid: fa273ec485df0f3449ca7d95168a2917, type: 2}
-  - {fileID: 11400000, guid: e308205941252cb4a8d149e338cbc8cf, type: 2}
-  - {fileID: 11400000, guid: 4264a4ff9ab81284492c3f91db0aea2f, type: 2}
-  ingredientCounts: 010000000100000003000000
-  result: {fileID: 11400000, guid: e308205941252cb4a8d149e338cbc8cf, type: 2}
+  ingredientCounts: 020000000300000001000000
+  result: {fileID: 11400000, guid: 4264a4ff9ab81284492c3f91db0aea2f, type: 2}
