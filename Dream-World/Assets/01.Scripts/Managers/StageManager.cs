@@ -9,52 +9,18 @@ public class StageManager
 {
     public StageData stageData;
 
-    private sbyte hpCount = 3;
-
-
-    void Setup()
+    public IEnumerator LoadScene(int nextScene, LoadSceneMode loadSceneMode = LoadSceneMode.Additive)
     {
-        
-    }
+        AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);
+        op.allowSceneActivation = false;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+        while (!op.isDone)
+        {
+            Debug.Log("¿¡º£º£ ·Îµù¾ÈµÊ");
+            yield return null;
+        }
 
-    public void LoadScene(Scene newScene, LoadSceneMode loadSceneMode = LoadSceneMode.Additive)
-    {
-        SceneManager.LoadSceneAsync(newScene.buildIndex);
+        Debug.Log("¿À ´Ù µÊ");
+        op.allowSceneActivation = true;
     }
-
-    //IEnumerator LoadScene()
-    //{
-    //    yield return null;
-    //    AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);
-    //    op.allowSceneActivation = false;
-    //    float timer = 0.0f;
-    //    while (!op.isDone)
-    //    {
-    //        yield return null;
-    //        timer += Time.deltaTime;
-    //        if (op.progress < 0.9f)
-    //        {
-    //            progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, op.progress, timer);
-    //            if (progressBar.fillAmount >= op.progress)
-    //            {
-    //                timer = 0f;
-    //            }
-    //        }
-    //        else
-    //        {
-    //            progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1f, timer);
-    //            if (progressBar.fillAmount == 1.0f)
-    //            {
-    //                op.allowSceneActivation = true;
-    //                yield break;
-    //            }
-    //        }
-    //    }
-    //}
 }

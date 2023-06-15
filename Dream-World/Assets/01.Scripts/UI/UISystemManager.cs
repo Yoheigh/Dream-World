@@ -8,6 +8,10 @@ public class UISystemManager : MonoBehaviour
     [SerializeField] private List<UIPanel> popupPrefabs;    // 잠시 판넬을 팝업으로 씁시다
     // [SerializeField] private UIPopup popupPrefabs;
 
+    public ScreenTransition Transition;                     // 화면 전환
+    public List<ItemSlot> itemSlots;
+    public HealthUI HP;
+
     [SerializeField]
     private GameObject Canvas;
     private int currentPanelIndex;
@@ -147,5 +151,10 @@ public class UISystemManager : MonoBehaviour
             panels[currentPanelIndex].Hide();
             currentPanelIndex = -1;
         }
+    }
+
+    public void ActivateItemSlot()
+    {
+
     }
 }

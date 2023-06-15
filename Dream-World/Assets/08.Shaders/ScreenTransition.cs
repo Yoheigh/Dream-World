@@ -49,7 +49,7 @@ public class ScreenTransition : MonoBehaviour
 
         while(percent < 1)
         {
-            current += Time.deltaTime;
+            current += Time.unscaledDeltaTime;
             percent = current / TransitionSpeed;
 
             CircleSize = Mathf.Lerp(1f, 0f, curves[0].Evaluate(percent));
@@ -68,7 +68,7 @@ public class ScreenTransition : MonoBehaviour
 
         while (percent < 1)
         {
-            current += Time.deltaTime;
+            current += Time.unscaledDeltaTime;
             percent = current / TransitionSpeed;
 
             CircleSize = Mathf.Lerp(0f, 1f, curves[1].Evaluate(percent));

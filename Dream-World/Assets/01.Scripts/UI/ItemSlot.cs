@@ -7,11 +7,11 @@ using UnityEngine.EventSystems;
 public class ItemSlot : MonoBehaviour
 {
     public Image itemIcon;
-    public Text itemText;
+    public GameObject DisableObj;
 
     public void Draw(ItemV2 _item)
     {
         itemIcon.sprite = _item.itemIcon;
-        itemText.text = _item.itemDescription;
+        // itemText.text = _item.itemDescription;
     }
 }
