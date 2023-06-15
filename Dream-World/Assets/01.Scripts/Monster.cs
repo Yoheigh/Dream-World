@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -49,7 +49,7 @@ public class Monster : MonoBehaviour
     private void FixedUpdate()
     {
         stateMachine.Execute();
-        Debug.Log("¸ó½ºÅÍ ¾÷µ¥ÀÌÆ®");
+        Debug.Log("ëª¬ìŠ¤í„° ì—…ë°ì´íŠ¸");
     }
 
     public bool FindTarget()
@@ -84,16 +84,16 @@ public class Monster : MonoBehaviour
         switch (monsterData.monsterPatrolType)
         {
             case MonsterPatrolType.PointToPoint:
-                //¸ñÀûÁö¸¦ ÇâÇØ ÀÌµ¿ÇÏ´Â ÄÚµå
+                //ëª©ì ì§€ë¥¼ í–¥í•´ ì´ë™í•˜ëŠ” ì½”ë“œ
                 navMeshAgent.SetDestination(patrolPositions[currentPatrolPos]);
                 GetComponent<Rigidbody>().velocity = Vector3.zero;
                 GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
                 Debug.Log(currentPatrolPos);
 
-                //¸ñÀûÁö¿¡ µµÂøÇß´ÂÁö Ã¼Å© ÇÏ´Â ÄÚµå
+                //ëª©ì ì§€ì— ë„ì°©í–ˆëŠ”ì§€ ì²´í¬ í•˜ëŠ” ì½”ë“œ
                 if (Vector3.Distance(patrolPositions[currentPatrolPos], transform.position) <= 0.01f)
                 {
-                    //µµÂøÇßÀ» ¶§ »óÅÂ¸¦ ¾ÆÀÌµé·Î º¯°æ ÈÄ ¸ñÀûÁö¸¦ ´ÙÀ½ ¸ñÀûÁö·Î º¯°æ
+                    //ë„ì°©í–ˆì„ ë•Œ ìƒíƒœë¥¼ ì•„ì´ë“¤ë¡œ ë³€ê²½ í›„ ëª©ì ì§€ë¥¼ ë‹¤ìŒ ëª©ì ì§€ë¡œ ë³€ê²½
                     stateMachine.ChangeState(states[(int)MonsterStateEnum.Idle]);
                     if(currentPatrolPos < patrolPositions.Length - 1)
                     {
@@ -170,7 +170,7 @@ public class Monster : MonoBehaviour
 
 }
 
-public enum MonsterStateEnum
-{
-    Idle ,Patrol , Detect , Attack , Hit
-}
+//public enum MonsterStateEnum
+//{
+//    Idle ,Patrol , Detect , Attack , Hit
+//}

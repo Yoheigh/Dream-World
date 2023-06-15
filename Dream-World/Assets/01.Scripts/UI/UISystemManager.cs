@@ -30,16 +30,33 @@ public class UISystemManager : MonoBehaviour
     // 소유중인 UIPanel들 값 초기화
     public void Setup()
     {
-        for(int i = 0; i < panels.Count; i++)
+        for (int i = 0; i < panels.Count; i++)
         {
             panels[i].Init();
         }
     }
 
+    private void Start()
+    {
+        Canvas.SetActive(false);
+        Canvas.SetActive(true);
+        currentPanelIndex = 0;
+        ShowPanel(currentPanelIndex);
+        isActivateUI = true;
+    }
+
     public void ShowPanel(int index)
     {
-        currentPanelIndex = index;
+        if (Canvas.activeSelf == false)
+        {
+            Canvas.SetActive(true);
+            isActivateUI = true;
+        }
 
+        if (currentPanelIndex == index)
+            return;
+
+        currentPanelIndex = index;
         for (int i = 0; i < panels.Count; i++)
         {
             if (i == index)
@@ -56,29 +73,45 @@ public class UISystemManager : MonoBehaviour
 
     public void AddPanelPopup(int index)
     {
-        if (!panelStack.Contains(popupPrefabs[index]))
-        {
-            panelStack.Push(popupPrefabs[index]);
-            panelStack.Peek().Show();
-        }
+        if (panelStack.Contains(popupPrefabs[index])) return;
+
+        if (panelStack.Count == 0)
+            panels[currentPanelIndex].Hide();
+        else if (panelStack.Count > 1)
+            panelStack.Peek().Hide();
+
+        panelStack.Push(popupPrefabs[index]);
+        panelStack.Peek().Show();
     }
 
     public void ClosePanel()
     {
+        // 켜져있는 Popup이 하나 이상이면 실행
         if (panelStack.Count > 0)
         {
+            Debug.Log($"panelStack 개수 : {panelStack.Count}");
+            // 최상위 오브젝트 Hide() 시키고 Stack에서 제외
             panelStack.Pop().Hide();
-            panelStack?.Peek().Show();
 
+            // 스택에 다음 UI가 존재할 경우 Show()
+            if (panelStack.Count > 0)
+            {
+                panelStack.Peek().Show();
+                return;
+            }
+
+            // 스택에 값이 없을 경우 Panel 실행
             if (panelStack.Count == 0)
             {
                 panels[currentPanelIndex].Show();
             }
         }
-        else
+        else if (panelStack.Count == 0 && isActivateUI == true)
         {
-            panels[currentPanelIndex].Hide();
+            panels?[currentPanelIndex].Hide();
             currentPanelIndex = -1;
+            Canvas.SetActive(false);
+            isActivateUI = false;
         }
     }
 
@@ -101,15 +134,15 @@ public class UISystemManager : MonoBehaviour
     public void CloseAll()
     {
         // UIPopup 먼저 전부 종료
-        if(panelStack.Count > 0)
+        if (panelStack.Count > 0)
         {
             for (int i = 0; i < panelStack.Count; i++)
             {
-                panelStack.Pop();
+                panelStack.Pop().Hide();
             }
         }
-        
-        if(currentPanelIndex > 0)
+
+        if (currentPanelIndex > 0)
         {
             panels[currentPanelIndex].Hide();
             currentPanelIndex = -1;

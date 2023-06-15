@@ -68,7 +68,6 @@ public class PlayerInteraction : MonoBehaviour
                     // 던지기 코드 처리
                     /* 지금은 그냥 보여주기용 */
                     StartCoroutine(ObjectMoveToGrid(interactionObj));
-                    
                     break;
 
                 case ObjectType.Dragable:
@@ -77,8 +76,6 @@ public class PlayerInteraction : MonoBehaviour
             }
 
             interactionObj = null;
-
-            Debug.Log("그런 위험한 건 내려놓고 얘기하자구");
             return;
         }
 
@@ -135,6 +132,11 @@ public class PlayerInteraction : MonoBehaviour
         return false;
     }
 
+    private void Update()
+    {
+        equipActionPos = transform.position + transform.forward;
+    }
+
     // 도구 인터랙션
     public void InteractWithEquipment()
     {
@@ -176,42 +178,39 @@ public class PlayerInteraction : MonoBehaviour
         yield return equipWaitTime = new WaitForSeconds(currentEquipment.EquipActionDelay);
 
         // 해당 트랜스폼의 forward 값을 장비 작동 위치로
-        equipActionPos = transform.position + (transform.forward.Multiply(Vector3.one));
+        //equipActionPos = transform.position + transform.forward;
 
         // 범위 지정
-        var temp = Physics.OverlapSphere(equipActionPos + Vector3.up, currentEquipment.EquipRange);
+        var colliders = Physics.OverlapCapsule(equipActionPos, equipActionPos + currentEquipment.EquipOffset, currentEquipment.EquipRange);
+        float tempHeight = -1f;
 
-        // 해당 트랜스폼의 forward 값을 장비 작동 위치로
-        equipActionPos = transform.position + (transform.forward.Multiply(Vector3.one).
-                                                                 Multiply(currentEquipment.EquipOffset));
-
-        if (temp != null)
+        if (colliders != null)
         {
-            for (int i = 0; i < temp.Length; i++)
+            GameObject target = null;
+
+            for (int i = 0; i < colliders.Length; i++)
             {
-                // Breakable 태그 && 현재 장비의 효과 타입과 같을 경우 효과 진행
-                if (temp[i].CompareTag("Breakable"))
-                    temp[i].GetComponent<IngredientObject>().AffectedByEquipment(currentEquipment.EquipEffectiveType);
+                // 그 중에 제일 상위에 있는 오브젝트 찾기
+                if (colliders[i].transform.position.y > tempHeight)
+                {
+                    // Breakable 태그가 달려있다면 해당 오브젝트를 target으로
+                    if (colliders[i].CompareTag("Breakable"))
+                    {
+                        target = colliders[i].gameObject;
+                        tempHeight = target.transform.position.y;
+                    }
+                }
             }
+            // 검색한 것중에 가장 높은 곳에 있는 오브젝트 파괴
+            if(target != null)
+                target.GetComponent<IngredientObject>().AffectedByEquipment(currentEquipment.EquipEffectiveType);
         }
-        else
-        {
 
-        }
-
-        if (temp != null)
-        {
-            for (int i = 0; i < temp.Length; i++)
-            {
-                // Breakable 태그 && 현재 장비의 효과 타입과 같을 경우 효과 진행
-                if (temp[i].CompareTag("Breakable"))
-                    temp[i].GetComponent<IngredientObject>().AffectedByEquipment(currentEquipment.EquipEffectiveType);
-            }
-        }
         // 장비의 후딜레이 처리
         yield return equipWaitTime = new WaitForSeconds(currentEquipment.EquipActionEndDelay - currentEquipment.EquipActionDelay);
-        controller.ChangeState(PlayerStateType.Default);
         isInteracting = false;
+
+        controller.ChangeState(PlayerStateType.Default);
     }
 
     // 원거리 도구 함수
@@ -343,7 +342,11 @@ public class PlayerInteraction : MonoBehaviour
         Gizmos.color = Color.blue;
 
         if (currentEquipment != null)
+        {
             Gizmos.DrawSphere(equipActionPos, currentEquipment.EquipRange);
+            Gizmos.DrawSphere(equipActionPos + currentEquipment.EquipOffset, currentEquipment.EquipRange);
+        }
+            
         else
             return;
     }

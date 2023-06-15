@@ -27,6 +27,9 @@ public class CustomInput : MonoBehaviour
         playerInputActions.Player.Enable();
         playerInputActions.UI.Enable();
 
+        playerInputActions.Player.Jump.performed += OpenInventory;
+        playerInputActions.UI.Cancel.performed += CloseUI;
+
         //playerInputActions.Player.CameraZoomIn.performed += HandleCameraScroll;
         //playerInputActions.Player.CameraZoomOut.performed += HandleCameraScroll;
 
@@ -138,6 +141,16 @@ public class CustomInput : MonoBehaviour
     //{
     //    Manager.Instance.Camera.HandleCameraScroll(zoomIn, zoomOut);
     //}
+
+    public void CloseUI(InputAction.CallbackContext callback)
+    {
+        Manager.Instance.UI.ClosePanel();
+    }
+    public void OpenInventory(InputAction.CallbackContext callback)
+    {
+        // 메인 인벤토리 인덱스가 0임
+        Manager.Instance.UI.ShowPanel(0);
+    }
 
     public void RegisterInteractStarted(Action<InputAction.CallbackContext> actionFunc)
     {

@@ -71,7 +71,8 @@ namespace PlayerOwnedStates
         {
             _entity.animator.SetBool("isHolding", true);
 
-            _entity.Input.CanInteract(false);
+            // 이거 지금 isInteracting 이랑 엮여서 인터랙션 막힘 ㅋㅋ
+            // _entity.Input.CanInteract(false);
         }
 
         public override void UpdateState(PlayerController _entity)

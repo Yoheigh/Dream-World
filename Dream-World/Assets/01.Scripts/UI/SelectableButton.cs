@@ -18,7 +18,6 @@ public class SelectableButton : Button
     {
         base.OnDeselect(eventData);
         //callback?.Invoke();
-        Debug.Log($"{this.gameObject} 선택 안 됨");
     }
 
     public void SetCallback(Action _callback)
