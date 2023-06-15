@@ -6,6 +6,8 @@ using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.VFX;
 using Unity.VisualScripting;
 using Unity.Collections.LowLevel.Unsafe;
+using UnityEngine.InputSystem.XR;
+using Mono.Cecil;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -23,7 +25,7 @@ public class PlayerInteraction : MonoBehaviour
         private set => isInteracting = value;
     }
 
-    private InteractionObject interactionObj;  
+    private InteractionObject interactionObj;
     public InteractionObject InteractionObj     // 다른 곳에서 필요한 경우 사용할 것
     {
         get => interactionObj;
@@ -42,6 +44,14 @@ public class PlayerInteraction : MonoBehaviour
     // private float t;                         // Lerp 같은 거 할 때 범용적으로 쓸 변수
     [SerializeField]
     private Equipment currentEquipment;         // 현재 장착한 장비
+
+    [SerializeField]
+    private Transform equipModelRoot;           // 장비 장착될 손 (오른손이 기준)
+
+    [SerializeField]
+    private Transform ShovelRoot;             // 삽 애니메이션 왼손이라 왼손
+
+    private GameObject equipModel;
     private WaitForSeconds equipWaitTime;
 
     public void Setup()
@@ -144,7 +154,6 @@ public class PlayerInteraction : MonoBehaviour
         if (currentEquipment == null) return;
 
         isInteracting = true;
-        Debug.Log("콱");
 
         switch (currentEquipment.EquipActionType)
         {
@@ -168,11 +177,50 @@ public class PlayerInteraction : MonoBehaviour
     // 장비에 명시된 기능대로 작동
     private IEnumerator MeleeActionDelay()
     {
-        // 애니메이션 적용
-        controller.anim.ChangeAnimationState(currentEquipment.EquipAnimName);
+        if (equipModel != null)
+        {
+            if (equipModel.name != currentEquipment.name)
+            {
+                Destroy(equipModel);
+                equipModel = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>(currentEquipment.EquipPrefabPath), equipModelRoot);
+                equipModel.transform.localRotation = Quaternion.Euler(currentEquipment.EquipHandOffset);
+                equipModel.name = currentEquipment.name;
+
+                // 으아악
+                if (currentEquipment.name == "Shovel")
+                {
+                    equipModel.transform.SetParent(ShovelRoot);
+                    equipModel.transform.position = Vector3.zero;
+                }
+
+                equipModel.SetActive(true);
+            }
+            else
+            {
+                equipModel.SetActive(true);
+            }
+        }
+        else
+        {
+            equipModel = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>(currentEquipment.EquipPrefabPath), equipModelRoot);
+            equipModel.transform.localRotation = Quaternion.Euler(currentEquipment.EquipHandOffset);
+            equipModel.name = currentEquipment.name;
+
+            if (currentEquipment.name == "Shovel")
+            {
+                equipModel.transform.SetParent(ShovelRoot);
+                equipModel.transform.localPosition = Vector3.zero;
+            }
+
+            equipModel.SetActive(true);
+        }
+
 
         // 인터랙션 중에는 아무것도 못하는 인터랙션 State로 변경
         controller.ChangeState(PlayerStateType.Interaction);
+
+        // 애니메이션 적용
+        controller.anim.ChangeAnimationState($"{currentEquipment.EquipAnimName}");
 
         // 장비 기능까지 선딜레이 처리
         yield return equipWaitTime = new WaitForSeconds(currentEquipment.EquipActionDelay);
@@ -182,8 +230,9 @@ public class PlayerInteraction : MonoBehaviour
 
         // 범위 지정
         var colliders = Physics.OverlapCapsule(equipActionPos, equipActionPos + currentEquipment.EquipOffset, currentEquipment.EquipRange);
-        float tempHeight = -1f;
+        float tempHeight = -10f;
 
+        // 상호작용했을 경우
         if (colliders != null)
         {
             GameObject target = null;
@@ -202,15 +251,56 @@ public class PlayerInteraction : MonoBehaviour
                 }
             }
             // 검색한 것중에 가장 높은 곳에 있는 오브젝트 파괴
-            if(target != null)
+            if (target != null)
+            {
                 target.GetComponent<IngredientObject>().AffectedByEquipment(currentEquipment.EquipEffectiveType);
+
+                //if (Mathf.Abs(tempHeight - transform.position.y) > 0.7f)
+                //{
+                //    try { controller.anim.ChangeAnimationState($"{currentEquipment.EquipAnimName}Top"); }
+                //    catch { Debug.LogError("애니메이션이 없으므로 기본을 마저 재생합니다."); }
+                //}
+                //else
+                //{
+                //    try { controller.anim.ChangeAnimationState($"{currentEquipment.EquipAnimName}Bottom"); }
+                //    catch { Debug.LogError("애니메이션이 없으므로 기본을 마저 재생합니다."); }
+                //}
+
+                try { controller.anim.ChangeAnimationState($"{currentEquipment.EquipAnimName}Top"); }
+                catch { Debug.LogError("애니메이션이 없으므로 기본을 마저 재생합니다."); }
+
+                // 장비의 후딜레이 처리
+                yield return equipWaitTime = new WaitForSeconds(currentEquipment.EquipActionEndDelay - currentEquipment.EquipActionDelay);
+                isInteracting = false;
+                equipModel.SetActive(false);
+                controller.anim.ChangeAnimationState("Default");
+                controller.ChangeState(PlayerStateType.Default);
+            }
+            else
+            {
+                try { controller.anim.ChangeAnimationState($"{currentEquipment.EquipAnimName}None"); }
+                catch { Debug.LogError("애니메이션이 없으므로 기본을 마저 재생합니다."); }
+
+                // 장비의 후딜레이 처리
+                yield return equipWaitTime = new WaitForSeconds(currentEquipment.EquipActionEndDelay - currentEquipment.EquipActionDelay);
+                isInteracting = false;
+                equipModel.SetActive(false);
+                controller.anim.ChangeAnimationState("Default");
+                controller.ChangeState(PlayerStateType.Default);
+            }
         }
+        else
+        {
+            try { controller.anim.ChangeAnimationState($"{currentEquipment.EquipAnimName}None"); }
+            catch { Debug.LogError("애니메이션이 없으므로 기본을 마저 재생합니다."); }
 
-        // 장비의 후딜레이 처리
-        yield return equipWaitTime = new WaitForSeconds(currentEquipment.EquipActionEndDelay - currentEquipment.EquipActionDelay);
-        isInteracting = false;
-
-        controller.ChangeState(PlayerStateType.Default);
+            // 장비의 후딜레이 처리
+            yield return equipWaitTime = new WaitForSeconds(currentEquipment.EquipActionEndDelay - currentEquipment.EquipActionDelay);
+            isInteracting = false;
+            equipModel.SetActive(false);
+            controller.anim.ChangeAnimationState("Default");
+            controller.ChangeState(PlayerStateType.Default);
+        }
     }
 
     // 원거리 도구 함수
@@ -255,7 +345,7 @@ public class PlayerInteraction : MonoBehaviour
         Vector3 playerPos = dragObj.AnchoredPosition(transform.position, out Vector3 anchoredRot);
 
         transform.SetPositionAndRotation(new Vector3(playerPos.x, transform.position.y, playerPos.z), Quaternion.Euler(anchoredRot));
-        
+
         // 테스트로 Move() 써봤다가 하늘로 날아감. 물리엔진과 함께 적용되는 모양
         // gameObject.GetComponent<CharacterController>().Move(anchoredRot);
         // transform.rotation = Quaternion.Euler(anchoredRot);
@@ -346,7 +436,7 @@ public class PlayerInteraction : MonoBehaviour
             Gizmos.DrawSphere(equipActionPos, currentEquipment.EquipRange);
             Gizmos.DrawSphere(equipActionPos + currentEquipment.EquipOffset, currentEquipment.EquipRange);
         }
-            
+
         else
             return;
     }

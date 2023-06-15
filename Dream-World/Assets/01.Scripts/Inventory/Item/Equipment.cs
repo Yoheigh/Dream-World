@@ -17,8 +17,12 @@ public class Equipment : ItemV2
     public float EquipActionDelay;                  // 장비 기능 실제 작동까지 걸리는 시간
     public float EquipActionEndDelay;               // 장비 동작 완료까지 걸리는 시간
 
+    public Vector3 EquipHandOffset;                 // 장비 손에 장착되는 로테이션 값
     public string EquipPrefabPath;                  // 장비 모델 경로
     public string EquipAnimName;                    // 플레이어 동작 애니메이션 이름
+    //public string EquipAnimTop;                     /* 장비가 [위쪽 오브젝트]를 부셨을 때 */
+    //public string EquipAnimBottom;                  /* 장비가 [아래쪽 오브젝트]를 부셨을 때 */
+    //public string EquipAnimNone;                    /* 장비가 상호작용하지 못했을 떄 */
 
     public Equipment(int _itemID, ItemTypeV2 _itemType, string _itemName, string _itemDescription = null, int _itemCount = 1, int _itemMaxCount = 64, Sprite _itemIcon = null, EquipmentAction _equipAction = null)
     {

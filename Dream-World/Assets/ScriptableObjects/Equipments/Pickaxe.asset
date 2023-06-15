@@ -23,7 +23,8 @@ MonoBehaviour:
   EquipEffectiveType: 1
   EquipRange: 0.5
   EquipOffset: {x: 0, y: 0, z: 0}
-  EquipActionDelay: 0.4
+  EquipActionDelay: 0.292
   EquipActionEndDelay: 0.67
-  EquipPrefabPath: 
+  EquipHandOffset: {x: -30, y: 8, z: -80}
+  EquipPrefabPath: Tools/Pickaxe
   EquipAnimName: Player_Action_Pickaxe

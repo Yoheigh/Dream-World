@@ -52,7 +52,7 @@ public class SerializableDictionary<Tkey, TValue> : Dictionary<Tkey, TValue>, IS
         {
             if (this.ContainsKey(InspectorKeys[i]))
             {
-                Debug.LogError("등록된 ");
+                Debug.LogError("이미 등록된 value가 존재합니다.");
                 break;
             }
             base.Add(InspectorKeys[i], InspectorValues[i]);

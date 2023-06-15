@@ -24,7 +24,6 @@ public class Manager : MonoBehaviour
     public FlagSystem Flag;
     public UISystemManager UI;
 
-
     private void Awake()
     {
         #region 싱글톤
@@ -44,6 +43,9 @@ public class Manager : MonoBehaviour
         // 인벤토리 초기화
         Inventory.Init();
 
+        // 사운드 매니저 셋업
+        Sound.Setup();
+
         // 인풋 시스템 등록
         Input = GetComponent<CustomInput>();
         Input.Setup();
@@ -59,6 +61,8 @@ public class Manager : MonoBehaviour
         // UI 시스템 등록
         UI = GetComponent<UISystemManager>();
         UI.Setup();
+
+        Sound.PlayBGM(100);
     }
 
     private void LateUpdate()
@@ -67,5 +71,8 @@ public class Manager : MonoBehaviour
         Camera.HandleCameraScroll(Input.zoomIn, Input.zoomOut);
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.L)) Flag.ExcuteFlag(0);
+
+        if (UnityEngine.Input.GetKeyDown(KeyCode.T)) Sound.PlaySFX(0);
+        if (UnityEngine.Input.GetKeyDown(KeyCode.Y)) Sound.PlaySFX(1);
     }
 }

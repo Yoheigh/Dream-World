@@ -4,6 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum FlagPlayerState
+{
+    OnPlaying,
+    CutScene
+}
+
+public enum FlagActionEnum
+{
+    CameraMove,
+    CameraReturnToPlayer,
+    StartDialog
+}
+
 [System.Serializable]
 public class FlagSystem : MonoBehaviour
 {
@@ -11,42 +24,39 @@ public class FlagSystem : MonoBehaviour
     CustomInput Input => Manager.Instance.Input;
 
     // 실제 작동할 오브젝트 키 모음
-    public Dictionary<int, StageFlag> stageFlags;
+    public Dictionary<int, List<StageFlag>> stageFlags;
 
-    // 우오옹
+    // 이건 UI에 넣어야 할까?
+    public ScreenTransition Transition;
+
     public List<StageFlag> tests;
+
+    public int PlayerHP = 3;
 
     public bool isFlagNotOver = false;
 
     public void Setup()
     {
-        stageFlags = new Dictionary<int, StageFlag>
-        {
-            { 100, new StageFlag() }
-        };
-
-        tests = new List<StageFlag>()
-        {
-            new StageFlag(),
-            new CameraCutscene() as StageFlag
-        };
 
     }
 
-    public void ExcuteFlag(int flagID)
+    public void PlayerDamaged()
+    {
+        PlayerHP--;
+        if( PlayerHP <= 0 )
+        { 
+            
+        }
+        Debug.Log(PlayerHP);
+    }
+
+    public void ExcuteFlag(int flagsID)
     {
         if (isFlagNotOver) return;
 
         isFlagNotOver = true;
-        StartCoroutine(stageFlags[100].FlagAction());
+        StartCoroutine(stageFlags[0][0].FlagAction());
     }
-
-}
-
-public enum FlagPlayerState
-{
-    OnPlaying,
-    CutScene
 }
 
 [System.Serializable]
@@ -56,9 +66,10 @@ public class StageFlag
     CustomInput Input => Manager.Instance.Input;
     UISystemManager UI => Manager.Instance.UI;
 
-    public int flagID;
+    // public int flagID;
 
     public FlagPlayerState flagPlayerState = FlagPlayerState.CutScene;
+    public FlagActionEnum flagActionEnum = FlagActionEnum.CameraMove;
 
     private Transform newPoint;
 
@@ -85,17 +96,35 @@ public class StageFlag
                 break;
         }
 
-        Cam.HandleCameraTarget(null);
-        yield return new WaitForSeconds(1f);
+        switch (flagActionEnum)
+        {
+            case FlagActionEnum.CameraMove:
+                #region CameraMove
+                Cam.HandleCameraTarget(null);
+                yield return new WaitForSeconds(1f);
 
-        Cam.HandleCameraMove(newPoint);
-        yield return new WaitForSeconds(2f);
+                Cam.HandleCameraMove(newPoint);
+                yield return new WaitForSeconds(2f);
 
-        Cam.ReturnCameraToPlayer();
-        yield return new WaitForSeconds(1f);
+                Cam.ReturnCameraToPlayer();
+                yield return new WaitForSeconds(1f);
+                #endregion
+                break;
 
+            case FlagActionEnum.CameraReturnToPlayer:
+                #region CameraReturnToPlayer
+                Cam.ReturnCameraToPlayer();
+                yield return new WaitForSeconds(1f);
+                #endregion
+                break;
 
-        // 컷씬 타입이었으면 다시 상태로 돌아오도록
+            case FlagActionEnum.StartDialog:
+                #region StartDialog
+                #endregion
+                break;
+        }
+
+        // 컷씬 타입이었으면 다시 플레이어블 상태로 돌아오도록
         if (flagPlayerState == FlagPlayerState.CutScene)
         {
             Cam.isFollowPlayer = true;
@@ -104,6 +133,19 @@ public class StageFlag
             Input.CanLook(true);
             Input.CanInteract(true);
         }
+
+    }
+
+    private IEnumerator CameraMove()
+    {
+        Cam.HandleCameraTarget(null);
+        yield return new WaitForSeconds(1f);
+
+        Cam.HandleCameraMove(newPoint);
+        yield return new WaitForSeconds(2f);
+
+        Cam.ReturnCameraToPlayer();
+        yield return new WaitForSeconds(1f);
     }
 }
 

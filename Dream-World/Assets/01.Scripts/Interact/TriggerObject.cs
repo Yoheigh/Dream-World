@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using UnityEditor.Build;
 using UnityEngine;
 
-// TriggerEnter 됐을 때 작동하는 함수
+[RequireComponent(typeof(Collider))]
 public abstract class TriggerObject : MonoBehaviour
 {
-    protected bool isTriggered = false;
+    [Tooltip("한 번만 트리거되야하는 경우 체크")]
+    public bool IsTriggerOnlyOnce = false;
+
+    private bool isTriggered = false;
 
     // 플레이어와 OnTriggerEnter 했을 경우 작동하는 함수
     protected abstract void TriggerWithPlayer(PlayerController _player);
@@ -17,7 +20,12 @@ public abstract class TriggerObject : MonoBehaviour
     {
         if (isTriggered == false)
         {
-            isTriggered = true;
+            if(IsTriggerOnlyOnce == true)
+            {
+                isTriggered = true;
+                TriggerWithPlayer(_player);
+                return;
+            }
             TriggerWithPlayer(_player);
         }
         else

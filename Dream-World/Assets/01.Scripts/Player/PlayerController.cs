@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour
         ChangeState(PlayerStateType.Default);
 
         // 체력 감소 이벤트
-        // 체력 감소 UI 이벤트
+        OnDamage?.Invoke();
     }
 
     public void ChangeState(PlayerStateType _type)
