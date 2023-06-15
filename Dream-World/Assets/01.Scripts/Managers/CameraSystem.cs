@@ -14,7 +14,6 @@ public class CameraSystem : MonoBehaviour
     public GameObject playerRoot;
 
     public GameObject newPoint;
-    public GameObject VerticalBar;
 
     #region ---- 카메라 기본 설정 ----
 

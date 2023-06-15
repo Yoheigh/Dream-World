@@ -22,7 +22,7 @@ public class Dragable : InteractionObject
 
     public override void InteractWithPlayer(PlayerController _player)
     {
-        Debug.Log("질질 끕니다");
+        Debug.Log("질질 끄는 중");
     }
 
     public Vector3 AnchoredPosition(Vector3 _playerPos, out Vector3 _playerRot)

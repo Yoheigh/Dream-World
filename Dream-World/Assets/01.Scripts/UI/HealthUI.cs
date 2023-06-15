@@ -17,10 +17,10 @@ public class HealthUI : MonoBehaviour
 
     public void Draw(int playerHP)
     {
-        for(int i = 0; i < hpPoint.Length; i++)
+        for (int i = 0; i < hpPoint.Length; i++)
         {
-            if ( i <= playerHP )
-            hpPoint[i].gameObject.SetActive(true);
+            if (i <= playerHP - 1)
+                hpPoint[i].gameObject.SetActive(true);
             else
                 hpPoint[i].gameObject.SetActive(false);
         }

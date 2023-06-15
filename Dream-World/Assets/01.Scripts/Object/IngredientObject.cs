@@ -41,7 +41,7 @@ public class IngredientObject : MonoBehaviour
         return effectiveType;
     }
 
-    private void Destruction()
+    protected virtual void Destruction()
     {
         StartCoroutine(DestructionCoroutine());
     }

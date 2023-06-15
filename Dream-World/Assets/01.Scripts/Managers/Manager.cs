@@ -43,24 +43,17 @@ public class Manager : MonoBehaviour
         // 인벤토리 초기화
         Inventory.Init();
 
-        // 사운드 매니저 셋업
-        Sound.Setup();
-
-        // 인풋 시스템 등록
+        // 시스템 등록
         Input = GetComponent<CustomInput>();
-        Input.Setup();
-
-        // 카메라 시스템 등록
         Camera = GetComponent<CameraSystem>();
-        Camera.Setup();
-
-        // Flag 시스템 등록
-        Flag = GetComponent<FlagSystem>();
-        Flag.Setup();
-
-        // UI 시스템 등록
         UI = GetComponent<UISystemManager>();
+        Flag = GetComponent<FlagSystem>();
+
+        // 시스템 셋업
+        Input.Setup();
+        Camera.Setup();
         UI.Setup();
+        Flag.Setup();
 
         Sound.PlayBGM(100);
     }
@@ -70,7 +63,7 @@ public class Manager : MonoBehaviour
         Camera.HandleCameraRotation();
         Camera.HandleCameraScroll(Input.zoomIn, Input.zoomOut);
 
-        if (UnityEngine.Input.GetKeyDown(KeyCode.L)) Flag.ExcuteFlag(0);
+        if (UnityEngine.Input.GetKeyDown(KeyCode.L)) Flag.ForestCutsceneStart();
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.T)) Sound.PlaySFX(0);
         if (UnityEngine.Input.GetKeyDown(KeyCode.Y)) Sound.PlaySFX(1);

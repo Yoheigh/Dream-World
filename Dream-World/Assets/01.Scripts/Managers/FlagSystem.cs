@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.VirtualTexturing;
 using UnityEngine.SceneManagement;
 
 public enum FlagPlayerState
@@ -30,11 +31,28 @@ public class FlagSystem : MonoBehaviour
 
     public List<StageFlag> tests;
 
+    // 스테이지 별로 카메라 포인트 따로 둡시다
+    // 나중에는 StageFlag 에서 관리할 거임
+    public Transform[] cameraPoints;
+
     public bool isFlagNotOver = false;
 
     public void Setup()
     {
+        Cam.isFollowPlayer = false;
+        Input.CanMove(false);
+        Input.CanLook(false);
+        Input.CanInteract(false);
+        UI.CloseAll();
+        UI.SystemUI.SetActive(false);
+        Cam.HandleCameraTarget(null);
 
+        Cam.HandleCameraMove(cameraPoints[0], 0.0001f);
+    }
+
+    public void ForestCutsceneStart()
+    {
+        StartCoroutine(CameraMove2(cameraPoints[0], cameraPoints[1]));
     }
 
     public void ExcuteFlag(int flagsID)
@@ -58,7 +76,7 @@ public class FlagSystem : MonoBehaviour
     #region 나중에 수정할 거임
     public IEnumerator CameraMove(Transform cameraPoint)
     {
-        Cam.VerticalBar.SetActive(true);
+        UI.VerticalBar.SetActive(true);
         Cam.isFollowPlayer = false;
         Input.CanMove(false);
         Input.CanLook(false);
@@ -76,11 +94,34 @@ public class FlagSystem : MonoBehaviour
 
         // 컷씬 타입이었으면 다시 플레이어블 상태로 돌아오도록
         Cam.isFollowPlayer = true;
-        Cam.VerticalBar.SetActive(false);
+        UI.VerticalBar.SetActive(false);
         Input.CanMove(true);
         Input.CanLook(true);
         Input.CanInteract(true);
+    }
 
+    public IEnumerator CameraMove2(Transform cameraPoint, Transform cameraPoint2)
+    {
+        UI.VerticalBar.SetActive(true);
+
+        yield return new WaitForSeconds(2f);
+
+        Cam.HandleCameraMove(cameraPoint);
+        yield return new WaitForSeconds(2f);
+
+        Cam.HandleCameraMove(cameraPoint2, 5f);
+        yield return new WaitForSeconds(6f);
+
+        Cam.ReturnCameraToPlayer();
+        yield return new WaitForSeconds(1f);
+
+        // 컷씬 타입이었으면 다시 플레이어블 상태로 돌아오도록
+        Cam.isFollowPlayer = true;
+        UI.SystemUI.SetActive(true);
+        UI.VerticalBar.SetActive(false);
+        Input.CanMove(true);
+        Input.CanLook(true);
+        Input.CanInteract(true);
     }
 
     public void GameOver()
@@ -90,7 +131,7 @@ public class FlagSystem : MonoBehaviour
 
     private IEnumerator GameOverCo()
     {
-        Cam.VerticalBar.SetActive(true);
+        UI.VerticalBar.SetActive(true);
         Cam.isFollowPlayer = false;
         Input.CanMove(false);
         Input.CanLook(false);
@@ -138,7 +179,7 @@ public class StageFlag
                 break;
 
             case FlagPlayerState.CutScene:
-                Cam.VerticalBar.SetActive(true);
+                UI.VerticalBar.SetActive(true);
                 Cam.isFollowPlayer = false;
                 Input.CanMove(false);
                 Input.CanLook(false);
@@ -179,10 +220,11 @@ public class StageFlag
         if (flagPlayerState == FlagPlayerState.CutScene)
         {
             Cam.isFollowPlayer = true;
-            Cam.VerticalBar.SetActive(false);
+            UI.VerticalBar.SetActive(false);
             Input.CanMove(true);
             Input.CanLook(true);
             Input.CanInteract(true);
+
         }
 
     }
@@ -201,7 +243,7 @@ public class StageFlag
 }
 
 [System.Serializable]
-public class CameraCutscene : StageFlag
+public class ForestStage : StageFlag
 {
 
 }
