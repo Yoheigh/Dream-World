@@ -160,7 +160,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8876083549096588815}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d725b4fb530bb614caff7fa7d16d875e, type: 3}
   m_Name: 
@@ -320,6 +320,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9ad92a5d-db93-4ca9-9f2d-065f32a0f79b
     m_ActionName: Player/CameraScroll
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 631e7970-c885-4bb1-a28c-5487f6cf7f27
+    m_ActionName: Player/CameraZoomIn[/Keyboard/o]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 404ee24f-7355-4309-ad41-8b04d3363ab3
+    m_ActionName: Player/CameraZoomOut[/Keyboard/p]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

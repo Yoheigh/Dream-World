@@ -39,20 +39,22 @@ public class FlagSystem : MonoBehaviour
 
     public void Setup()
     {
-        Cam.isFollowPlayer = false;
-        Input.CanMove(false);
-        Input.CanLook(false);
-        Input.CanInteract(false);
-        UI.CloseAll();
-        UI.SystemUI.SetActive(false);
-        Cam.HandleCameraTarget(null);
+        // 학교에서 시작할 때 컷씬 넣으려고 했던 것
+        //Cam.isFollowPlayer = false;
+        //Input.CanMove(false);
+        //Input.CanLook(false);
+        //Input.CanInteract(false);
+        //UI.CloseAll();
+        //UI.SystemUI.SetActive(false);
+        //Cam.HandleCameraTarget(null);
+        //Manager.Instance.Player.enabled = false;
 
-        Cam.HandleCameraMove(cameraPoints[0], 0.0001f);
+        //Cam.HandleCameraMove(cameraPoints[0], 1f);
     }
 
     public void ForestCutsceneStart()
     {
-        StartCoroutine(CameraMove2(cameraPoints[0], cameraPoints[1]));
+        StartCoroutine(CameraMove2(cameraPoints[1]));
     }
 
     public void ExcuteFlag(int flagsID)
@@ -100,20 +102,21 @@ public class FlagSystem : MonoBehaviour
         Input.CanInteract(true);
     }
 
-    public IEnumerator CameraMove2(Transform cameraPoint, Transform cameraPoint2)
+    public IEnumerator CameraMove2(Transform cameraPoint)
     {
         UI.VerticalBar.SetActive(true);
 
         yield return new WaitForSeconds(2f);
 
-        Cam.HandleCameraMove(cameraPoint);
-        yield return new WaitForSeconds(2f);
+        Debug.Log("카메라 이동 시작");
+        Cam.HandleCameraMove(cameraPoint, 8f);
+        yield return new WaitForSeconds(8f);
+        Debug.Log("카메라 이동 종료");
 
-        Cam.HandleCameraMove(cameraPoint2, 5f);
-        yield return new WaitForSeconds(6f);
-
+        Debug.Log("플레이어한테 이동 시작");
         Cam.ReturnCameraToPlayer();
         yield return new WaitForSeconds(1f);
+        Debug.Log("플레이어한테 이동 종료");
 
         // 컷씬 타입이었으면 다시 플레이어블 상태로 돌아오도록
         Cam.isFollowPlayer = true;
@@ -122,6 +125,7 @@ public class FlagSystem : MonoBehaviour
         Input.CanMove(true);
         Input.CanLook(true);
         Input.CanInteract(true);
+        Manager.Instance.Player.enabled = true;
     }
 
     public void GameOver()

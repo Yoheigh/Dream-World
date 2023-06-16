@@ -754,10 +754,11 @@ MonoBehaviour:
     buildPositionOffset: {x: 0, y: 0, z: 0}
     entity: {fileID: 0}
     BuildVFX: {fileID: 4326698112909223156, guid: eabc4277b5b0be744ab3588e932df279, type: 3}
+  Player: {fileID: 0}
   Input: {fileID: 0}
   Camera: {fileID: 0}
   Flag: {fileID: 0}
-  UI: {fileID: 0}
+  UI: {fileID: 5886947763733358386}
 --- !u!114 &5886947763733358383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -794,7 +795,6 @@ MonoBehaviour:
   controller: {fileID: 0}
   playerRoot: {fileID: 0}
   newPoint: {fileID: 0}
-  VerticalBar: {fileID: 0}
   CinemachineCameraTarget: {fileID: 0}
   cameraRotationSpeed: 0.3
   cameraTopClamp: 70
@@ -826,6 +826,9 @@ MonoBehaviour:
   - flagPlayerState: 0
     flagActionEnum: 0
     isAvailable: 0
+  cameraPoints:
+  - {fileID: 0}
+  - {fileID: 0}
   isFlagNotOver: 0
 --- !u!114 &5886947763733358386
 MonoBehaviour:
@@ -846,12 +849,14 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   Transition: {fileID: 0}
+  SystemUI: {fileID: 0}
   itemSlots:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   HP: {fileID: 0}
+  VerticalBar: {fileID: 0}
   Canvas: {fileID: 0}
   isActivateUI: 0
 --- !u!1 &5886947763780407284

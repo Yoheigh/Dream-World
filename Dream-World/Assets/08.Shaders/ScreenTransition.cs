@@ -22,11 +22,6 @@ public class ScreenTransition : MonoBehaviour
         image = GetComponent<Image>();
     }
 
-    private void Start()
-    {
-        CircleOut();
-    }
-
     public void CircleOut()
     {
         StopAllCoroutines();

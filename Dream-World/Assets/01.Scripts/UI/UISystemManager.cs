@@ -44,7 +44,7 @@ public class UISystemManager : MonoBehaviour
 
     private void Start()
     {
-        Canvas.SetActive(false);
+        CloseAll();
         Canvas.SetActive(true);
         currentPanelIndex = 0;
         ShowPanel(currentPanelIndex);

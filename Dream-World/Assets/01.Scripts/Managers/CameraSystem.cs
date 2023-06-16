@@ -2,6 +2,7 @@
 using Mono.Cecil.Cil;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 
@@ -161,16 +162,18 @@ public class CameraSystem : MonoBehaviour
     private IEnumerator CameraMoveCoroutine(Vector3 _newPos, Quaternion _newRot, float lerpTime)
     {
         float currentTime = 0f;
+        var startPosition = MainCamera.transform.position;
+        var startRotation = MainCamera.transform.rotation;
 
         while (currentTime < lerpTime)
         {
             currentTime += Time.deltaTime;
+            float t = currentTime / lerpTime;
 
-            if (currentTime >= lerpTime)
-                currentTime = lerpTime;
+            Debug.Log(t);
 
-            var newPos = Vector3.Lerp(MainCamera.transform.position, _newPos, currentTime);
-            var newRot = Quaternion.Lerp(MainCamera.transform.rotation, _newRot, currentTime);
+            var newPos = Vector3.Lerp(startPosition, _newPos, t);
+            var newRot = Quaternion.Lerp(startRotation, _newRot, t);
 
             cinemachine.transform.SetPositionAndRotation(newPos, newRot);
 

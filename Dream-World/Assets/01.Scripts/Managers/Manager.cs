@@ -19,6 +19,8 @@ public class Manager : MonoBehaviour
     public BuildSystem Build = new BuildSystem();
 
     // MonoBehaviour 달린 것들
+    public PlayerController Player;
+
     public CustomInput Input;
     public CameraSystem Camera;
     public FlagSystem Flag;
