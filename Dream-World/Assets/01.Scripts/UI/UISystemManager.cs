@@ -40,15 +40,17 @@ public class UISystemManager : MonoBehaviour
         {
             panels[i].Init();
         }
-    }
 
-    private void Start()
-    {
         CloseAll();
         Canvas.SetActive(true);
         currentPanelIndex = 0;
         ShowPanel(currentPanelIndex);
         isActivateUI = true;
+    }
+
+    private void Start()
+    {
+
     }
 
     public void ShowPanel(int index)

@@ -32,20 +32,20 @@ public class GridObjectData
     public int blockID;
     public string blockName;
     public string blockPrefabPath;
-    public bool isConstructable;
-    public bool isAffectedByGravity;
+    public bool isConstructableTop;
+    public bool isConstructableSide;
 
     public GridObjectData(int _blockID)
     {
         GridObjectData blockData = DataBase.Instance.GetGridObjectData(_blockID);
     }
 
-    public GridObjectData(int _blockID, string _blockName, string _blockPrefabPath, bool _isConstructable, bool _isAffectedByGravity)
+    public GridObjectData(int _blockID, string _blockName, string _blockPrefabPath, bool _isConstructableTop, bool _isConstructableSide)
     {
         blockID = _blockID;
         blockName = _blockName;
         blockPrefabPath = _blockPrefabPath;
-        isConstructable = _isConstructable;
-        isAffectedByGravity = _isAffectedByGravity;
+        isConstructableTop = _isConstructableTop;
+        isConstructableSide = _isConstructableSide;
     }
 }

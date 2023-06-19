@@ -17,6 +17,7 @@ public class BuildSystem
         get => playerForwardVector;
         set => playerForwardVector = value;
     }
+
     private Vector3 playerForwardVector;
 
     // 제작할 건물 가져오기

@@ -140,7 +140,6 @@ public class MonsterV2 : MonoBehaviour
                 break;
 
             case MonsterPatrolType.Turn:
-
                 break;
         }
     }

@@ -50,9 +50,8 @@ public class GridSystem : Singleton<GridSystem>
                 }
             }
         }
+        Debug.Log("그리드 체크 완료");
     }
-
-
 
     //블럭 게임 오브젝트 설치 후 그리드 오브젝트 객체에서 게임 오브젝트 관리 
     public void GenerateStageBlock(int x, int y, int z)
@@ -85,7 +84,7 @@ public class GridSystem : Singleton<GridSystem>
 
     public void CheckStageBlock(int x, int y, int z)
     {
-        Collider[] collider = Physics.OverlapBox(new Vector3(x + 0.5f, y + 0.5f, z + 0.5f), new Vector3(0.49f, 0.49f, 0.49f), Quaternion.identity, gridObjectLayer);
+        Collider[] collider = Physics.OverlapBox(new Vector3(x + 0.5f, y, z + 0.5f), new Vector3(0.49f, 0.49f, 0.49f), Quaternion.identity, gridObjectLayer);
 
         if (collider.Length <= 0)
         {
@@ -95,13 +94,14 @@ public class GridSystem : Singleton<GridSystem>
 
         else if(collider.Length > 1)
         {
-            Debug.LogError("한 좌표에 두 개 이상의 그리드 오브젝트 검출됨" + x+y+z);
+            Debug.LogError($"한 좌표에 두 개 이상의 그리드 오브젝트 검출됨 {x}, {y} ,{z}");
             return;
         }
 
         else
         {
             InStageGrid(x, y, z, collider[0].gameObject);
+            Debug.Log($"그리드 오브젝트 등록 {x}, {y} ,{z}, {collider[0].gameObject}");
         }
     }
 
@@ -131,11 +131,12 @@ public class GridSystem : Singleton<GridSystem>
 
         switch(gridObejct.name)
         {
-            case "Cube":
-                StageGrid.InGrid(x, y, z, new Block(1));
-                break;
             case "RedCube":
                 StageGrid.InGrid(x, y, z, new RedCube());
+                break;
+
+            default:
+                StageGrid.InGrid(x, y, z, new Block(1));
                 break;
         }
 

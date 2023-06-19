@@ -39,7 +39,7 @@ namespace PlayerOwnedStates
         public override void EnterState(PlayerController _entity)
         {
             _entity.Input.CanMove(false);
-            _entity.Input.CanInteract(false);
+            //_entity.Input.CanInteract(false);
         }
 
         public override void UpdateState(PlayerController _entity)
@@ -71,7 +71,7 @@ namespace PlayerOwnedStates
         {
             _entity.animator.SetBool("isHolding", true);
 
-            // 이거 지금 isInteracting 이랑 엮여서 인터랙션 막힘 ㅋㅋ
+            // 이거 지금 isInteracting 이랑 엮여서 인터랙션 막힘
             // _entity.Input.CanInteract(false);
         }
 
@@ -126,9 +126,9 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerController _entity)
         {
-            _entity.Input.CanMove(false);
-            _entity.Input.CanInteract(false);
-            _entity.fov.FindTargetsWithDelay(false);
+            //_entity.Input.CanMove(false);
+            //_entity.Input.CanInteract(false);
+            //_entity.fov.FindTargetsWithDelay(false);
         }
 
         public override void UpdateState(PlayerController _entity)
@@ -146,8 +146,8 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerController _entity)
         {
-            _entity.Input.CanMove(false);
-            _entity.Input.CanInteract(false);
+            //_entity.Input.CanMove(false);
+            //_entity.Input.CanInteract(false);
         }
 
         public override void UpdateState(PlayerController _entity)
@@ -158,16 +158,15 @@ namespace PlayerOwnedStates
         {
 
         }
-
     }
 
     public class CinematicState : State<PlayerController>
     {
         public override void EnterState(PlayerController _entity)
         {
-            _entity.Input.CanMove(false);
-            _entity.Input.CanLook(false);
-            _entity.Input.CanInteract(false);
+            //_entity.Input.CanMove(false);
+            //_entity.Input.CanLook(false);
+            //_entity.Input.CanInteract(false);
         }
 
         public override void UpdateState(PlayerController _entity)

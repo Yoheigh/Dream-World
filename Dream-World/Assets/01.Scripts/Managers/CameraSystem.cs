@@ -167,7 +167,7 @@ public class CameraSystem : MonoBehaviour
 
         while (currentTime < lerpTime)
         {
-            currentTime += Time.deltaTime;
+            currentTime += Time.unscaledDeltaTime;
             float t = currentTime / lerpTime;
 
             Debug.Log(t);

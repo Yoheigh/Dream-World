@@ -25,6 +25,7 @@ public class Manager : MonoBehaviour
     public CameraSystem Camera;
     public FlagSystem Flag;
     public UISystemManager UI;
+    public GridSystem Grid;
 
     private void Awake()
     {
@@ -50,11 +51,13 @@ public class Manager : MonoBehaviour
         Camera = GetComponent<CameraSystem>();
         UI = GetComponent<UISystemManager>();
         Flag = GetComponent<FlagSystem>();
+        Grid = GetComponent<GridSystem>();
 
         // 시스템 셋업
         Input.Setup();
         Camera.Setup();
-        UI.Setup();
+        // UI가 없으므로 Setup 밴
+        // UI.Setup();
         Flag.Setup();
 
         Sound.PlayBGM(100);
@@ -67,7 +70,7 @@ public class Manager : MonoBehaviour
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.L)) Flag.ForestCutsceneStart();
 
-        if (UnityEngine.Input.GetKeyDown(KeyCode.T)) Sound.PlaySFX(0);
+        if (UnityEngine.Input.GetKeyDown(KeyCode.T)) Flag.GameOver();
         if (UnityEngine.Input.GetKeyDown(KeyCode.Y)) Sound.PlaySFX(1);
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.VirtualTexturing;
 using UnityEngine.SceneManagement;
 
 public enum FlagPlayerState
@@ -86,13 +85,13 @@ public class FlagSystem : MonoBehaviour
         UI.CloseAll();
 
         Cam.HandleCameraTarget(null);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSecondsRealtime(1f);
 
         Cam.HandleCameraMove(cameraPoint);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSecondsRealtime(1f);
 
         Cam.ReturnCameraToPlayer();
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSecondsRealtime(1f);
 
         // 컷씬 타입이었으면 다시 플레이어블 상태로 돌아오도록
         Cam.isFollowPlayer = true;
@@ -128,11 +127,13 @@ public class FlagSystem : MonoBehaviour
         Manager.Instance.Player.enabled = true;
     }
 
+    // 게임 오버
     public void GameOver()
     {
         StartCoroutine(GameOverCo());
     }
 
+    // 게임 오버 기능
     private IEnumerator GameOverCo()
     {
         UI.VerticalBar.SetActive(true);
@@ -144,12 +145,14 @@ public class FlagSystem : MonoBehaviour
 
         // 얘네는 이따 수정해야 함!
         UI.HP.gameObject.SetActive(false);
+        Manager.Instance.Player.anim.ChangeAnimationState("Hit");
+        Time.timeScale = 0.0f;
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSecondsRealtime(1f);
 
         Manager.Instance.UI.Transition.CircleIn();
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSecondsRealtime(3f);
     }
 
     #endregion

@@ -20,6 +20,9 @@ public class ScreenTransition : MonoBehaviour
     private void Awake()
     {
         image = GetComponent<Image>();
+
+        // 서클 크기 초기화
+        image.materialForRendering.SetFloat(_circleSizeId, CircleSize);
     }
 
     public void CircleOut()

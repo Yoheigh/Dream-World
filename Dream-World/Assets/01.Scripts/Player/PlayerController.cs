@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
         var temp = gameObject.GetComponentInChildren<SkinnedMeshRenderer>();
         var waitTime = new WaitForSeconds(0.05f);
 
-        anim.ChangeAnimationState("Damage");
+        anim.ChangeAnimationState("Hit");
 
         if(PlayerHP > 0)
         {

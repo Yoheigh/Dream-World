@@ -13,6 +13,9 @@ public class PreviewPrefab : MonoBehaviour
     [SerializeField]
     private Material previewMaterial;
 
+    // 내부 변수
+    private Vector3 beforePos;
+
     void Start()
     {
 
@@ -21,13 +24,15 @@ public class PreviewPrefab : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        UpdatePos(transform.forward);
     }
 
-    public void UpdatePos(Transform _blockPointer)
+    public void UpdatePos(Vector3 blockPointerPos)
     {
-        // 위치가 바뀔 때마다 반올림해서 변경
-        // _blockPointer.position.GetXYZRound(out x, out y, out z);
+        if(beforePos != blockPointerPos)
+        {
+            beforePos = blockPointerPos;
+        }
     }
 
     protected void Construct()
