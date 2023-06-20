@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using Mono.Cecil;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
 [System.Serializable]
-public class BuildSystem
+public class BuildSystem : MonoBehaviour
 {
     // 건물 지을 위치
     [SerializeField]
@@ -22,7 +23,7 @@ public class BuildSystem
 
     // 제작할 건물의 Preview 오브젝트
     [SerializeField]
-    private GameObject entity;
+    private PreviewPrefab entity;
 
     [SerializeField]
     private Building buildingData;
@@ -33,10 +34,10 @@ public class BuildSystem
     // 내부 변수
     private Vector3 buildPosition;
     private int x, y, z;
-    private byte[] availableRot = new byte[4];
+    private sbyte[] availableRot = new sbyte[4];
     private Vector3 tempPos;
-    private byte tempRot;
-    private byte currentRot;
+    private sbyte tempRot;
+    private sbyte currentRot;
 
     public void UpdatePos()
     {
@@ -87,9 +88,14 @@ public class BuildSystem
 
     public void RotateBuilding()
     {
-        if (tempRot == 0) return;
+        if (tempRot == 0)
+        {
+            Debug.Log("구조물을 돌릴 수 없습니다.");
+            return;
 
-        for(byte i = 0; i < availableRot.Length - 1; i++)
+        }
+
+        for (sbyte i = 0; i < availableRot.Length - 1; i++)
         {
             if (availableRot[i] == 0) continue;
 
@@ -100,10 +106,38 @@ public class BuildSystem
                 break;
             }
             else if (currentRot >= i)
-                currentRot = 0;
-            // 로테이션 추가
-            
+            {
+                currentRot = -1;
+                continue;
+            }
         }
+    }
+
+    public void Construct()
+    {
+        StartCoroutine(ConstructWithEffect());
+    }
+    protected void ConstructionFinish()
+    {
+        Instantiate(Resources.Load<GameObject>(buildingData.buildPrefabPath), transform.position, transform.rotation);
+    }
+
+    private IEnumerator ConstructWithEffect()
+    {
+        var wait = new WaitForSeconds(0.5f);
+
+        for (int i = 0; i < 6; i++)
+        {
+            float x = Random.Range(-0.5f, 0.5f);
+            float y = Random.Range(-0.5f, 0.5f);
+            float z = Random.Range(-0.5f, 0.5f);
+            GameObject obj = Instantiate(BuildVFX, new Vector3(x, y, z), Quaternion.identity);
+            Destroy(obj, 4f);
+            yield return wait;
+        }
+
+        ConstructionFinish();
+        Destroy(gameObject);
     }
 
     private void OnDrawGizmos()

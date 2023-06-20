@@ -820,7 +820,6 @@ GameObject:
   - component: {fileID: 6580799717249910106}
   - component: {fileID: 6580799717249910107}
   - component: {fileID: 1318240106}
-  - component: {fileID: 5082997749273569479}
   m_Layer: 0
   m_Name: GameManagerV2
   m_TagString: Untagged
@@ -881,10 +880,7 @@ MonoBehaviour:
     MaxIngredientSlots: 16
     MaxBuildingSlots: 4
     MaxEquipmentSlots: 4
-  Build:
-    buildPositionOffset: {x: 0, y: 0, z: 0}
-    entity: {fileID: 0}
-    BuildVFX: {fileID: 4326698112909223156, guid: eabc4277b5b0be744ab3588e932df279, type: 3}
+  Build: {fileID: 0}
   Player: {fileID: 0}
   Input: {fileID: 0}
   Camera: {fileID: 0}
@@ -1006,23 +1002,3 @@ MonoBehaviour:
     m_Bits: 8
   StageWidth: 100
   StageHeight: 30
---- !u!114 &5082997749273569479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6580799717249910096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af46b63c26709a94588bb0036958e321, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  move: {x: 0, y: 0}
-  look: {x: 0, y: 0}
-  jump: 0
-  sprint: 0
-  zoomIn: 0
-  zoomOut: 0
-  cursorLocked: 1
-  cursorInputForLook: 1

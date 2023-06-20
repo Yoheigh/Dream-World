@@ -48,7 +48,7 @@ namespace MonsterOwnedStates
     {
         public override void EnterState(MonsterV2 _entity)
         {
-            _entity.OnDetect();
+            _entity.anim.Play("Monster_Run");
         }
 
         public override void ExitState(MonsterV2 _entity)
@@ -66,6 +66,42 @@ namespace MonsterOwnedStates
     {
         public override void EnterState(MonsterV2 _entity)
         {
+            _entity.anim.Play("Monster_Hit");
+        }
+
+        public override void ExitState(MonsterV2 _entity)
+        {
+
+        }
+
+        public override void UpdateState(MonsterV2 _entity)
+        {
+
+        }
+    }
+
+    public class Attack : State<MonsterV2>
+    {
+        public override void EnterState(MonsterV2 _entity)
+        {
+            _entity.Attack();
+        }
+
+        public override void ExitState(MonsterV2 _entity)
+        {
+
+        }
+
+        public override void UpdateState(MonsterV2 _entity)
+        {
+
+        }
+    }
+
+    public class Stun : State<MonsterV2>
+    {
+        public override void EnterState(MonsterV2 _entity)
+        {
 
         }
 
@@ -79,4 +115,5 @@ namespace MonsterOwnedStates
 
         }
     }
+
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum MonsterStateEnum
 {
-    Idle, Patrol, Detect, Hit
+    Idle, Patrol, Detect, Hit, Attack, Stun
 }
 
 [RequireComponent(typeof(FOVSystem))]
@@ -15,6 +15,7 @@ public class MonsterV2 : MonoBehaviour
     public MonsterData monsterData;
     public MonsterStateEnum monsterState;
     public FOVSystem fov;
+    public Animator anim;
     private State<MonsterV2>[] states;
     private StateMachine<MonsterV2> stateMachine;
     private Rigidbody rigid;
@@ -23,6 +24,7 @@ public class MonsterV2 : MonoBehaviour
 
     // 내부 변수
     private bool isCanMove;
+    private bool isCanAttack;
     private int currentPatrolPos = 0;
     private float attackCheckTime = 0;
     private float stopCheckTime = 0;
@@ -46,13 +48,15 @@ public class MonsterV2 : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         fov = GetComponent<FOVSystem>();
 
-        states = new State<MonsterV2>[4];
+        states = new State<MonsterV2>[6];
         stateMachine = new StateMachine<MonsterV2>();
 
         states[(int)MonsterStateEnum.Idle] = new MonsterOwnedStates.Idle();
         states[(int)MonsterStateEnum.Patrol] = new MonsterOwnedStates.Patrol();
         states[(int)MonsterStateEnum.Detect] = new MonsterOwnedStates.Detect();
         states[(int)MonsterStateEnum.Hit] = new MonsterOwnedStates.Hit();
+        states[(int)MonsterStateEnum.Attack] = new MonsterOwnedStates.Attack();
+        states[(int)MonsterStateEnum.Stun] = new MonsterOwnedStates.Stun();
 
         stateMachine.Setup(this, states[(int)MonsterStateEnum.Patrol]);
     }
@@ -70,7 +74,7 @@ public class MonsterV2 : MonoBehaviour
             if (fov.visibleTargets[i].CompareTag("Player"))
             {
                 target = fov.visibleTargets[i];
-                ChangeState(MonsterStateEnum.Detect);
+                OnDetect();
             }
         }
     }
@@ -90,6 +94,30 @@ public class MonsterV2 : MonoBehaviour
     //    return false;
     //}
 
+    public void Hit()
+    {
+        StartCoroutine(HitCo());
+    }    
+
+    IEnumerator HitCo()
+    {
+        ChangeState(MonsterStateEnum.Hit);
+        yield return new WaitForSeconds(0.5f);
+        Destroy(this);
+    }
+
+    public void Stun()
+    {
+        StartCoroutine(StunCo());
+    }
+
+    IEnumerator StunCo()
+    {
+        ChangeState(MonsterStateEnum.Stun);
+        yield return new WaitForSeconds(3f);
+        ChangeState(MonsterStateEnum.Detect);
+    }
+
     // Idle 업데이트 안에
     public bool CheckStopEnough()
     {
@@ -97,6 +125,7 @@ public class MonsterV2 : MonoBehaviour
         {
             stopCheckTime = 0;
             ChangeState(MonsterStateEnum.Patrol);
+            anim.Play("Monster_Walk");
             return true;
         }
 
@@ -128,6 +157,7 @@ public class MonsterV2 : MonoBehaviour
                 {
                     //도착했을 때 상태를 아이들로 변경 후 목적지를 다음 목적지로 변경
                     ChangeState(MonsterStateEnum.Idle);
+                    anim.Play("Monster_LookAround");
                     if (currentPatrolPos < patrolPositions.Length - 1)
                     {
                         currentPatrolPos++;
@@ -146,68 +176,96 @@ public class MonsterV2 : MonoBehaviour
 
     public void OnDetect()
     {
-        StopCoroutine(OnDetectDelay());
         StartCoroutine(OnDetectDelay());
     }
 
     private IEnumerator OnDetectDelay()
     {
+        anim.Play("Monster_Surprised");
         stopCheckTime = 0f;
         m_speed = 0f;
-        rigid.AddForce(Vector3.up, ForceMode.Impulse);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         m_speed = monsterData.speed;
-
+        attackCheckTime = monsterData.attackCooltime;
+        ChangeState(MonsterStateEnum.Detect);
     }
 
     // Detect 업데이트 안에
     public void FollowTarget()
     {
-        if (!fov.visibleTargets.Contains(target.transform))
+
+        if (Vector3.Distance(transform.position, target.transform.position) > monsterData.forgetDistance /*!fov.visibleTargets.Contains(target.transform)*/)
         {
             // navMeshAgent.SetDestination(transform.position);
             target = null;
+            anim.Play("Monster_LookAround");
             ChangeState(MonsterStateEnum.Idle);
+            attackCheckTime = monsterData.attackCooltime;
             return;
         }
         else
         {
-            Debug.DrawLine(transform.position, target.position);
+            CheckCanAttack();
 
-            Vector3 dir = (target.position - transform.position);
-            dir.y = 0f;
+            if (Vector3.Distance(transform.position, target.transform.position) < monsterData.canAttackDistance)
+            {
+                anim.Play("Monster_Idle");
+                rigid.velocity = new Vector3(0f, rigid.velocity.y, 0f);
 
-            transform.rotation = Quaternion.LookRotation(dir);
-            rigid.velocity = dir.normalized * (m_speed + 0.8f);
+                if (isCanAttack == false) return;
+                ChangeState(MonsterStateEnum.Attack);
+            }
+            else
+            {
+                Debug.DrawLine(transform.position, target.position);
+
+                anim.Play("Monster_Run");
+                Vector3 dir = (target.position - transform.position);
+                dir.y = 0f;
+
+                transform.rotation = Quaternion.LookRotation(dir);
+                rigid.velocity = dir.normalized * (m_speed + 0.8f);
+            }
 
             // navMeshAgent.SetDestination(target.position);
         }
     }
 
-    //public void CheckCanAttack()
-    //{
-    //    if (isCanAttack)
-    //        return;
-    //    attackCheckTime += Time.deltaTime;
-    //    if (monsterData.attackCooltime <= attackCheckTime)
-    //    {
-    //        isCanAttack = true;
-    //        attackCheckTime = 0;
-    //    }
-    //}
+    public void CheckCanAttack()
+    {
+        if (isCanAttack)
+            return;
+        attackCheckTime += Time.deltaTime;
+        if (monsterData.attackCooltime <= attackCheckTime)
+        {
+            isCanAttack = true;
+            attackCheckTime = 0;
+        }
+    }
 
-    //public void Attack()
-    //{
-    //    Collider[] colliders = Physics.OverlapBox(attackPos.position, monsterData.attackSize, Quaternion.identity, attackLayer);
+    public void Attack()
+    {
+        isCanAttack = false;
+        StartCoroutine(AttackCo());
+    }
 
-    //    foreach (var collider in colliders)
-    //    {
-    //        if (collider.CompareTag("Player"))
-    //        {
-    //            // collider.GetComponent<PlayerController>().Hit(monsterData.force);
-    //        }
-    //    }
-    //}
+    IEnumerator AttackCo()
+    {
+        anim.Play("Monster_Attack");
+        yield return new WaitForSeconds(0.15f);
+
+        Collider[] colliders = Physics.OverlapBox(transform.forward * 0.6f, monsterData.attackSize, Quaternion.identity, LayerMask.NameToLayer("Entity"));
+
+        foreach (var collider in colliders)
+        {
+            if (collider.CompareTag("Player"))
+            {
+                collider.GetComponent<PlayerController>().Hit();
+            }
+        }
+        yield return new WaitForSeconds(0.35f);
+        ChangeState(MonsterStateEnum.Detect);
+    }
 
     private void OnDrawGizmos()
     {
