@@ -17,6 +17,7 @@ public class GridSystem : Singleton<GridSystem>
     {
         stageGrid = new GridV2(StageWidth, StageHeight);
         CheckStageBlocks();
+        gridObjectLayer = LayerMask.GetMask("Block");
     }
 
     private void Start()

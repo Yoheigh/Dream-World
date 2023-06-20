@@ -4,14 +4,23 @@ using UnityEngine;
 
 public enum BuildCondition
 {
-
+    Top,
+    Side
 }
 
 [CreateAssetMenu(fileName = "New Building", menuName = "Item/Building", order = 2)]
 public class Building : ItemV2
 {
     [Header("블록 데이터")]
-    public GridObjectData GridObjectData;
+    // public GridObjectData GridObjectData;
+    [Tooltip("건물을 건설할 위치입니다.")]
+    public BuildCondition buildCondition = BuildCondition.Top;
+
+    [Tooltip("플레이어 정면(forward) + 건설 장소 오프셋입니다.")]
+    public Vector3 buildOffset;
+
+    [Tooltip("건물 프리팹 경로입니다.")]
+    public string buildPrefabPath;
 
     public Building(int _itemID, ItemTypeV2 _itemType, string _itemName, string _itemDescription = null, int _itemCount = 1, int _itemMaxCount = 64, Sprite _itemIcon = null)
     {
