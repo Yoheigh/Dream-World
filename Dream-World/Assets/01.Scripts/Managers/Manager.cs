@@ -16,7 +16,6 @@ public class Manager : MonoBehaviour
     public InventoryV2 Inventory = new InventoryV2();
 
     public CraftSystem Craft = new CraftSystem();
-    public BuildSystem Build = new BuildSystem();
 
     // MonoBehaviour 달린 것들
     public PlayerController Player;
@@ -26,6 +25,7 @@ public class Manager : MonoBehaviour
     public FlagSystem Flag;
     public UISystemManager UI;
     public GridSystem Grid;
+    public BuildSystem Build;
 
     private void Awake()
     {
@@ -52,6 +52,7 @@ public class Manager : MonoBehaviour
         UI = GetComponent<UISystemManager>();
         Flag = GetComponent<FlagSystem>();
         Grid = GetComponent<GridSystem>();
+        Build = GetComponent<BuildSystem>();
 
         // 시스템 셋업
         Input.Setup();

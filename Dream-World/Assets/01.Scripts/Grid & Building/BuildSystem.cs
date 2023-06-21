@@ -32,7 +32,7 @@ public class BuildSystem : MonoBehaviour
     public GameObject BuildVFX;
 
     // 내부 변수
-    private Vector3 buildPosition;
+    private Vector3 buildPos;
     private int x, y, z;
     private sbyte[] availableRot = new sbyte[4];
     private Vector3 tempPos;
@@ -41,15 +41,26 @@ public class BuildSystem : MonoBehaviour
 
     public void UpdatePos()
     {
-        // 위치가 바뀔 때마다 반올림해서 변경
-        playerForwardVector.GetXYZRound(out x, out y, out z);
+        if (tempPos != entity.transform.position.GetXYZRound())
+        {
+            tempPos = entity.transform.position.GetXYZRound(out x, out y, out z);
+            buildPos = tempPos + buildingData.buildOffset;
+            BuildCheck();
+        }
+
+        if (GridSystem.Instance.CheckCanCraft(x, y, z))
+        {
+            Debug.DrawLine(buildPos, Vector3.up, Color.green);
+        }
+        else
+            Debug.DrawLine(buildPos, Vector3.up, Color.red);
     }
 
     public void BuildCheck()
     {
         tempRot = 0;
 
-        switch(buildingData.buildCondition)
+        switch (buildingData.buildCondition)
         {
             case BuildCondition.Top:
 
@@ -61,14 +72,14 @@ public class BuildSystem : MonoBehaviour
             case BuildCondition.Side:
                 if (GridSystem.Instance.StageGrid.GetGridObject(x + 1, y, z).GetGridObjectData().isConstructableSide)
                     availableRot[0] = 1;
-                if (!GridSystem.Instance.StageGrid.GetGridObject(x - 1, y, z).GetGridObjectData().isConstructableSide)
+                if (GridSystem.Instance.StageGrid.GetGridObject(x - 1, y, z).GetGridObjectData().isConstructableSide)
                     availableRot[1] = 1;
-                if (!GridSystem.Instance.StageGrid.GetGridObject(x, y, z + 1).GetGridObjectData().isConstructableSide)
+                if (GridSystem.Instance.StageGrid.GetGridObject(x, y, z + 1).GetGridObjectData().isConstructableSide)
                     availableRot[2] = 1;
-                if (!GridSystem.Instance.StageGrid.GetGridObject(x, y, z - 1).GetGridObjectData().isConstructableSide)
+                if (GridSystem.Instance.StageGrid.GetGridObject(x, y, z - 1).GetGridObjectData().isConstructableSide)
                     availableRot[3] = 1;
 
-                for(int i = 0; i < availableRot.Length - 1; i++)
+                for (int i = 0; i < availableRot.Length - 1; i++)
                 {
                     tempRot += availableRot[i];
                 }
@@ -143,6 +154,6 @@ public class BuildSystem : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(buildPosition, 0.1f);
+        Gizmos.DrawSphere(buildPos, 0.1f);
     }
 }
