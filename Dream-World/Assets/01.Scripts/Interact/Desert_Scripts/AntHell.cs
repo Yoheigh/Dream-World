@@ -17,4 +17,9 @@ public class AntHell : TriggerObject
     {
         transform.Rotate(Vector3.up * Time.deltaTime * rotateSecond);
     }
+
+    protected override void TriggerWith(Collider other)
+    {
+        return;
+    }
 }

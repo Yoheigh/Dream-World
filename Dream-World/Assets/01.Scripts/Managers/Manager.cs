@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(CustomInput), typeof(FlagSystem), typeof(CameraSystem))]
 public class Manager : MonoBehaviour
 {
-    private Manager () { }
+    private Manager() { }
     public static Manager Instance { get; private set; }
 
     public StageManager Stage = new StageManager();
@@ -57,12 +57,32 @@ public class Manager : MonoBehaviour
         // 시스템 셋업
         Input.Setup();
         Camera.Setup();
-        // UI가 없으므로 Setup 밴
-        // UI.Setup();
+        UI.Setup();
         Flag.Setup();
 
         Sound.PlayBGM(100);
+
+        Inventory.OnChangeItem += UI.DrawItemSlots;
+        Inventory.OnChangeEquipment += UI.ActivateItemSlot;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Camera.Setup();
+        UI.Setup();
+        Grid.Setup();
+
+        if (Player == null)
+            Player = FindObjectOfType<PlayerController>();
+
+        Time.timeScale = 1.0f;
+    }
+
 
     private void LateUpdate()
     {
@@ -72,6 +92,8 @@ public class Manager : MonoBehaviour
         if (UnityEngine.Input.GetKeyDown(KeyCode.L)) Flag.ForestCutsceneStart();
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.T)) Flag.GameOver();
-        if (UnityEngine.Input.GetKeyDown(KeyCode.Y)) Sound.PlaySFX(1);
+        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha1)) Inventory.ChangeEquipment();
+        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha3)) Build.ChangeBuildMode();
+        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha0)) Flag.NextScene();
     }
 }

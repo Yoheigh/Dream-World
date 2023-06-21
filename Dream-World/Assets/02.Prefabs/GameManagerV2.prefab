@@ -820,6 +820,7 @@ GameObject:
   - component: {fileID: 6580799717249910106}
   - component: {fileID: 6580799717249910107}
   - component: {fileID: 1318240106}
+  - component: {fileID: 203264057}
   m_Layer: 0
   m_Name: GameManagerV2
   m_TagString: Untagged
@@ -875,18 +876,22 @@ MonoBehaviour:
   Inventory:
     ingredients: []
     buildings: []
-    equipments: []
-    recipes: []
+    equipments:
+    - {fileID: 11400000, guid: e308205941252cb4a8d149e338cbc8cf, type: 2}
+    - {fileID: 11400000, guid: 4264a4ff9ab81284492c3f91db0aea2f, type: 2}
+    recipes:
+    - {fileID: 11400000, guid: 60b8dd971dbd17142b245e1f73dab6ce, type: 2}
+    - {fileID: 11400000, guid: 6157b68cbd293e04985ea87d823258ef, type: 2}
     MaxIngredientSlots: 16
     MaxBuildingSlots: 4
     MaxEquipmentSlots: 4
-  Build: {fileID: 0}
   Player: {fileID: 0}
   Input: {fileID: 0}
   Camera: {fileID: 0}
   Flag: {fileID: 0}
   UI: {fileID: 0}
   Grid: {fileID: 0}
+  Build: {fileID: 0}
 --- !u!114 &6580799717249910100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -976,7 +981,21 @@ MonoBehaviour:
   - {fileID: 0}
   Transition: {fileID: 0}
   SystemUI: {fileID: 0}
-  itemSlots:
+  ingredientSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  EquipmentSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  BuildingSlots:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -1002,3 +1021,20 @@ MonoBehaviour:
     m_Bits: 8
   StageWidth: 100
   StageHeight: 30
+--- !u!114 &203264057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6580799717249910096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da0457f99fd0c9e4aa923c924e7b4969, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildPositionOffset: {x: 0, y: 0, z: 0}
+  entity: {fileID: 0}
+  buildingData: {fileID: 11400000, guid: 4cae1f58a3032fc4a8df7522ad5c6cc0, type: 2}
+  BuildVFX: {fileID: 4326698112909223156, guid: eabc4277b5b0be744ab3588e932df279, type: 3}
+  isBuildMode: 0

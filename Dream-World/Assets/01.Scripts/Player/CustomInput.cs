@@ -19,7 +19,7 @@ public class CustomInput : MonoBehaviour
     private bool lookInputFlag = true;
     private bool interactInputFlag = true;
 
-    private PlayerInputActions playerInputActions;
+    public PlayerInputActions playerInputActions;
 
     public void Setup()
     {

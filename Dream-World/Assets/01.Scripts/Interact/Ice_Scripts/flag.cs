@@ -6,6 +6,11 @@ public class flag : TriggerObject
 {
     public GameObject flagUI;
 
+    protected override void TriggerWith(Collider other)
+    {
+        return;
+    }
+
     protected override void TriggerWithPlayer(PlayerController _player)
     {
         flagUI.SetActive(true);

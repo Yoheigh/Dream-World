@@ -16,6 +16,7 @@ TagManager:
   - Resources_Iron
   - Resources_Tree
   - Breakable
+  - Enemy
   layers:
   - Default
   - TransparentFX

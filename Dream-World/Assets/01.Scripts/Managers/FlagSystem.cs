@@ -36,6 +36,9 @@ public class FlagSystem : MonoBehaviour
 
     public bool isFlagNotOver = false;
 
+    //으아악
+    public int currentSceneIndex = 0;
+
     public void Setup()
     {
         // 학교에서 시작할 때 컷씬 넣으려고 했던 것
@@ -144,7 +147,7 @@ public class FlagSystem : MonoBehaviour
         UI.CloseAll();
 
         // 얘네는 이따 수정해야 함!
-        UI.HP.gameObject.SetActive(false);
+        UI.SystemUI.SetActive(false);
         Manager.Instance.Player.anim.ChangeAnimationState("Hit");
         Time.timeScale = 0.0f;
 
@@ -154,6 +157,45 @@ public class FlagSystem : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(3f);
     }
+
+    public void NextScene()
+    {
+        if (isFlagNotOver) return;
+        StartCoroutine(LoadNextScene());
+    }
+
+    private IEnumerator LoadNextScene()
+    {
+        AsyncOperation op = SceneManager.LoadSceneAsync(currentSceneIndex++);
+
+        Manager.Instance.UI.Transition.CircleIn();
+
+        op.allowSceneActivation = false;
+
+        yield return new WaitForSecondsRealtime(2.5f);
+
+        op.allowSceneActivation = true;
+
+        Manager.Instance.UI.Transition.CircleOut();
+
+        yield return new WaitForSecondsRealtime(2.5f);
+        isFlagNotOver = false;
+    }
+
+    //public IEnumerator LoadScene(int nextScene, LoadSceneMode loadSceneMode = LoadSceneMode.Additive)
+    //{
+    //    AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);
+    //    op.allowSceneActivation = false;
+
+    //    while (!op.isDone)
+    //    {
+    //        Debug.Log("에베베 로딩안됨");
+    //        yield return null;
+    //    }
+
+    //    Debug.Log("오 다 됨");
+    //    op.allowSceneActivation = true;
+    //}
 
     #endregion
 }

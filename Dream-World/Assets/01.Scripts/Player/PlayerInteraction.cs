@@ -4,16 +4,15 @@ using System;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.VFX;
-using Unity.VisualScripting;
-using Unity.Collections.LowLevel.Unsafe;
-using UnityEngine.InputSystem.XR;
-using Mono.Cecil;
+using UnityEngine.SceneManagement;
 
 public class PlayerInteraction : MonoBehaviour
 {
     //[Header("PlayerInteraction")]
     //[Tooltip("접촉한 오브젝트와 자동으로 상호작용하기 까지 TriggerTime 초 걸립니다.")]
     //public float TriggerTime = 0.3f;
+
+    IInteractBehaviour interactBehaviour;
 
     public Action<InteractionObject> OnTargetChange;
     public Action<PlayerEquipment> OnEquipmentChange;
@@ -33,10 +32,11 @@ public class PlayerInteraction : MonoBehaviour
     }
 
     [SerializeField]
-    private Transform blockPointer;             /* 이거 언제 쓸거야 */
     private FOVSystem fov;
     private PlayerController controller;
     private PreviewPrefab preview;
+
+    private bool isBuildMode = false;
 
     // 내부 변수
     Vector3 equipActionPos;
@@ -44,6 +44,9 @@ public class PlayerInteraction : MonoBehaviour
     // private float t;                         // Lerp 같은 거 할 때 범용적으로 쓸 변수
     [SerializeField]
     private Equipment currentEquipment;         // 현재 장착한 장비
+
+    [SerializeField]
+    private Building currentBuilding;         // 현재 장착한 장비
 
     [SerializeField]
     private Transform equipModelRoot;           // 장비 장착될 손 (오른손이 기준)
@@ -54,11 +57,19 @@ public class PlayerInteraction : MonoBehaviour
     private GameObject equipModel;
     private WaitForSeconds equipWaitTime;
 
+    // 리팩토링 필요
+
+    public string throwingObjectPath;
+
     public void Setup()
     {
         fov = GetComponent<FOVSystem>();
         controller = GetComponent<PlayerController>();
         preview = GetComponent<PreviewPrefab>();
+        
+        // 나중에 리팩토링 할 거임
+        Manager.Instance.Inventory.OnChangeEquipment += ChangeEquipment;
+        Manager.Instance.Inventory.OnChangeEquipment.Invoke(0);
 
         Debug.Log($"3. Setup - {this}");
     }
@@ -74,10 +85,10 @@ public class PlayerInteraction : MonoBehaviour
             switch (interactionObj.ObjectType)
             {
                 case ObjectType.Grabable:
-                    controller.anim.ChangeAnimationState("Throw");
+                    // controller.anim.ChangeAnimationState("Throw");
                     // 던지기 코드 처리
                     /* 지금은 그냥 보여주기용 */
-                    StartCoroutine(ObjectMoveToGrid(interactionObj));
+                    ReleaseGrabable(interactionObj);
                     break;
 
                 case ObjectType.Dragable:
@@ -89,10 +100,13 @@ public class PlayerInteraction : MonoBehaviour
             return;
         }
 
-        // 인벤토리에서 오브젝트를 선택해서 사용한다면
-        // 이것도 isHolding에서 처리
-        // 해당 상태를 소모
-        // return;
+        // 건물 생성 모드
+        if (isBuildMode)
+        {
+            Manager.Instance.Build.Construct();
+            isBuildMode = false;
+            return;
+        }
 
         // 근처에 상호작용 가능한 오브젝트가 없을 경우 종료
         if (!NearObjectCheck()) return;
@@ -147,7 +161,6 @@ public class PlayerInteraction : MonoBehaviour
         equipActionPos = transform.position + transform.forward;
     }
 
-    // 도구 인터랙션
     public void InteractWithEquipment()
     {
         if (isInteracting) return;
@@ -190,7 +203,7 @@ public class PlayerInteraction : MonoBehaviour
                 if (currentEquipment.name == "Shovel")
                 {
                     equipModel.transform.SetParent(ShovelRoot);
-                    equipModel.transform.position = Vector3.zero;
+                    equipModel.transform.localPosition = Vector3.zero;
                 }
 
                 equipModel.SetActive(true);
@@ -367,10 +380,8 @@ public class PlayerInteraction : MonoBehaviour
 
     // 플레이어가 들고있던 걸 Grid로 옮기는 코루틴
     /* Lerp 그래프를 코루틴으로 사용해보고 싶어서 만들어본거라 사용 안 할 듯 */
-    IEnumerator ObjectMoveToGrid(InteractionObject _object, float _lerpTime = 1.0f)
+    IEnumerator ObjectMoveToGrid(InteractionObject _object, Vector3 targetPosition, float _lerpTime = 1.0f)
     {
-        Vector3 targetPosition = Vector3.one;
-
         // Sine 그래프를 따라 graphValue의 값을 조정
         GraphSine(_lerpTime, (obj) =>
             {
@@ -380,7 +391,13 @@ public class PlayerInteraction : MonoBehaviour
         yield return new WaitForSeconds(_lerpTime);
 
         var obj = _object.GetComponent<InteractionObject>() as Grabable;
-        obj.Init();
+        obj.OnRelease();
+    }
+
+    public void ReleaseGrabable(InteractionObject _object)
+    {
+        var obj = _object.GetComponent<InteractionObject>() as Grabable;
+        obj.OnRelease();
     }
 
     // 아이템 줍기 처리
@@ -390,6 +407,36 @@ public class PlayerInteraction : MonoBehaviour
         controller.anim.ChangeAnimationState("Player_Action_Pickup");
         yield return new WaitForSeconds(0.8f);
         controller.ChangeState(PlayerStateType.Default);
+    }
+
+    public void ThrowConsumable()
+    {
+        throwingObjectPath = "Prefabs/DropDirt";
+        //// 초원
+        //if(SceneManager.GetActiveScene().buildIndex <= 4)
+        //{
+        //    throwingObjectPath = "Prefabs/DropDirt";
+        //}
+        //else if(SceneManager.GetActiveScene().buildIndex <= 9)
+        //{
+        //    throwingObjectPath = "Prefabs/DropSnow";
+        //}
+        //else if (SceneManager.GetActiveScene().buildIndex <= 13)
+        //{
+
+        //}
+        //else if (SceneManager.GetActiveScene().buildIndex <= 17)
+        //{
+
+        //}
+        //else if (SceneManager.GetActiveScene().buildIndex <= 21)
+        //{
+
+        //}
+
+        controller.anim.ChangeAnimationState("Throw");
+        GameObject obj = Instantiate(Resources.Load<GameObject>(throwingObjectPath), transform.forward, Quaternion.identity, null);
+        // var temp = obj.GetComponent<ThrowingObject>();
     }
 
     //private void SnapPlayerPos()
@@ -424,6 +471,18 @@ public class PlayerInteraction : MonoBehaviour
             // 콜백 실행
             callback?.Invoke(t);
             yield return null;
+        }
+    }
+
+    public void ChangeEquipment(int index)
+    {
+        try
+        {
+            currentEquipment = Manager.Instance.Inventory.equipments[index] as Equipment;
+        }
+        catch
+        {
+            currentEquipment = null;
         }
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PreviewPrefab : MonoBehaviour
 {
-    
+    public Transform blockPointer;
 
     [SerializeField]
     private Material previewMaterial;
@@ -12,22 +12,9 @@ public class PreviewPrefab : MonoBehaviour
     // 내부 변수
     private Vector3 beforePos;
 
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
-        UpdatePos(transform.forward);
-    }
 
-    public void UpdatePos(Vector3 blockPointerPos)
-    {
-        if(beforePos != blockPointerPos)
-        {
-            beforePos = blockPointerPos;
-        }
     }
 }

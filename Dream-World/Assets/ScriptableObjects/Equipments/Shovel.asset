@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e353f142d7be84dbc107f01a9c1a33, type: 3}
   m_Name: Shovel
   m_EditorClassIdentifier: 
-  itemID: 0
+  itemID: 11001
   itemType: 1
-  itemCount: 0
-  itemMaxCount: 0
-  itemName: 
+  itemCount: 1
+  itemMaxCount: 1
+  itemName: "\uC0BD"
   itemDescription: 
   itemIcon: {fileID: 21300000, guid: eea12313dec4f8b4fa23b5c705d302b1, type: 3}
   EquipActionType: 0
@@ -25,6 +25,6 @@ MonoBehaviour:
   EquipOffset: {x: 0, y: 0, z: 0}
   EquipActionDelay: 0.4
   EquipActionEndDelay: 0.91
-  EquipHandOffset: {x: 0, y: 0, z: 0}
+  EquipHandOffset: {x: 0, y: 0, z: -100}
   EquipPrefabPath: Tools/Shovel
   EquipAnimName: Player_Action_Shovel

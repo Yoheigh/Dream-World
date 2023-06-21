@@ -11,13 +11,18 @@ public class GridSystem : Singleton<GridSystem>
     public LayerMask gridObjectLayer;
 
     public int StageWidth = 100;
-    public int StageHeight = 30;
+    public int StageHeight = 50;
 
     protected override void Awake2()
     {
+        
+    }
+
+    public void Setup()
+    {
         stageGrid = new GridV2(StageWidth, StageHeight);
-        CheckStageBlocks();
         gridObjectLayer = LayerMask.GetMask("Block");
+        CheckStageBlocks();
     }
 
     private void Start()

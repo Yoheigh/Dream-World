@@ -26,7 +26,7 @@ public class InventoryV2
     public Action OnChangeItem;
 
     // 장비 아이템 선택할 때 실행되는 이벤트
-    public Action OnChangeEquipment;
+    public Action<int> OnChangeEquipment;
 
     // 내부 변수
     private List<ItemV2> tempList;
@@ -36,9 +36,9 @@ public class InventoryV2
     public void Init()
     {
         // 메모리 할당
-        ingredients = new List<ItemV2>(MaxIngredientSlots);
-        buildings = new List<ItemV2>(MaxBuildingSlots);
-        equipments = new List<ItemV2>(MaxEquipmentSlots);
+        //ingredients = new List<ItemV2>(MaxIngredientSlots);
+        //buildings = new List<ItemV2>(MaxBuildingSlots);
+        //equipments = new List<ItemV2>(MaxEquipmentSlots);
 
         //OnChangeEquipment += () => { Debug.Log("장비 변경됨 수고 비읍"); };
         //OnChangeEquipment += () => { Debug.Log($"{currentEquipmentSlot} 현재 장비 슬롯"); };
@@ -243,19 +243,24 @@ public class InventoryV2
     }
 
     // 장비 아이템 선택
-    public void SelectEquipment(int _slot)
-    {
-        if (currentEquipmentSlot == _slot) return;
+    //public void SelectEquipment(int _slot)
+    //{
+    //    if (currentEquipmentSlot == _slot) return;
 
-        currentEquipmentSlot = _slot;
-        OnChangeEquipment?.Invoke();
-    }
+    //    currentEquipmentSlot = _slot;
+    //    OnChangeEquipment?.Invoke();
+    //}
 
     // 장비 아이템 선택
     public void ChangeEquipment()
     {
         currentEquipmentSlot = (currentEquipmentSlot + 1) % (MaxEquipmentSlots + 1);
-        OnChangeEquipment?.Invoke();
+
+        if (currentEquipmentSlot >= MaxEquipmentSlots)
+            currentEquipmentSlot = 0;
+
+        OnChangeEquipment?.Invoke(currentEquipmentSlot);
+        Debug.Log($"장비 슬롯 변경 {currentEquipmentSlot}");
     }
 
     // 아이템 레시피 추가

@@ -55,7 +55,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 496077227}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 1.1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8876083549096588815}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d725b4fb530bb614caff7fa7d16d875e, type: 3}
   m_Name: 
@@ -182,10 +182,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87ef2ee412cdac54abf468ff1b93236c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockPointer: {fileID: 0}
-  currentEquipment: {fileID: 11400000, guid: 4264a4ff9ab81284492c3f91db0aea2f, type: 2}
+  fov: {fileID: 0}
+  currentEquipment: {fileID: 0}
+  currentBuilding: {fileID: 0}
   equipModelRoot: {fileID: 177116541}
   ShovelRoot: {fileID: 1990601971}
+  throwingObjectPath: 
 --- !u!114 &8876083549096588824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,6 +330,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 404ee24f-7355-4309-ad41-8b04d3363ab3
     m_ActionName: Player/CameraZoomOut[/Keyboard/p]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7cdb57e1-a476-43fa-b4cb-1479ad2c8a85
+    m_ActionName: Player/Throw[/Keyboard/q]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -378,8 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d10d29995d2b141ae7c724b1c857ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConstructurePrefab: {fileID: 7928840235509387350, guid: beee0f338830fa84ea1c8c6f02a83bac, type: 3}
-  BuildVFX: {fileID: 0}
+  blockPointer: {fileID: 496077228}
   previewMaterial: {fileID: 0}
 --- !u!1 &8876083549202646277
 GameObject:

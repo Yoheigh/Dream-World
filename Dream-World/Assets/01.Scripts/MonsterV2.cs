@@ -39,6 +39,8 @@ public class MonsterV2 : MonoBehaviour
 
         // 계속 찾어 넌
         fov.FindTargetsWithDelay(true);
+
+        anim.Play("Monster_Walk");
     }
 
     public void Setup()

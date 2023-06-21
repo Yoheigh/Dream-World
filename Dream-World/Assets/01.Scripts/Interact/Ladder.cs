@@ -11,8 +11,8 @@ public class Ladder : InteractionObject
     [SerializeField]
     private GameObject LadderModel;
 
-    [SerializeField]
-    private int maxConstHeight = 3;
+    //[SerializeField]
+    //private int maxConstHeight = 3;
 
     [SerializeField]
     private int baseConstHeight = 1;

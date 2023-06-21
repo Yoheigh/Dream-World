@@ -134,6 +134,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Throw"",
+                    ""type"": ""Button"",
+                    ""id"": ""7cdb57e1-a476-43fa-b4cb-1479ad2c8a85"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -387,6 +396,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""PC"",
                     ""action"": ""CameraZoomOut"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aba72778-97b3-4962-a9c9-042ed36f08a0"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""Throw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -797,6 +817,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Player_CameraScroll = m_Player.FindAction("CameraScroll", throwIfNotFound: true);
         m_Player_CameraZoomIn = m_Player.FindAction("CameraZoomIn", throwIfNotFound: true);
         m_Player_CameraZoomOut = m_Player.FindAction("CameraZoomOut", throwIfNotFound: true);
+        m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -878,6 +899,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_CameraScroll;
     private readonly InputAction m_Player_CameraZoomIn;
     private readonly InputAction m_Player_CameraZoomOut;
+    private readonly InputAction m_Player_Throw;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -894,6 +916,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @CameraScroll => m_Wrapper.m_Player_CameraScroll;
         public InputAction @CameraZoomIn => m_Wrapper.m_Player_CameraZoomIn;
         public InputAction @CameraZoomOut => m_Wrapper.m_Player_CameraZoomOut;
+        public InputAction @Throw => m_Wrapper.m_Player_Throw;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -939,6 +962,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @CameraZoomOut.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraZoomOut;
                 @CameraZoomOut.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraZoomOut;
                 @CameraZoomOut.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraZoomOut;
+                @Throw.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrow;
+                @Throw.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrow;
+                @Throw.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrow;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -979,6 +1005,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @CameraZoomOut.started += instance.OnCameraZoomOut;
                 @CameraZoomOut.performed += instance.OnCameraZoomOut;
                 @CameraZoomOut.canceled += instance.OnCameraZoomOut;
+                @Throw.started += instance.OnThrow;
+                @Throw.performed += instance.OnThrow;
+                @Throw.canceled += instance.OnThrow;
             }
         }
     }
@@ -1104,6 +1133,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnCameraScroll(InputAction.CallbackContext context);
         void OnCameraZoomIn(InputAction.CallbackContext context);
         void OnCameraZoomOut(InputAction.CallbackContext context);
+        void OnThrow(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

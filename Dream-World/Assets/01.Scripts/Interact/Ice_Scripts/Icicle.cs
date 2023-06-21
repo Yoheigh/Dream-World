@@ -12,13 +12,9 @@ public class Icicle : TriggerObject
         Debug.Log("플레이어 타격");
         Destroy(IcicleRE, 0.2f);
     }
-    void OnCollisionEnter(Collision collision)
+    protected override void TriggerWith(Collider other)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Block"))
-        {
-            Debug.Log("Ground(Block) 타격");
-            Destroy(IcicleRE, 0.2f);
-        }
+        Destroy(IcicleRE, 0.2f);
     }
 
     //void OnTriggerEnter(Collider other)

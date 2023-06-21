@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Trap : TriggerObject
 {
+    protected override void TriggerWith(Collider other)
+    {
+        return;
+    }
+
     protected override void TriggerWithPlayer(PlayerController _player)
     {
         // 아야

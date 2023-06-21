@@ -52,8 +52,9 @@ public class PlayerController : MonoBehaviour
         anim.Setup(animator);
 
         // 인풋에 함수 등록
-        Input.RegisterInteractPerformed(Interact);
-        Input.RegisterInteractWithEquipmentPerformed(InteractWithEquipment);
+        Input.playerInputActions.Player.Interact.performed += Interact;
+        Input.playerInputActions.Player.InteractWithEquipment.performed += InteractWithEquipment;
+        Input.playerInputActions.Player.Throw.performed += Throw;
 
         //OnDamage += Manager.Instance.UI.HP.Draw;
         //OnGameOver += Manager.Instance.Flag.GameOver;
@@ -65,6 +66,8 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         PlayerFSM.Execute();
+
+
     }
 
     private void SetUp()
@@ -136,9 +139,6 @@ public class PlayerController : MonoBehaviour
         {
             OnGameOver?.Invoke();
         }
-        
-
-        
     }
 
     public void ChangeState(PlayerStateType _type)
@@ -156,11 +156,16 @@ public class PlayerController : MonoBehaviour
         interaction.InteractWithEquipment();
     }
 
-    private void OnControllerColliderHit(ControllerColliderHit hit)
+    public void Throw(InputAction.CallbackContext context)
     {
-        var tempbool = hit.gameObject.TryGetComponent<TriggerObject>(out var triggerObj);
-
-        if (tempbool == true)
-            triggerObj.PlayerEntered(this);
+        interaction.ThrowConsumable();
     }
+
+    //private void OnControllerColliderHit(ControllerColliderHit hit)
+    //{
+    //    var tempbool = hit.gameObject.TryGetComponent<TriggerObject>(out var triggerObj);
+
+    //    if (tempbool == true)
+    //        triggerObj.PlayerEntered(this);
+    //}
 }

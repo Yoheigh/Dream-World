@@ -10,7 +10,12 @@ public class UISystemManager : MonoBehaviour
 
     public ScreenTransition Transition;                     // 화면 전환
     public GameObject SystemUI;                             // SystemUI 부모 객체
-    public List<ItemSlot> itemSlots;
+
+    // 각각 별개의 슬롯
+    public List<ItemSlot> ingredientSlots;
+    public List<ItemSlot> EquipmentSlots;
+    public List<ItemSlot> BuildingSlots;
+
     public HealthUI HP;
     public GameObject VerticalBar;
 
@@ -44,13 +49,13 @@ public class UISystemManager : MonoBehaviour
         CloseAll();
         Canvas.SetActive(true);
         currentPanelIndex = 0;
-        ShowPanel(currentPanelIndex);
-        isActivateUI = true;
+        // ShowPanel(currentPanelIndex);
+        // isActivateUI = true;
     }
 
     private void Start()
     {
-
+        DrawItemSlots();
     }
 
     public void ShowPanel(int index)
@@ -159,8 +164,48 @@ public class UISystemManager : MonoBehaviour
             return;
     }
 
-    public void ActivateItemSlot()
+    // 다른 곳에서 매니저 접근해서 가져오는 걸 리팩토링하도록 하자
+    public void DrawItemSlots()
     {
 
+        for(int i = 0; i < ingredientSlots.Count; i++)
+        {
+            ingredientSlots[i].Init();
+        }
+        for (int i = 0; i < Manager.Instance.Inventory.ingredients.Count - 1; i++)
+        {
+            ingredientSlots[i].DrawWithCount(Manager.Instance.Inventory.ingredients[i]);
+        }
+
+        for (int i = 0; i < EquipmentSlots.Count; i++)
+        {
+            EquipmentSlots[i].Init();
+        }
+        for (int i = 0; i < Manager.Instance.Inventory.equipments.Count - 1; i++)
+        {
+            EquipmentSlots[i].Draw(Manager.Instance.Inventory.equipments[i]);
+        }
+
+        for (int i = 0; i < BuildingSlots.Count; i++)
+        {
+            BuildingSlots[i].Init();
+        }
+        for (int i = 0; i < Manager.Instance.Inventory.buildings.Count - 1; i++)
+        {
+            BuildingSlots[i].DrawWithCount(Manager.Instance.Inventory.buildings[i]);
+        }
+    }
+
+    public void ActivateItemSlot(int index)
+    {
+        for(int i = 0; i < EquipmentSlots.Count; i++)
+        {
+            if (i == index)
+            {
+                EquipmentSlots[i].DisableObj.SetActive(false);
+                continue;
+            }
+            EquipmentSlots[i].DisableObj.SetActive(true);
+        }
     }
 }

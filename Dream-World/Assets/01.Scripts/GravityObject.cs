@@ -6,7 +6,7 @@ public class GravityObject : MonoBehaviour
 {
     private void OnCollisionEnter(Collision col)
     {
-        if(col.transform.GetComponent<GravityObject>() != null && col.transform.position.y < gameObject.transform.position.y + 0.1f)
+        if(col.transform.position.y < gameObject.transform.position.y + 0.1f)
         {
             this.gameObject.transform.SetParent(col.transform);
         }
@@ -14,7 +14,7 @@ public class GravityObject : MonoBehaviour
 
     private void OnCollisionExit(Collision col)
     {
-        if (col.transform.GetComponent<GravityObject>() != null && col.transform.position.y < gameObject.transform.position.y + 0.1f)
+        if (col.transform.position.y < gameObject.transform.position.y + 0.1f)
         {
             this.gameObject.transform.SetParent(null);
         }

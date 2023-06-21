@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Build;
-using UnityEngine;
+﻿using UnityEngine;
 
 // ColliderEnter 됐을 때 작동하는 함수
 public abstract class CollisionObject : MonoBehaviour

@@ -1,7 +1,4 @@
-﻿using Mono.Cecil;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+﻿using System.Collections;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,13 +10,6 @@ public class BuildSystem : MonoBehaviour
     private Vector3 buildPositionOffset;
 
     // 플레이어 캐릭터의 앞쪽 벡터값
-    public Vector3 PlayerForwardVector
-    {
-        get => playerForwardVector;
-        set => playerForwardVector = value;
-    }
-
-    private Vector3 playerForwardVector;
 
     // 제작할 건물의 Preview 오브젝트
     [SerializeField]
@@ -31,6 +21,8 @@ public class BuildSystem : MonoBehaviour
     // 건물 지어지는 이펙트
     public GameObject BuildVFX;
 
+    public bool isBuildMode = false;
+
     // 내부 변수
     private Vector3 buildPos;
     private int x, y, z;
@@ -39,19 +31,30 @@ public class BuildSystem : MonoBehaviour
     private sbyte tempRot;
     private sbyte currentRot;
 
+    private void LateUpdate()
+    {
+        if (!isBuildMode) return;
+
+        UpdatePos();
+    }
+
+    public void ChangeBuildMode()
+    {
+        isBuildMode = !isBuildMode;
+    }
+
     public void UpdatePos()
     {
-        if (tempPos != entity.transform.position.GetXYZRound())
+        if (tempPos != entity.blockPointer.position.GetXYZRound())
         {
-            tempPos = entity.transform.position.GetXYZRound(out x, out y, out z);
+            tempPos = entity.blockPointer.position.GetXYZRound(out x, out y, out z);
             buildPos = tempPos + buildingData.buildOffset;
+            Debug.Log($"현재 블럭 포인터 위치 : {tempPos}");
             BuildCheck();
         }
 
         if (GridSystem.Instance.CheckCanCraft(x, y, z))
-        {
             Debug.DrawLine(buildPos, Vector3.up, Color.green);
-        }
         else
             Debug.DrawLine(buildPos, Vector3.up, Color.red);
     }
@@ -65,7 +68,7 @@ public class BuildSystem : MonoBehaviour
             case BuildCondition.Top:
 
                 if (GridSystem.Instance.StageGrid.GetGridObject(x, y - 1, z).GetGridObjectData().isConstructableTop)
-                    availableRot[0] = 1;
+                    availableRot[2] = 1;
 
                 break;
 
@@ -96,6 +99,7 @@ public class BuildSystem : MonoBehaviour
     // 3. 오버랩
 
     // 조건 처리
+    
 
     public void RotateBuilding()
     {

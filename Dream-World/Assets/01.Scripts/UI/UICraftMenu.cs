@@ -13,10 +13,13 @@ public class UICraftMenu : UIPanel
     public static Action OnCraftChange;
 
     // CraftSlot이 생성될 부모 오브젝트
-    public GameObject UIRoot;
+    public Transform UIRoot;
+
+    // CraftSlot 게임오브젝트
+    public GameObject CraftSlotPrefab;
 
     // 해당 크래프트 슬롯
-    public CraftSlot[] craftSlots;
+    public List<CraftSlot> craftSlots;
 
     // 필요한 재료 개수와 아이콘 보여주는 UI
     public GameObject[] slotView;
@@ -37,7 +40,9 @@ public class UICraftMenu : UIPanel
     // 첫 번째 버튼 선택하고 화면 드로우
     private void OnEnable()
     {
-        for (int i = 0; i < craftSlots.Length; ++i)
+        RedrawRecipes();
+
+        for (int i = 0; i < craftSlots.Count; i++)
         {
             // 이렇게 안하면 C#의 클로저 현상 일어남
             int index = i;
@@ -51,6 +56,55 @@ public class UICraftMenu : UIPanel
         }
 
         ResetSelection();
+    }
+
+    public void RedrawRecipes()
+    {
+        // 모든 CraftSlots 제거
+        foreach(var item in craftSlots)
+        {
+            Destroy(item.gameObject);
+        }
+
+        craftSlots.Clear();
+
+        for(int i = 0; i < Inventory.recipes.Count; i++)
+        {
+            GameObject newSlotObj = Instantiate(CraftSlotPrefab, UIRoot);
+            newSlotObj.name = $"{Inventory.recipes[i].name}_CraftSlot";
+            var newSlot = newSlotObj.GetComponent<CraftSlot>();
+
+            craftSlots.Add(newSlot);
+
+            newSlot.itemRecipe = Inventory.recipes[i];
+            newSlot.Draw();
+        }
+
+        // 버튼 내비게이션 등록
+        for (int i = 0; i < craftSlots.Count; i++)
+        {
+            Navigation nav = new Navigation();
+            nav.mode = Navigation.Mode.Explicit;
+
+            if(i == 0)
+            {
+                nav.selectOnUp = craftSlots[craftSlots.Count - 1].Button;
+                nav.selectOnDown = craftSlots[i + 1].Button;
+            }
+            else if(i == craftSlots.Count - 1)
+            {
+                nav.selectOnUp = craftSlots[i - 1].Button;
+                nav.selectOnDown = craftSlots[0].Button;
+            }
+            else
+            {
+                nav.selectOnUp = craftSlots[i - 1].Button;
+                nav.selectOnDown = craftSlots[i + 1].Button;
+            }
+            
+            craftSlots[i].Button.navigation = nav;
+            Debug.Log($"{i}번째 슬롯 완벽");
+        }
     }
 
     public override void ResetSelection()
