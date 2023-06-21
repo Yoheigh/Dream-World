@@ -40,7 +40,10 @@ public class MonsterV2 : MonoBehaviour
         // 계속 찾어 넌
         fov.FindTargetsWithDelay(true);
 
-        anim.Play("Monster_Walk");
+        if (patrolPositions.Length == 0)
+            anim.Play("Monster_Idle");
+        else
+            anim.Play("Monster_Walk");
     }
 
     public void Setup()
@@ -140,6 +143,8 @@ public class MonsterV2 : MonoBehaviour
     // Patrol 업데이트 안에
     public void Patrol()
     {
+        if (patrolPositions.Length == 0f) return;
+
         switch (monsterData.monsterPatrolType)
         {
             case MonsterPatrolType.PointToPoint:
