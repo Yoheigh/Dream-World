@@ -32,8 +32,6 @@ public class Ladder : InteractionObject
     {
         if(isStageObject)
             Construct();
-
-        AnchorPivot += transform.position;
     }
 
     public void Construct()
@@ -65,7 +63,7 @@ public class Ladder : InteractionObject
     public override void InteractWithPlayer(PlayerController _player)
     {
         _player.interaction.InteractionObj = this;
-        _player.movement.SetVerticalPoint(AnchorPivot, ReachHeight);
+        _player.movement.SetVerticalPoint(AnchorPivot + transform.position, ReachHeight);
         _player.ChangeState(PlayerStateType.Climbing);
     }
 }

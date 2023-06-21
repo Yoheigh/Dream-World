@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectiveType: 1
-  DropItemPrefab: {fileID: 0}
+  DropItemPrefab: {fileID: 6928425221035508293, guid: 8dfe0e99f50a9c64d81bae8a62b8f304, type: 3}
   dropAmount: 1
   spreadOffset: 0.03
   spreadForce: 0.5

@@ -110,11 +110,23 @@ public class InventoryV2
         // 아이템 슬롯 최대 개수보다 아이템이 적으면
         if (tempSlotsCount > tempList.Count)
         {
-            ItemV2 newItem = new ItemV2(_item);
+            switch (_item.itemType)
+            {
+                case ItemTypeV2.Ingredient:
+                    tempList.Add(new ItemV2(_item));
+                    break;
+
+                case ItemTypeV2.Equipment:
+                    tempList.Add(new Equipment(_item as Equipment));
+                    break;
+
+                case ItemTypeV2.Building:
+                    tempList.Add(new Building(_item as Building));
+                    break;
+            }
 
             // 아이템 슬롯에 새로운 아이템 추가
-            tempList.Add(newItem);
-            Debug.Log($"아이템 추가 : {newItem.itemName}");
+            Debug.Log($"아이템 추가 {_item.name}");
 
             // 이벤트 처리
             OnChangeItem?.Invoke();

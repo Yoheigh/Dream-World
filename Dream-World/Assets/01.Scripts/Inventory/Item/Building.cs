@@ -32,4 +32,19 @@ public class Building : ItemV2
         itemMaxCount = _itemMaxCount;           // 아이템 최대 개수 (기본 : 32)
         itemIcon = _itemIcon;                   // 아이템 스프라이트 아이콘
     }
+
+    public Building(Building _item)
+    {
+        itemID = _item.itemID;                       // 아이템 ID
+        itemType = _item.itemType;                   // 아이템 타입
+        itemName = _item.itemName;                   // 아이템 이름
+        itemDescription = _item.itemDescription;     // 아이템 설명
+        itemCount = _item.itemCount;                 // 아이템 개수 (기본 : 1)
+        itemMaxCount = _item.itemMaxCount;           // 아이템 최대 개수 (기본 : 32)
+        itemIcon = _item.itemIcon;                   // 아이템 스프라이트 아이콘
+
+        buildCondition = _item.buildCondition;
+        buildOffset = _item.buildOffset;
+        buildPrefabPath = _item.buildPrefabPath;
+    }
 }

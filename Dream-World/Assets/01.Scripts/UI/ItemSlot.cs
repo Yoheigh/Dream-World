@@ -12,14 +12,12 @@ public class ItemSlot : MonoBehaviour
 
     public void Draw(ItemV2 _item)
     {
-        Debug.Log("¾Æ´Ï ¹¹ÇÔ");
         itemIcon.sprite = _item.itemIcon;
         // itemAmount.text = _item.itemCount.ToString();
         // itemText.text = _item.itemDescription;
     }
     public void DrawWithCount(ItemV2 _item)
     {
-        Debug.Log("¾Æ´Ï ¹¹ÇÔ");
         itemIcon.sprite = _item.itemIcon;
         itemAmount.text = _item.itemCount.ToString();
         // itemText.text = _item.itemDescription;

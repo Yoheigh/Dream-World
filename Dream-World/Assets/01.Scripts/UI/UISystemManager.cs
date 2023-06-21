@@ -49,8 +49,9 @@ public class UISystemManager : MonoBehaviour
         CloseAll();
         Canvas.SetActive(true);
         currentPanelIndex = 0;
-        // ShowPanel(currentPanelIndex);
-        // isActivateUI = true;
+        ShowPanel(currentPanelIndex);
+        isActivateUI = true;
+        CloseAll();
     }
 
     private void Start()
@@ -151,13 +152,13 @@ public class UISystemManager : MonoBehaviour
         {
             for (int i = 0; i < panelStack.Count; i++)
             {
-                panelStack.Pop().Hide();
+                ClosePanel();
             }
         }
 
         if (currentPanelIndex > 0)
         {
-            panels[currentPanelIndex].Hide();
+            ClosePanel();
             currentPanelIndex = -1;
         }
         else
@@ -167,32 +168,34 @@ public class UISystemManager : MonoBehaviour
     // 다른 곳에서 매니저 접근해서 가져오는 걸 리팩토링하도록 하자
     public void DrawItemSlots()
     {
-
+        // 재료 슬롯 초기화
         for(int i = 0; i < ingredientSlots.Count; i++)
         {
             ingredientSlots[i].Init();
         }
-        for (int i = 0; i < Manager.Instance.Inventory.ingredients.Count - 1; i++)
+        for (int i = 0; i < Manager.Instance.Inventory.ingredients.Count; i++)
         {
-            ingredientSlots[i].DrawWithCount(Manager.Instance.Inventory.ingredients[i]);
+            ingredientSlots[i].Draw(Manager.Instance.Inventory.ingredients[i]);
         }
 
+        // 장비 슬롯 초기화
         for (int i = 0; i < EquipmentSlots.Count; i++)
         {
             EquipmentSlots[i].Init();
         }
-        for (int i = 0; i < Manager.Instance.Inventory.equipments.Count - 1; i++)
+        for (int i = 0; i < Manager.Instance.Inventory.equipments.Count; i++)
         {
             EquipmentSlots[i].Draw(Manager.Instance.Inventory.equipments[i]);
         }
 
+        // 건물 슬롯 초기화
         for (int i = 0; i < BuildingSlots.Count; i++)
         {
             BuildingSlots[i].Init();
         }
-        for (int i = 0; i < Manager.Instance.Inventory.buildings.Count - 1; i++)
+        for (int i = 0; i < Manager.Instance.Inventory.buildings.Count; i++)
         {
-            BuildingSlots[i].DrawWithCount(Manager.Instance.Inventory.buildings[i]);
+            BuildingSlots[i].Draw(Manager.Instance.Inventory.buildings[i]);
         }
     }
 

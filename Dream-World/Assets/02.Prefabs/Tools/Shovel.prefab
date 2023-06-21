@@ -9,7 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1171081412127991444}
-  m_Layer: 0
+  - component: {fileID: 3102370688197677587}
+  - component: {fileID: 7537853126788818268}
+  - component: {fileID: 3325663918271616322}
+  m_Layer: 7
   m_Name: Shovel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,6 +35,48 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3102370688197677587
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5436951350338697126}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3, y: 0.6, z: 0.3}
+  m_Center: {x: 0, y: -0.3, z: 0}
+--- !u!54 &7537853126788818268
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5436951350338697126}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &3325663918271616322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5436951350338697126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 695917df8402ef34abfd4717c872f18f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: 4264a4ff9ab81284492c3f91db0aea2f, type: 2}
 --- !u!1001 &3769572180089332274
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -90,6 +135,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e488ef66a96e16d4ab68838e42b5eca4, type: 3}
       propertyPath: m_Name
       value: Shovel
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e488ef66a96e16d4ab68838e42b5eca4, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e488ef66a96e16d4ab68838e42b5eca4, type: 3}
