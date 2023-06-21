@@ -11,14 +11,16 @@ public class CraftSlot : MonoBehaviour
     public ItemRecipe itemRecipe; 
 
     // 완성 아이템 아이콘인데 이거 레이아웃 바뀌면 확 바뀔 듯
-    public Sprite resultImage;
-    public string resultDescription;
+    public Image resultImage;
+    public Text resultName;
+    public Text resultDescription;
 
     public SelectableButton Button;
 
     public void Draw()
     {
-        resultImage = itemRecipe.result.itemIcon;
-        resultDescription = itemRecipe.result.itemDescription;
+        resultImage.sprite = itemRecipe.result.itemIcon;
+        resultName.text = itemRecipe.result.itemName;
+        resultDescription.text = itemRecipe.result.itemDescription;
     }
 }

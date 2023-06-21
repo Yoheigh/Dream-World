@@ -200,6 +200,8 @@ public class MonsterV2 : MonoBehaviour
     // Detect 업데이트 안에
     public void FollowTarget()
     {
+        Vector3 dir = (target.position - transform.position);
+        dir.y = 0f;
 
         if (Vector3.Distance(transform.position, target.transform.position) > monsterData.forgetDistance /*!fov.visibleTargets.Contains(target.transform)*/)
         {
@@ -217,6 +219,8 @@ public class MonsterV2 : MonoBehaviour
             if (Vector3.Distance(transform.position, target.transform.position) < monsterData.canAttackDistance)
             {
                 anim.Play("Monster_Idle");
+
+                transform.rotation = Quaternion.LookRotation(dir);
                 rigid.velocity = new Vector3(0f, rigid.velocity.y, 0f);
 
                 if (isCanAttack == false) return;
@@ -227,8 +231,6 @@ public class MonsterV2 : MonoBehaviour
                 Debug.DrawLine(transform.position, target.position);
 
                 anim.Play("Monster_Run");
-                Vector3 dir = (target.position - transform.position);
-                dir.y = 0f;
 
                 transform.rotation = Quaternion.LookRotation(dir);
                 rigid.velocity = dir.normalized * (m_speed + 0.8f);
@@ -259,9 +261,9 @@ public class MonsterV2 : MonoBehaviour
     IEnumerator AttackCo()
     {
         anim.Play("Monster_Attack");
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(0.25f);
 
-        Collider[] colliders = Physics.OverlapBox(transform.forward * 0.6f, monsterData.attackSize, Quaternion.identity, LayerMask.NameToLayer("Entity"));
+        Collider[] colliders = Physics.OverlapBox(transform.position + transform.forward, /* monsterData.attackSize */ new Vector3(0.5f, 0.5f, 0.5f));
 
         foreach (var collider in colliders)
         {

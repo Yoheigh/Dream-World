@@ -10,6 +10,7 @@ public class UISystemManager : MonoBehaviour
 
     public ScreenTransition Transition;                     // 화면 전환
     public GameObject SystemUI;                             // SystemUI 부모 객체
+    public GameObject PlayerUI;                             // PlayerUI 부모 객체
 
     // 각각 별개의 슬롯
     public List<ItemSlot> ingredientSlots;
@@ -47,11 +48,11 @@ public class UISystemManager : MonoBehaviour
         }
 
         CloseAll();
+        VerticalBar.SetActive(false);
         Canvas.SetActive(true);
         currentPanelIndex = 0;
         ShowPanel(currentPanelIndex);
         isActivateUI = true;
-        CloseAll();
     }
 
     private void Start()
@@ -175,7 +176,7 @@ public class UISystemManager : MonoBehaviour
         }
         for (int i = 0; i < Manager.Instance.Inventory.ingredients.Count; i++)
         {
-            ingredientSlots[i].Draw(Manager.Instance.Inventory.ingredients[i]);
+            ingredientSlots[i].DrawWithCount(Manager.Instance.Inventory.ingredients[i]);
         }
 
         // 장비 슬롯 초기화

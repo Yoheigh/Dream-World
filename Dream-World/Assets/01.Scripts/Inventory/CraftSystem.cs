@@ -19,7 +19,7 @@ public class CraftSystem
 
         Debug.Log($"{recipe.result.itemName}를 만들기 위한 재료를 검색합니다.");
 
-        for(index = 0; index < recipe.ingredients.Length - 1; index++)
+        for(index = 0; index < recipe.ingredients.Length; index++)
         {
             var needItem = recipe.ingredients[index];
             var needItemCount = recipe.ingredientCounts[index];
@@ -55,8 +55,20 @@ public class CraftSystem
     // 아이템 제작
     public void CraftItem(ItemRecipe recipe)
     {
-        // 조합법에서 결과 아이템 추가
-        Inventory.AddItem(recipe.result);
+        if (CraftItemCheck(recipe) == true)
+        {
+            Inventory.AddItem(recipe.result);
+
+            // 아이템 제거
+            for(int i = 0; i < recipe.needItemCount; i++)
+            {
+                var newItem = new ItemV2(recipe.ingredients[i]);
+                newItem.itemCount = recipe.ingredientCounts[i];
+                Inventory.RemoveItem(newItem);
+            }
+        }
+        else
+            Debug.Log("재료가 부족합니다.");
     }
 
     // 현재 플레이어가 가지고 있는 모든 조합법 체크

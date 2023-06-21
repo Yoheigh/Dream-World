@@ -66,8 +66,6 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         PlayerFSM.Execute();
-
-
     }
 
     private void SetUp()
@@ -110,7 +108,7 @@ public class PlayerController : MonoBehaviour
 
         anim.ChangeAnimationState("Hit");
 
-        if(PlayerHP > 0)
+        if(PlayerHP > 1)
         {
             // 체력 감소 이벤트
             PlayerHP--;

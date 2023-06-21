@@ -81,6 +81,8 @@ public class Manager : MonoBehaviour
             Player = FindObjectOfType<PlayerController>();
 
         Time.timeScale = 1.0f;
+
+        Debug.Log("씬 로딩됨");
     }
 
 

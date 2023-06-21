@@ -197,8 +197,9 @@ public class InventoryV2
                 if (item.itemCount == 0)
                 {
                     // 아이템 슬롯에서 아이템 제거
-                    tempList.Remove(item);
-                    Debug.Log($"{item.itemName} 제거");
+                    //tempList.Remove(item);
+                    //Debug.Log($"{item.itemName} 제거");
+                    // 없애진 말자
                 }
 
                 // 이벤트 처리

@@ -122,7 +122,7 @@ public class FlagSystem : MonoBehaviour
 
         // 컷씬 타입이었으면 다시 플레이어블 상태로 돌아오도록
         Cam.isFollowPlayer = true;
-        UI.SystemUI.SetActive(true);
+        UI.PlayerUI.SetActive(true);
         UI.VerticalBar.SetActive(false);
         Input.CanMove(true);
         Input.CanLook(true);
@@ -147,24 +147,31 @@ public class FlagSystem : MonoBehaviour
         UI.CloseAll();
 
         // 얘네는 이따 수정해야 함!
-        UI.SystemUI.SetActive(false);
+        UI.PlayerUI.SetActive(false);
         Manager.Instance.Player.anim.ChangeAnimationState("Hit");
         Time.timeScale = 0.0f;
+
+        AsyncOperation op = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        op.allowSceneActivation = false;
 
         yield return new WaitForSecondsRealtime(1f);
 
         Manager.Instance.UI.Transition.CircleIn();
 
         yield return new WaitForSecondsRealtime(3f);
+
+        op.allowSceneActivation = true;
+
+        Manager.Instance.UI.Transition.CircleOut();
     }
 
     public void NextScene()
     {
         if (isFlagNotOver) return;
-        StartCoroutine(LoadNextScene());
+        StartCoroutine(LoadNextSceneTransition());
     }
 
-    private IEnumerator LoadNextScene()
+    private IEnumerator LoadNextSceneTransition()
     {
         AsyncOperation op = SceneManager.LoadSceneAsync(currentSceneIndex++);
 

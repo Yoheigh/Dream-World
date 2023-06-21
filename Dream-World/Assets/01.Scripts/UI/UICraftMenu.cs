@@ -53,6 +53,11 @@ public class UICraftMenu : UIPanel
                 currentIndex = index;
                 Draw();
             });
+
+            craftSlots[i].Button.onClick.AddListener(() =>
+            {
+                Craft.CraftItem(craftSlots[index].itemRecipe);
+            });
         }
 
         ResetSelection();
@@ -129,17 +134,25 @@ public class UICraftMenu : UIPanel
 
         for (int i = 0; i < itemRecipe.needItemCount; i++)
         {
-            if (Inventory.GetInventoryItem(itemRecipe.ingredients[i]) != null)
+            if (Inventory.GetInventoryItem(itemRecipe.ingredients[i]) != null
+                && Inventory.GetInventoryItem(itemRecipe.ingredients[i]).itemCount >= itemRecipe.ingredients[i].itemCount)
             {
                 needCount[i].color = Color.white;
                 needCount[i].text = $"{Inventory.GetInventoryItem(itemRecipe.ingredients[i]).itemCount} / {itemRecipe.ingredientCounts[i]}";
                 needImage[i].color = Color.white;
                 needImage[i].sprite = itemRecipe.ingredients[i].itemIcon;
             }
-            else
+            else if(Inventory.GetInventoryItem(itemRecipe.ingredients[i]) == null)
             {
                 needCount[i].color = Color.red;
                 needCount[i].text = $"{0} / {itemRecipe.ingredientCounts[i]}";
+                needImage[i].color = Color.gray;
+                needImage[i].sprite = itemRecipe.ingredients[i].itemIcon;
+            }
+            else if (Inventory.GetInventoryItem(itemRecipe.ingredients[i]).itemCount < itemRecipe.ingredients[i].itemCount)
+            {
+                needCount[i].color = Color.red;
+                needCount[i].text = $"{Inventory.GetInventoryItem(itemRecipe.ingredients[i]).itemCount} / {itemRecipe.ingredientCounts[i]}";
                 needImage[i].color = Color.gray;
                 needImage[i].sprite = itemRecipe.ingredients[i].itemIcon;
             }
