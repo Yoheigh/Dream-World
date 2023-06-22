@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 704401555}
   - component: {fileID: 1401775313}
   - component: {fileID: 1401775316}
+  - component: {fileID: 309650514}
   m_Layer: 6
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -386,6 +387,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockPointer: {fileID: 496077228}
   previewMaterial: {fileID: 0}
+--- !u!114 &309650514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8876083549096588815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5231f147cdda4e0469079686cc92515f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 2
+  SprintSpeed: 3.533
+  RotationSmoothTime: 0.03
+  SpeedChangeRate: 10
+  FrictionSpeed: 1
+  FallTimeout: 0.15
+  GravityValue: -10
+  FallDamageHeight: 6
+  isGround: 1
+  GroundCheckOffset: -0.15
+  GroundCheckRadius: 0.2
+  GroundLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  isSlippery: 0
+  animIDSpeed: 0
+  animationBlend: 0
+  animIDHoldMove: 0
+  animIDMotionSpeed: 0
+  MainCamera: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!1 &8876083549202646277
 GameObject:
   m_ObjectHideFlags: 0

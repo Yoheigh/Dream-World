@@ -74,6 +74,11 @@ public class PlayerInteraction : MonoBehaviour
         Debug.Log($"3. Setup - {this}");
     }
 
+    public void ChangeBuildMode()
+    {
+        isBuildMode = !isBuildMode;
+    }
+
     public void Interact()
     {
         if (isInteracting) return;
@@ -101,12 +106,12 @@ public class PlayerInteraction : MonoBehaviour
         }
 
         // 건물 생성 모드
-        if (isBuildMode)
-        {
-            Manager.Instance.Build.Construct();
-            isBuildMode = false;
-            return;
-        }
+        //if (isBuildMode)
+        //{
+        //    Manager.Instance.Build.Construct();
+        //    isBuildMode = false;
+        //    return;
+        //}
 
         // 근처에 상호작용 가능한 오브젝트가 없을 경우 종료
         if (!NearObjectCheck()) return;

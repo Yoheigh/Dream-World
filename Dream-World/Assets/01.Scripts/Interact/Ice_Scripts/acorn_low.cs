@@ -6,10 +6,11 @@ public class acorn_low : TriggerObject
 {
     protected override void TriggerWithPlayer(PlayerController _player)
     {
-        Debug.Log("∞‘¿”∆˜¿Œ∆Æ »πµÊ!");
+        Debug.LogError("∞‘¿”∆˜¿Œ∆Æ »πµÊ!");
+        var obj = Instantiate(Manager.Instance.Build.BuildVFX);
+        obj.transform.position = transform.position;
+        Destroy(obj, 4f);
         Destroy(gameObject);
-        
-        gameObject.GetComponent<BoxCollider>().isTrigger = true;
     }
     public float rotateSecond;
 

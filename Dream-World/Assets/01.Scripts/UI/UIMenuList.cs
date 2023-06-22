@@ -7,7 +7,6 @@ public class UIMenuList : UIPanel
     // 인덱스 지 맘대로 넣었음
     public override void Init()
     {
-        Debug.Log("이거 초기화됨?");
         for(int i = 0; i < base.Buttons.Length; i++)
         {
             int index = i;

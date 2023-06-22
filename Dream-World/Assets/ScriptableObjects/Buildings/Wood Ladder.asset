@@ -20,5 +20,5 @@ MonoBehaviour:
   itemDescription: 
   itemIcon: {fileID: 21300000, guid: 8c91bd515744f8640ada5d8c710f18a7, type: 3}
   buildCondition: 1
-  buildOffset: {x: 0, y: 0, z: 0}
+  buildOffset: {x: 0.5, y: 0, z: 0.5}
   buildPrefabPath: Prefabs/Ladder

@@ -17,6 +17,7 @@ TagManager:
   - Resources_Tree
   - Breakable
   - Enemy
+  - CinematicCamera
   layers:
   - Default
   - TransparentFX

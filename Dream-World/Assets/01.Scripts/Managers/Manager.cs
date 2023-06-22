@@ -96,6 +96,8 @@ public class Manager : MonoBehaviour
         if (UnityEngine.Input.GetKeyDown(KeyCode.T)) Flag.GameOver();
         if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha1)) Inventory.ChangeEquipment();
         if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha3)) Build.ChangeBuildMode();
+        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha4)) Build.RotateBuilding();
+        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha5)) Build.Construct();
         if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha0)) Flag.NextScene();
     }
 }

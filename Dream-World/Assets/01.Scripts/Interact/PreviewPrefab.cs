@@ -6,11 +6,9 @@ public class PreviewPrefab : MonoBehaviour
 {
     public Transform blockPointer;
 
-    [SerializeField]
-    private Material previewMaterial;
+    public Material previewMaterial;
 
-    // 내부 변수
-    private Vector3 beforePos;
+    public GameObject Preview;
 
     // Update is called once per frame
     void Update()

@@ -41,6 +41,9 @@ public class BuildSystem : MonoBehaviour
     public void ChangeBuildMode()
     {
         isBuildMode = !isBuildMode;
+
+        entity.Preview = Instantiate(Resources.Load<GameObject>(buildingData.buildPrefabPath));
+        entity.Preview.GetComponent<Collider>().enabled = false;
     }
 
     public void UpdatePos()
@@ -49,8 +52,9 @@ public class BuildSystem : MonoBehaviour
         {
             tempPos = entity.blockPointer.position.GetXYZRound(out x, out y, out z);
             buildPos = tempPos + buildingData.buildOffset;
+            entity.Preview.transform.position = buildPos;
             Debug.Log($"현재 블럭 포인터 위치 : {tempPos}");
-            BuildCheck();
+            // BuildCheck();
         }
 
         if (GridSystem.Instance.CheckCanCraft(x, y, z))
@@ -103,56 +107,59 @@ public class BuildSystem : MonoBehaviour
 
     public void RotateBuilding()
     {
-        if (tempRot == 0)
-        {
-            Debug.Log("구조물을 돌릴 수 없습니다.");
-            return;
+        //if (tempRot == 0)
+        //{
+        //    Debug.Log("구조물을 돌릴 수 없습니다.");
+        //    return;
 
-        }
+        //}
 
-        for (sbyte i = 0; i < availableRot.Length - 1; i++)
-        {
-            if (availableRot[i] == 0) continue;
+        //for (sbyte i = 0; i < availableRot.Length - 1; i++)
+        //{
+        //    if (availableRot[i] == 0) continue;
 
-            if (currentRot < i)
-            {
-                entity.transform.rotation = Quaternion.Euler(new Vector3(0, 90f * i, 0));
-                currentRot = i;
-                break;
-            }
-            else if (currentRot >= i)
-            {
-                currentRot = -1;
-                continue;
-            }
-        }
+        //    if (currentRot < i)
+        //    {
+        //        entity.Preview.transform.rotation = Quaternion.Euler(new Vector3(0, 90f * i, 0));
+        //        currentRot = i;
+        //        break;
+        //    }
+        //    else if (currentRot >= i)
+        //    {
+        //        currentRot = -1;
+        //        continue;
+        //    }
+        //}
+
+        entity.Preview.transform.rotation *= Quaternion.Euler(new Vector3(0, 90f, 0));
     }
 
     public void Construct()
     {
         StartCoroutine(ConstructWithEffect());
+        isBuildMode = false;
     }
     protected void ConstructionFinish()
     {
-        Instantiate(Resources.Load<GameObject>(buildingData.buildPrefabPath), transform.position, transform.rotation);
+        Instantiate(Resources.Load<GameObject>(buildingData.buildPrefabPath), buildPos, transform.rotation);
     }
 
     private IEnumerator ConstructWithEffect()
     {
-        var wait = new WaitForSeconds(0.5f);
+        var wait = new WaitForSeconds(0.3f);
 
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 3; i++)
         {
             float x = Random.Range(-0.5f, 0.5f);
             float y = Random.Range(-0.5f, 0.5f);
             float z = Random.Range(-0.5f, 0.5f);
-            GameObject obj = Instantiate(BuildVFX, new Vector3(x, y, z), Quaternion.identity);
+            GameObject obj = Instantiate(BuildVFX, buildPos + new Vector3(x, y, z), Quaternion.Euler(new Vector3(0, 180f, 0f)));
             Destroy(obj, 4f);
             yield return wait;
         }
 
         ConstructionFinish();
-        Destroy(gameObject);
+        Destroy(entity.Preview);
     }
 
     private void OnDrawGizmos()

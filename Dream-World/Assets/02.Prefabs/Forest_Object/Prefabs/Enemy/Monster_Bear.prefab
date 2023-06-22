@@ -86,7 +86,7 @@ MonoBehaviour:
     canAttackDistance: 1
     attackCooltime: 4
     attackSize: {x: 0, y: 0, z: 0}
-    stopDelay: 0
+    stopDelay: 3
   monsterState: 0
   fov: {fileID: 717389406889612696}
   anim: {fileID: 1622117470524826580}
