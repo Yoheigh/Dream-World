@@ -43,9 +43,6 @@ public class Manager : MonoBehaviour
         }
         #endregion
 
-        // 인벤토리 초기화
-        Inventory.Init();
-
         // 시스템 등록
         Input = GetComponent<CustomInput>();
         Camera = GetComponent<CameraSystem>();
@@ -53,14 +50,6 @@ public class Manager : MonoBehaviour
         Flag = GetComponent<FlagSystem>();
         Grid = GetComponent<GridSystem>();
         Build = GetComponent<BuildSystem>();
-
-        // 시스템 셋업
-        Input.Setup();
-        Camera.Setup();
-        UI.Setup();
-        Flag.Setup();
-
-        Sound.PlayBGM(100);
 
         Inventory.OnChangeItem += UI.DrawItemSlots;
         Inventory.OnChangeEquipment += UI.ActivateItemSlot;
@@ -73,12 +62,21 @@ public class Manager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Camera.Setup();
-        UI.Setup();
-        Grid.Setup();
-
         if (Player == null)
             Player = FindObjectOfType<PlayerController>();
+
+        // 시스템 셋업
+        Input.Setup();
+        Camera.Setup();
+        UI.Setup();
+        Flag.Setup();
+        Grid.Setup();
+
+        // 인벤토리 초기화
+        Inventory.Init();
+        UI.DrawItemSlots();
+
+        Sound.PlayBGM(100);
 
         Time.timeScale = 1.0f;
 

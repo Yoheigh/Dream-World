@@ -42,6 +42,23 @@ public class InventoryV2
 
         //OnChangeEquipment += () => { Debug.Log("장비 변경됨 수고 비읍"); };
         //OnChangeEquipment += () => { Debug.Log($"{currentEquipmentSlot} 현재 장비 슬롯"); };
+
+        ingredients.Clear();
+        buildings.Clear();
+        equipments.Clear();
+
+        //for (int i = 0; i < ingredients.Count; i++)
+        //{
+        //    RemoveItem(ingredients[i]);
+        //}
+        //for (int i = 0; i < buildings.Count; i++)
+        //{
+        //    RemoveItem(buildings[i]);
+        //}
+        //for (int i = 0; i < equipments.Count; i++)
+        //{
+        //    RemoveItem(equipments[i]);
+        //}
     }
 
     // 인벤토리에 아이템 추가 ( 아이템 ID )
@@ -197,9 +214,8 @@ public class InventoryV2
                 if (item.itemCount == 0)
                 {
                     // 아이템 슬롯에서 아이템 제거
-                    //tempList.Remove(item);
-                    //Debug.Log($"{item.itemName} 제거");
-                    // 없애진 말자
+                    tempList.Remove(item);
+                    Debug.Log($"{item.itemName} 제거");
                 }
 
                 // 이벤트 처리

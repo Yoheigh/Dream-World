@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class UISystemManager : MonoBehaviour
 {
@@ -176,6 +177,7 @@ public class UISystemManager : MonoBehaviour
         }
         for (int i = 0; i < Manager.Instance.Inventory.ingredients.Count; i++)
         {
+            Debug.Log($"{i}번째 자원 슬롯 Draw");
             ingredientSlots[i].DrawWithCount(Manager.Instance.Inventory.ingredients[i]);
         }
 
@@ -186,10 +188,11 @@ public class UISystemManager : MonoBehaviour
         }
         for (int i = 0; i < Manager.Instance.Inventory.equipments.Count; i++)
         {
+            Debug.Log($"{i}번째 장비 슬롯 Draw");
             EquipmentSlots[i].Draw(Manager.Instance.Inventory.equipments[i]);
         }
 
-        // 건물 슬롯 초기화
+        //건물 슬롯 초기화
         for (int i = 0; i < BuildingSlots.Count; i++)
         {
             BuildingSlots[i].Init();

@@ -188,7 +188,7 @@ public class PlayerMovement : MonoBehaviour
             fallTimeoutDelta = FallTimeout;
 
             if (verticalVelocity <= 0.0f)
-                verticalVelocity = -1.0f;
+                verticalVelocity = -1.5f;
         }
         else
         {
