@@ -203,7 +203,7 @@ public class UISystemManager : MonoBehaviour
         }
     }
 
-    public void ActivateItemSlot(int index)
+    public void ActivateEquipSlot(int index)
     {
         for(int i = 0; i < EquipmentSlots.Count; i++)
         {
@@ -213,6 +213,19 @@ public class UISystemManager : MonoBehaviour
                 continue;
             }
             EquipmentSlots[i].DisableObj.SetActive(true);
+        }
+    }
+
+    public void ActivateBuildSlot(int index)
+    {
+        for (int i = 0; i < BuildingSlots.Count; i++)
+        {
+            if (i == index)
+            {
+                BuildingSlots[i].DisableObj.SetActive(false);
+                continue;
+            }
+            BuildingSlots[i].DisableObj.SetActive(true);
         }
     }
 }

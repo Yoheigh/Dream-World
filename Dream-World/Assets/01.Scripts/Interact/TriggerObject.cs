@@ -9,7 +9,6 @@ public abstract class TriggerObject : MonoBehaviour
     [Tooltip("한 번만 트리거되야하는 경우 체크")]
     public bool IsTriggerOnlyOnce = false;
 
-    [SerializeField]
     private bool isTriggered = false;
 
     // 한 번 만난 플레이어 저장

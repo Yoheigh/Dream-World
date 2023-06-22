@@ -52,7 +52,8 @@ public class Manager : MonoBehaviour
         Build = GetComponent<BuildSystem>();
 
         Inventory.OnChangeItem += UI.DrawItemSlots;
-        Inventory.OnChangeEquipment += UI.ActivateItemSlot;
+        Inventory.OnChangeEquipment += UI.ActivateEquipSlot;
+        Inventory.OnChangeBuilding += UI.ActivateBuildSlot;
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -93,6 +94,7 @@ public class Manager : MonoBehaviour
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.T)) Flag.GameOver();
         if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha1)) Inventory.ChangeEquipment();
+        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha2)) Inventory.ChangeBuilding();
         if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha3)) Build.ChangeBuildMode();
         if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha4)) Build.RotateBuilding();
         if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha5)) Build.Construct();

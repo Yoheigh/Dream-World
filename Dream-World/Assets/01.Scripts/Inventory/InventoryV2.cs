@@ -25,13 +25,15 @@ public class InventoryV2
     // 아이템이 변경될 때 실행되는 이벤트
     public Action OnChangeItem;
 
-    // 장비 아이템 선택할 때 실행되는 이벤트
+    // 아이템 선택할 때 실행되는 이벤트
     public Action<int> OnChangeEquipment;
+    public Action<int> OnChangeBuilding;
 
     // 내부 변수
     private List<ItemV2> tempList;
     private int tempSlotsCount;
     private int currentEquipmentSlot;   // 선택된 장비 슬롯
+    private int currentBuildingSlot;    // 선택된 건물 슬롯
 
     public void Init()
     {
@@ -291,6 +293,19 @@ public class InventoryV2
         OnChangeEquipment?.Invoke(currentEquipmentSlot);
         Debug.Log($"장비 슬롯 변경 {currentEquipmentSlot}");
     }
+
+    // 장비 아이템 선택
+    public void ChangeBuilding()
+    {
+        currentBuildingSlot = (currentBuildingSlot + 1) % (MaxBuildingSlots + 1);
+
+        if (currentBuildingSlot >= MaxBuildingSlots)
+            currentBuildingSlot = 0;
+
+        OnChangeBuilding?.Invoke(currentBuildingSlot);
+        Debug.Log($"건물 슬롯 변경 {currentBuildingSlot}");
+    }
+
 
     // 아이템 레시피 추가
     public void AddItemRecipe(ItemRecipe _recipe)

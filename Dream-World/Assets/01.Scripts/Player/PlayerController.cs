@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     private State<PlayerController>[] PlayerStates;
 
     // 무적 시간
-    private bool isInvincible = false;
+    public bool isInvincible = false;
 
     private void Start()
     {

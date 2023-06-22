@@ -8,16 +8,15 @@ public class IcIcleRange : TriggerObject
 
     protected override void TriggerWith(Collider other)
     {
-        Icicle.SetActive(true);
-
-        Debug.Log("함정 발동");
+        return;
     }
 
     protected override void TriggerWithPlayer(PlayerController _player)
     {
-        Icicle.SetActive(true);
+        Instantiate(Icicle, transform.position + Vector3.up * 10f, Quaternion.identity);
 
         Debug.Log("함정 발동");
+        Destroy(gameObject);
     }
 
     //void OnTriggerEnter(Collider other)

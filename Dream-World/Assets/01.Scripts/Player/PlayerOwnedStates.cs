@@ -8,8 +8,8 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerController _entity)
         {
-            _entity.Input.CanMove(true);
-            _entity.Input.CanInteract(true);
+            // _entity.Input.CanMove(true);
+            // _entity.Input.CanInteract(true);
             _entity.fov.FindTargetsWithDelay(true);
 
             //_entity.animator.SetBool("isClimbing", false);
@@ -38,7 +38,7 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerController _entity)
         {
-            _entity.Input.CanMove(false);
+            // _entity.Input.CanMove(false);
             //_entity.Input.CanInteract(false);
         }
 

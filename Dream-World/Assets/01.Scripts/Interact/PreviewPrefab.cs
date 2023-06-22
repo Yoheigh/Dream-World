@@ -10,9 +10,9 @@ public class PreviewPrefab : MonoBehaviour
 
     public GameObject Preview;
 
-    // Update is called once per frame
-    void Update()
-    {
 
+    private void OnEnable()
+    {
+        
     }
 }

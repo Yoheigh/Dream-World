@@ -1906,7 +1906,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsTriggerOnlyOnce: 0
-  isTriggered: 0
 --- !u!1 &841953281
 GameObject:
   m_ObjectHideFlags: 0
@@ -4159,7 +4158,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsTriggerOnlyOnce: 1
-  isTriggered: 0
   isEnemyProjectile: 0
   obj: {fileID: 0}
   mesh: {fileID: 0}
@@ -6690,6 +6688,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7001577483504108479, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
 --- !u!4 &6797845054207830371
@@ -6797,6 +6799,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 361214007108607652, guid: fbe12e1d1cb396940ba0b7658455c383, type: 3}
+      propertyPath: m_UpdateMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2088536422507630687, guid: fbe12e1d1cb396940ba0b7658455c383, type: 3}
       propertyPath: m_RootOrder
       value: 7

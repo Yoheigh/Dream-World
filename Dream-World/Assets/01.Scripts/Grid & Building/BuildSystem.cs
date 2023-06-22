@@ -15,8 +15,8 @@ public class BuildSystem : MonoBehaviour
     [SerializeField]
     private PreviewPrefab entity;
 
-    [SerializeField]
-    private Building buildingData;
+    // 이거 언제 리팩토링함 하하
+    Building buildingData => Manager.Instance.Player.interaction.currentBuilding;
 
     // 건물 지어지는 이펙트
     public GameObject BuildVFX;
@@ -43,7 +43,7 @@ public class BuildSystem : MonoBehaviour
         isBuildMode = !isBuildMode;
 
         entity.Preview = Instantiate(Resources.Load<GameObject>(buildingData.buildPrefabPath));
-        entity.Preview.GetComponent<Collider>().enabled = false;
+        entity.Preview.GetComponent<Collider>().enabled = isBuildMode;
     }
 
     public void UpdatePos()
@@ -141,7 +141,7 @@ public class BuildSystem : MonoBehaviour
     }
     protected void ConstructionFinish()
     {
-        Instantiate(Resources.Load<GameObject>(buildingData.buildPrefabPath), buildPos, transform.rotation);
+        Instantiate(Resources.Load<GameObject>(buildingData.buildPrefabPath), buildPos, entity.Preview.transform.rotation);
     }
 
     private IEnumerator ConstructWithEffect()
@@ -159,7 +159,7 @@ public class BuildSystem : MonoBehaviour
         }
 
         ConstructionFinish();
-        Destroy(entity.Preview);
+        entity.gameObject.SetActive(false);
     }
 
     private void OnDrawGizmos()

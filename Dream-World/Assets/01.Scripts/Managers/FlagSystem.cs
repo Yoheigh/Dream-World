@@ -44,6 +44,8 @@ public class FlagSystem : MonoBehaviour
         // 학교에서 시작할 때 컷씬 넣으려고 했던 것
         Cam.isFollowPlayer = true;
         Input.CanLook(true);
+        Input.CanMove(true);
+
         //Input.CanMove(false);
         //Input.CanInteract(false);
         //UI.CloseAll();
@@ -151,6 +153,10 @@ public class FlagSystem : MonoBehaviour
         Manager.Instance.Player.anim.ChangeAnimationState("Hit");
         Time.timeScale = 0.0f;
 
+        yield return new WaitForSecondsRealtime(1f);
+
+        Manager.Instance.Player.anim.ChangeAnimationState("Die");
+
         AsyncOperation op = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
         op.allowSceneActivation = false;
 
@@ -163,6 +169,48 @@ public class FlagSystem : MonoBehaviour
         op.allowSceneActivation = true;
 
         Manager.Instance.UI.Transition.CircleOut();
+    }
+
+    public void OutOfBorder(Transform respawnPoint)
+    {
+        if(isFlagNotOver) return;
+        StartCoroutine(OutOfBorderCo(respawnPoint));
+    }
+
+    private IEnumerator OutOfBorderCo(Transform respawnPoint)
+    {
+        isFlagNotOver = true;
+        UI.VerticalBar.SetActive(true);
+        Cam.isFollowPlayer = false;
+        Input.CanMove(false);
+        Input.CanLook(false);
+        Input.CanInteract(false);
+        UI.CloseAll();
+
+        // 플레이어 낙뎀 안 입게
+        Manager.Instance.Player.isInvincible = true;
+
+        Cam.HandleCameraTarget(null);
+        Manager.Instance.UI.Transition.CircleIn();
+        yield return new WaitForSecondsRealtime(2f);
+
+        Cam.ReturnCameraToPlayer();
+        Cam.isFollowPlayer = true;
+        Manager.Instance.Player.transform.SetPositionAndRotation(respawnPoint.position, respawnPoint.rotation);
+        Manager.Instance.UI.Transition.CircleOut();
+        yield return new WaitForSecondsRealtime(2f);
+
+        Manager.Instance.Player.ChangeState(PlayerStateType.Default);
+        Manager.Instance.Player.isInvincible = false;
+
+        // 컷씬 타입이었으면 다시 플레이어블 상태로 돌아오도록
+        UI.VerticalBar.SetActive(false);
+        Input.CanMove(true);
+        Input.CanLook(true);
+        Input.CanInteract(true);
+
+        Manager.Instance.Player.Hit();
+        isFlagNotOver = false;
     }
 
     public void NextScene()

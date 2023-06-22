@@ -43,10 +43,10 @@ public class PlayerInteraction : MonoBehaviour
 
     // private float t;                         // Lerp 같은 거 할 때 범용적으로 쓸 변수
     [SerializeField]
-    private Equipment currentEquipment;         // 현재 장착한 장비
+    public Equipment currentEquipment;         // 현재 장착한 장비
 
     [SerializeField]
-    private Building currentBuilding;         // 현재 장착한 장비
+    public Building currentBuilding;         // 현재 장착한 건물
 
     [SerializeField]
     private Transform equipModelRoot;           // 장비 장착될 손 (오른손이 기준)
@@ -71,6 +71,9 @@ public class PlayerInteraction : MonoBehaviour
         Manager.Instance.Inventory.OnChangeEquipment += ChangeEquipment;
         Manager.Instance.Inventory.OnChangeEquipment.Invoke(0);
 
+        Manager.Instance.Inventory.OnChangeBuilding += ChangeBuilding;
+        Manager.Instance.Inventory.OnChangeBuilding.Invoke(0);
+
         Debug.Log($"3. Setup - {this}");
     }
 
@@ -93,6 +96,7 @@ public class PlayerInteraction : MonoBehaviour
                     // controller.anim.ChangeAnimationState("Throw");
                     // 던지기 코드 처리
                     /* 지금은 그냥 보여주기용 */
+                    controller.animator.SetBool("isLifting", false);
                     ReleaseGrabable(interactionObj);
                     break;
 
@@ -128,6 +132,7 @@ public class PlayerInteraction : MonoBehaviour
             {
                 case ObjectType.Grabable:
                     interactionObj = temp;
+                    controller.animator.SetBool("isLifting", true);
                     StartCoroutine(ObjectMoveToOverhead(interactionObj));
                     break;
 
@@ -290,6 +295,8 @@ public class PlayerInteraction : MonoBehaviour
                 // 장비의 후딜레이 처리
                 yield return equipWaitTime = new WaitForSeconds(currentEquipment.EquipActionEndDelay - currentEquipment.EquipActionDelay);
                 isInteracting = false;
+                GameObject obj = Instantiate(Manager.Instance.Build.BuildVFX, target.transform.position, Quaternion.identity);
+                Destroy(obj, 4f);
                 equipModel.SetActive(false);
                 controller.anim.ChangeAnimationState("Default");
                 controller.ChangeState(PlayerStateType.Default);
@@ -488,6 +495,18 @@ public class PlayerInteraction : MonoBehaviour
         catch
         {
             currentEquipment = null;
+        }
+    }
+
+    public void ChangeBuilding(int index)
+    {
+        try
+        {
+            currentBuilding = Manager.Instance.Inventory.buildings[index] as Building;
+        }
+        catch
+        {
+            currentBuilding = null;
         }
     }
 

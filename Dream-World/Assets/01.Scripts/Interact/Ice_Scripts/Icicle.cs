@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class Icicle : TriggerObject
 {
-    public GameObject IcicleRE;
-
     protected override void TriggerWithPlayer(PlayerController _player)
     {
         _player.Hit();
         Debug.Log("플레이어 타격");
-        Destroy(IcicleRE, 0.2f);
+        GameObject obj = Instantiate(Manager.Instance.Build.BuildVFX, transform.position, Quaternion.identity);
+        Destroy(obj, 4f);
+        Destroy(gameObject);
     }
     protected override void TriggerWith(Collider other)
     {
-        Destroy(IcicleRE, 0.2f);
+        GameObject obj = Instantiate(Manager.Instance.Build.BuildVFX, transform.position, Quaternion.identity);
+        Destroy(obj, 4f);
+        Destroy(gameObject);
     }
 
     //void OnTriggerEnter(Collider other)

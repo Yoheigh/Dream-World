@@ -128,4 +128,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13b0ce99fea1963418ed22add316cfb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BreakTime: 0.05
+  IsTriggerOnlyOnce: 1
