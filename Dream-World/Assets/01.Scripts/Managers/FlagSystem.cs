@@ -138,6 +138,44 @@ public class FlagSystem : MonoBehaviour
         StartCoroutine(GameOverCo());
     }
 
+    public IEnumerator DoorAction001(Transform door, Transform cameraPoint)
+    {
+        UI.VerticalBar.SetActive(true);
+        Cam.isFollowPlayer = false;
+        Input.CanMove(false);
+        Input.CanLook(false);
+        Input.CanInteract(false);
+        UI.CloseAll();
+
+        Cam.HandleCameraTarget(null);
+        yield return new WaitForSecondsRealtime(1f);
+
+        Cam.HandleCameraMove(cameraPoint);
+        yield return new WaitForSecondsRealtime(1f);
+
+        float currentTime = 0;
+        float lerpTime = 2f;
+
+        Vector3 돌문 = door.transform.position;
+
+        while (currentTime < lerpTime)
+        {
+            float t = currentTime + Time.unscaledTime / lerpTime;
+            door.transform.position = Vector3.Lerp(돌문, new Vector3(돌문.x, -3f, 돌문.z), t);
+        }
+        yield return new WaitForSecondsRealtime(3f);
+
+        Cam.ReturnCameraToPlayer();
+        yield return new WaitForSecondsRealtime(1f);
+
+        // 컷씬 타입이었으면 다시 플레이어블 상태로 돌아오도록
+        Cam.isFollowPlayer = true;
+        UI.VerticalBar.SetActive(false);
+        Input.CanMove(true);
+        Input.CanLook(true);
+        Input.CanInteract(true);
+    }
+
     // 게임 오버 기능
     private IEnumerator GameOverCo()
     {

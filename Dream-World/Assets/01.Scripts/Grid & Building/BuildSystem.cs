@@ -15,6 +15,8 @@ public class BuildSystem : MonoBehaviour
     [SerializeField]
     private PreviewPrefab entity;
 
+    public Material previewMaterial;
+
     // 이거 언제 리팩토링함 하하
     Building buildingData => Manager.Instance.Player.interaction.currentBuilding;
 
@@ -48,7 +50,8 @@ public class BuildSystem : MonoBehaviour
         {
             case true:
                 entity.Preview = Instantiate(Resources.Load<GameObject>(buildingData.buildPrefabPath));
-                entity.Preview.GetComponent<Collider>().enabled = isBuildMode;
+                entity.Preview.GetComponentInChildren<Collider>().enabled = false;
+                entity.Preview.GetComponentInChildren<MeshRenderer>().material = previewMaterial;
                 break;
             case false:
                 Destroy(entity.Preview);
@@ -60,17 +63,17 @@ public class BuildSystem : MonoBehaviour
     {
         if (tempPos != entity.blockPointer.position.GetXYZRound())
         {
-            tempPos = entity.blockPointer.position.GetXYZRound(out x, out y, out z);
+            tempPos = entity.blockPointer.position.GetXYZRound(out x, out y, out z).Sum(new Vector3(0.5f, 0f, 0.5f));
             buildPos = tempPos + buildingData.buildOffset;
             entity.Preview.transform.position = buildPos;
             Debug.Log($"현재 블럭 포인터 위치 : {tempPos}");
             // BuildCheck();
         }
 
-        if (GridSystem.Instance.CheckCanCraft(x, y, z))
-            Debug.DrawLine(buildPos, Vector3.up, Color.green);
-        else
-            Debug.DrawLine(buildPos, Vector3.up, Color.red);
+        //if (GridSystem.Instance.CheckCanCraft(x, y, z))
+        //    Debug.DrawLine(buildPos, Vector3.up, Color.green);
+        //else
+        //    Debug.DrawLine(buildPos, Vector3.up, Color.red);
     }
 
     public void BuildCheck()
@@ -141,7 +144,7 @@ public class BuildSystem : MonoBehaviour
         //    }
         //}
 
-        entity.Preview.transform.rotation *= Quaternion.Euler(new Vector3(0, 90f, 0));
+        entity.Preview.transform.localRotation *= Quaternion.Euler(new Vector3(0, 90f, 0));
     }
 
     public void Construct()
@@ -172,13 +175,13 @@ public class BuildSystem : MonoBehaviour
             yield return wait;
         }
 
+        Destroy(entity.Preview);
         ConstructionFinish();
-        entity.gameObject.SetActive(false);
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(buildPos, 0.1f);
+        Gizmos.DrawSphere(buildPos, 0.5f);
     }
 }

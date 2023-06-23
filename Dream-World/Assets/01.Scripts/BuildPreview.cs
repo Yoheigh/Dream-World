@@ -14,9 +14,6 @@ public class BuildPreview : MonoBehaviour
     // 지을 건물
     public GameObject ConstructurePrefab;
 
-    [SerializeField]
-    private Material previewMaterial;
-
     private bool isConstructing = false;
     private Vector3 tempVector3;
 
@@ -25,7 +22,7 @@ public class BuildPreview : MonoBehaviour
         transform.rotation = Quaternion.Euler(Vector3.zero);
         tempVector3 = ConstructurePrefab.GetComponent<BlockV1>().PivotRot;
         entity = Instantiate(ConstructurePrefab);
-        entity.GetComponentInChildren<Renderer>().material = previewMaterial;
+        // entity.GetComponentInChildren<Renderer>().material = previewMaterial;
         foreach(Collider item in entity.GetComponentsInChildren<Collider>())
         {
             item.enabled = false;

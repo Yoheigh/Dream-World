@@ -77,7 +77,7 @@ public class Manager : MonoBehaviour
         Inventory.Init();
         UI.DrawItemSlots();
 
-        Sound.PlayBGM(100);
+        // Sound.PlayBGM(100);
 
         Time.timeScale = 1.0f;
 

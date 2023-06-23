@@ -144,7 +144,7 @@ public class CustomInput : MonoBehaviour
 
     public void CloseUI(InputAction.CallbackContext callback)
     {
-        Manager.Instance.UI.ClosePanel();
+        Manager.Instance.UI.Close();
     }
     public void OpenInventory(InputAction.CallbackContext callback)
     {

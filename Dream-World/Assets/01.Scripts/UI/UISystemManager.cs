@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class UISystemManager : MonoBehaviour
 {
@@ -55,6 +54,9 @@ public class UISystemManager : MonoBehaviour
         HP.Draw(3);
         ShowPanel(currentPanelIndex);
         isActivateUI = true;
+
+        Debug.Log("UI 셋업");
+
     }
 
     private void Start()
@@ -101,7 +103,7 @@ public class UISystemManager : MonoBehaviour
         panelStack.Peek().Show();
     }
 
-    public void ClosePanel()
+    public void Close()
     {
         // 켜져있는 Popup이 하나 이상이면 실행
         if (panelStack.Count > 0)
@@ -155,13 +157,13 @@ public class UISystemManager : MonoBehaviour
         {
             for (int i = 0; i < panelStack.Count; i++)
             {
-                ClosePanel();
+                Close();
             }
         }
 
         if (currentPanelIndex > 0)
         {
-            ClosePanel();
+            Close();
             currentPanelIndex = -1;
         }
         else

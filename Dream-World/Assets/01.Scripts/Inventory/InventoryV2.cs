@@ -69,7 +69,7 @@ public class InventoryV2
         Manager.Data.GetItem(_itemID);
     }
 
-    // 인벤토리에 아이템 추가 ( 아이템 객체 )
+    // 인벤토리에 아이템 추가 ( 아이템 객체 )d
     public void AddItem(ItemV2 _item)
     {
         tempList = null;
@@ -226,6 +226,10 @@ public class InventoryV2
                 return;
             }
         }
+
+        // 아이템 슬롯이 비워질 경우 체크
+        OnChangeEquipment?.Invoke(currentEquipmentSlot);
+        OnChangeBuilding?.Invoke(currentBuildingSlot);
     }
 
     // 인벤토리에 있는 아이템 반환 ( 반환할 때마다 콜백 가능 )

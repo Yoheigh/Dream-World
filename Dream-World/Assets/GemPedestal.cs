@@ -36,7 +36,7 @@ public class GemPedestal : InteractionObject
             Gem.GetComponent<Collider>().enabled = false;
             Gem.GetComponent<Rigidbody>().useGravity = false;
             Gem.GetComponent<Rigidbody>().isKinematic = true;
-            Gem.transform.position = transform.position + Vector3.up * 0.3f;
+            Gem.transform.position = transform.position + Vector3.up;
             gemLight.enabled = true;
             isHaveGem = true;
             Debug.Log("Áª ÀåÂø ¿Ï·á");
@@ -50,6 +50,6 @@ public class GemPedestal : InteractionObject
 
         isActivated = true;
 
-        // Manager.Instance.Flag.DoorAction002();
+        // StartCoroutine(Manager.Instance.Flag.DoorAction001());
     }
 }
