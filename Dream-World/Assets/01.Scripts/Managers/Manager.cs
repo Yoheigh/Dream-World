@@ -58,6 +58,8 @@ public class Manager : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
+        Flag.Init();
+
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -72,6 +74,7 @@ public class Manager : MonoBehaviour
         UI.Setup();
         Flag.Setup();
         Grid.Setup();
+        Build.Setup();
 
         // 인벤토리 초기화
         Inventory.Init();

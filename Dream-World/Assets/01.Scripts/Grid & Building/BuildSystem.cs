@@ -33,6 +33,11 @@ public class BuildSystem : MonoBehaviour
     private sbyte tempRot;
     private sbyte currentRot;
 
+    public void Setup()
+    {
+        entity = Manager.Instance.Player.GetComponent<PreviewPrefab>();
+    }
+
     private void LateUpdate()
     {
         if (!isBuildMode) return;

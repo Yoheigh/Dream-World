@@ -15,5 +15,5 @@ MonoBehaviour:
   needItemCount: 1
   ingredients:
   - {fileID: 11400000, guid: 2c2e60279d33b26428b21397eb3d76ed, type: 2}
-  ingredientCounts: 02000000
+  ingredientCounts: 01000000
   result: {fileID: 11400000, guid: 4cae1f58a3032fc4a8df7522ad5c6cc0, type: 2}

@@ -39,6 +39,11 @@ public class FlagSystem : MonoBehaviour
     //으아악
     public int currentSceneIndex = 0;
 
+    public void Init()
+    {
+        currentSceneIndex = 1;
+    }
+
     public void Setup()
     {
         // 학교에서 시작할 때 컷씬 넣으려고 했던 것

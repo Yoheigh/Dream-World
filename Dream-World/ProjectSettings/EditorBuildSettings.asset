@@ -6,7 +6,31 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/00.Scenes/All_Scenes/Forest_Stage01.unity
+    guid: e3b9bdccfcf2ab94a870855d3ba8f31d
+  - enabled: 1
     path: Assets/00.Scenes/All_Scenes/Forest_Stage02.unity
     guid: 6c98629ef2b435e4fbc0f2a6208217cd
+  - enabled: 1
+    path: Assets/00.Scenes/All_Scenes/Forest_Stage03.unity
+    guid: a97fc2de3f4b45e429a5a1ab19e4eb77
+  - enabled: 1
+    path: Assets/00.Scenes/All_Scenes/Forest_Stage04.unity
+    guid: 495dd04a20f02164d886054bd73b503f
+  - enabled: 1
+    path: Assets/00.Scenes/Ice_Scenes/01_Ice_Stage.unity
+    guid: 71248b93861005e45b5b27b3f46d79c6
+  - enabled: 1
+    path: Assets/00.Scenes/Ice_Scenes/02_Ice_Stage.unity
+    guid: 0a46010e4b5e651499f7b69154760cbe
+  - enabled: 1
+    path: Assets/00.Scenes/Ice_Scenes/08_Ice_Stage.unity
+    guid: 54cb5dada67f74d419618d9e80aef2b6
+  - enabled: 1
+    path: Assets/00.Scenes/Ice_Scenes/10_Ice_Stage.unity
+    guid: c8bce304be757494b8ffd7cf735f7b85
+  - enabled: 1
+    path: Assets/00.Scenes/Ice_Scenes/14_Ice_Stage.unity
+    guid: 14471929143fd7a4e831ad44f5d56f94
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: a0a0ba438efa34446b23762cff34c3f9, type: 2}
