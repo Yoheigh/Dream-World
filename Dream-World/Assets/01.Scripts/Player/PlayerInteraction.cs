@@ -168,7 +168,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Update()
     {
-        equipActionPos = transform.position + transform.forward;
+        equipActionPos = transform.position + transform.forward * 0.6f;
     }
 
     public void InteractWithEquipment()
@@ -205,7 +205,7 @@ public class PlayerInteraction : MonoBehaviour
             if (equipModel.name != currentEquipment.name)
             {
                 Destroy(equipModel);
-                equipModel = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>(currentEquipment.EquipPrefabPath), equipModelRoot);
+                equipModel = Instantiate(Resources.Load<GameObject>(currentEquipment.EquipPrefabPath), equipModelRoot);
                 equipModel.transform.localRotation = Quaternion.Euler(currentEquipment.EquipHandOffset);
                 equipModel.name = currentEquipment.name;
 
@@ -225,7 +225,7 @@ public class PlayerInteraction : MonoBehaviour
         }
         else
         {
-            equipModel = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>(currentEquipment.EquipPrefabPath), equipModelRoot);
+            equipModel = Instantiate(Resources.Load<GameObject>(currentEquipment.EquipPrefabPath), equipModelRoot);
             equipModel.transform.localRotation = Quaternion.Euler(currentEquipment.EquipHandOffset);
             equipModel.name = currentEquipment.name;
 
@@ -295,8 +295,6 @@ public class PlayerInteraction : MonoBehaviour
                 // 장비의 후딜레이 처리
                 yield return equipWaitTime = new WaitForSeconds(currentEquipment.EquipActionEndDelay - currentEquipment.EquipActionDelay);
                 isInteracting = false;
-                GameObject obj = Instantiate(Manager.Instance.Build.BuildVFX, target.transform.position, Quaternion.identity);
-                Destroy(obj, 4f);
                 equipModel.SetActive(false);
                 controller.anim.ChangeAnimationState("Default");
                 controller.ChangeState(PlayerStateType.Default);

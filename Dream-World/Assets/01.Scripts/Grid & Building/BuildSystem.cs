@@ -40,10 +40,20 @@ public class BuildSystem : MonoBehaviour
 
     public void ChangeBuildMode()
     {
+        if (buildingData == null) return; 
+
         isBuildMode = !isBuildMode;
 
-        entity.Preview = Instantiate(Resources.Load<GameObject>(buildingData.buildPrefabPath));
-        entity.Preview.GetComponent<Collider>().enabled = isBuildMode;
+        switch(isBuildMode)
+        {
+            case true:
+                entity.Preview = Instantiate(Resources.Load<GameObject>(buildingData.buildPrefabPath));
+                entity.Preview.GetComponent<Collider>().enabled = isBuildMode;
+                break;
+            case false:
+                Destroy(entity.Preview);
+                break;
+        }
     }
 
     public void UpdatePos()
@@ -146,6 +156,10 @@ public class BuildSystem : MonoBehaviour
 
     private IEnumerator ConstructWithEffect()
     {
+        Building temp = new Building(buildingData);
+        temp.itemCount = 1;
+        Manager.Instance.Inventory.RemoveItem(temp);
+        
         var wait = new WaitForSeconds(0.3f);
 
         for (int i = 0; i < 3; i++)

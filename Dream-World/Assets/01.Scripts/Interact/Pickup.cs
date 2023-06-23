@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Pickup : InteractionObject
 {
-    [SerializeField]
-    private ItemV2 item;
+    public ItemV2 item;
 
     public override ObjectType ObjectType { get { return ObjectType.Pickup; } }
 

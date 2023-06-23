@@ -127,7 +127,7 @@ namespace PlayerOwnedStates
         public override void EnterState(PlayerController _entity)
         {
             //_entity.Input.CanMove(false);
-            //_entity.Input.CanInteract(false);
+            _entity.Input.CanInteract(false);
             //_entity.fov.FindTargetsWithDelay(false);
         }
 
@@ -138,7 +138,7 @@ namespace PlayerOwnedStates
         }
         public override void ExitState(PlayerController _entity)
         {
-
+            _entity.Input.CanInteract(true);
         }
     }
 

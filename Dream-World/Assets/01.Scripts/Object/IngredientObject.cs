@@ -25,6 +25,10 @@ public class IngredientObject : MonoBehaviour
     private int dropAmount = 1;
 
     [SerializeField]
+    [Tooltip("부수자마자 얻게 되는 개수")]
+    private int GetAmount = 0;
+
+    [SerializeField]
     private float spreadOffset = 0.03f;
 
     [SerializeField]
@@ -33,6 +37,9 @@ public class IngredientObject : MonoBehaviour
     public void AffectedByEquipment(EffectiveType _effectiveType)
     {
         if (_effectiveType != effectiveType) return;
+
+        GameObject obj = Instantiate(Manager.Instance.Build.BuildVFX, transform.position, Quaternion.identity);
+        Destroy(obj, 4f);
         Destruction();
     }
 
@@ -58,6 +65,12 @@ public class IngredientObject : MonoBehaviour
                 dropItem.transform.position = transform.position;
                 dropItem.GetComponent<Rigidbody>().AddForce(new Vector2(Random.Range(-spreadForce, spreadForce), Random.Range(-spreadForce, spreadForce)));
             }
+        }
+
+        // 부수자마자 아이템 얻을 수 있게 개조
+        if(GetAmount != 0)
+        {
+            Manager.Instance.Inventory.AddItem(DropItemPrefab.GetComponent<Pickup>().item);
         }
         
         Destroy(gameObject);

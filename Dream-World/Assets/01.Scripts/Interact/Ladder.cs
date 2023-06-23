@@ -57,7 +57,7 @@ public class Ladder : InteractionObject
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        // Gizmos.DrawSphere(Pivot, 0.1f);
+        Gizmos.DrawSphere(AnchorPivot + transform.position, 0.1f);
     }
 
     public override void InteractWithPlayer(PlayerController _player)

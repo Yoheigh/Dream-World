@@ -910,9 +910,7 @@ MonoBehaviour:
   Inventory:
     ingredients: []
     buildings: []
-    equipments:
-    - {fileID: 0}
-    - {fileID: 0}
+    equipments: []
     recipes:
     - {fileID: 11400000, guid: 4de60e4b5fd1a5d4bb7c7ddaed756890, type: 2}
     - {fileID: 11400000, guid: 6157b68cbd293e04985ea87d823258ef, type: 2}
@@ -1071,7 +1069,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildPositionOffset: {x: 0, y: 0, z: 0}
   entity: {fileID: 0}
-  buildingData: {fileID: 11400000, guid: 4cae1f58a3032fc4a8df7522ad5c6cc0, type: 2}
   BuildVFX: {fileID: 4326698112909223156, guid: eabc4277b5b0be744ab3588e932df279, type: 3}
   isBuildMode: 0
 --- !u!1001 &928293998505371338

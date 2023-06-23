@@ -52,6 +52,7 @@ public class UISystemManager : MonoBehaviour
         VerticalBar.SetActive(false);
         Canvas.SetActive(true);
         currentPanelIndex = 0;
+        HP.Draw(3);
         ShowPanel(currentPanelIndex);
         isActivateUI = true;
     }
