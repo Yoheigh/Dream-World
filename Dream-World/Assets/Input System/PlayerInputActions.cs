@@ -109,15 +109,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""CameraScroll"",
-                    ""type"": ""Button"",
-                    ""id"": ""9ad92a5d-db93-4ca9-9f2d-065f32a0f79b"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""CameraZoomIn"",
                     ""type"": ""Button"",
                     ""id"": ""631e7970-c885-4bb1-a28c-5487f6cf7f27"",
@@ -136,9 +127,54 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""CameraScroll"",
+                    ""type"": ""Button"",
+                    ""id"": ""9ad92a5d-db93-4ca9-9f2d-065f32a0f79b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Throw"",
                     ""type"": ""Button"",
                     ""id"": ""7cdb57e1-a476-43fa-b4cb-1479ad2c8a85"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EquipmentNum1"",
+                    ""type"": ""Button"",
+                    ""id"": ""7205c010-beb7-4ad7-85a3-b54e1284ce10"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EquipmentNum2"",
+                    ""type"": ""Button"",
+                    ""id"": ""da8993e7-8d5c-4735-8c5c-b1be015baa5a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EquipmentNum3"",
+                    ""type"": ""Button"",
+                    ""id"": ""2921e1d8-fc6b-4a0d-b063-1c2127b00d28"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EquipmentNum4"",
+                    ""type"": ""Button"",
+                    ""id"": ""ffb76738-ab9f-4a21-a1e5-a7842d868843"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -379,6 +415,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""aba72778-97b3-4962-a9c9-042ed36f08a0"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""Throw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""d1f5d85d-85be-4056-a0f4-f107389cb04a"",
                     ""path"": ""<Keyboard>/o"",
                     ""interactions"": """",
@@ -401,12 +448,89 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""aba72778-97b3-4962-a9c9-042ed36f08a0"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""id"": ""1360905b-bfc1-44c3-8c88-9de59e109cd8"",
+                    ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PC"",
-                    ""action"": ""Throw"",
+                    ""action"": ""EquipmentNum1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""52dd9147-08c8-4201-be7e-72d7d511cd85"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""EquipmentNum1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8757f2c7-efd2-493c-8674-4cd04b24305a"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""EquipmentNum2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""430f70e5-3d9a-4ef2-bbfb-f85c0a324f74"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""EquipmentNum2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3d7aee47-6391-431d-8fb3-af81a31d2476"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""EquipmentNum3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4b8f1646-3666-4c8d-8776-541c8e4a2f72"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""EquipmentNum3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""44982c4a-63bc-4e26-9a19-b037b473574c"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""EquipmentNum4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e24e7345-9f05-4e5b-8fcd-2b7321fc83c6"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""EquipmentNum4"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -814,10 +938,14 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Player_InteractWithEquipment = m_Player.FindAction("InteractWithEquipment", throwIfNotFound: true);
         m_Player_Find = m_Player.FindAction("Find", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
-        m_Player_CameraScroll = m_Player.FindAction("CameraScroll", throwIfNotFound: true);
         m_Player_CameraZoomIn = m_Player.FindAction("CameraZoomIn", throwIfNotFound: true);
         m_Player_CameraZoomOut = m_Player.FindAction("CameraZoomOut", throwIfNotFound: true);
+        m_Player_CameraScroll = m_Player.FindAction("CameraScroll", throwIfNotFound: true);
         m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
+        m_Player_EquipmentNum1 = m_Player.FindAction("EquipmentNum1", throwIfNotFound: true);
+        m_Player_EquipmentNum2 = m_Player.FindAction("EquipmentNum2", throwIfNotFound: true);
+        m_Player_EquipmentNum3 = m_Player.FindAction("EquipmentNum3", throwIfNotFound: true);
+        m_Player_EquipmentNum4 = m_Player.FindAction("EquipmentNum4", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -896,10 +1024,14 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_InteractWithEquipment;
     private readonly InputAction m_Player_Find;
     private readonly InputAction m_Player_Sprint;
-    private readonly InputAction m_Player_CameraScroll;
     private readonly InputAction m_Player_CameraZoomIn;
     private readonly InputAction m_Player_CameraZoomOut;
+    private readonly InputAction m_Player_CameraScroll;
     private readonly InputAction m_Player_Throw;
+    private readonly InputAction m_Player_EquipmentNum1;
+    private readonly InputAction m_Player_EquipmentNum2;
+    private readonly InputAction m_Player_EquipmentNum3;
+    private readonly InputAction m_Player_EquipmentNum4;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -913,10 +1045,14 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @InteractWithEquipment => m_Wrapper.m_Player_InteractWithEquipment;
         public InputAction @Find => m_Wrapper.m_Player_Find;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
-        public InputAction @CameraScroll => m_Wrapper.m_Player_CameraScroll;
         public InputAction @CameraZoomIn => m_Wrapper.m_Player_CameraZoomIn;
         public InputAction @CameraZoomOut => m_Wrapper.m_Player_CameraZoomOut;
+        public InputAction @CameraScroll => m_Wrapper.m_Player_CameraScroll;
         public InputAction @Throw => m_Wrapper.m_Player_Throw;
+        public InputAction @EquipmentNum1 => m_Wrapper.m_Player_EquipmentNum1;
+        public InputAction @EquipmentNum2 => m_Wrapper.m_Player_EquipmentNum2;
+        public InputAction @EquipmentNum3 => m_Wrapper.m_Player_EquipmentNum3;
+        public InputAction @EquipmentNum4 => m_Wrapper.m_Player_EquipmentNum4;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -953,18 +1089,30 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Sprint.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
                 @Sprint.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
                 @Sprint.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
-                @CameraScroll.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraScroll;
-                @CameraScroll.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraScroll;
-                @CameraScroll.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraScroll;
                 @CameraZoomIn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraZoomIn;
                 @CameraZoomIn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraZoomIn;
                 @CameraZoomIn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraZoomIn;
                 @CameraZoomOut.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraZoomOut;
                 @CameraZoomOut.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraZoomOut;
                 @CameraZoomOut.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraZoomOut;
+                @CameraScroll.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraScroll;
+                @CameraScroll.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraScroll;
+                @CameraScroll.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraScroll;
                 @Throw.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrow;
                 @Throw.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrow;
                 @Throw.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrow;
+                @EquipmentNum1.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipmentNum1;
+                @EquipmentNum1.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipmentNum1;
+                @EquipmentNum1.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipmentNum1;
+                @EquipmentNum2.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipmentNum2;
+                @EquipmentNum2.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipmentNum2;
+                @EquipmentNum2.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipmentNum2;
+                @EquipmentNum3.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipmentNum3;
+                @EquipmentNum3.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipmentNum3;
+                @EquipmentNum3.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipmentNum3;
+                @EquipmentNum4.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipmentNum4;
+                @EquipmentNum4.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipmentNum4;
+                @EquipmentNum4.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipmentNum4;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -996,18 +1144,30 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Sprint.started += instance.OnSprint;
                 @Sprint.performed += instance.OnSprint;
                 @Sprint.canceled += instance.OnSprint;
-                @CameraScroll.started += instance.OnCameraScroll;
-                @CameraScroll.performed += instance.OnCameraScroll;
-                @CameraScroll.canceled += instance.OnCameraScroll;
                 @CameraZoomIn.started += instance.OnCameraZoomIn;
                 @CameraZoomIn.performed += instance.OnCameraZoomIn;
                 @CameraZoomIn.canceled += instance.OnCameraZoomIn;
                 @CameraZoomOut.started += instance.OnCameraZoomOut;
                 @CameraZoomOut.performed += instance.OnCameraZoomOut;
                 @CameraZoomOut.canceled += instance.OnCameraZoomOut;
+                @CameraScroll.started += instance.OnCameraScroll;
+                @CameraScroll.performed += instance.OnCameraScroll;
+                @CameraScroll.canceled += instance.OnCameraScroll;
                 @Throw.started += instance.OnThrow;
                 @Throw.performed += instance.OnThrow;
                 @Throw.canceled += instance.OnThrow;
+                @EquipmentNum1.started += instance.OnEquipmentNum1;
+                @EquipmentNum1.performed += instance.OnEquipmentNum1;
+                @EquipmentNum1.canceled += instance.OnEquipmentNum1;
+                @EquipmentNum2.started += instance.OnEquipmentNum2;
+                @EquipmentNum2.performed += instance.OnEquipmentNum2;
+                @EquipmentNum2.canceled += instance.OnEquipmentNum2;
+                @EquipmentNum3.started += instance.OnEquipmentNum3;
+                @EquipmentNum3.performed += instance.OnEquipmentNum3;
+                @EquipmentNum3.canceled += instance.OnEquipmentNum3;
+                @EquipmentNum4.started += instance.OnEquipmentNum4;
+                @EquipmentNum4.performed += instance.OnEquipmentNum4;
+                @EquipmentNum4.canceled += instance.OnEquipmentNum4;
             }
         }
     }
@@ -1130,10 +1290,14 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnInteractWithEquipment(InputAction.CallbackContext context);
         void OnFind(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
-        void OnCameraScroll(InputAction.CallbackContext context);
         void OnCameraZoomIn(InputAction.CallbackContext context);
         void OnCameraZoomOut(InputAction.CallbackContext context);
+        void OnCameraScroll(InputAction.CallbackContext context);
         void OnThrow(InputAction.CallbackContext context);
+        void OnEquipmentNum1(InputAction.CallbackContext context);
+        void OnEquipmentNum2(InputAction.CallbackContext context);
+        void OnEquipmentNum3(InputAction.CallbackContext context);
+        void OnEquipmentNum4(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
