@@ -13,7 +13,9 @@ GameObject:
   - component: {fileID: 5143589700444236677}
   - component: {fileID: 3771722960551966982}
   - component: {fileID: 3423316002932611552}
-  m_Layer: 0
+  - component: {fileID: 1672997483291815077}
+  - component: {fileID: 6519430681213630704}
+  m_Layer: 7
   m_Name: Stone_Small
   m_TagString: Breakable
   m_Icon: {fileID: 0}
@@ -27,7 +29,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6656689567384046160}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -113,5 +115,34 @@ MonoBehaviour:
   effectiveType: 2
   DropItemPrefab: {fileID: 5297709304567677215, guid: 119e522c3d3b6294c8987443181b91c8, type: 3}
   dropAmount: 1
+  GetAmount: 0
   spreadOffset: 0.03
   spreadForce: 0.5
+--- !u!54 &1672997483291815077
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6656689567384046160}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &6519430681213630704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6656689567384046160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e825b058efb241e4bbe4dfc4c60b6614, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

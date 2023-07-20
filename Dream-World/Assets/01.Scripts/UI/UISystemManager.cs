@@ -48,18 +48,13 @@ public class UISystemManager : MonoBehaviour
             panels[i].Init();
         }
 
-        CloseAll();
-        VerticalBar.SetActive(false);
         Canvas.SetActive(true);
+        VerticalBar.SetActive(false);
         currentPanelIndex = 0;
         HP.Draw(3);
         ShowPanel(currentPanelIndex);
         isActivateUI = true;
-    }
-
-    private void Start()
-    {
-        DrawItemSlots();
+        ClosePanel();
     }
 
     public void ShowPanel(int index)

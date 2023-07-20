@@ -107,8 +107,8 @@ public class MonsterV2 : MonoBehaviour
     IEnumerator HitCo()
     {
         ChangeState(MonsterStateEnum.Hit);
-        yield return new WaitForSeconds(0.5f);
-        Destroy(this);
+        yield return new WaitForSeconds(0.01f);
+        Destroy(gameObject);
     }
 
     public void Stun()
@@ -233,7 +233,7 @@ public class MonsterV2 : MonoBehaviour
                 anim.Play("Monster_Run");
 
                 transform.rotation = Quaternion.LookRotation(dir);
-                rigid.velocity = dir.normalized * (m_speed + 0.8f);
+                rigid.velocity = dir.normalized * (m_speed + 0.8f) + new Vector3(0f, rigid.velocity.y, 0f);
             }
 
             // navMeshAgent.SetDestination(target.position);

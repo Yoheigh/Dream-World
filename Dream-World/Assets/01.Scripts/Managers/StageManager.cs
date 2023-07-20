@@ -16,11 +16,11 @@ public class StageManager
 
         while (!op.isDone)
         {
-            Debug.Log("¿¡º£º£ ·Îµù¾ÈµÊ");
             yield return null;
         }
 
         Debug.Log("¿À ´Ù µÊ");
+        yield return new WaitForSeconds(3f);
         op.allowSceneActivation = true;
     }
 }

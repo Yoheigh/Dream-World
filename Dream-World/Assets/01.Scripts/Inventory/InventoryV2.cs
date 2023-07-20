@@ -28,12 +28,12 @@ public class InventoryV2
     // 아이템 선택할 때 실행되는 이벤트
     public Action<int> OnChangeEquipment;
     public Action<int> OnChangeBuilding;
+    public int currentEquipmentSlot;   // 선택된 장비 슬롯
+    public int currentBuildingSlot;    // 선택된 건물 슬롯
 
     // 내부 변수
     private List<ItemV2> tempList;
     private int tempSlotsCount;
-    private int currentEquipmentSlot;   // 선택된 장비 슬롯
-    private int currentBuildingSlot;    // 선택된 건물 슬롯
 
     public void Init()
     {

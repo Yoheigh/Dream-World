@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public CustomInput Input => Manager.Instance.Input;
+
     [Header("Default State 플레이어 설정")]
     [Tooltip("걸을 때, 1초에 moveSpeed 미터만큼 이동합니다.")]
     public float MoveSpeed = 2.0f;
@@ -82,7 +84,6 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController characterController;
     private PlayerController controller;
-    private CustomInput input;
 
     public GameObject MainCamera;
     public Animator animator;
@@ -95,7 +96,6 @@ public class PlayerMovement : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>();
         controller = GetComponent<PlayerController>();
-        input = FindObjectOfType<CustomInput>().GetComponent<CustomInput>();
 
         AssignAnimationIDs();
         fallTimeoutDelta = FallTimeout;
@@ -237,13 +237,19 @@ public class PlayerMovement : MonoBehaviour
             controller.ChangeState(PlayerStateType.Falling);
         }
     }
+
+    public void Moveable(bool flag)
+    {
+        if (flag == true) Move();
+        else return;
+    }
     
     // WASD 조작
     public void Move()
     {
-        float targetSpeed = input.sprint ? SprintSpeed : MoveSpeed;
+        float targetSpeed = Input.sprint ? SprintSpeed : MoveSpeed;
 
-        if (input.move == Vector2.zero)
+        if (Input.move == Vector2.zero)
         {
             targetSpeed = 0.0f;
 
@@ -258,8 +264,8 @@ public class PlayerMovement : MonoBehaviour
                 slipperySpeed += targetSpeed * FrictionSpeed * Time.deltaTime;
         }
 
-        Vector3 moveDir = new Vector3(input.move.x, 0, input.move.y);
-        float inputMagnitude = input.move.magnitude;
+        Vector3 moveDir = new Vector3(Input.move.x, 0, Input.move.y);
+        float inputMagnitude = Input.move.magnitude;
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * Vector3.forward;
 
@@ -267,7 +273,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (animationBlend < 0.01f) animationBlend = 0f;
 
-        if (input.move != Vector2.zero)
+        if (Input.move != Vector2.zero)
         {
             targetRotation = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg +
                               MainCamera.transform.eulerAngles.y;
@@ -279,10 +285,10 @@ public class PlayerMovement : MonoBehaviour
 
         if (isSlippery)
             // targetDirection 값에 따라 방향이 바뀌므로 미끄러지려면 수정 필요
-            characterController.Move(targetDirection * (slipperySpeed * Time.deltaTime));
+            characterController.Move(targetDirection * (inputMagnitude * slipperySpeed * Time.deltaTime));
 
         else
-            characterController.Move(targetDirection * (targetSpeed * Time.deltaTime));
+            characterController.Move(targetDirection * (inputMagnitude * targetSpeed * Time.deltaTime));
 
         // 아 이런 미친 forceVector 어따가 더해야 해
         // slippery도 음 리팩토링 나중에 레벨디자인때 합시다
@@ -304,18 +310,18 @@ public class PlayerMovement : MonoBehaviour
 
         float targetSpeed = MoveSpeed / 2;
 
-        if (input.move == Vector2.zero)
+        if (Input.move == Vector2.zero)
         {
             targetSpeed = 0.0f;
         }
 
         // Vector3 moveDir = new Vector3(input.move.x, 0, input.move.y);
-        float inputMagnitude = input.move.magnitude;
+        float inputMagnitude = Input.move.magnitude;
 
-        Vector3 targetDirection = transform.forward * input.move.y; 
+        Vector3 targetDirection = transform.forward * Input.move.y; 
 
         // animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.deltaTime * speedChangeRate);
-        animationBlend = input.move.y;
+        animationBlend = Input.move.y;
 
         //if (animationBlend < 0.01f) animationBlend = 0f;
 
@@ -357,7 +363,7 @@ public class PlayerMovement : MonoBehaviour
 
         float targetSpeed = MoveSpeed;
 
-        if (input.move == Vector2.zero)
+        if (Input.move == Vector2.zero)
         {
             targetSpeed = 0.0f;
         }
@@ -370,10 +376,10 @@ public class PlayerMovement : MonoBehaviour
 
         //Vector3 moveDir = new Vector3(input.move.x, 0, input.move.y);
 
-        float inputMagnitude = input.move.magnitude;
+        float inputMagnitude = Input.move.magnitude;
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) *
-                                    new Vector3(0.0f, input.move.y, 0.0f);
+                                    new Vector3(0.0f, Input.move.y, 0.0f);
 
         animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
 
@@ -387,7 +393,7 @@ public class PlayerMovement : MonoBehaviour
 
         //characterController.Move(targetDirection * (targetSpeed * Time.deltaTime));
         transform.position += targetDirection * targetSpeed * Time.deltaTime;
-        currentPos.y += input.move.y * targetSpeed * Time.deltaTime;
+        currentPos.y += Input.move.y * targetSpeed * Time.deltaTime;
 
         //transform.position = new Vector3(lastPos.x, transform.position.y, lastPos.z);
 

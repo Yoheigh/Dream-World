@@ -13,7 +13,7 @@ public class flag : TriggerObject
 
     protected override void TriggerWithPlayer(PlayerController _player)
     {
-        Manager.Instance.Flag.NextScene();
+        Manager.Instance.Flag.NextSceneWithTransition();
 
         Time.timeScale = 0;
     }

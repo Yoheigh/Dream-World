@@ -56,11 +56,11 @@ public class PlayerController : MonoBehaviour
         Input.playerInputActions.Player.InteractWithEquipment.performed += InteractWithEquipment;
         Input.playerInputActions.Player.Throw.performed += Throw;
 
-        OnDamage += Manager.Instance.UI.HP.Draw;
-        OnGameOver += Manager.Instance.Flag.GameOver;
+        OnDamage = Manager.Instance.UI.HP.Draw;
+        OnGameOver = Manager.Instance.Flag.GameOver;
 
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void Update()
@@ -142,6 +142,7 @@ public class PlayerController : MonoBehaviour
     public void ChangeState(PlayerStateType _type)
     {
         PlayerFSM.ChangeState(PlayerStates[(int)_type]);
+        Debug.Log($"State 변경 => {PlayerStates[(int)_type]}");
     }
 
     public void Interact(InputAction.CallbackContext context)

@@ -17,6 +17,7 @@ public class UIPanel : MonoBehaviour
     public virtual void ResetSelection()
     {
         Buttons?[0].Select();
+        Debug.Log($"{Buttons?[0].name} 버튼 활성화");
     }
 
     public void Show()

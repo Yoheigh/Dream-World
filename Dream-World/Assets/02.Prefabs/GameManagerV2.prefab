@@ -1,5 +1,83 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1779871959
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1779871960}
+  - component: {fileID: 1779871962}
+  - component: {fileID: 1779871961}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1779871960
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779871959}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -960, y: -539.7689, z: 0}
+  m_LocalScale: {x: 2.4646983, y: 2.4646983, z: 2.4646983}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6580799715484519771}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1779871962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779871959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!114 &1779871961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779871959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: 6235aeb556770e3479e881cdf1f3f8e2, type: 3}
+  m_PointAction: {fileID: -1602716389146779257, guid: 6235aeb556770e3479e881cdf1f3f8e2, type: 3}
+  m_MoveAction: {fileID: -1385563246173005104, guid: 6235aeb556770e3479e881cdf1f3f8e2, type: 3}
+  m_SubmitAction: {fileID: -3252829135660634799, guid: 6235aeb556770e3479e881cdf1f3f8e2, type: 3}
+  m_CancelAction: {fileID: 3740250443506110852, guid: 6235aeb556770e3479e881cdf1f3f8e2, type: 3}
+  m_LeftClickAction: {fileID: -8297475130849880412, guid: 6235aeb556770e3479e881cdf1f3f8e2, type: 3}
+  m_MiddleClickAction: {fileID: 4376790772668464324, guid: 6235aeb556770e3479e881cdf1f3f8e2, type: 3}
+  m_RightClickAction: {fileID: -3103437848569441243, guid: 6235aeb556770e3479e881cdf1f3f8e2, type: 3}
+  m_ScrollWheelAction: {fileID: 6509024462425552561, guid: 6235aeb556770e3479e881cdf1f3f8e2, type: 3}
+  m_TrackedDevicePositionAction: {fileID: 0}
+  m_TrackedDeviceOrientationAction: {fileID: 0}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
 --- !u!1 &1818174131
 GameObject:
   m_ObjectHideFlags: 0
@@ -1232,6 +1310,10 @@ PrefabInstance:
     - target: {fileID: 3593708818243435906, guid: b80bbb096e14d5f43aa32d6c56284e0c, type: 3}
       propertyPath: m_Name
       value: PlayerUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3593708818243435906, guid: b80bbb096e14d5f43aa32d6c56284e0c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4468043464601572784, guid: b80bbb096e14d5f43aa32d6c56284e0c, type: 3}
       propertyPath: m_Name

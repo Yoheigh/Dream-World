@@ -8,12 +8,9 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerController _entity)
         {
-            // _entity.Input.CanMove(true);
-            // _entity.Input.CanInteract(true);
-            _entity.fov.FindTargetsWithDelay(true);
+            _entity.Input.CanInteract(true);
 
-            //_entity.animator.SetBool("isClimbing", false);
-            //_entity.animator.SetBool("isHolding", false);
+            _entity.fov.FindTargetsWithDelay(true);
 
             //_entity.InitTest();
         }
@@ -22,6 +19,7 @@ namespace PlayerOwnedStates
         {
             _entity.movement.Gravity();
             _entity.movement.GravityToFallCheck();
+
             _entity.movement.Move();
 
             _entity.interaction.NearObjectCheck();
@@ -38,8 +36,7 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerController _entity)
         {
-            // _entity.Input.CanMove(false);
-            //_entity.Input.CanInteract(false);
+            _entity.Input.CanInteract(false);
         }
 
         public override void UpdateState(PlayerController _entity)
@@ -71,16 +68,13 @@ namespace PlayerOwnedStates
         {
             _entity.animator.SetBool("isHolding", true);
 
-            // ÀÌ°Å Áö±Ý isInteracting ÀÌ¶û ¿«¿©¼­ ÀÎÅÍ·¢¼Ç ¸·Èû
-            // _entity.Input.CanInteract(false);
+            _entity.Input.CanInteract(true);
         }
 
         public override void UpdateState(PlayerController _entity)
-        {;
+        {
             _entity.movement.Gravity();
             _entity.movement.MoveHolding(_entity.interaction.InteractionObj);
-            
-            
         }
 
         public override void ExitState(PlayerController _entity)

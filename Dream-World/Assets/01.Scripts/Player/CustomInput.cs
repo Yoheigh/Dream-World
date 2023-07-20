@@ -33,7 +33,7 @@ public class CustomInput : MonoBehaviour
         //playerInputActions.Player.CameraZoomIn.performed += HandleCameraScroll;
         //playerInputActions.Player.CameraZoomOut.performed += HandleCameraScroll;
 
-        Debug.Log($"5. Setup - {this}");
+        Debug.Log($"0. Setup - {this}");
     }
 
     private void Update()

@@ -56,7 +56,7 @@ public class UICraftMenu : UIPanel
 
             craftSlots[i].Button.onClick.AddListener(() =>
             {
-                Craft.CraftItem(craftSlots[index].itemRecipe);
+                CraftItem();
             });
         }
 
@@ -108,7 +108,6 @@ public class UICraftMenu : UIPanel
             }
             
             craftSlots[i].Button.navigation = nav;
-            Debug.Log($"{i}번째 슬롯 완벽");
         }
     }
 
@@ -125,7 +124,7 @@ public class UICraftMenu : UIPanel
         tempString = null;
         var itemRecipe = craftSlots[currentIndex].itemRecipe;
 
-        // 크래프트 슬롯 초기화
+        // 크래프트 슬롯에 따라서 초기화
         for (int i = 0; i < needImage.Length; i++)
         {
             needImage[i].gameObject.SetActive(false);
@@ -167,6 +166,7 @@ public class UICraftMenu : UIPanel
     public void CraftItem()
     {
         Craft.CraftItem(craftSlots[currentIndex].itemRecipe);
+        Draw();
     }
 
 }

@@ -110,7 +110,6 @@ GameObject:
   - component: {fileID: 704401555}
   - component: {fileID: 1401775313}
   - component: {fileID: 1401775316}
-  - component: {fileID: 309650514}
   m_Layer: 6
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -204,7 +203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewRadius: 1.5
   viewAngle: 100
-  interactionRadius: 1
+  interactionRadius: 1.3
   refreshDelay: 0.1
   closestTransform: {fileID: 0}
   targetMask:
@@ -212,7 +211,7 @@ MonoBehaviour:
     m_Bits: 128
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   visibleTargets: []
 --- !u!135 &8876083549096588827
 SphereCollider:
@@ -336,6 +335,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 7cdb57e1-a476-43fa-b4cb-1479ad2c8a85
     m_ActionName: Player/Throw[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7205c010-beb7-4ad7-85a3-b54e1284ce10
+    m_ActionName: Player/EquipmentNum1[/Keyboard/1,/DualShock4GamepadHID/dpad/up]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: da8993e7-8d5c-4735-8c5c-b1be015baa5a
+    m_ActionName: Player/EquipmentNum2[/Keyboard/2,/DualShock4GamepadHID/dpad/right]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2921e1d8-fc6b-4a0d-b063-1c2127b00d28
+    m_ActionName: Player/EquipmentNum3[/Keyboard/3,/DualShock4GamepadHID/dpad/down]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ffb76738-ab9f-4a21-a1e5-a7842d868843
+    m_ActionName: Player/EquipmentNum4[/Keyboard/4,/DualShock4GamepadHID/dpad/left]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -387,41 +402,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockPointer: {fileID: 496077228}
-  previewMaterial: {fileID: 0}
+  previewMaterial: {fileID: 2100000, guid: 261cf55440ef2314eafdf4a49b2a6ac8, type: 2}
   Preview: {fileID: 0}
---- !u!114 &309650514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8876083549096588815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5231f147cdda4e0469079686cc92515f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveSpeed: 2
-  SprintSpeed: 3.533
-  RotationSmoothTime: 0.03
-  SpeedChangeRate: 10
-  FrictionSpeed: 1
-  FallTimeout: 0.15
-  GravityValue: -10
-  FallDamageHeight: 6
-  isGround: 1
-  GroundCheckOffset: -0.15
-  GroundCheckRadius: 0.2
-  GroundLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  isSlippery: 0
-  animIDSpeed: 0
-  animationBlend: 0
-  animIDHoldMove: 0
-  animIDMotionSpeed: 0
-  MainCamera: {fileID: 0}
-  animator: {fileID: 0}
 --- !u!1 &8876083549202646277
 GameObject:
   m_ObjectHideFlags: 0
@@ -698,3 +680,4 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

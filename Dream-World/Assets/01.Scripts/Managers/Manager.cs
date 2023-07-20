@@ -55,10 +55,29 @@ public class Manager : MonoBehaviour
         Inventory.OnChangeEquipment += UI.ActivateEquipSlot;
         Inventory.OnChangeBuilding += UI.ActivateBuildSlot;
 
+        Input.Setup();
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
+        //Debug.Log("지금 씬 이름 : " + SceneManager.GetActiveScene().name);
+
+        Flag.currentSceneIndex = 1;
+
+        AsyncOperation op_next = SceneManager.LoadSceneAsync(Flag.currentSceneIndex, LoadSceneMode.Single);
+        //AsyncOperation op_before = SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+
+        //op_next.allowSceneActivation = false;
+        //op_before.allowSceneActivation = false;
+
+        //if (op_next.isDone && op_before.isDone)
+        //{
+        //    Debug.Log("오우쒯");
+        //    op_before.allowSceneActivation = true;
+        //    op_next.allowSceneActivation = true;
+        //    SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
+        //}
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -67,11 +86,11 @@ public class Manager : MonoBehaviour
             Player = FindObjectOfType<PlayerController>();
 
         // 시스템 셋업
-        Input.Setup();
         Camera.Setup();
         UI.Setup();
         Flag.Setup();
         Grid.Setup();
+        Build.Setup();
 
         // 인벤토리 초기화
         Inventory.Init();
@@ -98,6 +117,6 @@ public class Manager : MonoBehaviour
         if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha3)) Build.ChangeBuildMode();
         if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha4)) Build.RotateBuilding();
         if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha5)) Build.Construct();
-        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha0)) Flag.NextScene();
+        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha0)) Flag.NextSceneWithTransition();
     }
 }

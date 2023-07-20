@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Net.Http.Headers;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,8 +13,7 @@ public class BuildSystem : MonoBehaviour
     // 플레이어 캐릭터의 앞쪽 벡터값
 
     // 제작할 건물의 Preview 오브젝트
-    [SerializeField]
-    private PreviewPrefab entity;
+    public PreviewPrefab entity;
 
     // 이거 언제 리팩토링함 하하
     Building buildingData => Manager.Instance.Player.interaction.currentBuilding;
@@ -28,8 +28,18 @@ public class BuildSystem : MonoBehaviour
     private int x, y, z;
     private sbyte[] availableRot = new sbyte[4];
     private Vector3 tempPos;
-    private sbyte tempRot;
+    private Vector3 entity_Rot;
+    private float tempRot;
     private sbyte currentRot;
+    private Material tempMat;
+
+    private Collider entity_Collider;
+    private Renderer entity_Renderer;
+
+    public void Setup()
+    {
+        entity = FindObjectOfType<PreviewPrefab>();
+    }
 
     private void LateUpdate()
     {
@@ -40,15 +50,35 @@ public class BuildSystem : MonoBehaviour
 
     public void ChangeBuildMode()
     {
-        if (buildingData == null) return; 
+        if (buildingData == null) return;
 
         isBuildMode = !isBuildMode;
+        Debug.Log($"빌드 모드 : {isBuildMode}");
+        // 으악 이게 뭐야
+        tempMat = Resources.Load<GameObject>(buildingData.buildPrefabPath).GetComponentInChildren<Renderer>().material;
 
-        switch(isBuildMode)
+        switch (isBuildMode)
         {
             case true:
                 entity.Preview = Instantiate(Resources.Load<GameObject>(buildingData.buildPrefabPath));
-                entity.Preview.GetComponent<Collider>().enabled = isBuildMode;
+                if (entity.Preview.TryGetComponent(out entity_Collider) == true)
+                {
+                    entity.Preview.TryGetComponent(out entity_Collider);
+                }
+                else
+                {
+                    entity_Collider = entity.Preview.GetComponentInChildren<Collider>();
+                }
+                entity_Collider.enabled = !isBuildMode;
+                if (entity.Preview.TryGetComponent(out entity_Renderer) == true)
+                {
+                    entity.Preview.TryGetComponent(out entity_Renderer);
+                }
+                else
+                {
+                    entity_Renderer = entity.Preview.GetComponentInChildren<Renderer>();
+                }
+                entity_Renderer.material = entity.previewMaterial;
                 break;
             case false:
                 Destroy(entity.Preview);
@@ -64,13 +94,13 @@ public class BuildSystem : MonoBehaviour
             buildPos = tempPos + buildingData.buildOffset;
             entity.Preview.transform.position = buildPos;
             Debug.Log($"현재 블럭 포인터 위치 : {tempPos}");
-            // BuildCheck();
+            BuildCheck();
         }
 
         if (GridSystem.Instance.CheckCanCraft(x, y, z))
-            Debug.DrawLine(buildPos, Vector3.up, Color.green);
+            entity_Renderer.material.color = Color.green;
         else
-            Debug.DrawLine(buildPos, Vector3.up, Color.red);
+            entity_Renderer.material.color = Color.red;
     }
 
     public void BuildCheck()
@@ -146,12 +176,26 @@ public class BuildSystem : MonoBehaviour
 
     public void Construct()
     {
+        Manager.Instance.Inventory.OnChangeBuilding?.Invoke(Manager.Instance.Inventory.currentBuildingSlot);
+        entity_Rot = entity.Preview.transform.rotation.eulerAngles;
+        Destroy(entity.Preview);
         StartCoroutine(ConstructWithEffect());
         isBuildMode = false;
     }
+
     protected void ConstructionFinish()
     {
-        Instantiate(Resources.Load<GameObject>(buildingData.buildPrefabPath), buildPos, entity.Preview.transform.rotation);
+        GameObject obj = Instantiate(Resources.Load<GameObject>(buildingData.buildPrefabPath), buildPos, Quaternion.Euler(entity_Rot));
+        //if (obj.TryGetComponent(out Renderer renderer) == true)
+        //{
+        //    renderer.material = tempMat;
+        //}
+        //else
+        //{
+        //    Renderer renderer2 = obj.GetComponentInChildren<Renderer>();
+        //    renderer2.material = tempMat;
+        //}
+        tempMat = null;
     }
 
     private IEnumerator ConstructWithEffect()
@@ -159,7 +203,8 @@ public class BuildSystem : MonoBehaviour
         Building temp = new Building(buildingData);
         temp.itemCount = 1;
         Manager.Instance.Inventory.RemoveItem(temp);
-        
+        Manager.Instance.UI.DrawItemSlots();
+
         var wait = new WaitForSeconds(0.3f);
 
         for (int i = 0; i < 3; i++)
@@ -173,7 +218,7 @@ public class BuildSystem : MonoBehaviour
         }
 
         ConstructionFinish();
-        entity.gameObject.SetActive(false);
+        // entity.gameObject.SetActive(false);
     }
 
     private void OnDrawGizmos()

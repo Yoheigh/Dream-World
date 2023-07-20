@@ -45,6 +45,7 @@ public class FlagSystem : MonoBehaviour
         Cam.isFollowPlayer = true;
         Input.CanLook(true);
         Input.CanMove(true);
+        Input.CanInteract(true);
 
         //Input.CanMove(false);
         //Input.CanInteract(false);
@@ -173,7 +174,7 @@ public class FlagSystem : MonoBehaviour
 
     public void OutOfBorder(Transform respawnPoint)
     {
-        if(isFlagNotOver) return;
+        if (isFlagNotOver) return;
         StartCoroutine(OutOfBorderCo(respawnPoint));
     }
 
@@ -213,28 +214,39 @@ public class FlagSystem : MonoBehaviour
         isFlagNotOver = false;
     }
 
-    public void NextScene()
+    public void NextSceneWithTransition()
     {
         if (isFlagNotOver) return;
         StartCoroutine(LoadNextSceneTransition());
     }
 
+    /* 비동기 씬 로드 하려고 했는데 안 되서 나중에 봐야 함 */
     private IEnumerator LoadNextSceneTransition()
     {
-        AsyncOperation op = SceneManager.LoadSceneAsync(currentSceneIndex++);
+        currentSceneIndex++;
+        // AsyncOperation op_before = SceneManager.UnloadSceneAsync(currentSceneIndex - 1);
+        AsyncOperation op_next = SceneManager.LoadSceneAsync(currentSceneIndex, LoadSceneMode.Single);
+
+        // op_before.allowSceneActivation = false;
+        op_next.allowSceneActivation = false;
 
         Manager.Instance.UI.Transition.CircleIn();
 
-        op.allowSceneActivation = false;
-
         yield return new WaitForSecondsRealtime(2.5f);
 
-        op.allowSceneActivation = true;
+        //if (op_next.isDone && op_before.isDone)
+        //{ Debug.LogAssertion("씬 전환 준비됨!"); }
+
+        //op_before.allowSceneActivation = true;
+        op_next.allowSceneActivation = true;
+
+        // SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(currentSceneIndex));
 
         Manager.Instance.UI.Transition.CircleOut();
 
         yield return new WaitForSecondsRealtime(2.5f);
         isFlagNotOver = false;
+
     }
 
     //public IEnumerator LoadScene(int nextScene, LoadSceneMode loadSceneMode = LoadSceneMode.Additive)
