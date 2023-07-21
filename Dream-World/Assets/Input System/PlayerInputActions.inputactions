@@ -239,17 +239,6 @@
                 },
                 {
                     "name": "",
-                    "id": "b30cc912-b256-4c5e-89bf-91a2ce508a85",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "30f902e0-903b-4743-b3d0-3bf4e74ead4d",
                     "path": "<Keyboard>/e",
                     "interactions": "",
@@ -393,17 +382,6 @@
                 },
                 {
                     "name": "",
-                    "id": "aba72778-97b3-4962-a9c9-042ed36f08a0",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PC",
-                    "action": "Throw",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "d1f5d85d-85be-4056-a0f4-f107389cb04a",
                     "path": "<Keyboard>/o",
                     "interactions": "",
@@ -415,11 +393,33 @@
                 },
                 {
                     "name": "",
+                    "id": "8dae20a8-9f18-4163-a784-b6dd7930bdbe",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraZoomIn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "5a06092f-3ecb-46f6-81a4-4ca5baf5f720",
                     "path": "<Keyboard>/p",
                     "interactions": "",
                     "processors": "",
                     "groups": "PC",
+                    "action": "CameraZoomOut",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5abf2093-0d60-420b-8f44-670e8d712dbb",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "CameraZoomOut",
                     "isComposite": false,
                     "isPartOfComposite": false

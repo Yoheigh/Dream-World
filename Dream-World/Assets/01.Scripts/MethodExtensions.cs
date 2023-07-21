@@ -47,6 +47,34 @@ public static class MethodExtensions
         return new Vector3(x, y, z);
     }
 
+    // Vector3 값을 int로 반올림 (FloorToInt)
+    public static Vector3 GetXYZFloor(this Vector3 vector3)
+    {
+        int x, y, z;
+
+        x = Mathf.FloorToInt(vector3.x);
+        y = Mathf.FloorToInt(vector3.y);
+        z = Mathf.FloorToInt(vector3.z);
+
+        return new Vector3(x, y, z);
+    }
+
+    // Vector3 값을 int로 반올림 (FloorToInt), out 있음
+    public static Vector3 GetXYZFloor(this Vector3 vector3, out int _x, out int _y, out int _z)
+    {
+        int x, y, z;
+
+        x = Mathf.FloorToInt(vector3.x);
+        y = Mathf.FloorToInt(vector3.y);
+        z = Mathf.FloorToInt(vector3.z);
+
+        _x = x;
+        _y = y;
+        _z = z;
+
+        return new Vector3(x, y, z);
+    }
+
     // Vector3 배열 중에 인수로 받은 Vector3와 가장 가까운 Vector3를 반환
     public static Vector3 GetClosestVector3(this Vector3 vector3, Vector3[] vector3s)
     {
@@ -86,7 +114,7 @@ public static class MethodExtensions
         return vector3;
     }
 
-    // Ray를 쐈을 때 가장 가까운 GameObject를 반환 { Distance()보다 정확함 )
+    // Ray를 쐈을 때 가장 가까운 GameObject를 반환 { Distance()보다 정확함, 피봇 중점 )
     public static GameObject GetClosestGameObject(GameObject from, Collider[] targets)
     {
         float closestDistance = Mathf.Infinity;

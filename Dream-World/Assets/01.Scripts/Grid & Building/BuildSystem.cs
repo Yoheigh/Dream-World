@@ -32,6 +32,7 @@ public class BuildSystem : MonoBehaviour
     private float tempRot;
     private sbyte currentRot;
     private Material tempMat;
+    private bool buildCheck = false;
 
     private Collider entity_Collider;
     private Renderer entity_Renderer;
@@ -88,24 +89,36 @@ public class BuildSystem : MonoBehaviour
 
     public void UpdatePos()
     {
-        if (tempPos != entity.blockPointer.position.GetXYZRound())
+        if (tempPos != entity.blockPointer.position.GetXYZFloor())
         {
-            tempPos = entity.blockPointer.position.GetXYZRound(out x, out y, out z);
+            tempPos = entity.blockPointer.position.GetXYZFloor(out x, out y, out z);
             buildPos = tempPos + buildingData.buildOffset;
             entity.Preview.transform.position = buildPos;
             Debug.Log($"현재 블럭 포인터 위치 : {tempPos}");
-            BuildCheck();
+
+            buildCheck = BuildCheck();
+            RotateBuilding();
         }
 
-        if (GridSystem.Instance.CheckCanCraft(x, y, z))
+        if (GridSystem.Instance.CheckCanCraft(x, y, z) && buildCheck == true)
+        {
+            buildCheck = true;
             entity_Renderer.material.color = Color.green;
+        }
         else
+        {
+            buildCheck = false;
             entity_Renderer.material.color = Color.red;
+        }
     }
 
-    public void BuildCheck()
+    public bool BuildCheck()
     {
         tempRot = 0;
+        for(int i = 0; i < availableRot.Length - 1; i++)
+        {
+            availableRot[i] = 0;
+        }
 
         switch (buildingData.buildCondition)
         {
@@ -113,8 +126,8 @@ public class BuildSystem : MonoBehaviour
 
                 if (GridSystem.Instance.StageGrid.GetGridObject(x, y - 1, z).GetGridObjectData().isConstructableTop)
                     availableRot[2] = 1;
-
-                break;
+                
+                return true;
 
             case BuildCondition.Side:
                 if (GridSystem.Instance.StageGrid.GetGridObject(x + 1, y, z).GetGridObjectData().isConstructableSide)
@@ -131,10 +144,12 @@ public class BuildSystem : MonoBehaviour
                     tempRot += availableRot[i];
                 }
 
-                if (tempRot == 0) return;
-
+                Debug.Log($"빌드체크 완료 : 돌릴 수 있는 방향 개수 {tempRot}개");
+                if (tempRot != 0) return true;
                 break;
         }
+
+        return false;
     }
 
     // 2. 설치할 GridObject의 Data에 있는 조건들을 가져와서
@@ -147,35 +162,37 @@ public class BuildSystem : MonoBehaviour
 
     public void RotateBuilding()
     {
-        //if (tempRot == 0)
-        //{
-        //    Debug.Log("구조물을 돌릴 수 없습니다.");
-        //    return;
+        if (tempRot == 0)
+        {
+            Debug.Log("구조물을 돌릴 수 없습니다.");
+            return;
 
-        //}
+        }
 
-        //for (sbyte i = 0; i < availableRot.Length - 1; i++)
-        //{
-        //    if (availableRot[i] == 0) continue;
+        for (sbyte i = 0; i < availableRot.Length - 1; i++)
+        {
+            if (availableRot[i] == 0) continue;
 
-        //    if (currentRot < i)
-        //    {
-        //        entity.Preview.transform.rotation = Quaternion.Euler(new Vector3(0, 90f * i, 0));
-        //        currentRot = i;
-        //        break;
-        //    }
-        //    else if (currentRot >= i)
-        //    {
-        //        currentRot = -1;
-        //        continue;
-        //    }
-        //}
+            if (currentRot < i)
+            {
+                entity.Preview.transform.rotation = Quaternion.Euler(new Vector3(0, 90f * i, 0));
+                currentRot = i;
+                break;
+            }
+            else if (currentRot >= i)
+            {
+                currentRot = -1;
+                continue;
+            }
+        }
 
-        entity.Preview.transform.rotation *= Quaternion.Euler(new Vector3(0, 90f, 0));
+        // entity.Preview.transform.rotation *= Quaternion.Euler(new Vector3(0, 90f, 0));
     }
 
     public void Construct()
     {
+        if (buildCheck == false) return;
+
         Manager.Instance.Inventory.OnChangeBuilding?.Invoke(Manager.Instance.Inventory.currentBuildingSlot);
         entity_Rot = entity.Preview.transform.rotation.eulerAngles;
         Destroy(entity.Preview);

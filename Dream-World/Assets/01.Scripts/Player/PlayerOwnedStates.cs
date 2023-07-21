@@ -8,6 +8,7 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerController _entity)
         {
+            _entity.Input.CanMove(true);
             _entity.Input.CanInteract(true);
 
             _entity.fov.FindTargetsWithDelay(true);
@@ -36,6 +37,7 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerController _entity)
         {
+            _entity.Input.CanMove(false);
             _entity.Input.CanInteract(false);
         }
 

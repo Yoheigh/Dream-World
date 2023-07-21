@@ -90,7 +90,7 @@ public class GridSystem : Singleton<GridSystem>
 
     public void CheckStageBlock(int x, int y, int z)
     {
-        Collider[] collider = Physics.OverlapBox(new Vector3(x + 0.5f, y, z + 0.5f), new Vector3(0.49f, 0.49f, 0.49f), Quaternion.identity, gridObjectLayer);
+        Collider[] collider = Physics.OverlapBox(new Vector3(x + 0.5f, y, z + 0.5f), new Vector3(0.40f, 0.40f, 0.40f), Quaternion.identity, gridObjectLayer);
 
         if (collider.Length <= 0)
         {
@@ -100,7 +100,7 @@ public class GridSystem : Singleton<GridSystem>
 
         else if(collider.Length > 1)
         {
-            Debug.LogError($"한 좌표에 두 개 이상의 그리드 오브젝트 검출됨 {x}, {y} ,{z}");
+            Debug.LogError($"한 좌표에 두 개 이상의 그리드 오브젝트 검출됨 {x}, {y}, {z}");
             return;
         }
 

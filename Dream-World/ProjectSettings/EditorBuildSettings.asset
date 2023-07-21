@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/00.Scenes/ManagerScene/ManagerScene.unity
     guid: 82bfb84c96c038d4a85af68a7abfe3ef
   - enabled: 1
-    path: Assets/00.Scenes/Forest_Scenes/Forest_Stage01.unity
+    path: Assets/00.Scenes/All_Scenes/Forest_Stage01.unity
     guid: 28f2d15aaa1d7df4b87e0b2b5e1a612a
   - enabled: 1
     path: Assets/00.Scenes/All_Scenes/Forest_Stage02.unity
@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/00.Scenes/All_Scenes/Forest_Stage03.unity
     guid: a97fc2de3f4b45e429a5a1ab19e4eb77
   - enabled: 1
-    path: Assets/00.Scenes/Forest_Scenes/Forest_Stage04.unity
+    path: Assets/00.Scenes/All_Scenes/Forest_Stage04.unity
     guid: a4562437243be214abfd435d30880c9a
   - enabled: 1
     path: Assets/00.Scenes/All_Scenes/Forest_Stage05.unity
