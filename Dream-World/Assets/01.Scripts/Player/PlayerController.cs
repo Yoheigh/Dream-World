@@ -95,6 +95,7 @@ public class PlayerController : MonoBehaviour
     public void Hit()
     {
         if (isInvincible) return;
+        Manager.Instance.Sound.PlaySFX(1225);
         StartCoroutine(DamageCoroutine());
     }
 

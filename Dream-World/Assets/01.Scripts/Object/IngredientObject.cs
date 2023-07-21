@@ -38,6 +38,19 @@ public class IngredientObject : MonoBehaviour
     {
         if (_effectiveType != effectiveType) return;
 
+        switch (effectiveType)
+        {
+            case EffectiveType.Shovel:
+                Manager.Instance.Sound.PlaySFX(3);
+                break;
+            case EffectiveType.Axe:
+                Manager.Instance.Sound.PlaySFX(5);
+                break;
+            case EffectiveType.Pickaxe:
+                Manager.Instance.Sound.PlaySFX(6);
+                break;
+        }
+
         GameObject obj = Instantiate(Manager.Instance.Build.BuildVFX, transform.position, Quaternion.identity);
         Destroy(obj, 4f);
         Destruction();

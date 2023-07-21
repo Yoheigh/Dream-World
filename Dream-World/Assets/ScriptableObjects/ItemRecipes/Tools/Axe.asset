@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dde2b84fa9af82246a311868e33f663c, type: 3}
   m_Name: Axe
   m_EditorClassIdentifier: 
-  needItemCount: 3
+  needItemCount: 2
   ingredients:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  ingredientCounts: 010000000100000001000000
+  - {fileID: 11400000, guid: 2c2e60279d33b26428b21397eb3d76ed, type: 2}
+  - {fileID: 11400000, guid: 9441b9f648e6d1b4cbc0eea3754c55c5, type: 2}
+  ingredientCounts: 0100000002000000
   result: {fileID: 11400000, guid: fa273ec485df0f3449ca7d95168a2917, type: 2}

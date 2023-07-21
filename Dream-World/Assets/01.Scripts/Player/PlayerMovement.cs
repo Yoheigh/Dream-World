@@ -269,7 +269,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * Vector3.forward;
 
-        animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
+        animationBlend = Mathf.Lerp(animationBlend, inputMagnitude * targetSpeed, Time.deltaTime * SpeedChangeRate);
 
         if (animationBlend < 0.01f) animationBlend = 0f;
 

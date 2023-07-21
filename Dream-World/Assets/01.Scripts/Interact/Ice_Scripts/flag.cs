@@ -14,7 +14,7 @@ public class flag : TriggerObject
     protected override void TriggerWithPlayer(PlayerController _player)
     {
         Manager.Instance.Flag.NextSceneWithTransition();
-
+        Manager.Instance.Sound.PlaySFX(0);
         Time.timeScale = 0;
     }
 

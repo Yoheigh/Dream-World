@@ -85,7 +85,9 @@ public class PlayerInteraction : MonoBehaviour
     public void Interact()
     { 
         if (isInteracting == true) return;          // 인터랙션 가능 여부
-                                                        // 인풋과 별개
+                                                    // 인풋과 별개
+
+        Manager.Instance.Sound.PlaySFX(3);
 
         // 손에 무언가 들고 있는 상태일 경우 처리
         if (interactionObj != null)

@@ -80,7 +80,7 @@ public class GridSystem : Singleton<GridSystem>
 
     public bool CheckCanCraft(int x, int y, int z)
     {
-        Collider[] colliders = Physics.OverlapBox(new Vector3(x + 0.5f, y + 0.5f, z + 0.5f), new Vector3(0.49f, 0.49f, 0.49f));
+        Collider[] colliders = Physics.OverlapBox(new Vector3(x + 0.5f, y + 0.5f, z + 0.5f), new Vector3(0.40f, 0.40f, 0.40f));
 
         if (colliders.Length > 0)
             return false;

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Net.Http.Headers;
 using UnityEditor;
 using UnityEngine;
@@ -26,13 +27,16 @@ public class BuildSystem : MonoBehaviour
     // 내부 변수
     private Vector3 buildPos;
     private int x, y, z;
-    private sbyte[] availableRot = new sbyte[4];
+    private int[] availableRot = new int[4]; // sbyte로 바꾸다가 형변환 이슈때문에 다시 바꿈
     private Vector3 tempPos;
     private Vector3 entity_Rot;
     private float tempRot;
-    private sbyte currentRot;
+    private int currentRot;
     private Material tempMat;
     private bool buildCheck = false;
+
+    private bool ladderCheck = false;
+    private Ladder tempLadder;
 
     private Collider entity_Collider;
     private Renderer entity_Renderer;
@@ -87,17 +91,29 @@ public class BuildSystem : MonoBehaviour
         }
     }
 
+    public Vector3 GetBuildPos()
+    {
+        entity.blockPointer.position.GetXYZFloor(out x, out y, out z);
+        y = Mathf.RoundToInt(entity.blockPointer.position.y);
+
+        return new Vector3(x, y, z);
+    }
+
     public void UpdatePos()
     {
-        if (tempPos != entity.blockPointer.position.GetXYZFloor())
+        if (tempPos != GetBuildPos())
         {
-            tempPos = entity.blockPointer.position.GetXYZFloor(out x, out y, out z);
+            tempPos = GetBuildPos();
             buildPos = tempPos + buildingData.buildOffset;
             entity.Preview.transform.position = buildPos;
             Debug.Log($"현재 블럭 포인터 위치 : {tempPos}");
 
             buildCheck = BuildCheck();
-            RotateBuilding();
+
+            if (ladderCheck == false)
+            {
+                InitRotateBuilding();
+            }
         }
 
         if (GridSystem.Instance.CheckCanCraft(x, y, z) && buildCheck == true)
@@ -107,15 +123,51 @@ public class BuildSystem : MonoBehaviour
         }
         else
         {
-            buildCheck = false;
-            entity_Renderer.material.color = Color.red;
+            /* 다 없어져야 할 저주받은 코드 */
+            /* ladderCheck를 죽여라 */
+
+            if (entity.Preview.name == "Ladder(Clone)" || entity.Preview.name == "Ladder")
+            {
+                Collider[] colliders = Physics.OverlapBox(new Vector3(x + 0.5f, y + 0.5f, z + 0.5f), new Vector3(0.40f, 0.40f, 0.40f));
+
+                for (int i = 0; i < colliders.Length; i++)
+                {
+                    if (colliders[i].name == "Ladder(Clone)" || colliders[i].name == "Ladder")
+                    {
+                        if (colliders[i] == entity.Preview.gameObject) return;
+
+                        ladderCheck = true;
+                        tempLadder = colliders[i].GetComponent<Ladder>();
+                        entity_Renderer.material.color = Color.green;
+                        entity.Preview.transform.position = colliders[i].transform.position + new Vector3(0f, tempLadder.ReachHeight - 0.1f, 0f);
+                        entity.Preview.transform.rotation = colliders[i].transform.rotation;
+                    }
+                    else
+                    {
+                        buildCheck = false;
+                        ladderCheck = false;
+                        tempLadder = null;
+                        entity_Renderer.material.color = Color.red;
+                    }
+                }
+            }
+            else
+            {
+                buildCheck = false;
+                ladderCheck = false;
+                tempLadder = null;
+                entity_Renderer.material.color = Color.red;
+            }
         }
+
+
+        
     }
 
     public bool BuildCheck()
     {
         tempRot = 0;
-        for(int i = 0; i < availableRot.Length - 1; i++)
+        for (int i = 0; i < availableRot.Length - 1; i++)
         {
             availableRot[i] = 0;
         }
@@ -126,24 +178,30 @@ public class BuildSystem : MonoBehaviour
 
                 if (GridSystem.Instance.StageGrid.GetGridObject(x, y - 1, z).GetGridObjectData().isConstructableTop)
                     availableRot[2] = 1;
-                
+
                 return true;
 
             case BuildCondition.Side:
-                if (GridSystem.Instance.StageGrid.GetGridObject(x + 1, y, z).GetGridObjectData().isConstructableSide)
-                    availableRot[0] = 1;
-                if (GridSystem.Instance.StageGrid.GetGridObject(x - 1, y, z).GetGridObjectData().isConstructableSide)
-                    availableRot[1] = 1;
-                if (GridSystem.Instance.StageGrid.GetGridObject(x, y, z + 1).GetGridObjectData().isConstructableSide)
-                    availableRot[2] = 1;
-                if (GridSystem.Instance.StageGrid.GetGridObject(x, y, z - 1).GetGridObjectData().isConstructableSide)
-                    availableRot[3] = 1;
-
-                for (int i = 0; i < availableRot.Length - 1; i++)
+                if (GridSystem.Instance.StageGrid.GetGridObject(x + 1, y, z) != null)
+                {
+                    availableRot[3] = GridSystem.Instance.StageGrid.GetGridObject(x + 1, y, z).GetGridObjectData().isConstructableSide ? 1 : 0;
+                }
+                if (GridSystem.Instance.StageGrid.GetGridObject(x - 1, y, z) != null)
+                {
+                    availableRot[1] = GridSystem.Instance.StageGrid.GetGridObject(x - 1, y, z).GetGridObjectData().isConstructableSide ? 1 : 0;
+                }
+                if (GridSystem.Instance.StageGrid.GetGridObject(x, y, z + 1) != null)
+                {
+                    availableRot[2] = GridSystem.Instance.StageGrid.GetGridObject(x, y, z + 1).GetGridObjectData().isConstructableSide ? 1 : 0;
+                }
+                if (GridSystem.Instance.StageGrid.GetGridObject(x, y, z - 1) != null)
+                {
+                    availableRot[0] = GridSystem.Instance.StageGrid.GetGridObject(x, y, z - 1).GetGridObjectData().isConstructableSide ? 1 : 0;
+                }
+                for (int i = 0; i < availableRot.Length; i++)
                 {
                     tempRot += availableRot[i];
                 }
-
                 Debug.Log($"빌드체크 완료 : 돌릴 수 있는 방향 개수 {tempRot}개");
                 if (tempRot != 0) return true;
                 break;
@@ -158,31 +216,43 @@ public class BuildSystem : MonoBehaviour
     // 3. 오버랩
 
     // 조건 처리
-    
+
+    public void InitRotateBuilding()
+    {
+        Debug.Log("회전 초기화");
+        currentRot = -1;
+        RotateBuilding();
+    }
 
     public void RotateBuilding()
     {
-        if (tempRot == 0)
+        if (availableRot.Contains(1) == false)
         {
-            Debug.Log("구조물을 돌릴 수 없습니다.");
+            Debug.Log("돌릴 수 있는 방향이 없습니다.");
             return;
-
         }
 
-        for (sbyte i = 0; i < availableRot.Length - 1; i++)
+        for (int i = 0; i < availableRot.Length + 1; i++)
         {
-            if (availableRot[i] == 0) continue;
-
             if (currentRot < i)
             {
-                entity.Preview.transform.rotation = Quaternion.Euler(new Vector3(0, 90f * i, 0));
                 currentRot = i;
+
+                if (currentRot == availableRot.Length)
+                {
+                    // 배열 초기화
+                    InitRotateBuilding();
+                    break;
+                }
+
+                if (availableRot[i] == 0)
+                {
+                    continue;
+                }
+
+                entity.Preview.transform.rotation = Quaternion.Euler(new Vector3(0, 90f * currentRot, 0));
+                Debug.Log($"{currentRot}번째 회전, 건물의 각도 : {90f * i}");
                 break;
-            }
-            else if (currentRot >= i)
-            {
-                currentRot = -1;
-                continue;
             }
         }
 
@@ -191,6 +261,21 @@ public class BuildSystem : MonoBehaviour
 
     public void Construct()
     {
+        if(ladderCheck == true)
+        {
+            Manager.Instance.Inventory.OnChangeBuilding?.Invoke(Manager.Instance.Inventory.currentBuildingSlot);
+            tempLadder.AddLadder();
+            Destroy(entity.Preview);
+
+            Building temp = new Building(buildingData);
+            temp.itemCount = 1;
+            Manager.Instance.Inventory.RemoveItem(temp);
+            Manager.Instance.UI.DrawItemSlots();
+
+            isBuildMode = false;
+            return;
+        }
+
         if (buildCheck == false) return;
 
         Manager.Instance.Inventory.OnChangeBuilding?.Invoke(Manager.Instance.Inventory.currentBuildingSlot);

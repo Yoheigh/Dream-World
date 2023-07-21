@@ -19,6 +19,7 @@ public class Throwable : Grabable
             GameObject vfx = Instantiate(Manager.Instance.Build.BuildVFX, transform.position, Quaternion.identity, null);
             Destroy(vfx, 4f);
             Destroy(gameObject);
+            Manager.Instance.Sound.PlaySFX(6);
         }
     }
 

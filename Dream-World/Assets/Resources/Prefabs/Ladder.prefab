@@ -147,9 +147,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AnchorPivot: {x: 0, y: -0.3, z: 0}
-  LadderModel: {fileID: 866927386671981053, guid: 3c9add5da2e51cd47bfd691937227efe, type: 3}
+  LadderModel: {fileID: 5018122283350940914, guid: ab0bfd24d5c235449ac772b2d4c16da0, type: 3}
   baseConstHeight: 1
-  ConstHeight: 4
+  ConstHeight: 1
   baseReachHeight: 1
   ReachHeight: 1
   isStageObject: 0

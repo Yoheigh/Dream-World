@@ -30,27 +30,41 @@ public class Ladder : InteractionObject
 
     private void Start()
     {
-        if(isStageObject)
+        if (isStageObject)
             Construct();
+
+
+    }
+
+    public void AddLadder()
+    {
+        ReachHeight += 1;
+        ConstHeight += 1;
+
+        Construct();
     }
 
     public void Construct()
     {
-        if (ConstHeight == baseConstHeight) return;
+        // if (ConstHeight == baseConstHeight) return;
 
         StartCoroutine(ConstructionCoroutine());
 
-        ReachHeight = ConstHeight;
+        //ReachHeight = ConstHeight;
     }
     private IEnumerator ConstructionCoroutine()
     {
-        for (int i = baseConstHeight; i < ConstHeight; i++)
+        for (int i = 0; i < 3; i++)
         {
-            // Instantiate(LadderModel, transform.position + (Vector3.up * i), Quaternion.Euler(PivotRot), this.transform);
-            // Instantiate(Resources.Load<GameObject>("07.VFX/VFX_DustPoof"), transform.position + (Vector3.up * i), Quaternion.Euler(PivotRot), this.transform);
-            Debug.Log("뚝 딱 뚝 딱");
-            yield return new WaitForSeconds(0.8f);
+            GameObject obj = Instantiate(Resources.Load<GameObject>("07.VFX/VFX_DustPoof"), transform.position + (Vector3.up * (ConstHeight - 1)), Quaternion.identity, this.transform);
+            Destroy(obj, 4f);
+            yield return new WaitForSeconds(0.3f);
         }
+
+        Debug.Log("뚝 딱 뚝 딱");
+        GameObject ladderPart = Instantiate(LadderModel, transform.position + (Vector3.up * (ConstHeight - 1)), gameObject.transform.rotation, this.transform);
+        ladderPart.name = $"LadderPart_{ConstHeight}";
+
     }
 
 

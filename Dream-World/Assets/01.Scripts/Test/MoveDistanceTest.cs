@@ -18,6 +18,7 @@ public class MoveDistanceTest : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    // 각 움직임이 뭐가 다른지 테스트했던 코드
     void FixedUpdate()
     {
         switch (moveType)

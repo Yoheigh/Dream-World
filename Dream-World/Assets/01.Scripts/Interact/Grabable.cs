@@ -22,6 +22,6 @@ public class Grabable : InteractionObject
         gameObject.GetComponent<Collider>().enabled = true;
         rigid.useGravity = true;
 
-        rigid.AddForce((transform.forward + Vector3.up * 0.8f) * 3f, ForceMode.Impulse);
+        rigid.AddForce((transform.forward + Vector3.up * 0.1f) * 5f, ForceMode.Impulse);
     }
 }

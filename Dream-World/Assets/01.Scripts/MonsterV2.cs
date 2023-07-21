@@ -107,6 +107,7 @@ public class MonsterV2 : MonoBehaviour
     IEnumerator HitCo()
     {
         ChangeState(MonsterStateEnum.Hit);
+        Manager.Instance.Sound.PlaySFX(1225);
         yield return new WaitForSeconds(0.01f);
         Destroy(gameObject);
     }

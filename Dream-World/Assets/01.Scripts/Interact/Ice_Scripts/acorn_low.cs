@@ -7,6 +7,7 @@ public class acorn_low : TriggerObject
     protected override void TriggerWithPlayer(PlayerController _player)
     {
         Debug.LogError("∞‘¿”∆˜¿Œ∆Æ »πµÊ!");
+        Manager.Instance.Sound.PlaySFX(4);
         var obj = Instantiate(Manager.Instance.Build.BuildVFX);
         obj.transform.position = transform.position;
         Destroy(obj, 4f);

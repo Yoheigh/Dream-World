@@ -142,6 +142,7 @@ public class FlagSystem : MonoBehaviour
     // 게임 오버 기능
     private IEnumerator GameOverCo()
     {
+        Manager.Instance.Sound.PlaySFX(1);
         UI.VerticalBar.SetActive(true);
         Cam.isFollowPlayer = false;
         Input.CanMove(false);

@@ -62,6 +62,7 @@ public class UISystemManager : MonoBehaviour
         if (Canvas.activeSelf == false)
         {
             Canvas.SetActive(true);
+            Manager.Instance.Sound.PlaySFX(102);
             isActivateUI = true;
         }
 
@@ -209,6 +210,7 @@ public class UISystemManager : MonoBehaviour
                 continue;
             }
             EquipmentSlots[i].DisableObj.SetActive(true);
+            Manager.Instance.Sound.PlaySFX(101);
         }
     }
 
@@ -222,6 +224,7 @@ public class UISystemManager : MonoBehaviour
                 continue;
             }
             BuildingSlots[i].DisableObj.SetActive(true);
+            Manager.Instance.Sound.PlaySFX(101);
         }
     }
 }
