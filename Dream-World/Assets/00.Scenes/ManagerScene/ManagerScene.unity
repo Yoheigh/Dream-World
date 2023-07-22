@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!82 &889078811 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6580799716239436846, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+  m_PrefabInstance: {fileID: 1744981750}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1271616778
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,6 +558,114 @@ PrefabInstance:
     - target: {fileID: 6580799717249910102, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.SFXSources.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.SFXSources.Array.data[5]
+      value: 
+      objectReference: {fileID: 889078811}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorKeys.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorValues.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorKeys.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorKeys.Array.data[2]
+      value: 101
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorKeys.Array.data[3]
+      value: 102
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorKeys.Array.data[4]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorKeys.Array.data[5]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorKeys.Array.data[6]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorKeys.Array.data[7]
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorKeys.Array.data[8]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorKeys.Array.data[9]
+      value: 1225
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorKeys.Array.data[10]
+      value: 1226
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorValues.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 06082167564862646aa2537026a8861c, type: 3}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorValues.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 1445e9faaa895ce45b48e8f314461c5a, type: 3}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorValues.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 90d30031c5174bb4ab707168ec95e9a7, type: 3}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorValues.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0392bcba41d9fe44c91d991549d7d966, type: 3}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorValues.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: c7b495a7a8581844b9b107133449d570, type: 3}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorValues.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: 98f0b908dfc1e5c4295a5c3cc622e600, type: 3}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorValues.Array.data[6]
+      value: 
+      objectReference: {fileID: 8300000, guid: 8815c0287d8b07b459c011c879bf81d9, type: 3}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorValues.Array.data[7]
+      value: 
+      objectReference: {fileID: 8300000, guid: 22fca24821438d04385430644c8a3e00, type: 3}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorValues.Array.data[8]
+      value: 
+      objectReference: {fileID: 8300000, guid: cb9921319f1225b4e9ce79cefd73607b, type: 3}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorValues.Array.data[9]
+      value: 
+      objectReference: {fileID: 8300000, guid: aa9fc89c9d1481e4cae8cc230ea6f6ad, type: 3}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorValues.Array.data[10]
+      value: 
+      objectReference: {fileID: 8300000, guid: 6939f93c5b9ad614c9e58e6657019ebe, type: 3}
+    - target: {fileID: 6580799717249910106, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: cameraPoints.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580799717249910106, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: cameraPoints.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6580799717485398914, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
       propertyPath: m_AnchorMax.x

@@ -87,11 +87,10 @@ public class PlayerInteraction : MonoBehaviour
         if (isInteracting == true) return;          // 인터랙션 가능 여부
                                                     // 인풋과 별개
 
-        Manager.Instance.Sound.PlaySFX(3);
-
         // 손에 무언가 들고 있는 상태일 경우 처리
         if (interactionObj != null)
         {
+            Manager.Instance.Sound.PlaySFX(3);
             // 오브젝트의 enum에 따라서 플레이어 상태 변경
             switch (interactionObj.ObjectType)
             {
@@ -127,6 +126,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (fov.ClosestTransform.TryGetComponent(out InteractionObject temp))
         {
+            Manager.Instance.Sound.PlaySFX(3);
             // 오브젝트의 인터랙션 기능이 있으면 활성화
             temp.InteractWithPlayer(controller);
 
@@ -205,15 +205,15 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (equipModel != null)
         {
-            if (equipModel.name != currentEquipment.name)
+            if (equipModel.name != currentEquipment.itemName)
             {
                 Destroy(equipModel);
                 equipModel = Instantiate(Resources.Load<GameObject>(currentEquipment.EquipPrefabPath), equipModelRoot);
                 equipModel.transform.localRotation = Quaternion.Euler(currentEquipment.EquipHandOffset);
-                equipModel.name = currentEquipment.name;
+                equipModel.name = currentEquipment.itemName;
 
                 // 으아악
-                if (currentEquipment.name == "Shovel")
+                if (currentEquipment.itemName == "삽")
                 {
                     equipModel.transform.SetParent(ShovelRoot);
                     equipModel.transform.localPosition = Vector3.zero;
@@ -230,9 +230,9 @@ public class PlayerInteraction : MonoBehaviour
         {
             equipModel = Instantiate(Resources.Load<GameObject>(currentEquipment.EquipPrefabPath), equipModelRoot);
             equipModel.transform.localRotation = Quaternion.Euler(currentEquipment.EquipHandOffset);
-            equipModel.name = currentEquipment.name;
+            equipModel.name = currentEquipment.itemName;
 
-            if (currentEquipment.name == "Shovel")
+            if (currentEquipment.itemName == "삽")
             {
                 equipModel.transform.SetParent(ShovelRoot);
                 equipModel.transform.localPosition = Vector3.zero;

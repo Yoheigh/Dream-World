@@ -25,6 +25,6 @@ MonoBehaviour:
   EquipOffset: {x: 0, y: 1, z: 0}
   EquipActionDelay: 0.292
   EquipActionEndDelay: 0.67
-  EquipHandOffset: {x: -30, y: 8, z: -80}
+  EquipHandOffset: {x: 200, y: -85, z: -50}
   EquipPrefabPath: Tools/Pickaxe
   EquipAnimName: Player_Action_Pickaxe

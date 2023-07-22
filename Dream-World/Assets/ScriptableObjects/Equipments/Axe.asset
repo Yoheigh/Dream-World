@@ -25,6 +25,6 @@ MonoBehaviour:
   EquipOffset: {x: 0, y: 1, z: 0}
   EquipActionDelay: 0.4
   EquipActionEndDelay: 0.8
-  EquipHandOffset: {x: -35, y: 22, z: -70}
+  EquipHandOffset: {x: 11.468, y: -76.848, z: -129.604}
   EquipPrefabPath: Tools/Axe
   EquipAnimName: Player_Action_Axe

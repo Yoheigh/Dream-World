@@ -25,6 +25,6 @@ MonoBehaviour:
   EquipOffset: {x: 0, y: 1, z: 0}
   EquipActionDelay: 0.4
   EquipActionEndDelay: 0.91
-  EquipHandOffset: {x: 0, y: 0, z: -100}
+  EquipHandOffset: {x: -47.814, y: -49.76, z: -71.658}
   EquipPrefabPath: Tools/Shovel
   EquipAnimName: Player_Action_Shovel

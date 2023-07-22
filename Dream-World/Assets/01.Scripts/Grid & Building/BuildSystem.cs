@@ -142,9 +142,8 @@ public class BuildSystem : MonoBehaviour
                         entity.Preview.transform.position = colliders[i].transform.position + new Vector3(0f, tempLadder.ReachHeight - 0.1f, 0f);
                         entity.Preview.transform.rotation = colliders[i].transform.rotation;
                     }
-                    else
+                    else if(buildCheck == false)
                     {
-                        buildCheck = false;
                         ladderCheck = false;
                         tempLadder = null;
                         entity_Renderer.material.color = Color.red;

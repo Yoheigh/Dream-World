@@ -56,6 +56,7 @@ public class Manager : MonoBehaviour
         Inventory.OnChangeBuilding += UI.ActivateBuildSlot;
 
         Input.Setup();
+        // Flag.Init();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -103,6 +104,13 @@ public class Manager : MonoBehaviour
         Debug.Log("씬 로딩됨");
     }
 
+    void ResetGame()
+    {
+        Flag.currentSceneIndex = 1;
+
+        AsyncOperation op_next = SceneManager.LoadSceneAsync(Flag.currentSceneIndex, LoadSceneMode.Single);
+    }
+
 
     private void LateUpdate()
     {
@@ -117,6 +125,8 @@ public class Manager : MonoBehaviour
         if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha3)) Build.ChangeBuildMode();
         if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha4)) Build.RotateBuilding();
         if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha5)) Build.Construct();
-        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha0)) Flag.NextSceneWithTransition();
+        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha8)) Flag.ForestCutsceneStart();
+        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha9)) Flag.NextSceneWithTransition();
+        if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha0)) ResetGame();
     }
 }

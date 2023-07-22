@@ -39,6 +39,20 @@ public class FlagSystem : MonoBehaviour
     //으아악
     public int currentSceneIndex = 0;
 
+    public void Init()
+    {
+        // 학교에서 시작할 때 컷씬 넣으려고 했던 것
+
+        Input.CanMove(false);
+        Input.CanInteract(false);
+        UI.CloseAll();
+        UI.SystemUI.SetActive(false);
+        Cam.HandleCameraTarget(null);
+        Manager.Instance.Player.enabled = false;
+
+        Cam.HandleCameraMove(cameraPoints[0], 1f);
+    }
+
     public void Setup()
     {
         // 학교에서 시작할 때 컷씬 넣으려고 했던 것
@@ -46,15 +60,6 @@ public class FlagSystem : MonoBehaviour
         Input.CanLook(true);
         Input.CanMove(true);
         Input.CanInteract(true);
-
-        //Input.CanMove(false);
-        //Input.CanInteract(false);
-        //UI.CloseAll();
-        //UI.SystemUI.SetActive(false);
-        //Cam.HandleCameraTarget(null);
-        //Manager.Instance.Player.enabled = false;
-
-        //Cam.HandleCameraMove(cameraPoints[0], 1f);
     }
 
     public void ForestCutsceneStart()
