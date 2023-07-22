@@ -12,6 +12,7 @@ public class Grabable : InteractionObject
     {
         gameObject.GetComponent<Collider>().enabled = false;
         rigid = gameObject.GetComponent<Rigidbody>();
+        rigid.isKinematic = false;
         rigid.useGravity = false;
     }
 

@@ -24,19 +24,19 @@ EditorBuildSettings:
     path: Assets/00.Scenes/All_Scenes/Forest_Stage05.unity
     guid: 66388e5e9bb37de46b97077fda2198e2
   - enabled: 1
-    path: Assets/00.Scenes/Volcano_Scenes/01_Volcano_Stage.unity
-    guid: 4d6bcc03c31b9bc4baedf35cf5eb4d70
-  - enabled: 1
     path: Assets/00.Scenes/Volcano_Scenes/02_Volcano_Stage.unity
     guid: b7562bf0f91681a4f8081436bd34b1c4
   - enabled: 1
-    path: Assets/00.Scenes/Volcano_Scenes/03_Volcano_Stage.unity
-    guid: a9e5cc51af138f242adeb297db79cce3
+    path: Assets/00.Scenes/All_Scenes/Desert_Stage_1.unity
+    guid: b084a9625169dd841960122acb0a646f
   - enabled: 1
-    path: Assets/00.Scenes/Volcano_Scenes/04_Volcano_Stage.unity
-    guid: aed2bbbed2241694aab01a2ff8faf761
+    path: Assets/00.Scenes/Ice_Scenes/Exception/06_Ice_Stage.unity
+    guid: 0f15e0c056947054981b9b4e4f2de4e5
   - enabled: 1
-    path: Assets/00.Scenes/Volcano_Scenes/05_Volcano_Stage.unity
-    guid: bb372de967f5edd448d1feda35ce1176
+    path: Assets/00.Scenes/All_Scenes/05_Cave_Stage.unity
+    guid: 6189c7670978a5a4a835e3e3fc39893c
+  - enabled: 1
+    path: Assets/00.Scenes/Ice_Scenes/02_Ice_Stage.unity
+    guid: 0a46010e4b5e651499f7b69154760cbe
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: a0a0ba438efa34446b23762cff34c3f9, type: 2}

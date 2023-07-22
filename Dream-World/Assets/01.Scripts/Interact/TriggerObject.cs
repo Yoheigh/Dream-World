@@ -9,6 +9,9 @@ public abstract class TriggerObject : MonoBehaviour
     [Tooltip("한 번만 트리거되야하는 경우 체크")]
     public bool IsTriggerOnlyOnce = false;
 
+    [Tooltip("주기적으로 다시 실행 가능해지는 딜레이")]
+    public float DelayTime = 0f;
+
     private bool isTriggered = false;
 
     // 한 번 만난 플레이어 저장
@@ -28,12 +31,26 @@ public abstract class TriggerObject : MonoBehaviour
             {
                 isTriggered = true;
                 TriggerWithPlayer(_player);
+
+                if (DelayTime != 0f)
+                    StartDelay(DelayTime);
                 return;
             }
             TriggerWithPlayer(_player);
         }
         else
             return;
+    }
+
+    private void StartDelay(float delayTime)
+    {
+        StartCoroutine(StartDelayCO(delayTime));
+    }
+
+    private IEnumerator StartDelayCO(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        isTriggered = false;
     }
 
     public void ObjectEntered(Collider other)

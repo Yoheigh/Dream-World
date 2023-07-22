@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3567034663682025023}
   m_Layer: 0
   m_Name: World_GamePoint
-  m_TagString: Untagged
+  m_TagString: GamePoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,7 +97,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.3, y: 1, z: 0.3}
+  m_Size: {x: 0.5, y: 1, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4727540370453988125
 MonoBehaviour:
@@ -111,7 +111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 338bcc8a1c5a952498937bf6772dadca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsTriggerOnlyOnce: 0
+  IsTriggerOnlyOnce: 1
+  DelayTime: 0
   rotateSecond: 100
 --- !u!54 &3567034663682025023
 Rigidbody:

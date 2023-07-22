@@ -51,6 +51,7 @@ public class UICraftMenu : UIPanel
             craftSlots[i].Button.SetCallback(() =>
             {
                 currentIndex = index;
+                Manager.Instance.Sound.PlaySFX(101);
                 Draw();
             });
 
@@ -166,6 +167,7 @@ public class UICraftMenu : UIPanel
     public void CraftItem()
     {
         Craft.CraftItem(craftSlots[currentIndex].itemRecipe);
+        Manager.Instance.Sound.PlaySFX(102);
         Draw();
     }
 

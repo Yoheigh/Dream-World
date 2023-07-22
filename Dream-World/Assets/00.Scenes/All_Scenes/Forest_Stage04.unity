@@ -4222,18 +4222,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1899671397}
     m_Modifications:
-    - target: {fileID: 4727540370453988125, guid: 3043225c3be73324b8983993f9ce0d51, type: 3}
-      propertyPath: IsTriggerOnlyOnce
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5315147957190122745, guid: 3043225c3be73324b8983993f9ce0d51, type: 3}
-      propertyPath: m_Size.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5315147957190122745, guid: 3043225c3be73324b8983993f9ce0d51, type: 3}
-      propertyPath: m_Size.z
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 6043933143088292166, guid: 3043225c3be73324b8983993f9ce0d51, type: 3}
       propertyPath: m_Name
       value: World_GamePoint
@@ -17523,38 +17511,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3524960177030933672, guid: 4d7b6a619457cc24e93d8ce87750d9fd, type: 3}
-      propertyPath: monsterData.stopDelay
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3524960177030933672, guid: 4d7b6a619457cc24e93d8ce87750d9fd, type: 3}
-      propertyPath: patrolPositions.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3524960177030933672, guid: 4d7b6a619457cc24e93d8ce87750d9fd, type: 3}
-      propertyPath: patrolPositions.Array.data[0].x
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3524960177030933672, guid: 4d7b6a619457cc24e93d8ce87750d9fd, type: 3}
-      propertyPath: patrolPositions.Array.data[0].y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3524960177030933672, guid: 4d7b6a619457cc24e93d8ce87750d9fd, type: 3}
-      propertyPath: patrolPositions.Array.data[0].z
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3524960177030933672, guid: 4d7b6a619457cc24e93d8ce87750d9fd, type: 3}
-      propertyPath: patrolPositions.Array.data[1].x
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3524960177030933672, guid: 4d7b6a619457cc24e93d8ce87750d9fd, type: 3}
-      propertyPath: patrolPositions.Array.data[1].y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3524960177030933672, guid: 4d7b6a619457cc24e93d8ce87750d9fd, type: 3}
-      propertyPath: patrolPositions.Array.data[1].z
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 5256287369630040412, guid: 4d7b6a619457cc24e93d8ce87750d9fd, type: 3}
       propertyPath: m_Name
       value: Monster_Bear
@@ -18775,30 +18731,6 @@ PrefabInstance:
     - target: {fileID: 3913686151343092955, guid: f014260c10aaa0941ab0b42ac13442b6, type: 3}
       propertyPath: m_Name
       value: Monster_Rabbit
-      objectReference: {fileID: 0}
-    - target: {fileID: 5641055164968458543, guid: f014260c10aaa0941ab0b42ac13442b6, type: 3}
-      propertyPath: patrolPositions.Array.data[0].x
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5641055164968458543, guid: f014260c10aaa0941ab0b42ac13442b6, type: 3}
-      propertyPath: patrolPositions.Array.data[0].y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5641055164968458543, guid: f014260c10aaa0941ab0b42ac13442b6, type: 3}
-      propertyPath: patrolPositions.Array.data[0].z
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 5641055164968458543, guid: f014260c10aaa0941ab0b42ac13442b6, type: 3}
-      propertyPath: patrolPositions.Array.data[1].x
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5641055164968458543, guid: f014260c10aaa0941ab0b42ac13442b6, type: 3}
-      propertyPath: patrolPositions.Array.data[1].y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5641055164968458543, guid: f014260c10aaa0941ab0b42ac13442b6, type: 3}
-      propertyPath: patrolPositions.Array.data[1].z
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f014260c10aaa0941ab0b42ac13442b6, type: 3}
@@ -37384,6 +37316,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3447332802614859539, guid: fbe12e1d1cb396940ba0b7658455c383, type: 3}
+      propertyPath: m_UpdateMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5238789263220005619, guid: fbe12e1d1cb396940ba0b7658455c383, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -38025,6 +37961,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1417440984}
     m_Modifications:
+    - target: {fileID: 1672997483291815077, guid: 9a14b5d9059d162449be46f00b180d04, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1672997483291815077, guid: 9a14b5d9059d162449be46f00b180d04, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6281007762063872234, guid: 9a14b5d9059d162449be46f00b180d04, type: 3}
       propertyPath: m_RootOrder
       value: 124

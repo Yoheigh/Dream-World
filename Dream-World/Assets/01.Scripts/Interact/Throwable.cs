@@ -13,7 +13,7 @@ public class Throwable : Grabable
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") == false)
+        if (other.CompareTag("Player") == false && other.CompareTag("GamePoint") == false)
         {
             if(other.TryGetComponent<MonsterV2>(out var obj) == true) other.GetComponent<MonsterV2>().Hit();
             GameObject vfx = Instantiate(Manager.Instance.Build.BuildVFX, transform.position, Quaternion.identity, null);

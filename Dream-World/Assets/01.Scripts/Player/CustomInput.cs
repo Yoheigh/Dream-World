@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -28,6 +29,14 @@ public class CustomInput : MonoBehaviour
         playerInputActions.UI.Enable();
 
         playerInputActions.Player.Jump.performed += OpenInventory;
+        playerInputActions.Player.Option.performed += OpenInventory;
+        playerInputActions.Player.EquipmentChange.performed += ChangeEquipment;
+        playerInputActions.Player.BuildingChange.performed += ChangeBuilding;
+        playerInputActions.Player.BuildMode.performed += ChangeBuildMode;
+        playerInputActions.Player.RotateBuilding.performed += RotateBuilding;
+        playerInputActions.Player.Build.performed += Construct;
+
+        // playerInputActions.UI.Submit.performed += SubmitWithEnter;
         playerInputActions.UI.Cancel.performed += CloseUI;
 
         //playerInputActions.Player.CameraZoomIn.performed += HandleCameraScroll;
@@ -142,10 +151,41 @@ public class CustomInput : MonoBehaviour
     //    Manager.Instance.Camera.HandleCameraScroll(zoomIn, zoomOut);
     //}
 
+    public void SubmitWithEnter(InputAction.CallbackContext callback)
+    {
+        Input.GetKeyDown(KeyCode.KeypadEnter);
+    }
+    
+    public void ChangeEquipment(InputAction.CallbackContext callback)
+    {
+        Manager.Instance.Inventory.ChangeEquipment();
+    }
+
+    public void ChangeBuilding(InputAction.CallbackContext callback)
+    {
+        Manager.Instance.Inventory.ChangeBuilding();
+    }    
+    
+    public void ChangeBuildMode(InputAction.CallbackContext callback)
+    {
+        Manager.Instance.Build.ChangeBuildMode();
+    }   
+    
+    public void RotateBuilding(InputAction.CallbackContext callback)
+    {
+        Manager.Instance.Build.RotateBuilding();
+    }
+
+    public void Construct(InputAction.CallbackContext callback)
+    {
+        Manager.Instance.Build.Construct();
+    }
+
     public void CloseUI(InputAction.CallbackContext callback)
     {
         Manager.Instance.UI.ClosePanel();
     }
+
     public void OpenInventory(InputAction.CallbackContext callback)
     {
         // 메인 인벤토리 인덱스가 0임

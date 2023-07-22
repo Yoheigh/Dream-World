@@ -91,8 +91,8 @@ MonoBehaviour:
   fov: {fileID: 8599215086303240223}
   anim: {fileID: 3913686152697583817}
   patrolPositions:
-  - {x: 0, y: 2.5, z: 2}
-  - {x: 0, y: 2.5, z: -4}
+  - {x: 10, y: 0, z: 9}
+  - {x: 10, y: 0, z: 3}
   m_speed: 0
 --- !u!54 &9111157635398113366
 Rigidbody:
@@ -211,3 +211,4 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -187,6 +187,7 @@ public class FlagSystem : MonoBehaviour
     private IEnumerator OutOfBorderCo(Transform respawnPoint)
     {
         isFlagNotOver = true;
+        Manager.Instance.Player.ChangeState(PlayerStateType.Cinematic);
         UI.VerticalBar.SetActive(true);
         Cam.isFollowPlayer = false;
         Input.CanMove(false);

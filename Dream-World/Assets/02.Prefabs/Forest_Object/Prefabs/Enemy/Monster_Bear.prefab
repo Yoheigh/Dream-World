@@ -90,7 +90,9 @@ MonoBehaviour:
   monsterState: 0
   fov: {fileID: 717389406889612696}
   anim: {fileID: 1622117470524826580}
-  patrolPositions: []
+  patrolPositions:
+  - {x: 4, y: 0, z: 3}
+  - {x: 4, y: 0, z: 9}
   m_speed: 0
 --- !u!54 &7576595306258522834
 Rigidbody:
@@ -209,3 +211,4 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

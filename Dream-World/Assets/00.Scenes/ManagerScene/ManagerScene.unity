@@ -515,6 +515,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManagerV2
       objectReference: {fileID: 0}
+    - target: {fileID: 6580799717249910101, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: cameraRotationSpeed
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580799717249910101, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: isCurrentDeviceMouse
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6580799717249910102, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -569,11 +577,11 @@ PrefabInstance:
       objectReference: {fileID: 889078811}
     - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
       propertyPath: Sound.audios.InspectorKeys.Array.size
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
       propertyPath: Sound.audios.InspectorValues.Array.size
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
       propertyPath: Sound.audios.InspectorKeys.Array.data[1]
@@ -614,6 +622,10 @@ PrefabInstance:
     - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
       propertyPath: Sound.audios.InspectorKeys.Array.data[10]
       value: 1226
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorKeys.Array.data[11]
+      value: 123
       objectReference: {fileID: 0}
     - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
       propertyPath: Sound.audios.InspectorValues.Array.data[0]
@@ -659,6 +671,10 @@ PrefabInstance:
       propertyPath: Sound.audios.InspectorValues.Array.data[10]
       value: 
       objectReference: {fileID: 8300000, guid: 6939f93c5b9ad614c9e58e6657019ebe, type: 3}
+    - target: {fileID: 6580799717249910103, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
+      propertyPath: Sound.audios.InspectorValues.Array.data[11]
+      value: 
+      objectReference: {fileID: 8300000, guid: a568c4cca38fed446af40111f8220bf1, type: 3}
     - target: {fileID: 6580799717249910106, guid: ca247c5a291f8244eb930d4b994d2425, type: 3}
       propertyPath: cameraPoints.Array.size
       value: 0

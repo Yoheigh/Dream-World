@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9145465252685081325}
   - component: {fileID: 6702242497420884074}
   - component: {fileID: 6452514721033738871}
+  - component: {fileID: 1510231321}
   m_Layer: 3
   m_Name: IceThin
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7344179402912516920}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -97,6 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89521884cd1b56d4eb9322882895da6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsTriggerOnlyOnce: 1
+  DelayTime: 0
   BreakTime: 0.28
 --- !u!65 &6452514721033738871
 BoxCollider:
@@ -111,3 +114,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0000001, y: 0.24, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &1510231321
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7344179402912516920}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000001, y: 0.2, z: 0.99999934}
+  m_Center: {x: 0, y: 0.28, z: 0}

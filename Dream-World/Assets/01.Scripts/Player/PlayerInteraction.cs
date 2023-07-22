@@ -216,6 +216,7 @@ public class PlayerInteraction : MonoBehaviour
                 if (currentEquipment.itemName == "삽")
                 {
                     equipModel.transform.SetParent(ShovelRoot);
+                    equipModel.transform.localRotation = Quaternion.Euler(currentEquipment.EquipHandOffset);
                     equipModel.transform.localPosition = Vector3.zero;
                 }
 
@@ -235,6 +236,7 @@ public class PlayerInteraction : MonoBehaviour
             if (currentEquipment.itemName == "삽")
             {
                 equipModel.transform.SetParent(ShovelRoot);
+                equipModel.transform.localRotation = Quaternion.Euler(currentEquipment.EquipHandOffset);
                 equipModel.transform.localPosition = Vector3.zero;
             }
 

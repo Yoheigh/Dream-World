@@ -160,18 +160,20 @@ namespace PlayerOwnedStates
     {
         public override void EnterState(PlayerController _entity)
         {
-            //_entity.Input.CanMove(false);
-            //_entity.Input.CanLook(false);
-            //_entity.Input.CanInteract(false);
+            _entity.Input.CanMove(false);
+            _entity.Input.CanLook(false);
+            _entity.Input.CanInteract(false);
+            _entity.isInvincible = true;
         }
 
         public override void UpdateState(PlayerController _entity)
         {
-
+            _entity.movement.Gravity();
+            _entity.movement.Move();
         }
         public override void ExitState(PlayerController _entity)
         {
-
+            _entity.isInvincible = false;
         }
 
     }

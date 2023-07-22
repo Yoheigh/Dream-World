@@ -18,6 +18,7 @@ TagManager:
   - Breakable
   - Enemy
   - CinematicCamera
+  - GamePoint
   layers:
   - Default
   - TransparentFX

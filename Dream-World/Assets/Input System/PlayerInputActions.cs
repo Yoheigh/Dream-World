@@ -145,7 +145,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""EquipmentNum1"",
+                    ""name"": ""EquipmentChange"",
                     ""type"": ""Button"",
                     ""id"": ""7205c010-beb7-4ad7-85a3-b54e1284ce10"",
                     ""expectedControlType"": ""Button"",
@@ -154,7 +154,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""EquipmentNum2"",
+                    ""name"": ""BuildingChange"",
                     ""type"": ""Button"",
                     ""id"": ""da8993e7-8d5c-4735-8c5c-b1be015baa5a"",
                     ""expectedControlType"": ""Button"",
@@ -163,18 +163,36 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""EquipmentNum3"",
+                    ""name"": ""Option"",
                     ""type"": ""Button"",
-                    ""id"": ""2921e1d8-fc6b-4a0d-b063-1c2127b00d28"",
+                    ""id"": ""beecf75d-74d9-4771-939c-f695ae7ed809"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""EquipmentNum4"",
+                    ""name"": ""BuildMode"",
                     ""type"": ""Button"",
-                    ""id"": ""ffb76738-ab9f-4a21-a1e5-a7842d868843"",
+                    ""id"": ""4d0ec07e-5a39-4e01-99ce-f8eeb6bad048"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Build"",
+                    ""type"": ""Button"",
+                    ""id"": ""1fc6138f-e278-45b1-91d0-b7997b50811b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateBuilding"",
+                    ""type"": ""Button"",
+                    ""id"": ""de1896da-2509-491f-bc58-dad9760738fe"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -361,7 +379,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""eca51c75-1735-4f7b-9456-1ac15a734884"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -416,7 +434,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""8dae20a8-9f18-4163-a784-b6dd7930bdbe"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -438,7 +456,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""5abf2093-0d60-420b-8f44-670e8d712dbb"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -453,18 +471,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PC"",
-                    ""action"": ""EquipmentNum1"",
+                    ""action"": ""EquipmentChange"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""52dd9147-08c8-4201-be7e-72d7d511cd85"",
-                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""path"": ""<Gamepad>/dpad/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""EquipmentNum1"",
+                    ""action"": ""EquipmentChange"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -475,7 +493,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PC"",
-                    ""action"": ""EquipmentNum2"",
+                    ""action"": ""BuildingChange"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -486,51 +504,51 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""EquipmentNum2"",
+                    ""action"": ""BuildingChange"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""3d7aee47-6391-431d-8fb3-af81a31d2476"",
-                    ""path"": ""<Keyboard>/3"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""PC"",
-                    ""action"": ""EquipmentNum3"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4b8f1646-3666-4c8d-8776-541c8e4a2f72"",
-                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""id"": ""d740eea3-5af6-47e4-bd8f-2dfeb4fdf40d"",
+                    ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""EquipmentNum3"",
+                    ""action"": ""Option"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""44982c4a-63bc-4e26-9a19-b037b473574c"",
-                    ""path"": ""<Keyboard>/4"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""PC"",
-                    ""action"": ""EquipmentNum4"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e24e7345-9f05-4e5b-8fcd-2b7321fc83c6"",
-                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""id"": ""6e7d7cc4-3d53-4330-a88c-ca320959072a"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""EquipmentNum4"",
+                    ""action"": ""BuildMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""98a649fc-e351-4921-8df2-b4f14ca8a7f4"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Build"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7deaada2-fe56-4ded-aaa6-e991281b7657"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""RotateBuilding"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -631,7 +649,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": """",
                     ""action"": ""Submit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -653,7 +671,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": """",
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -725,116 +743,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Gamepad"",
-                    ""id"": ""be11a8b4-9474-4443-befc-354ef4ed40d0"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""b358ee69-a28e-45cd-93f2-5ba2bd09ad55"",
-                    ""path"": ""<Gamepad>/leftStick/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""39df4abd-1941-4433-8b1f-7de513dd2ffa"",
-                    ""path"": ""<Gamepad>/rightStick/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""be0916a8-917b-41a8-920a-af51d35ab5e3"",
-                    ""path"": ""<Gamepad>/leftStick/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""b69f8904-3810-4408-b086-5502d4bd2295"",
-                    ""path"": ""<Gamepad>/rightStick/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""cd021e52-9279-4982-9646-9310cdad94ad"",
-                    ""path"": ""<Gamepad>/leftStick/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""560a444b-ba57-467b-b8fe-e4a87c27b908"",
-                    ""path"": ""<Gamepad>/rightStick/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""7cdd9a18-89cf-4572-aea3-420da5e406ff"",
-                    ""path"": ""<Gamepad>/leftStick/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""014ca167-a42c-4a33-b969-9b435582dba1"",
-                    ""path"": ""<Gamepad>/rightStick/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""5d846a03-55b7-4219-ac17-76cbd802ff2b"",
-                    ""path"": ""<Gamepad>/dpad"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""Keyboard"",
                     ""id"": ""8aa72089-2c5a-4148-9c69-ba4e834834d5"",
                     ""path"": ""2DVector"",
@@ -885,6 +793,39 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PC"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""2390d52a-334c-4aee-af56-f108a4d1eb8d"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""8793fef4-dd7f-4a8f-82bd-3e3219a4cbb7"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""6de351ab-9053-47e7-837e-e1013ae3fc90"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -942,10 +883,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_CameraZoomOut = m_Player.FindAction("CameraZoomOut", throwIfNotFound: true);
         m_Player_CameraScroll = m_Player.FindAction("CameraScroll", throwIfNotFound: true);
         m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
-        m_Player_EquipmentNum1 = m_Player.FindAction("EquipmentNum1", throwIfNotFound: true);
-        m_Player_EquipmentNum2 = m_Player.FindAction("EquipmentNum2", throwIfNotFound: true);
-        m_Player_EquipmentNum3 = m_Player.FindAction("EquipmentNum3", throwIfNotFound: true);
-        m_Player_EquipmentNum4 = m_Player.FindAction("EquipmentNum4", throwIfNotFound: true);
+        m_Player_EquipmentChange = m_Player.FindAction("EquipmentChange", throwIfNotFound: true);
+        m_Player_BuildingChange = m_Player.FindAction("BuildingChange", throwIfNotFound: true);
+        m_Player_Option = m_Player.FindAction("Option", throwIfNotFound: true);
+        m_Player_BuildMode = m_Player.FindAction("BuildMode", throwIfNotFound: true);
+        m_Player_Build = m_Player.FindAction("Build", throwIfNotFound: true);
+        m_Player_RotateBuilding = m_Player.FindAction("RotateBuilding", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1030,10 +973,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_CameraZoomOut;
     private readonly InputAction m_Player_CameraScroll;
     private readonly InputAction m_Player_Throw;
-    private readonly InputAction m_Player_EquipmentNum1;
-    private readonly InputAction m_Player_EquipmentNum2;
-    private readonly InputAction m_Player_EquipmentNum3;
-    private readonly InputAction m_Player_EquipmentNum4;
+    private readonly InputAction m_Player_EquipmentChange;
+    private readonly InputAction m_Player_BuildingChange;
+    private readonly InputAction m_Player_Option;
+    private readonly InputAction m_Player_BuildMode;
+    private readonly InputAction m_Player_Build;
+    private readonly InputAction m_Player_RotateBuilding;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -1051,10 +996,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @CameraZoomOut => m_Wrapper.m_Player_CameraZoomOut;
         public InputAction @CameraScroll => m_Wrapper.m_Player_CameraScroll;
         public InputAction @Throw => m_Wrapper.m_Player_Throw;
-        public InputAction @EquipmentNum1 => m_Wrapper.m_Player_EquipmentNum1;
-        public InputAction @EquipmentNum2 => m_Wrapper.m_Player_EquipmentNum2;
-        public InputAction @EquipmentNum3 => m_Wrapper.m_Player_EquipmentNum3;
-        public InputAction @EquipmentNum4 => m_Wrapper.m_Player_EquipmentNum4;
+        public InputAction @EquipmentChange => m_Wrapper.m_Player_EquipmentChange;
+        public InputAction @BuildingChange => m_Wrapper.m_Player_BuildingChange;
+        public InputAction @Option => m_Wrapper.m_Player_Option;
+        public InputAction @BuildMode => m_Wrapper.m_Player_BuildMode;
+        public InputAction @Build => m_Wrapper.m_Player_Build;
+        public InputAction @RotateBuilding => m_Wrapper.m_Player_RotateBuilding;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1103,18 +1050,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Throw.started += instance.OnThrow;
             @Throw.performed += instance.OnThrow;
             @Throw.canceled += instance.OnThrow;
-            @EquipmentNum1.started += instance.OnEquipmentNum1;
-            @EquipmentNum1.performed += instance.OnEquipmentNum1;
-            @EquipmentNum1.canceled += instance.OnEquipmentNum1;
-            @EquipmentNum2.started += instance.OnEquipmentNum2;
-            @EquipmentNum2.performed += instance.OnEquipmentNum2;
-            @EquipmentNum2.canceled += instance.OnEquipmentNum2;
-            @EquipmentNum3.started += instance.OnEquipmentNum3;
-            @EquipmentNum3.performed += instance.OnEquipmentNum3;
-            @EquipmentNum3.canceled += instance.OnEquipmentNum3;
-            @EquipmentNum4.started += instance.OnEquipmentNum4;
-            @EquipmentNum4.performed += instance.OnEquipmentNum4;
-            @EquipmentNum4.canceled += instance.OnEquipmentNum4;
+            @EquipmentChange.started += instance.OnEquipmentChange;
+            @EquipmentChange.performed += instance.OnEquipmentChange;
+            @EquipmentChange.canceled += instance.OnEquipmentChange;
+            @BuildingChange.started += instance.OnBuildingChange;
+            @BuildingChange.performed += instance.OnBuildingChange;
+            @BuildingChange.canceled += instance.OnBuildingChange;
+            @Option.started += instance.OnOption;
+            @Option.performed += instance.OnOption;
+            @Option.canceled += instance.OnOption;
+            @BuildMode.started += instance.OnBuildMode;
+            @BuildMode.performed += instance.OnBuildMode;
+            @BuildMode.canceled += instance.OnBuildMode;
+            @Build.started += instance.OnBuild;
+            @Build.performed += instance.OnBuild;
+            @Build.canceled += instance.OnBuild;
+            @RotateBuilding.started += instance.OnRotateBuilding;
+            @RotateBuilding.performed += instance.OnRotateBuilding;
+            @RotateBuilding.canceled += instance.OnRotateBuilding;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1158,18 +1111,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Throw.started -= instance.OnThrow;
             @Throw.performed -= instance.OnThrow;
             @Throw.canceled -= instance.OnThrow;
-            @EquipmentNum1.started -= instance.OnEquipmentNum1;
-            @EquipmentNum1.performed -= instance.OnEquipmentNum1;
-            @EquipmentNum1.canceled -= instance.OnEquipmentNum1;
-            @EquipmentNum2.started -= instance.OnEquipmentNum2;
-            @EquipmentNum2.performed -= instance.OnEquipmentNum2;
-            @EquipmentNum2.canceled -= instance.OnEquipmentNum2;
-            @EquipmentNum3.started -= instance.OnEquipmentNum3;
-            @EquipmentNum3.performed -= instance.OnEquipmentNum3;
-            @EquipmentNum3.canceled -= instance.OnEquipmentNum3;
-            @EquipmentNum4.started -= instance.OnEquipmentNum4;
-            @EquipmentNum4.performed -= instance.OnEquipmentNum4;
-            @EquipmentNum4.canceled -= instance.OnEquipmentNum4;
+            @EquipmentChange.started -= instance.OnEquipmentChange;
+            @EquipmentChange.performed -= instance.OnEquipmentChange;
+            @EquipmentChange.canceled -= instance.OnEquipmentChange;
+            @BuildingChange.started -= instance.OnBuildingChange;
+            @BuildingChange.performed -= instance.OnBuildingChange;
+            @BuildingChange.canceled -= instance.OnBuildingChange;
+            @Option.started -= instance.OnOption;
+            @Option.performed -= instance.OnOption;
+            @Option.canceled -= instance.OnOption;
+            @BuildMode.started -= instance.OnBuildMode;
+            @BuildMode.performed -= instance.OnBuildMode;
+            @BuildMode.canceled -= instance.OnBuildMode;
+            @Build.started -= instance.OnBuild;
+            @Build.performed -= instance.OnBuild;
+            @Build.canceled -= instance.OnBuild;
+            @RotateBuilding.started -= instance.OnRotateBuilding;
+            @RotateBuilding.performed -= instance.OnRotateBuilding;
+            @RotateBuilding.canceled -= instance.OnRotateBuilding;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1322,10 +1281,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnCameraZoomOut(InputAction.CallbackContext context);
         void OnCameraScroll(InputAction.CallbackContext context);
         void OnThrow(InputAction.CallbackContext context);
-        void OnEquipmentNum1(InputAction.CallbackContext context);
-        void OnEquipmentNum2(InputAction.CallbackContext context);
-        void OnEquipmentNum3(InputAction.CallbackContext context);
-        void OnEquipmentNum4(InputAction.CallbackContext context);
+        void OnEquipmentChange(InputAction.CallbackContext context);
+        void OnBuildingChange(InputAction.CallbackContext context);
+        void OnOption(InputAction.CallbackContext context);
+        void OnBuildMode(InputAction.CallbackContext context);
+        void OnBuild(InputAction.CallbackContext context);
+        void OnRotateBuilding(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
