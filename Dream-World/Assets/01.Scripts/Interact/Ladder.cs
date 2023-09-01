@@ -6,7 +6,7 @@ public class Ladder : InteractionObject
 {
     public override ObjectType ObjectType => ObjectType.StageObject;
 
-    public Vector3 AnchorPivot;
+    public Transform AnchorPivot;
 
     [SerializeField]
     private GameObject LadderModel;
@@ -71,13 +71,13 @@ public class Ladder : InteractionObject
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(AnchorPivot + transform.position, 0.1f);
+        Gizmos.DrawSphere(AnchorPivot.position, 0.1f);
     }
 
     public override void InteractWithPlayer(PlayerController _player)
     {
         _player.interaction.InteractionObj = this;
-        _player.movement.SetVerticalPoint(AnchorPivot + transform.position, ReachHeight);
+        _player.movement.SetVerticalPoint(AnchorPivot.position, ReachHeight);
         _player.ChangeState(PlayerStateType.Climbing);
     }
 }

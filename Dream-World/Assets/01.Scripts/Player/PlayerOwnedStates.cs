@@ -113,6 +113,7 @@ namespace PlayerOwnedStates
             //_entity.gameObject.GetComponent<PlayerInteraction>().obj = null;
 
             _entity.animator.SetBool("isClimbing", false);
+            _entity.Input.CanInteract(true);
             _entity.interaction.InteractionObj = null;
         }
 
