@@ -65,7 +65,7 @@ public abstract class TriggerObject : MonoBehaviour
             //if (player == null)
             //    player = GetComponent<PlayerController>();
             //else
-                PlayerEntered(Manager.Instance.Player);
+                PlayerEntered(Managers.Instance.Player);
         }
         else
         {

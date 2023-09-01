@@ -158,38 +158,38 @@ public class CustomInput : MonoBehaviour
     
     public void ChangeEquipment(InputAction.CallbackContext callback)
     {
-        Manager.Instance.Inventory.ChangeEquipment();
+        Managers.Inventory.ChangeEquipment();
     }
 
     public void ChangeBuilding(InputAction.CallbackContext callback)
     {
-        Manager.Instance.Inventory.ChangeBuilding();
+        Managers.Inventory.ChangeBuilding();
     }    
     
     public void ChangeBuildMode(InputAction.CallbackContext callback)
     {
-        Manager.Instance.Build.ChangeBuildMode();
+        Managers.Instance.Build.ChangeBuildMode();
     }   
     
     public void RotateBuilding(InputAction.CallbackContext callback)
     {
-        Manager.Instance.Build.RotateBuilding();
+        Managers.Instance.Build.RotateBuilding();
     }
 
     public void Construct(InputAction.CallbackContext callback)
     {
-        Manager.Instance.Build.Construct();
+        Managers.Instance.Build.Construct();
     }
 
     public void CloseUI(InputAction.CallbackContext callback)
     {
-        Manager.Instance.UI.ClosePanel();
+        Managers.Instance.UI.ClosePanel();
     }
 
     public void OpenInventory(InputAction.CallbackContext callback)
     {
         // 메인 인벤토리 인덱스가 0임
-        Manager.Instance.UI.ShowPanel(0);
+        Managers.Instance.UI.ShowPanel(0);
     }
 
     public void RegisterInteractStarted(Action<InputAction.CallbackContext> actionFunc)

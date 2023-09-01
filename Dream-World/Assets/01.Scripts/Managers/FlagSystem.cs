@@ -20,9 +20,9 @@ public enum FlagActionEnum
 [System.Serializable]
 public class FlagSystem : MonoBehaviour
 {
-    CameraSystem Cam => Manager.Instance.Camera;
-    CustomInput Input => Manager.Instance.Input;
-    UISystemManager UI => Manager.Instance.UI;
+    CameraSystem Cam => Managers.Instance.Camera;
+    CustomInput Input => Managers.Input;
+    UISystemManager UI => Managers.Instance.UI;
 
     // 실제 작동할 오브젝트 키 모음
     /* 플래그들을 한 번에 저장하고 StateMachine 처럼 재생시키는 법 연구해야 함 */
@@ -48,7 +48,7 @@ public class FlagSystem : MonoBehaviour
         UI.CloseAll();
         UI.SystemUI.SetActive(false);
         Cam.HandleCameraTarget(null);
-        Manager.Instance.Player.enabled = false;
+        Managers.Instance.Player.enabled = false;
 
         Cam.HandleCameraMove(cameraPoints[0], 1f);
     }
@@ -135,7 +135,7 @@ public class FlagSystem : MonoBehaviour
         Input.CanMove(true);
         Input.CanLook(true);
         Input.CanInteract(true);
-        Manager.Instance.Player.enabled = true;
+        Managers.Instance.Player.enabled = true;
     }
 
     // 게임 오버
@@ -147,7 +147,7 @@ public class FlagSystem : MonoBehaviour
     // 게임 오버 기능
     private IEnumerator GameOverCo()
     {
-        Manager.Instance.Sound.PlaySFX(1);
+        Managers.Sound.PlaySFX(1);
         UI.VerticalBar.SetActive(true);
         Cam.isFollowPlayer = false;
         Input.CanMove(false);
@@ -157,25 +157,25 @@ public class FlagSystem : MonoBehaviour
 
         // 얘네는 이따 수정해야 함!
         UI.PlayerUI.SetActive(false);
-        Manager.Instance.Player.anim.ChangeAnimationState("Hit");
+        Managers.Instance.Player.anim.ChangeAnimationState("Hit");
         Time.timeScale = 0.0f;
 
         yield return new WaitForSecondsRealtime(1f);
 
-        Manager.Instance.Player.anim.ChangeAnimationState("Die");
+        Managers.Instance.Player.anim.ChangeAnimationState("Die");
 
-        AsyncOperation op = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        AsyncOperation op = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
         op.allowSceneActivation = false;
 
         yield return new WaitForSecondsRealtime(1f);
 
-        Manager.Instance.UI.Transition.CircleIn();
+        Managers.Instance.UI.Transition.CircleIn();
 
         yield return new WaitForSecondsRealtime(3f);
 
         op.allowSceneActivation = true;
 
-        Manager.Instance.UI.Transition.CircleOut();
+        Managers.Instance.UI.Transition.CircleOut();
     }
 
     public void OutOfBorder(Transform respawnPoint)
@@ -187,7 +187,7 @@ public class FlagSystem : MonoBehaviour
     private IEnumerator OutOfBorderCo(Transform respawnPoint)
     {
         isFlagNotOver = true;
-        Manager.Instance.Player.ChangeState(PlayerStateType.Cinematic);
+        Managers.Instance.Player.ChangeState(PlayerStateType.Cinematic);
         UI.VerticalBar.SetActive(true);
         Cam.isFollowPlayer = false;
         Input.CanMove(false);
@@ -196,20 +196,20 @@ public class FlagSystem : MonoBehaviour
         UI.CloseAll();
 
         // 플레이어 낙뎀 안 입게
-        Manager.Instance.Player.isInvincible = true;
+        Managers.Instance.Player.isInvincible = true;
 
         Cam.HandleCameraTarget(null);
-        Manager.Instance.UI.Transition.CircleIn();
+        Managers.Instance.UI.Transition.CircleIn();
         yield return new WaitForSecondsRealtime(2f);
 
         Cam.ReturnCameraToPlayer();
         Cam.isFollowPlayer = true;
-        Manager.Instance.Player.transform.SetPositionAndRotation(respawnPoint.position, respawnPoint.rotation);
-        Manager.Instance.UI.Transition.CircleOut();
+        Managers.Instance.Player.transform.SetPositionAndRotation(respawnPoint.position, respawnPoint.rotation);
+        Managers.Instance.UI.Transition.CircleOut();
         yield return new WaitForSecondsRealtime(2f);
 
-        Manager.Instance.Player.ChangeState(PlayerStateType.Default);
-        Manager.Instance.Player.isInvincible = false;
+        Managers.Instance.Player.ChangeState(PlayerStateType.Default);
+        Managers.Instance.Player.isInvincible = false;
 
         // 컷씬 타입이었으면 다시 플레이어블 상태로 돌아오도록
         UI.VerticalBar.SetActive(false);
@@ -217,7 +217,7 @@ public class FlagSystem : MonoBehaviour
         Input.CanLook(true);
         Input.CanInteract(true);
 
-        Manager.Instance.Player.Hit();
+        Managers.Instance.Player.Hit();
         isFlagNotOver = false;
     }
 
@@ -232,12 +232,12 @@ public class FlagSystem : MonoBehaviour
     {
         currentSceneIndex++;
         // AsyncOperation op_before = SceneManager.UnloadSceneAsync(currentSceneIndex - 1);
-        AsyncOperation op_next = SceneManager.LoadSceneAsync(currentSceneIndex, LoadSceneMode.Single);
+        AsyncOperation op_next = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(currentSceneIndex, LoadSceneMode.Single);
 
         // op_before.allowSceneActivation = false;
         op_next.allowSceneActivation = false;
 
-        Manager.Instance.UI.Transition.CircleIn();
+        Managers.Instance.UI.Transition.CircleIn();
 
         yield return new WaitForSecondsRealtime(2.5f);
 
@@ -249,7 +249,7 @@ public class FlagSystem : MonoBehaviour
 
         // SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(currentSceneIndex));
 
-        Manager.Instance.UI.Transition.CircleOut();
+        Managers.Instance.UI.Transition.CircleOut();
 
         yield return new WaitForSecondsRealtime(2.5f);
         isFlagNotOver = false;
@@ -277,9 +277,9 @@ public class FlagSystem : MonoBehaviour
 [System.Serializable]
 public class StageFlag
 {
-    CameraSystem Cam => Manager.Instance.Camera;
-    CustomInput Input => Manager.Instance.Input;
-    UISystemManager UI => Manager.Instance.UI;
+    CameraSystem Cam => Managers.Instance.Camera;
+    CustomInput Input => Managers.Input;
+    UISystemManager UI => Managers.Instance.UI;
 
     // public int flagID;
 

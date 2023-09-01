@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public CustomInput Input => Manager.Instance.Input;
+    public CustomInput Input => Managers.Input;
 
     [Header("Default State 플레이어 설정")]
     [Tooltip("걸을 때, 1초에 moveSpeed 미터만큼 이동합니다.")]

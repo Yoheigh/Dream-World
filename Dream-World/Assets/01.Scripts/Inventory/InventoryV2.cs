@@ -8,7 +8,7 @@ using UnityEngine.InputSystem.XR;
 [System.Serializable]
 public class InventoryV2
 {
-    Manager Manager => Manager.Instance;
+    Managers Manager => Managers.Instance;
 
     /* 딕셔너리화 필요한 경우 할 예정 */
     /* 인벤토리 정리를 인덱스로 하기 위해 List로 설정 */
@@ -66,7 +66,7 @@ public class InventoryV2
     // 인벤토리에 아이템 추가 ( 아이템 ID )
     public void AddItem(int _itemID)
     {
-        Manager.Data.GetItem(_itemID);
+        Managers.Data.GetItem(_itemID);
     }
 
     // 인벤토리에 아이템 추가 ( 아이템 객체 )

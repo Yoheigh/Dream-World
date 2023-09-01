@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class UICraftMenu : UIPanel
 {
-    InventoryV2 Inventory => Manager.Instance.Inventory;
-    CraftSystem Craft => Manager.Instance.Craft;
+    InventoryV2 Inventory => Managers.Inventory;
+    CraftSystem Craft => Managers.Craft;
 
     // static event
     public static Action OnCraftChange;
@@ -51,7 +51,7 @@ public class UICraftMenu : UIPanel
             craftSlots[i].Button.SetCallback(() =>
             {
                 currentIndex = index;
-                Manager.Instance.Sound.PlaySFX(101);
+                Managers.Sound.PlaySFX(101);
                 Draw();
             });
 
@@ -167,7 +167,7 @@ public class UICraftMenu : UIPanel
     public void CraftItem()
     {
         Craft.CraftItem(craftSlots[currentIndex].itemRecipe);
-        Manager.Instance.Sound.PlaySFX(102);
+        Managers.Sound.PlaySFX(102);
         Draw();
     }
 

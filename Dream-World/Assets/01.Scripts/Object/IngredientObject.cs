@@ -41,17 +41,17 @@ public class IngredientObject : MonoBehaviour
         switch (effectiveType)
         {
             case EffectiveType.Shovel:
-                Manager.Instance.Sound.PlaySFX(3);
+                Managers.Sound.PlaySFX(3);
                 break;
             case EffectiveType.Axe:
-                Manager.Instance.Sound.PlaySFX(5);
+                Managers.Sound.PlaySFX(5);
                 break;
             case EffectiveType.Pickaxe:
-                Manager.Instance.Sound.PlaySFX(6);
+                Managers.Sound.PlaySFX(6);
                 break;
         }
 
-        GameObject obj = Instantiate(Manager.Instance.Build.BuildVFX, transform.position, Quaternion.identity);
+        GameObject obj = Instantiate(Managers.Instance.Build.BuildVFX, transform.position, Quaternion.identity);
         Destroy(obj, 4f);
         Destruction();
     }
@@ -83,7 +83,7 @@ public class IngredientObject : MonoBehaviour
         // 부수자마자 아이템 얻을 수 있게 개조
         if(GetAmount != 0)
         {
-            Manager.Instance.Inventory.AddItem(DropItemPrefab.GetComponent<Pickup>().item);
+            Managers.Inventory.AddItem(DropItemPrefab.GetComponent<Pickup>().item);
         }
         
         Destroy(gameObject);

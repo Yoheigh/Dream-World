@@ -8,13 +8,13 @@ public class Icicle : TriggerObject
     {
         _player.Hit();
         Debug.Log("플레이어 타격");
-        GameObject obj = Instantiate(Manager.Instance.Build.BuildVFX, transform.position, Quaternion.identity);
+        GameObject obj = Instantiate(Managers.Instance.Build.BuildVFX, transform.position, Quaternion.identity);
         Destroy(obj, 4f);
         Destroy(gameObject);
     }
     protected override void TriggerWith(Collider other)
     {
-        GameObject obj = Instantiate(Manager.Instance.Build.BuildVFX, transform.position, Quaternion.identity);
+        GameObject obj = Instantiate(Managers.Instance.Build.BuildVFX, transform.position, Quaternion.identity);
         Destroy(obj, 4f);
         Destroy(gameObject);
     }

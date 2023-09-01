@@ -10,7 +10,7 @@ public class UIMenuList : UIPanel
         for(int i = 0; i < base.Buttons.Length; i++)
         {
             int index = i;
-            Buttons[index].onClick.AddListener(() => Manager.Instance.UI.AddPanelPopup(index));
+            Buttons[index].onClick.AddListener(() => Managers.Instance.UI.AddPanelPopup(index));
         }
     }
 }

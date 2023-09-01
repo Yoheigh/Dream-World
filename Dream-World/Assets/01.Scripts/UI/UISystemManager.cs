@@ -61,7 +61,7 @@ public class UISystemManager : MonoBehaviour
         if (Canvas.activeSelf == false)
         {
             Canvas.SetActive(true);
-            Manager.Instance.Sound.PlaySFX(102);
+            Managers.Sound.PlaySFX(102);
             isActivateUI = true;
         }
 
@@ -171,10 +171,10 @@ public class UISystemManager : MonoBehaviour
         {
             ingredientSlots[i].Init();
         }
-        for (int i = 0; i < Manager.Instance.Inventory.ingredients.Count; i++)
+        for (int i = 0; i < Managers.Inventory.ingredients.Count; i++)
         {
             Debug.Log($"{i}번째 자원 슬롯 Draw");
-            ingredientSlots[i].DrawWithCount(Manager.Instance.Inventory.ingredients[i]);
+            ingredientSlots[i].DrawWithCount(Managers.Inventory.ingredients[i]);
         }
 
         // 장비 슬롯 초기화
@@ -182,10 +182,10 @@ public class UISystemManager : MonoBehaviour
         {
             EquipmentSlots[i].Init();
         }
-        for (int i = 0; i < Manager.Instance.Inventory.equipments.Count; i++)
+        for (int i = 0; i < Managers.Inventory.equipments.Count; i++)
         {
             Debug.Log($"{i}번째 장비 슬롯 Draw");
-            EquipmentSlots[i].Draw(Manager.Instance.Inventory.equipments[i]);
+            EquipmentSlots[i].Draw(Managers.Inventory.equipments[i]);
         }
 
         //건물 슬롯 초기화
@@ -193,9 +193,9 @@ public class UISystemManager : MonoBehaviour
         {
             BuildingSlots[i].Init();
         }
-        for (int i = 0; i < Manager.Instance.Inventory.buildings.Count; i++)
+        for (int i = 0; i < Managers.Inventory.buildings.Count; i++)
         {
-            BuildingSlots[i].Draw(Manager.Instance.Inventory.buildings[i]);
+            BuildingSlots[i].Draw(Managers.Inventory.buildings[i]);
         }
     }
 
@@ -209,7 +209,7 @@ public class UISystemManager : MonoBehaviour
                 continue;
             }
             EquipmentSlots[i].DisableObj.SetActive(true);
-            Manager.Instance.Sound.PlaySFX(101);
+            Managers.Sound.PlaySFX(101);
         }
     }
 
@@ -223,7 +223,7 @@ public class UISystemManager : MonoBehaviour
                 continue;
             }
             BuildingSlots[i].DisableObj.SetActive(true);
-            Manager.Instance.Sound.PlaySFX(101);
+            Managers.Sound.PlaySFX(101);
         }
     }
 }

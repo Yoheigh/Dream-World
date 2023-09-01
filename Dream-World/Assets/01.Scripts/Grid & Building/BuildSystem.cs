@@ -17,7 +17,7 @@ public class BuildSystem : MonoBehaviour
     public PreviewPrefab entity;
 
     // 이거 언제 리팩토링함 하하
-    Building buildingData => Manager.Instance.Player.interaction.currentBuilding;
+    Building buildingData => Managers.Instance.Player.interaction.currentBuilding;
 
     // 건물 지어지는 이펙트
     public GameObject BuildVFX;
@@ -262,14 +262,14 @@ public class BuildSystem : MonoBehaviour
     {
         if(ladderCheck == true)
         {
-            Manager.Instance.Inventory.OnChangeBuilding?.Invoke(Manager.Instance.Inventory.currentBuildingSlot);
+            Managers.Inventory.OnChangeBuilding?.Invoke(Managers.Inventory.currentBuildingSlot);
             tempLadder.AddLadder();
             Destroy(entity.Preview);
 
             Building temp = new Building(buildingData);
             temp.itemCount = 1;
-            Manager.Instance.Inventory.RemoveItem(temp);
-            Manager.Instance.UI.DrawItemSlots();
+            Managers.Inventory.RemoveItem(temp);
+            Managers.Instance.UI.DrawItemSlots();
 
             isBuildMode = false;
             return;
@@ -277,7 +277,7 @@ public class BuildSystem : MonoBehaviour
 
         if (buildCheck == false) return;
 
-        Manager.Instance.Inventory.OnChangeBuilding?.Invoke(Manager.Instance.Inventory.currentBuildingSlot);
+        Managers.Inventory.OnChangeBuilding?.Invoke(Managers.Inventory.currentBuildingSlot);
         entity_Rot = entity.Preview.transform.rotation.eulerAngles;
         Destroy(entity.Preview);
         StartCoroutine(ConstructWithEffect());
@@ -303,8 +303,8 @@ public class BuildSystem : MonoBehaviour
     {
         Building temp = new Building(buildingData);
         temp.itemCount = 1;
-        Manager.Instance.Inventory.RemoveItem(temp);
-        Manager.Instance.UI.DrawItemSlots();
+        Managers.Inventory.RemoveItem(temp);
+        Managers.Instance.UI.DrawItemSlots();
 
         var wait = new WaitForSeconds(0.3f);
 

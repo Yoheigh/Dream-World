@@ -5,7 +5,7 @@ using UnityEngine.VFX;
 
 public class BuildPreview : MonoBehaviour
 {
-    BuildSystem build => Manager.Instance.Build;
+    BuildSystem build => Managers.Instance.Build;
 
     // 제작할 건물 모습 가져오기
     [SerializeField]

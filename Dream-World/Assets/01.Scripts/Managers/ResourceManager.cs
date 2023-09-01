@@ -10,7 +10,7 @@ public class ResourceManager
 {
     Dictionary<string, Object> _resources = new Dictionary<string, Object>();       // 리소스 리스트 목록 관리
 
-    public Manager Manager => Manager.Instance;                                     // 매니저를 통해 Object 관리를 하기 위해 선언
+    public Managers Manager => Managers.Instance;                                     // 매니저를 통해 Object 관리를 하기 위해 선언
 
     public GameObject Instantiate(string key, Transform parent = null, bool pooling = false)    // 리소스 전용 Instantiate 함수
     {

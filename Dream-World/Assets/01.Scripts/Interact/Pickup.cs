@@ -11,7 +11,7 @@ public class Pickup : InteractionObject
     public override void InteractWithPlayer(PlayerController _player)
     {
         // 아이템 구현
-        Manager.Instance.Inventory.AddItem(item);
+        Managers.Inventory.AddItem(item);
         Destroy(gameObject);
     }
 }

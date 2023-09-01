@@ -5,7 +5,7 @@ using UnityEngine.InputSystem.XR;
 
 public class CameraSystem : MonoBehaviour
 {
-    CustomInput Input => Manager.Instance.Input;
+    CustomInput Input => Managers.Input;
 
     public GameObject MainCamera;
     public PlayerController controller;

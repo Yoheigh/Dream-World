@@ -68,11 +68,11 @@ public class PlayerInteraction : MonoBehaviour
         preview = GetComponent<PreviewPrefab>();
         
         // 나중에 리팩토링 할 거임
-        Manager.Instance.Inventory.OnChangeEquipment += ChangeEquipment;
-        Manager.Instance.Inventory.OnChangeEquipment.Invoke(0);
+        Managers.Inventory.OnChangeEquipment += ChangeEquipment;
+        Managers.Inventory.OnChangeEquipment.Invoke(0);
 
-        Manager.Instance.Inventory.OnChangeBuilding += ChangeBuilding;
-        Manager.Instance.Inventory.OnChangeBuilding.Invoke(0);
+        Managers.Inventory.OnChangeBuilding += ChangeBuilding;
+        Managers.Inventory.OnChangeBuilding.Invoke(0);
 
         Debug.Log($"3. Setup - {this}");
     }
@@ -90,7 +90,7 @@ public class PlayerInteraction : MonoBehaviour
         // 손에 무언가 들고 있는 상태일 경우 처리
         if (interactionObj != null)
         {
-            Manager.Instance.Sound.PlaySFX(3);
+            Managers.Sound.PlaySFX(3);
             // 오브젝트의 enum에 따라서 플레이어 상태 변경
             switch (interactionObj.ObjectType)
             {
@@ -126,7 +126,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (fov.ClosestTransform.TryGetComponent(out InteractionObject temp))
         {
-            Manager.Instance.Sound.PlaySFX(3);
+            Managers.Sound.PlaySFX(3);
             // 오브젝트의 인터랙션 기능이 있으면 활성화
             temp.InteractWithPlayer(controller);
 
@@ -462,7 +462,7 @@ public class PlayerInteraction : MonoBehaviour
     //    controller.ChangeMoveState(PlayerStateType.Climbing);
     //}
 
-    // Sine 함수 콜백 ( 점차 증가하는 속도가 빨라지는 그래프 )
+    // Sine 함수 콜백 ( 점차 증가하는 속도가 느려지는 그래프 (ease out) )
     public void GraphSine(float lerpTime, Action<float> callback = null)
     {
         StartCoroutine(GraphSineCoroutine(lerpTime, callback));
@@ -493,7 +493,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         try
         {
-            currentEquipment = Manager.Instance.Inventory.equipments[index] as Equipment;
+            currentEquipment = Managers.Inventory.equipments[index] as Equipment;
         }
         catch
         {
@@ -505,7 +505,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         try
         {
-            currentBuilding = Manager.Instance.Inventory.buildings[index] as Building;
+            currentBuilding = Managers.Inventory.buildings[index] as Building;
         }
         catch
         {

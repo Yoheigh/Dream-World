@@ -6,10 +6,10 @@ using UnityEngine;
 [System.Serializable]
 public class CraftSystem
 {
-    InventoryV2 Inventory => Manager.Instance.Inventory;
+    InventoryV2 Inventory => Managers.Inventory;
 
     // 보유 중인 아이템 조합법
-    List<ItemRecipe> Recipes => Manager.Instance.Inventory.recipes;
+    List<ItemRecipe> Recipes => Managers.Inventory.recipes;
 
     // 아이템 조합법에 따라 제작 가능 여부 체크
     public bool CraftItemCheck(ItemRecipe recipe)

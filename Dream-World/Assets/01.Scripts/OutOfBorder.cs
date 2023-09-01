@@ -13,7 +13,7 @@ public class OutOfBorder : TriggerObject
 
     protected override void TriggerWithPlayer(PlayerController _player)
     {
-        Manager.Instance.Sound.PlaySFX(1226);
-        Manager.Instance.Flag.OutOfBorder(respawnPoint);
+        Managers.Sound.PlaySFX(1226);
+        Managers.Flag.OutOfBorder(respawnPoint);
     }
 }

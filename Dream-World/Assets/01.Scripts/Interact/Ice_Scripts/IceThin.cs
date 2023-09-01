@@ -25,7 +25,7 @@ public class IceThin : TriggerObject
             breakTime += Time.deltaTime;
             yield return null;
         }
-        Manager.Instance.Sound.PlaySFX(123);
+        Managers.Sound.PlaySFX(123);
         Destroy(gameObject);
     }
 }

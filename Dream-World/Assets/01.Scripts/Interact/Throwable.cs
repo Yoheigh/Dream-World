@@ -16,10 +16,10 @@ public class Throwable : Grabable
         if (other.CompareTag("Player") == false && other.CompareTag("GamePoint") == false)
         {
             if(other.TryGetComponent<MonsterV2>(out var obj) == true) other.GetComponent<MonsterV2>().Hit();
-            GameObject vfx = Instantiate(Manager.Instance.Build.BuildVFX, transform.position, Quaternion.identity, null);
+            GameObject vfx = Instantiate(Managers.Instance.Build.BuildVFX, transform.position, Quaternion.identity, null);
             Destroy(vfx, 4f);
             Destroy(gameObject);
-            Manager.Instance.Sound.PlaySFX(6);
+            Managers.Sound.PlaySFX(6);
         }
     }
 

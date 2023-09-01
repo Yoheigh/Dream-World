@@ -24,7 +24,7 @@ public enum PlayerStateType : sbyte
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-    public CustomInput Input => Manager.Instance.Input;
+    public CustomInput Input => Managers.Input;
 
     public Action<int> OnDamage;
     public Action OnGameOver;
@@ -56,8 +56,8 @@ public class PlayerController : MonoBehaviour
         Input.playerInputActions.Player.InteractWithEquipment.performed += InteractWithEquipment;
         Input.playerInputActions.Player.Throw.performed += Throw;
 
-        OnDamage = Manager.Instance.UI.HP.Draw;
-        OnGameOver = Manager.Instance.Flag.GameOver;
+        OnDamage = Managers.Instance.UI.HP.Draw;
+        OnGameOver = Managers.Flag.GameOver;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
     public void Hit()
     {
         if (isInvincible) return;
-        Manager.Instance.Sound.PlaySFX(1225);
+        Managers.Sound.PlaySFX(1225);
         StartCoroutine(DamageCoroutine());
     }
 
