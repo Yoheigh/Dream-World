@@ -36,12 +36,12 @@ public class Managers : MonoBehaviour
 
     // MonoBehaviour 달린 것들
     public PlayerController Player;
-    public CustomInput _input;
-    public CameraSystem Camera;
-    public FlagSystem _flag = new FlagSystem();
-    public UISystemManager UI;
-    public GridSystem Grid;
-    public BuildSystem Build;
+    CustomInput _input;
+    CameraSystem _camera;
+    FlagSystem _flag = new FlagSystem();
+    UISystemManager _ui;
+    GridSystem _grid;
+    BuildSystem _build;
 
     public static SceneManager Stage { get { return Instance?._stage; } }
     public static SoundManager Sound { get { return Instance?._sound; } }
@@ -51,6 +51,11 @@ public class Managers : MonoBehaviour
     public static CraftSystem Craft { get { return Instance?._craft; } }
     public static FlagSystem Flag { get { return Instance?._flag; } }
     public static CustomInput Input { get { return Instance?._input; } }
+    public static BuildSystem Build { get { return Instance?._build; } }
+    public static GridSystem Grid { get { return Instance?._grid; } }
+    public static UISystemManager UI { get { return Instance?._ui; } }
+    public static FlagSystem FLAG { get { return Instance?._flag; } }
+    public static CameraSystem CAMERA { get { return Instance?._camera; } }
 
 
 
