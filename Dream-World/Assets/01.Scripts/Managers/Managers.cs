@@ -27,9 +27,9 @@ public class Managers : MonoBehaviour
     //    }
     //}
 
-    SceneManager _stage = new SceneManager();
+    SceneManager _stage;
     SoundManager _sound = new SoundManager();
-    DataManager _data = new DataManager();
+    DataManager _data;
 
     InventoryV2 _inventory = new InventoryV2();
     CraftSystem _craft = new CraftSystem();
@@ -38,10 +38,11 @@ public class Managers : MonoBehaviour
     public PlayerController Player;
     CustomInput _input;
     CameraSystem _camera;
-    FlagSystem _flag = new FlagSystem();
     UISystemManager _ui;
     GridSystem _grid;
     BuildSystem _build;
+    FlagSystem _flag;
+
 
     public static SceneManager Stage { get { return Instance?._stage; } }
     public static SoundManager Sound { get { return Instance?._sound; } }
@@ -55,9 +56,8 @@ public class Managers : MonoBehaviour
     public static GridSystem Grid { get { return Instance?._grid; } }
     public static UISystemManager UI { get { return Instance?._ui; } }
     public static FlagSystem FLAG { get { return Instance?._flag; } }
-    public static CameraSystem CAMERA { get { return Instance?._camera; } }
-
-
+    public static CameraSystem Cam { get { return Instance?._camera; } }
+    public static CoroutineUtil CO { get { return CoroutineUtil.Instance; } }
 
     private bool isGamePaused = false;
 
@@ -79,11 +79,11 @@ public class Managers : MonoBehaviour
 
         // 시스템 등록
         _input = GetComponent<CustomInput>();
-        Camera = GetComponent<CameraSystem>();
-        UI = GetComponent<UISystemManager>();
+        _camera = GetComponent<CameraSystem>();
+        _ui = GetComponent<UISystemManager>();
         _flag = GetComponent<FlagSystem>();
-        Grid = GetComponent<GridSystem>();
-        Build = GetComponent<BuildSystem>();
+        _grid = GetComponent<GridSystem>();
+        _build = GetComponent<BuildSystem>();
 
         _inventory.OnChangeItem += UI.DrawItemSlots;
         _inventory.OnChangeEquipment += UI.ActivateEquipSlot;
@@ -121,14 +121,14 @@ public class Managers : MonoBehaviour
             Player = FindObjectOfType<PlayerController>();
 
         // 시스템 셋업
-        Camera.Setup();
+        Cam.Setup();
         UI.Setup();
         Flag.Setup();
         Grid.Setup();
         Build.Setup();
 
         // 인벤토리 초기화
-        _inventory.Init();
+        Inventory.Init();
         UI.DrawItemSlots();
 
         Sound.PlayBGM(100);
@@ -158,8 +158,8 @@ public class Managers : MonoBehaviour
 
     private void LateUpdate()
     {
-        Camera.HandleCameraRotation();
-        Camera.HandleCameraScroll(Input.zoomIn, Input.zoomOut);
+        Cam.HandleCameraRotation();
+        Cam.HandleCameraScroll(Input.zoomIn, Input.zoomOut);
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.L)) Flag.ForestCutsceneStart();
 

@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
         Input.playerInputActions.Player.InteractWithEquipment.performed += InteractWithEquipment;
         Input.playerInputActions.Player.Throw.performed += Throw;
 
-        OnDamage = Managers.Instance.UI.HP.Draw;
+        OnDamage = Managers.UI.HP.Draw;
         OnGameOver = Managers.Flag.GameOver;
 
         Cursor.lockState = CursorLockMode.Locked;

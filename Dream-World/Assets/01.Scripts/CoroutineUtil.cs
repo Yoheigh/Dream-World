@@ -8,10 +8,15 @@ public class CoroutineUtil : MonoBehaviour
 {
     private static MonoBehaviour monoInstance;
 
+    private static CoroutineUtil instance;
+
+    public static CoroutineUtil Instance { get { Init(); return instance; } }
+
     [RuntimeInitializeOnLoadMethod]
-    private static void Initializer()
+    private static void Init()
     {
         monoInstance = new GameObject($"[{nameof(CoroutineUtil)}]").AddComponent<CoroutineUtil>();
+        instance = monoInstance.GetComponent<CoroutineUtil>();
         DontDestroyOnLoad(monoInstance.gameObject);
     }
 
@@ -51,6 +56,8 @@ public class CoroutineUtil : MonoBehaviour
 
             switch (graphType)
             {
+                case GraphType.Linear:                          // 리니어
+                    break;
                 case GraphType.Ease_Out:                        // 마지막에 천천히 느려짐
                     t = Mathf.Sin(t * Mathf.PI * 0.5f);
                     break;

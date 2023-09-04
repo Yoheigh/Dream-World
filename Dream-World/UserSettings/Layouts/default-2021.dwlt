@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Console
+  m_Title: Inspector
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 350}
   m_MaxSize: {x: 10000, y: 10000}
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 136
+  controlID: 126
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 78
+  controlID: 73
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -201,7 +201,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 135
+  controlID: 125
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1111,7 +1111,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: f0b9ffff
+      m_ExpandedIDs: 1a6fffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1207,7 +1207,7 @@ MonoBehaviour:
     m_SaveData: []
     m_OverlaysVisible: 1
   m_SearchFilter:
-    m_NameFilter: 
+    m_NameFilter: managers
     m_ClassNames: []
     m_AssetLabels: []
     m_AssetBundleNames: []
@@ -1217,23 +1217,23 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/00.Scenes/Cave_Scenes
+    - Assets
     m_Globs: []
-    m_OriginalText: 
+    m_OriginalText: managers
     m_FilterByTypeIntersection: 0
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/00.Scenes/Cave_Scenes
+  - Assets
   m_LastFoldersGridSize: 16
   m_LastProjectPath: D:\GIT\Dream-World\Dream-World
   m_LockTracker:
     m_IsLocked: 1
   m_FolderTreeState:
     scrollPos: {x: 0, y: 31}
-    m_SelectedIDs: b8cd0000
-    m_LastClickedID: 52664
-    m_ExpandedIDs: 0000000038cb00003acb00003ccb00003ecb000040cb000042cb000044cb000046cb000048cb00004acb00004ccb00004ecb000050cb000052cb000054cb000056cb000058cb00005acb00005ccb00005ecb000060cb000062cb000064cb000066cb000068cb00006acb00006ccb00006ecb000070cb000072cb000074cb000076cb000078cb00007acb00007ccb00007ecb000080cb000082cb000084cb000086cb000088cb00008acb00008ccb00008ecb000090cb0000
+    m_SelectedIDs: 562c0100
+    m_LastClickedID: 76886
+    m_ExpandedIDs: 00000000fe2b0100002c0100022c0100042c0100062c0100082c01000a2c01000c2c01000e2c0100102c0100122c0100142c0100162c0100182c01001a2c01001c2c01001e2c0100202c0100222c0100242c0100262c0100282c01002a2c01002c2c01002e2c0100302c0100322c0100342c0100362c0100382c01003a2c01003c2c01003e2c0100402c0100422c0100442c0100462c0100482c01004a2c01004c2c01004e2c0100502c0100522c0100542c0100562c0100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1261,7 +1261,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000038cb00003acb00003ccb00003ecb000040cb000042cb000044cb000046cb000048cb00004acb00004ccb00004ecb000050cb000052cb000054cb000056cb000058cb00005acb00005ccb00005ecb000060cb000062cb000064cb000066cb000068cb00006acb00006ccb00006ecb000070cb000072cb000074cb000076cb000078cb00007acb00007ccb00007ecb000080cb000082cb000084cb000086cb000088cb00008acb00008ccb00008ecb000090cb0000
+    m_ExpandedIDs: 00000000fe2b0100002c0100022c0100042c0100062c0100082c01000a2c01000c2c01000e2c0100102c0100122c0100142c0100162c0100182c01001a2c01001c2c01001e2c0100202c0100222c0100242c0100262c0100282c01002a2c01002c2c01002e2c0100302c0100322c0100342c0100362c0100382c01003a2c01003c2c01003e2c0100402c0100422c0100442c0100462c0100482c01004a2c01004c2c01004e2c0100502c0100522c0100542c0100562c0100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

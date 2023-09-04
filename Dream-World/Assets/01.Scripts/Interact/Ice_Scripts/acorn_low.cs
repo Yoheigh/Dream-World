@@ -8,7 +8,7 @@ public class acorn_low : TriggerObject
     {
         Debug.LogError("∞‘¿”∆˜¿Œ∆Æ »πµÊ!");
         Managers.Sound.PlaySFX(4);
-        var obj = Instantiate(Managers.Instance.Build.BuildVFX);
+        var obj = Instantiate(Managers.Build.BuildVFX);
         obj.transform.position = transform.position;
         Destroy(obj, 4f);
         Destroy(gameObject);

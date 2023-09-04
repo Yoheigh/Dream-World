@@ -9,14 +9,6 @@ using static Define;
 
 public static class Util
 {
-    // Coroutine 작업을 도와줄 GraphExtensions
-    public static CoroutineUtil CO;
-
-    public static void Init(CoroutineUtil _CO)
-    {
-        CO = _CO;
-    }
-
     public static T GetOrAddComponent<T>(GameObject go) where T : UnityEngine.Component
     {
         T component = go.GetComponent<T>();                 //GetComponet 시도 
@@ -78,7 +70,7 @@ public static class Util
 
     public static void Graph(float lerpTime, Action<float> callback = null, GraphType graphType = GraphType.Ease_Out)
     {
-        CO.Graph(lerpTime, callback, graphType);
+        Managers.CO.Graph(lerpTime, callback, graphType);
     }
 
 }

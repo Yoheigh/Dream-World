@@ -168,28 +168,28 @@ public class CustomInput : MonoBehaviour
     
     public void ChangeBuildMode(InputAction.CallbackContext callback)
     {
-        Managers.Instance.Build.ChangeBuildMode();
+        Managers.Build.ChangeBuildMode();
     }   
     
     public void RotateBuilding(InputAction.CallbackContext callback)
     {
-        Managers.Instance.Build.RotateBuilding();
+        Managers.Build.RotateBuilding();
     }
 
     public void Construct(InputAction.CallbackContext callback)
     {
-        Managers.Instance.Build.Construct();
+        Managers.Build.Construct();
     }
 
     public void CloseUI(InputAction.CallbackContext callback)
     {
-        Managers.Instance.UI.ClosePanel();
+        Managers.UI.ClosePanel();
     }
 
     public void OpenInventory(InputAction.CallbackContext callback)
     {
         // 메인 인벤토리 인덱스가 0임
-        Managers.Instance.UI.ShowPanel(0);
+        Managers.UI.ShowPanel(0);
     }
 
     public void RegisterInteractStarted(Action<InputAction.CallbackContext> actionFunc)

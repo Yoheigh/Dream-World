@@ -51,7 +51,7 @@ public class IngredientObject : MonoBehaviour
                 break;
         }
 
-        GameObject obj = Instantiate(Managers.Instance.Build.BuildVFX, transform.position, Quaternion.identity);
+        GameObject obj = Instantiate(Managers.Build.BuildVFX, transform.position, Quaternion.identity);
         Destroy(obj, 4f);
         Destruction();
     }

@@ -20,9 +20,9 @@ public enum FlagActionEnum
 [System.Serializable]
 public class FlagSystem : MonoBehaviour
 {
-    CameraSystem Cam => Managers.Instance.Camera;
+    CameraSystem Cam => Managers.Cam;
     CustomInput Input => Managers.Input;
-    UISystemManager UI => Managers.Instance.UI;
+    UISystemManager UI => Managers.UI;
 
     // 실제 작동할 오브젝트 키 모음
     /* 플래그들을 한 번에 저장하고 StateMachine 처럼 재생시키는 법 연구해야 함 */
@@ -169,13 +169,13 @@ public class FlagSystem : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(1f);
 
-        Managers.Instance.UI.Transition.CircleIn();
+        Managers.UI.Transition.CircleIn();
 
         yield return new WaitForSecondsRealtime(3f);
 
         op.allowSceneActivation = true;
 
-        Managers.Instance.UI.Transition.CircleOut();
+        Managers.UI.Transition.CircleOut();
     }
 
     public void OutOfBorder(Transform respawnPoint)
@@ -199,13 +199,13 @@ public class FlagSystem : MonoBehaviour
         Managers.Instance.Player.isInvincible = true;
 
         Cam.HandleCameraTarget(null);
-        Managers.Instance.UI.Transition.CircleIn();
+        Managers.UI.Transition.CircleIn();
         yield return new WaitForSecondsRealtime(2f);
 
         Cam.ReturnCameraToPlayer();
         Cam.isFollowPlayer = true;
         Managers.Instance.Player.transform.SetPositionAndRotation(respawnPoint.position, respawnPoint.rotation);
-        Managers.Instance.UI.Transition.CircleOut();
+        Managers.UI.Transition.CircleOut();
         yield return new WaitForSecondsRealtime(2f);
 
         Managers.Instance.Player.ChangeState(PlayerStateType.Default);
@@ -237,7 +237,7 @@ public class FlagSystem : MonoBehaviour
         // op_before.allowSceneActivation = false;
         op_next.allowSceneActivation = false;
 
-        Managers.Instance.UI.Transition.CircleIn();
+        Managers.UI.Transition.CircleIn();
 
         yield return new WaitForSecondsRealtime(2.5f);
 
@@ -249,7 +249,7 @@ public class FlagSystem : MonoBehaviour
 
         // SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(currentSceneIndex));
 
-        Managers.Instance.UI.Transition.CircleOut();
+        Managers.UI.Transition.CircleOut();
 
         yield return new WaitForSecondsRealtime(2.5f);
         isFlagNotOver = false;
@@ -277,9 +277,9 @@ public class FlagSystem : MonoBehaviour
 [System.Serializable]
 public class StageFlag
 {
-    CameraSystem Cam => Managers.Instance.Camera;
+    CameraSystem Cam => Managers.Cam;
     CustomInput Input => Managers.Input;
-    UISystemManager UI => Managers.Instance.UI;
+    UISystemManager UI => Managers.UI;
 
     // public int flagID;
 

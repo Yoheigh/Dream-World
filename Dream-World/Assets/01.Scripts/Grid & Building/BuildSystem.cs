@@ -269,7 +269,7 @@ public class BuildSystem : MonoBehaviour
             Building temp = new Building(buildingData);
             temp.itemCount = 1;
             Managers.Inventory.RemoveItem(temp);
-            Managers.Instance.UI.DrawItemSlots();
+            Managers.UI.DrawItemSlots();
 
             isBuildMode = false;
             return;
@@ -304,7 +304,7 @@ public class BuildSystem : MonoBehaviour
         Building temp = new Building(buildingData);
         temp.itemCount = 1;
         Managers.Inventory.RemoveItem(temp);
-        Managers.Instance.UI.DrawItemSlots();
+        Managers.UI.DrawItemSlots();
 
         var wait = new WaitForSeconds(0.3f);
 

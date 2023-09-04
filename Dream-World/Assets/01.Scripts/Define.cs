@@ -48,6 +48,7 @@ public class Define
 
     public enum GraphType
     {
+        Linear,
         Ease_Out,
         Ease_In,
         Smoothstep,

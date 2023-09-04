@@ -5,8 +5,6 @@ using UnityEngine.VFX;
 
 public class BuildPreview : MonoBehaviour
 {
-    BuildSystem build => Managers.Instance.Build;
-
     // 제작할 건물 모습 가져오기
     [SerializeField]
     private GameObject entity;
@@ -88,7 +86,7 @@ public class BuildPreview : MonoBehaviour
             float x = Random.Range(-0.5f, 0.5f);
             //float y = Random.Range(-0.5f, 0.5f);
             //float z = Random.Range(-0.5f, 0.5f);
-            GameObject obj = Instantiate(build.BuildVFX, entity.transform.position, Quaternion.identity);
+            GameObject obj = Instantiate(Managers.Build.BuildVFX, entity.transform.position, Quaternion.identity);
             Destroy(obj, 3f);
             yield return wait;
         }

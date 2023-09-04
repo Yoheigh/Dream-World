@@ -8,8 +8,6 @@ using UnityEngine.InputSystem.XR;
 [System.Serializable]
 public class InventoryV2
 {
-    Managers Manager => Managers.Instance;
-
     /* 딕셔너리화 필요한 경우 할 예정 */
     /* 인벤토리 정리를 인덱스로 하기 위해 List로 설정 */
     public List<ItemV2> ingredients;    // 재료
