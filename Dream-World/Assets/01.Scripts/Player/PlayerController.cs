@@ -9,17 +9,7 @@ using UnityEngine.InputSystem.XR;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Cursor = UnityEngine.Cursor;
-
-public enum PlayerStateType : sbyte
-{
-    Default = 0,
-    Falling,
-    Dragging,
-    Climbing,
-    Interaction,
-    Damaged,
-    Cinematic
-}
+using static Define;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour

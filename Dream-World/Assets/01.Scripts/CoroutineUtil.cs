@@ -9,15 +9,16 @@ public class CoroutineUtil : MonoBehaviour
     private static MonoBehaviour monoInstance;
 
     private static CoroutineUtil instance;
+    public static CoroutineUtil Instance { get { return instance; } }
 
-    public static CoroutineUtil Instance { get { Init(); return instance; } }
-
-    [RuntimeInitializeOnLoadMethod]
-    private static void Init()
+    public void Init()
     {
-        monoInstance = new GameObject($"[{nameof(CoroutineUtil)}]").AddComponent<CoroutineUtil>();
-        instance = monoInstance.GetComponent<CoroutineUtil>();
-        DontDestroyOnLoad(monoInstance.gameObject);
+        if(monoInstance == null)
+        {
+            monoInstance = new GameObject($"[{nameof(CoroutineUtil)}]").AddComponent<CoroutineUtil>();
+            instance = monoInstance.GetComponent<CoroutineUtil>();
+            DontDestroyOnLoad(monoInstance.gameObject);
+        }
     }
 
     public new static Coroutine StartCoroutine(IEnumerator coroutine)

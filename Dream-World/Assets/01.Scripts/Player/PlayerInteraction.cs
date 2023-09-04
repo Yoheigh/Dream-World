@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.VFX;
 using UnityEngine.SceneManagement;
+using static Define;
 
 public class PlayerInteraction : MonoBehaviour
 {

@@ -9,6 +9,7 @@ public class BaseScene : MonoBehaviour
     public bool sceneDataShow;
     public string sceneData0, sceneData1;
     public string sceneType;
+    public StageFlag sceneFlag;
 
     private void Awake()
     {

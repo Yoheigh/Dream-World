@@ -8,28 +8,33 @@ using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 public class Managers : MonoBehaviour
 {
     static Managers s_instance;
-    // public static Managers Instance { get { Init(); return s_instance; } private set { } }
-    public static Managers Instance { get; set; }
+    public static Managers Instance { get { Init(); return s_instance; } private set { } }
 
-    //public static void Init()
-    //{
-    //    if (s_instance == null)
-    //    {
-    //        GameObject go = GameObject.Find("@Managers");
-    //        if (go == null)
-    //        {
-    //            go = new GameObject { name = "@Managers" };
-    //            go.AddComponent<Managers>();
-    //        }
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
+    public static void Init()
+    {
+        if (s_instance == null)
+        {
+            GameObject go = GameObject.Find("@Managers");
+            if (go == null)
+            {
+                go = new GameObject { name = "@Managers" };
+                go.AddComponent<Managers>();
+            }
 
-    //        DontDestroyOnLoad(go);
-    //        s_instance = go.GetComponent<Managers>();
-    //    }
-    //}
+            DontDestroyOnLoad(go);
+            s_instance = go.GetComponent<Managers>();
+        }
+
+        CO.Init();
+    }
 
     SceneManager _stage;
     SoundManager _sound = new SoundManager();
     DataManager _data;
+    PoolManager _pool = new PoolManager();
+    ObjectManager _object = new ObjectManager();
+    ResourceManager _resource = new ResourceManager();
 
     InventoryV2 _inventory = new InventoryV2();
     CraftSystem _craft = new CraftSystem();
@@ -47,6 +52,9 @@ public class Managers : MonoBehaviour
     public static SceneManager Stage { get { return Instance?._stage; } }
     public static SoundManager Sound { get { return Instance?._sound; } }
     public static DataManager Data { get { return Instance?._data; } }
+    public static PoolManager Pool { get { return Instance?._pool; } }
+    public static ObjectManager Object { get { return Instance?._object; } }
+    public static ResourceManager Resource { get { return Instance?._resource; } }
 
     public static InventoryV2 Inventory { get { return Instance?._inventory; } }
     public static CraftSystem Craft { get { return Instance?._craft; } }
@@ -55,7 +63,6 @@ public class Managers : MonoBehaviour
     public static BuildSystem Build { get { return Instance?._build; } }
     public static GridSystem Grid { get { return Instance?._grid; } }
     public static UISystemManager UI { get { return Instance?._ui; } }
-    public static FlagSystem FLAG { get { return Instance?._flag; } }
     public static CameraSystem Cam { get { return Instance?._camera; } }
     public static CoroutineUtil CO { get { return CoroutineUtil.Instance; } }
 

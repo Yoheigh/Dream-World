@@ -70,7 +70,6 @@ public class SceneManager : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-
     public BaseScene GetSceneClass(string sceneName)
     {
         //if (sceneName == "Login") return gameObject.AddComponent<LoginScene>();
@@ -89,6 +88,7 @@ public class SceneManager : MonoBehaviour
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
+
     public string GetCurrentSceneName()
     {
         return currentSceneName;
