@@ -24,13 +24,19 @@ public class Managers : MonoBehaviour
             s_instance = go.GetComponent<Managers>();
 
             Debug.Log(Input);
-            Debug.Log(CO);
+            // Debug.Log(CO);
+
+            Debug.Log(UI);
+            Debug.Log(Build);
+            Debug.Log(Cam);
+            Debug.Log(Grid);
+            Debug.Log(Flag);
         }
     }
 
-    SceneManager _stage;
+    SceneManager _scene = new SceneManager();
     SoundManager _sound = new SoundManager();
-    DataManager _data;
+    DataManager _data = new DataManager();
     PoolManager _pool = new PoolManager();
     ResourceManager _resource = new ResourceManager();
     ObjectManager _object = new ObjectManager();
@@ -41,7 +47,7 @@ public class Managers : MonoBehaviour
     // MonoBehaviour 달린 것들
     public PlayerController Player;
 
-    public static SceneManager Stage { get { return Instance?._stage; } }
+    public static SceneManager Scene { get { return Instance?._scene; } }
     public static SoundManager Sound { get { return Instance?._sound; } }
     public static DataManager Data { get { return Instance?._data; } }
     public static PoolManager Pool { get { return Instance?._pool; } }
@@ -58,7 +64,7 @@ public class Managers : MonoBehaviour
     public static FlagSystem Flag { get { return FlagSystem.Instance; } }
 
     public static CustomInput Input { get { return CustomInput.Instance; } }
-    public static CoroutineUtil CO { get { return CoroutineUtil.Instance; } }
+    // public static CoroutineUtil CO { get { return CoroutineUtil.Instance; } }
 
     private bool isGamePaused = false;
 

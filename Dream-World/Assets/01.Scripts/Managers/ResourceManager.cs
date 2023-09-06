@@ -10,8 +10,6 @@ public class ResourceManager
 {
     Dictionary<string, Object> _resources = new Dictionary<string, Object>();       // 리소스 리스트 목록 관리
 
-    public Managers Manager => Managers.Instance;                                     // 매니저를 통해 Object 관리를 하기 위해 선언
-
     public GameObject Instantiate(string key, Transform parent = null, bool pooling = false)    // 리소스 전용 Instantiate 함수
     {
         GameObject prefab = Load<GameObject>($"{key}");
@@ -21,8 +19,8 @@ public class ResourceManager
             return null;
         }
 
-        //if (pooling)                                                                // 해당 오브젝트가 오브젝트 풀에 들어간다면
-        //    return Manager.Pool.Pop(prefab);                                        // 오브젝트 풀링에 넣는 처리 후 반환
+        if (pooling)                                                                // 해당 오브젝트가 오브젝트 풀에 들어간다면
+        return Managers.Pool.Pop(prefab);                                        // 오브젝트 풀링에 넣는 처리 후 반환
                                                                                     /* 함수명이 Pop인 이유는 Stack 기반의 ObjectPool이기 때문 */
         GameObject go = Object.Instantiate(prefab, parent);
 
@@ -35,8 +33,8 @@ public class ResourceManager
         if (go == null)
             return;
 
-        //if (Manager.Pool.Push(go))
-        //    return;
+        if (Managers.Pool.Push(go))
+            return;
 
         Object.Destroy(go);
     }
