@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using static Define;
 
 [System.Serializable]
-public class FlagSystem : MonoBehaviour
+public class FlagSystem : MonoSingleton<FlagSystem>
 {
     CameraSystem Cam => Managers.Cam;
     CustomInput Input => Managers.Input;

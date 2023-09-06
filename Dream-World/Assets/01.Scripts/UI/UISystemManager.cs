@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UISystemManager : MonoBehaviour
+public class UISystemManager : MonoSingleton<UISystemManager>
 {
     [SerializeField] private List<UIPanel> panels;
     [SerializeField] private List<UIPanel> popupPrefabs;    // Àá½Ã ÆÇ³ÚÀ» ÆË¾÷À¸·Î ¾¹½Ã´Ù

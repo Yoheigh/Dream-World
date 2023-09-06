@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
-[RequireComponent(typeof(CustomInput), typeof(FlagSystem), typeof(CameraSystem))]
 public class Managers : MonoBehaviour
 {
     static Managers s_instance;
     public static Managers Instance { get { Init(); return s_instance; } private set { } }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
-    public static void Init()
+    private static void Init()
     {
         if (s_instance == null)
         {
@@ -24,79 +22,53 @@ public class Managers : MonoBehaviour
 
             DontDestroyOnLoad(go);
             s_instance = go.GetComponent<Managers>();
-        }
 
-        CO.Init();
+            Debug.Log(Input);
+            Debug.Log(CO);
+        }
     }
 
     SceneManager _stage;
     SoundManager _sound = new SoundManager();
     DataManager _data;
     PoolManager _pool = new PoolManager();
-    ObjectManager _object = new ObjectManager();
     ResourceManager _resource = new ResourceManager();
+    ObjectManager _object = new ObjectManager();
 
     InventoryV2 _inventory = new InventoryV2();
     CraftSystem _craft = new CraftSystem();
 
     // MonoBehaviour 달린 것들
     public PlayerController Player;
-    CustomInput _input;
-    CameraSystem _camera;
-    UISystemManager _ui;
-    GridSystem _grid;
-    BuildSystem _build;
-    FlagSystem _flag;
-
 
     public static SceneManager Stage { get { return Instance?._stage; } }
     public static SoundManager Sound { get { return Instance?._sound; } }
     public static DataManager Data { get { return Instance?._data; } }
     public static PoolManager Pool { get { return Instance?._pool; } }
-    public static ObjectManager Object { get { return Instance?._object; } }
     public static ResourceManager Resource { get { return Instance?._resource; } }
+    public static ObjectManager Object { get { return Instance?._object; } }
 
     public static InventoryV2 Inventory { get { return Instance?._inventory; } }
     public static CraftSystem Craft { get { return Instance?._craft; } }
-    public static FlagSystem Flag { get { return Instance?._flag; } }
-    public static CustomInput Input { get { return Instance?._input; } }
-    public static BuildSystem Build { get { return Instance?._build; } }
-    public static GridSystem Grid { get { return Instance?._grid; } }
-    public static UISystemManager UI { get { return Instance?._ui; } }
-    public static CameraSystem Cam { get { return Instance?._camera; } }
+
+    public static UISystemManager UI { get { return UISystemManager.Instance; } }
+    public static BuildSystem Build { get { return BuildSystem.Instance; } }
+    public static CameraSystem Cam { get { return CameraSystem.Instance; } }
+    public static GridSystem Grid { get { return GridSystem.Instance; } }
+    public static FlagSystem Flag { get { return FlagSystem.Instance; } }
+
+    public static CustomInput Input { get { return CustomInput.Instance; } }
     public static CoroutineUtil CO { get { return CoroutineUtil.Instance; } }
 
     private bool isGamePaused = false;
 
     private void Awake()
     {
-        #region 싱글톤
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        else
-        {
-            transform.parent = null;
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        #endregion
-
-        // 시스템 등록
-        _input = GetComponent<CustomInput>();
-        _camera = GetComponent<CameraSystem>();
-        _ui = GetComponent<UISystemManager>();
-        _flag = GetComponent<FlagSystem>();
-        _grid = GetComponent<GridSystem>();
-        _build = GetComponent<BuildSystem>();
-
         _inventory.OnChangeItem += UI.DrawItemSlots;
         _inventory.OnChangeEquipment += UI.ActivateEquipSlot;
         _inventory.OnChangeBuilding += UI.ActivateBuildSlot;
 
-        _input.Setup();
+        Input.Setup();
         // Flag.Init();
 
         Cursor.visible = false;

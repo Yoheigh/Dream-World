@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 
-public class CameraSystem : MonoBehaviour
+public class CameraSystem : MonoSingleton<CameraSystem>
 {
     CustomInput Input => Managers.Input;
 

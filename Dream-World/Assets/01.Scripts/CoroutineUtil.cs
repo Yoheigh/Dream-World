@@ -9,9 +9,9 @@ public class CoroutineUtil : MonoBehaviour
     private static MonoBehaviour monoInstance;
 
     private static CoroutineUtil instance;
-    public static CoroutineUtil Instance { get { return instance; } }
+    public static CoroutineUtil Instance { get { Init(); return instance; } }
 
-    public void Init()
+    public static void Init()
     {
         if(monoInstance == null)
         {
@@ -59,15 +59,19 @@ public class CoroutineUtil : MonoBehaviour
             {
                 case GraphType.Linear:                          // 리니어
                     break;
+
                 case GraphType.Ease_Out:                        // 마지막에 천천히 느려짐
                     t = Mathf.Sin(t * Mathf.PI * 0.5f);
                     break;
+
                 case GraphType.Ease_In:                         // 마지막에 천천히 빨라짐
                     t = 1f - Mathf.Cos(t * Mathf.PI * 0.5f);
                     break;
+
                 case GraphType.Smoothstep:                      // 부드러운 전환
                     t = t * t * (3f - 2f * t);
                     break;
+
                 case GraphType.Smootherstep:                    // 더욱 부드러운 전환
                     t = t * t * t * (t * (6f * t - 15f) + 10f);
                     break;

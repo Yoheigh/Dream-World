@@ -4,7 +4,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CustomInput : MonoBehaviour
+public class CustomInput : MonoSingleton<CustomInput>
 {
     public Vector2 move;
     public Vector2 look;

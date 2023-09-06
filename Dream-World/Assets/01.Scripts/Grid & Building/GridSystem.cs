@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class GridSystem : Singleton<GridSystem>
+public class GridSystem : MonoSingleton<GridSystem>
 {
     private GridV2 stageGrid;
     public GridV2 StageGrid { private set { } get { return stageGrid; } }
@@ -12,11 +12,6 @@ public class GridSystem : Singleton<GridSystem>
 
     public int StageWidth = 100;
     public int StageHeight = 50;
-
-    protected override void Awake2()
-    {
-        
-    }
 
     public void Setup()
     {

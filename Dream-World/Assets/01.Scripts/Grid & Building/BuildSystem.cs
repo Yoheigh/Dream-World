@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 
 [System.Serializable]
-public class BuildSystem : MonoBehaviour
+public class BuildSystem : MonoSingleton<BuildSystem>
 {
     // 건물 지을 위치
     [SerializeField]
