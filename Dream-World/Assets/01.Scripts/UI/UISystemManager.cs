@@ -40,7 +40,7 @@ public class UISystemManager : MonoSingleton<UISystemManager>
     //}
 
     // 소유중인 UIPanel들 값 초기화
-    public void Setup()
+    public void Init()
     {
         for (int i = 0; i < panels.Count; i++)
         {

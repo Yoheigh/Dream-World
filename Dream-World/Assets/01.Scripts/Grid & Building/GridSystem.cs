@@ -13,7 +13,7 @@ public class GridSystem : MonoSingleton<GridSystem>
     public int StageWidth = 100;
     public int StageHeight = 50;
 
-    public void Setup()
+    public void Init()
     {
         stageGrid = new GridV2(StageWidth, StageHeight);
         gridObjectLayer = LayerMask.GetMask("Block");

@@ -41,8 +41,6 @@ public class CustomInput : MonoSingleton<CustomInput>
 
         //playerInputActions.Player.CameraZoomIn.performed += HandleCameraScroll;
         //playerInputActions.Player.CameraZoomOut.performed += HandleCameraScroll;
-
-        Debug.Log($"0. Setup - {this}");
     }
 
     private void Update()
@@ -144,12 +142,6 @@ public class CustomInput : MonoSingleton<CustomInput>
                 break;
         }
     }
-
-    // 아니 결국 이렇게 다시 매핑할거면... InputSystem을 쓴 이유가... 없지 않나...?
-    //public void HandleCameraScroll(InputAction.CallbackContext context)
-    //{
-    //    Manager.Instance.Camera.HandleCameraScroll(zoomIn, zoomOut);
-    //}
 
     public void SubmitWithEnter(InputAction.CallbackContext callback)
     {

@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class BaseScene : MonoBehaviour
 {
-    public string sceneName;
-    public int sceneIndex;
+    public virtual string sceneName { get; set; }
+    public virtual int sceneIndex { get; set; }
+
     public bool sceneDataShow;
     public string sceneData0, sceneData1;
-    public string sceneType;
+
+    public virtual Define.Scene sceneType { get; set; }
     public StageFlag sceneFlag;
 
     private void Awake()

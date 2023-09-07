@@ -65,15 +65,16 @@ public class SoundManager
         Debug.Log($"BGM 재생 => {newBGM}");
         BGMSource.clip = newBGM;
         BGMSource.volume = BGMVolume;
-        BGMSource.Play();
+
+        Play(BGMSource, newBGM, Vector3.zero, true);
     }
 
-    private void Play(AudioSource source, AudioClip sound, Vector3 playPos)
+    private void Play(AudioSource source, AudioClip sound, Vector3 playPos, bool isRepeat = false)
     {
-        CoroutineUtil.StartCoroutine(PlayCO(source, sound, playPos));
+        CoroutineUtil.StartCoroutine(PlayCO(source, sound, playPos, isRepeat));
     }
 
-    IEnumerator PlayCO(AudioSource source, AudioClip sound, Vector3 playPos)
+    IEnumerator PlayCO(AudioSource source, AudioClip sound, Vector3 playPos, bool isRepeat = false)
     {
         source.transform.position = playPos;
         source.clip = sound;
@@ -83,9 +84,15 @@ public class SoundManager
         // SFX 길이만큼 대기
         yield return new WaitForSeconds(source.clip.length);
 
+        // 반복해야하는 경우 (BGM)
+        if(isRepeat)
+        {
+            Play(source, sound, playPos, true);
+            yield break;
+        }
+
         // 풀에 넣어주기
         Managers.Pool.Push(source.gameObject);
-
     }
 
     private IEnumerator FadeOut(AudioSource audioSource, float lerpTime = 2f)

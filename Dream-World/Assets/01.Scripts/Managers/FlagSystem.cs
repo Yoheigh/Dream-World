@@ -29,8 +29,6 @@ public class FlagSystem : MonoSingleton<FlagSystem>
 
     public void Init()
     {
-        // 학교에서 시작할 때 컷씬 넣으려고 했던 것
-
         Input.CanMove(false);
         Input.CanInteract(false);
         UI.CloseAll();
@@ -43,7 +41,6 @@ public class FlagSystem : MonoSingleton<FlagSystem>
 
     public void Setup()
     {
-        // 학교에서 시작할 때 컷씬 넣으려고 했던 것
         Cam.isFollowPlayer = true;
         Input.CanLook(true);
         Input.CanMove(true);

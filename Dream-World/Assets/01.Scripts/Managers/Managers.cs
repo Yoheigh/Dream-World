@@ -24,17 +24,10 @@ public class Managers : MonoBehaviour
             s_instance = go.GetComponent<Managers>();
 
             Debug.Log(Input);
-            // Debug.Log(CO);
-
-            Debug.Log(UI);
-            Debug.Log(Build);
-            Debug.Log(Cam);
-            Debug.Log(Grid);
-            Debug.Log(Flag);
+            Debug.Log(CO);
         }
     }
 
-    SceneManager _scene = new SceneManager();
     SoundManager _sound = new SoundManager();
     DataManager _data = new DataManager();
     PoolManager _pool = new PoolManager();
@@ -45,9 +38,9 @@ public class Managers : MonoBehaviour
     CraftSystem _craft = new CraftSystem();
 
     // MonoBehaviour 달린 것들
+    // 이 친구 잡아가주세요 제발
     public PlayerController Player;
 
-    public static SceneManager Scene { get { return Instance?._scene; } }
     public static SoundManager Sound { get { return Instance?._sound; } }
     public static DataManager Data { get { return Instance?._data; } }
     public static PoolManager Pool { get { return Instance?._pool; } }
@@ -63,12 +56,13 @@ public class Managers : MonoBehaviour
     public static GridSystem Grid { get { return GridSystem.Instance; } }
     public static FlagSystem Flag { get { return FlagSystem.Instance; } }
 
+    public static SceneManager Scene { get { return SceneManager.Instance; } }
     public static CustomInput Input { get { return CustomInput.Instance; } }
-    // public static CoroutineUtil CO { get { return CoroutineUtil.Instance; } }
+    public static CoroutineUtil CO { get { return CoroutineUtil.Instance; } }
 
     private bool isGamePaused = false;
 
-    private void Awake()
+    private void Start()
     {
         _inventory.OnChangeItem += UI.DrawItemSlots;
         _inventory.OnChangeEquipment += UI.ActivateEquipSlot;
@@ -85,7 +79,23 @@ public class Managers : MonoBehaviour
 
         Flag.currentSceneIndex = 1;
 
-        AsyncOperation op_next = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(Flag.currentSceneIndex, LoadSceneMode.Single);
+        Cam.Init();
+        UI.Init();
+        Flag.Setup();
+        Grid.Init();
+        Build.Setup();
+
+        // 인벤토리 초기화
+        Inventory.Init();
+        UI.DrawItemSlots();
+
+        Sound.PlayBGM(100);
+
+        Time.timeScale = 1.0f;
+
+        Debug.Log("씬 로딩됨");
+
+        //AsyncOperation op_next = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(Flag.currentSceneIndex, LoadSceneMode.Single);
         //AsyncOperation op_before = SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
 
         //op_next.allowSceneActivation = false;
@@ -105,11 +115,12 @@ public class Managers : MonoBehaviour
         if (Player == null)
             Player = FindObjectOfType<PlayerController>();
 
-        // 시스템 셋업
-        Cam.Setup();
-        UI.Setup();
+        // 시스템 초기화
+        // 처음에 한 번 하는 것과 씬 로딩될 때 다르게 한 번 하는 것 구분해야함
+        Cam.Init();
+        UI.Init();
         Flag.Setup();
-        Grid.Setup();
+        Grid.Init();
         Build.Setup();
 
         // 인벤토리 초기화

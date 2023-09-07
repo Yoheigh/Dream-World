@@ -9,7 +9,6 @@ public class CameraSystem : MonoSingleton<CameraSystem>
 
     public GameObject MainCamera;
     public PlayerController controller;
-    public GameObject playerRoot;
 
     public GameObject newPoint;
 
@@ -66,7 +65,7 @@ public class CameraSystem : MonoSingleton<CameraSystem>
 
     #endregion
 
-    public void Setup()
+    public void Init()
     {
         if (MainCamera == null)
             MainCamera = Camera.main.gameObject;
@@ -76,8 +75,8 @@ public class CameraSystem : MonoSingleton<CameraSystem>
         controller = FindObjectOfType<PlayerController>().GetComponent<PlayerController>();
 
         tempDistance = cam.CameraDistance;
-        CinemachineCameraTarget = controller.transform.GetChild(0).gameObject;
-        playerRoot = CinemachineCameraTarget;
+        // CinemachineCameraTarget = controller.transform.GetChild(0).gameObject;
+        CinemachineCameraTarget = GameObject.Find("@PlayerCameraRoot");
         cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
     }
 
@@ -121,7 +120,7 @@ public class CameraSystem : MonoSingleton<CameraSystem>
 
     public void ReturnCameraToPlayer()
     {
-        HandleCameraTarget(playerRoot);
+        HandleCameraTarget(CinemachineCameraTarget);
     }
 
     public void HandleCameraScroll(bool zoomIn, bool zoomOut)

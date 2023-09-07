@@ -67,10 +67,4 @@ public static class Util
     {
         return (T)Enum.Parse(typeof(T), value, true);
     }
-
-    public static void Graph(float lerpTime, Action<float> callback = null, GraphType graphType = GraphType.Ease_Out)
-    {
-        Managers.CO.Graph(lerpTime, callback, graphType);
-    }
-
 }

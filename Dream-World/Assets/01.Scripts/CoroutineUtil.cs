@@ -6,6 +6,7 @@ using static Define;
 
 public class CoroutineUtil : MonoBehaviour
 {
+    // 코루틴은 MonoBehaviour 인스턴스가 필수인지 체크 필요
     private static MonoBehaviour monoInstance;
 
     private static CoroutineUtil instance;
@@ -15,7 +16,7 @@ public class CoroutineUtil : MonoBehaviour
     {
         if(monoInstance == null)
         {
-            monoInstance = new GameObject($"[{nameof(CoroutineUtil)}]").AddComponent<CoroutineUtil>();
+            monoInstance = new GameObject($"@{nameof(CoroutineUtil)}").AddComponent<CoroutineUtil>();
             instance = monoInstance.GetComponent<CoroutineUtil>();
             DontDestroyOnLoad(monoInstance.gameObject);
         }

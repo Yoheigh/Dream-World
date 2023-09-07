@@ -5,22 +5,9 @@ using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-public class SceneManager : MonoBehaviour
+public class SceneManager : MonoSingleton<SceneManager>
 {
     public StageData stageData;
-
-    private static SceneManager instance;
-    public static SceneManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<SceneManager>();
-            }
-            return instance;
-        }
-    }
 
     public IEnumerator LoadScene(int nextScene, LoadSceneMode loadSceneMode = LoadSceneMode.Additive)
     {
@@ -36,7 +23,11 @@ public class SceneManager : MonoBehaviour
         op.allowSceneActivation = true;
     }
 
-    public SerializableDictionary<string, BaseScene> sceneDictionary = new SerializableDictionary<string, BaseScene>();
+    public SerializableDictionary<string, BaseScene> sceneDictionary = new SerializableDictionary<string, BaseScene>()
+    {
+        // { "TitleScene", default }
+    };
+
     private string currentSceneName = null;
 
     private void Awake()
